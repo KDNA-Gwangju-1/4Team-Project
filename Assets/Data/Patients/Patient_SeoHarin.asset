@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 991bf157463465f4bb4cb1ba474c108e, type: 3}
+  m_Name: Patient_SeoHarin
+  m_EditorClassIdentifier: Assembly-CSharp::PatientData
+  patientId: P-26-0117
+  patientName: "\uC11C\uD558\uB9B0"
+  age: 12
+  gender: 0
+  bloodType: "AB\uD615 Rh+"
+  roomNumber: 302
+  bedNumber: 1
+  admissionDate: 2026-08-21
+  diagnosis: "\uC6D0\uC778 \uBBF8\uC0C1 \uC758\uC2DD \uC800\uD558 (R40.2)"
+  attendingDoctor: "\uC724\uC7AC\uACBD"
+  consciousness: 4
+  vitals:
+    heartRate: 58
+    systolic: 92
+    diastolic: 60
+    temperature: 35.9
+    oxygenSaturation: 97
+  twinSibling: {fileID: 11400000, guid: ccbdaa7c82af8fe40af7c378458caa96, type: 2}
+  isElderTwin: 1
+  hairColor: {r: 0.14, g: 0.1, b: 0.09, a: 1}
+  skinColor: {r: 0.89, g: 0.8, b: 0.76, a: 1}
+  chartNote: "\uC785\uC6D0 26\uC77C\uC9F8. \uD55C \uBC88\uB3C4 \uAE68\uC5B4\uB098\uC9C0
+    \uC54A\uC558\uB2E4.\n\uB1CC\uD30C\uC640 MRI \uBAA8\uB450 \uC774\uC0C1 \uC5C6\uC74C.
+    \uAE68\uC5B4\uB098\uC9C0 \uC54A\uC744 \uC774\uC720\uAC00 \uC5C6\uB2E4\uB294 \uC18C\uACAC.\n\uB9E4\uC77C
+    00:17 \uBB34\uB835 \uC2EC\uBC15\uC774 130\uAE4C\uC9C0 \uCE58\uC19F\uC558\uB2E4\uAC00
+    5\uBD84 \uC548\uC5D0 \uC81C\uC790\uB9AC\uB85C \uB3CC\uC544\uC628\uB2E4.\n\uB3D9\uC0DD
+    \uD558\uC724\uACFC \uAC19\uC740 \uC2DC\uAC01, \uAC19\uC740 \uD30C\uD615."

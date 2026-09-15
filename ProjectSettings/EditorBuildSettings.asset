@@ -11,5 +11,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Game.unity
     guid: 8b7ef41a5bdecae468c2c2c4ff071d1f
+  - enabled: 1
+    path: Assets/Scenes/HospitalRoom.unity
+    guid: 0ada2c2dcd3dae34d8ddfac0dd43eea9
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
