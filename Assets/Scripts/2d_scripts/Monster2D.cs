@@ -1,9 +1,14 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Monster2D : MonoBehaviour
 {
     private const int RayCount = 15;
     private const float SkinMargin = 1.1f;
+
+    private static readonly HashSet<string> DefeatedMonsterIds = new HashSet<string>();
+
+    public string monsterId = "";
 
     public Transform shimmer;
     public float shimmerScalePulse = 0.15f;
@@ -23,8 +28,23 @@ public class Monster2D : MonoBehaviour
 
     public bool IsRevealed => sr != null && sr.enabled;
 
+    public void Kill()
+    {
+        if (!string.IsNullOrEmpty(monsterId))
+        {
+            DefeatedMonsterIds.Add(monsterId);
+        }
+        Destroy(gameObject);
+    }
+
     void Awake()
     {
+        if (!string.IsNullOrEmpty(monsterId) && DefeatedMonsterIds.Contains(monsterId))
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         sr = GetComponent<SpriteRenderer>();
         col = GetComponent<Collider2D>();
         if (sr != null) sr.enabled = false;

@@ -30,7 +30,7 @@ public class Bullet2D : MonoBehaviour
         Monster2D monster = other.GetComponent<Monster2D>();
         if (monster != null && monster.IsRevealed)
         {
-            Destroy(monster.gameObject);
+            monster.Kill();
             Destroy(gameObject);
             return;
         }

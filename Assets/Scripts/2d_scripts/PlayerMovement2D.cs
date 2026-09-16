@@ -18,6 +18,7 @@ public class PlayerMovement2D : MonoBehaviour
 
     public static bool LanternObtained = false;
     public static float? PendingSpawnX = null;
+    public static int? CarriedHealth = null;
 
     public GameObject bulletPrefab;
     public float bulletSpeed = 10f;
@@ -58,7 +59,8 @@ public class PlayerMovement2D : MonoBehaviour
         Instance = this;
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
-        currentHealth = maxHealth;
+        currentHealth = CarriedHealth ?? maxHealth;
+        CarriedHealth = null;
         hasLantern = LanternObtained;
 
         if (PendingSpawnX.HasValue)

@@ -19,6 +19,7 @@ public class Portal2D : MonoBehaviour
             PlayerMovement2D.PendingSpawnX = spawnX;
         }
 
+        PlayerMovement2D.CarriedHealth = player.CurrentHealth;
         SceneManager.LoadScene(targetSceneName);
     }
 }
