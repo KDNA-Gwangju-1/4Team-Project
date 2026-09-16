@@ -3,21 +3,17 @@ using UnityEngine;
 public class CameraFollow2D : MonoBehaviour
 {
     public Transform target;
+    public Vector3 offset = new Vector3(0f, 0.5f, -10f);
 
     public bool clampToBounds = false;
     public float minX;
     public float maxX;
 
-    private Vector3 offset;
     private Camera cam;
 
     void Start()
     {
         cam = GetComponent<Camera>();
-        if (target != null)
-        {
-            offset = transform.position - target.position;
-        }
     }
 
     void LateUpdate()

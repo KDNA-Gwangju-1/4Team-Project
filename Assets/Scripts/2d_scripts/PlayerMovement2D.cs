@@ -15,10 +15,9 @@ public class PlayerMovement2D : MonoBehaviour
     public Transform flashlight;
     public float lightRange = 3f;
     public float lightHalfAngle = 15f;
-    public bool startsWithLantern = true;
-    public bool useCarriedLanternState = false;
 
-    public static bool CarriedHasLantern = true;
+    public static bool LanternObtained = false;
+    public static float? PendingSpawnX = null;
 
     public GameObject bulletPrefab;
     public float bulletSpeed = 10f;
@@ -60,7 +59,16 @@ public class PlayerMovement2D : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         currentHealth = maxHealth;
-        hasLantern = useCarriedLanternState ? CarriedHasLantern : startsWithLantern;
+        hasLantern = LanternObtained;
+
+        if (PendingSpawnX.HasValue)
+        {
+            Vector3 pos = transform.position;
+            pos.x = PendingSpawnX.Value;
+            transform.position = pos;
+            PendingSpawnX = null;
+        }
+
         lastGroundedPosition = transform.position;
         if (flashlight != null)
         {
@@ -156,6 +164,7 @@ public class PlayerMovement2D : MonoBehaviour
     public void PickUpLantern()
     {
         hasLantern = true;
+        LanternObtained = true;
     }
 
     void UpdateFlashlight()
