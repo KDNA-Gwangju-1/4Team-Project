@@ -1467,6 +1467,15 @@ public static partial class BrightDreamBlockoutBuilder
                      new Vector3(0.05f, 0.09f, 2.3f), MatFence, rot: facing);
             }
         }
+
+        if (Rectangular)
+        {
+            // 팀원 페이퍼크래프트 울타리(07_fence_picket)로 교체한다.
+            // 예전 프리미티브 울타리는 지우지 않고 꺼 두어서 언제든 다시 켜 비교할 수 있게 남긴다.
+            fence.gameObject.SetActive(false);
+            fence.name = name + "_Placeholder (비활성 - 비교용)";
+            BuildCraftFenceRun(parent, name, fromS, toS, side, offset);
+        }
     }
 
     private static void MakeLamp(Transform parent, string name, Vector3 pos)

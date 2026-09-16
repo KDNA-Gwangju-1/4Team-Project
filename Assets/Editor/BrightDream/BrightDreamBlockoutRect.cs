@@ -416,6 +416,87 @@ public static partial class BrightDreamBlockoutBuilder
                new Vector3(doorHalf * 2f, wallH - doorH, thick));
     }
 
+    // ==========================================================
+    // 공예 울타리 (07_fence_picket.fbx)
+    //
+    // 모델 기준 - 실측 Bounds 1.63(X, 이어붙는 방향) x 1.10(Y, 높이) x 0.18(Z, 두께)
+    // 기본 자세(identity)에서 로컬 +X 가 판자를 이어붙이는 긴 방향이라
+    // Facing(s) 그대로 쓰면 로컬 +X 가 SpineRight(옆) 을 향해 버린다.
+    // 90도 더 돌려서 +X 가 진행 방향(스파인 접선)을 향하게 맞춘다.
+    //
+    // 주의: 이 FBX 는 루트 노드 자체에 scale=100 이 구워져 있다(원본 좌표가 워낙 작아서
+    // Blender 쪽에서 100배로 내보낸 것으로 보인다). InstantiatePrefab 이 만든 인스턴스의
+    // localScale 을 여기서 (1,1,1) 로 다시 덮어쓰면 실제로는 100배 축소돼 안 보이게 된다.
+    // "원본 스케일 유지" 는 이 100배 자체를 그대로 둔다는 뜻이라 localScale 은 건드리지 않는다.
+    //
+    // 예전 프리미티브 Picket/Rail 은 지우지 않고 꺼 두어서 언제든 비교할 수 있게 남긴다.
+    // ==========================================================
+    private const string FencePicketFbxPath = "Assets/BrightDream/Models/07_fence_picket.fbx";
+    private const float FencePicketLength = 1.63f;
+
+    private static void BuildCraftFenceRun(Transform parent, string name, float fromS, float toS, float side, float offset)
+    {
+        var prefab = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(FencePicketFbxPath);
+        if (prefab == null)
+        {
+            Debug.LogWarning("[BrightDream] 공예 울타리 FBX 를 찾지 못했다 - " + FencePicketFbxPath);
+            return;
+        }
+
+        // s 간격이 아니라 실제 월드 호 길이 기준으로 배치한다.
+        // RibbonHalfWidth(s) 가 구간마다 달라서, 같은 s 간격도 곡선/폭 변화 지점에서는
+        // 실제 거리가 크게 벌어지거나 좁아진다 - 판자를 이어붙이려면 s 가 아니라
+        // 실측 거리로 맞춰야 틈/겹침이 고르게 나온다.
+        const float sampleStep = 0.05f;
+        var sSamples = new List<float>();
+        var cumLen = new List<float>();
+        float acc = 0f;
+        Vector3 prevPos = At(fromS, (RibbonHalfWidth(fromS) + offset) * side);
+        sSamples.Add(fromS); cumLen.Add(0f);
+        for (float s = fromS + sampleStep; s < toS; s += sampleStep)
+        {
+            Vector3 pos = At(s, (RibbonHalfWidth(s) + offset) * side);
+            acc += Vector3.Distance(prevPos, pos);
+            sSamples.Add(s); cumLen.Add(acc);
+            prevPos = pos;
+        }
+        Vector3 endPos = At(toS, (RibbonHalfWidth(toS) + offset) * side);
+        acc += Vector3.Distance(prevPos, endPos);
+        sSamples.Add(toS); cumLen.Add(acc);
+
+        float totalLength = acc;
+        if (totalLength < 0.05f) return;
+        int count = Mathf.Max(1, Mathf.RoundToInt(totalLength / FencePicketLength));
+        float step = totalLength / count;
+
+        System.Func<float, float> sAtLength = (targetLen) =>
+        {
+            for (int i = 1; i < cumLen.Count; i++)
+            {
+                if (cumLen[i] >= targetLen)
+                {
+                    float segLen = cumLen[i] - cumLen[i - 1];
+                    float t = segLen > 0.0001f ? (targetLen - cumLen[i - 1]) / segLen : 0f;
+                    return Mathf.Lerp(sSamples[i - 1], sSamples[i], t);
+                }
+            }
+            return sSamples[sSamples.Count - 1];
+        };
+
+        var run = Child(parent, name + "_Craft");
+        for (int i = 0; i < count; i++)
+        {
+            float s = sAtLength(step * (i + 0.5f));
+            Vector3 spot = At(s, (RibbonHalfWidth(s) + offset) * side);
+            Quaternion rot = Facing(s) * Quaternion.Euler(0f, 90f, 0f);
+
+            var go = (GameObject)UnityEditor.PrefabUtility.InstantiatePrefab(prefab, run);
+            go.name = $"FencePanel_{i:D2}";
+            go.transform.position = spot;
+            go.transform.rotation = rot;
+        }
+    }
+
     /// <summary>
     /// 온실과 겹치는 조경을 걷어낸다.
     ///
