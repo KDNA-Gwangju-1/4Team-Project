@@ -8,8 +8,11 @@ public class Portal2D : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         if (string.IsNullOrEmpty(targetSceneName)) return;
-        if (other.GetComponent<PlayerMovement2D>() == null) return;
 
+        var player = other.GetComponent<PlayerMovement2D>();
+        if (player == null) return;
+
+        PlayerMovement2D.CarriedHasLantern = player.HasLantern;
         SceneManager.LoadScene(targetSceneName);
     }
 }

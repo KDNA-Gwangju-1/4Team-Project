@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement2D : MonoBehaviour
 {
@@ -14,6 +15,10 @@ public class PlayerMovement2D : MonoBehaviour
     public Transform flashlight;
     public float lightRange = 3f;
     public float lightHalfAngle = 15f;
+    public bool startsWithLantern = true;
+    public bool useCarriedLanternState = false;
+
+    public static bool CarriedHasLantern = true;
 
     public GameObject bulletPrefab;
     public float bulletSpeed = 10f;
@@ -23,9 +28,14 @@ public class PlayerMovement2D : MonoBehaviour
     public int maxHealth = 10;
     public float invincibilityDuration = 2f;
     public float invincibilityBlinkInterval = 0.1f;
+    public string sceneOnDeath = "";
 
     public float fallRespawnY = -6f;
     public float checkpointEdgeMargin = 1f;
+
+    public bool clampToBounds = false;
+    public float minX;
+    public float maxX;
 
     private Rigidbody2D rb;
     private Vector3 lastGroundedPosition;
@@ -37,6 +47,7 @@ public class PlayerMovement2D : MonoBehaviour
     private SpriteRenderer sr;
     private int currentHealth;
     private bool isInvincible;
+    private bool hasLantern;
 
     public bool IsLightOn => flashlightRenderer != null && flashlightRenderer.enabled;
     public Vector2 LightOrigin => transform.position;
@@ -49,6 +60,7 @@ public class PlayerMovement2D : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         currentHealth = maxHealth;
+        hasLantern = useCarriedLanternState ? CarriedHasLantern : startsWithLantern;
         lastGroundedPosition = transform.position;
         if (flashlight != null)
         {
@@ -83,8 +95,27 @@ public class PlayerMovement2D : MonoBehaviour
             Respawn();
         }
 
+        if (clampToBounds)
+        {
+            ClampToBounds();
+        }
+
         UpdateFlashlight();
         UpdateShooting();
+    }
+
+    private void ClampToBounds()
+    {
+        Vector3 pos = transform.position;
+        float clampedX = Mathf.Clamp(pos.x, minX, maxX);
+        if (clampedX == pos.x) return;
+
+        pos.x = clampedX;
+        transform.position = pos;
+
+        Vector2 velocity = rb.linearVelocity;
+        velocity.x = 0f;
+        rb.linearVelocity = velocity;
     }
 
     private Vector3 ComputeCheckpoint(Collider2D floorCollider)
@@ -120,12 +151,19 @@ public class PlayerMovement2D : MonoBehaviour
         return direction.sqrMagnitude > 0.0001f ? direction.normalized : Vector2.right;
     }
 
+    public bool HasLantern => hasLantern;
+
+    public void PickUpLantern()
+    {
+        hasLantern = true;
+    }
+
     void UpdateFlashlight()
     {
         if (flashlight == null || flashlightRenderer == null) return;
 
         var mouse = Mouse.current;
-        bool aiming = mouse != null && mouse.leftButton.isPressed;
+        bool aiming = hasLantern && mouse != null && mouse.leftButton.isPressed;
         flashlightRenderer.enabled = aiming;
 
         if (aiming)
@@ -200,7 +238,22 @@ public class PlayerMovement2D : MonoBehaviour
         if (other.GetComponent<Monster2D>() == null) return;
 
         currentHealth = Mathf.Max(0, currentHealth - 1);
+
+        if (currentHealth <= 0)
+        {
+            Die();
+            return;
+        }
+
         StartCoroutine(InvincibilityRoutine());
+    }
+
+    private void Die()
+    {
+        if (!string.IsNullOrEmpty(sceneOnDeath))
+        {
+            SceneManager.LoadScene(sceneOnDeath);
+        }
     }
 
     private IEnumerator InvincibilityRoutine()
