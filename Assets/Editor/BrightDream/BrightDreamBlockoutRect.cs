@@ -697,6 +697,16 @@ public static partial class BrightDreamBlockoutBuilder
     // ==========================================================
     // 배경 정원 - 상자 안에서 길이 쓰지 않는 공간
     // ==========================================================
+    /// <summary>
+    /// 상자 배경에 깔리는 장식용 둥근 언덕(BackHill_)을 켤지.
+    ///
+    /// 팀원 페이퍼크래프트 에셋을 순차적으로 배치하는 동안, 이 언덕들이 나무/수풀/꽃/온실/연못과
+    /// 자주 겹쳐서 실제 배치 판단을 방해한다는 요청으로 일단 꺼 둔다.
+    /// 콜라이더가 없는 순수 시각 장식이라 꺼도 Path Clearance / 시야 차단 검증에는 영향이 없다.
+    /// 다시 켜려면 이 값만 true 로 되돌리면 된다 - 나머지 로직/확률 분포는 그대로 남아 있다.
+    /// </summary>
+    private const bool RectBackdropHillsEnabled = false;
+
     private static void BuildRectBackdrop(Transform parent)
     {
         var rng = new System.Random(2024);
@@ -740,13 +750,17 @@ public static partial class BrightDreamBlockoutBuilder
                 int roll = rng.Next(100);
                 if (roll < 34)
                 {
-                    // 반원 돔처럼 솟지 않게 넓고 납작하게 깐다.
-                    // 멀리서 "정원 바닥이 살짝 기복이 있다" 정도로만 읽히면 된다.
-                    float r = Lerp(2.2f, 4.0f, (float)rng.NextDouble());
-                    Prim(PrimitiveType.Sphere, $"BackHill_{index:D3}", backdrop,
-                         spot + Vector3.down * Lerp(1.5f, 2.2f, (float)rng.NextDouble()),
-                         new Vector3(r * 2f, Lerp(2.6f, 3.6f, (float)rng.NextDouble()), r * 2.2f),
-                         PastelHill(index));
+                    if (RectBackdropHillsEnabled)
+                    {
+                        // 반원 돔처럼 솟지 않게 넓고 납작하게 깐다.
+                        // 멀리서 "정원 바닥이 살짝 기복이 있다" 정도로만 읽히면 된다.
+                        float r = Lerp(2.2f, 4.0f, (float)rng.NextDouble());
+                        Prim(PrimitiveType.Sphere, $"BackHill_{index:D3}", backdrop,
+                             spot + Vector3.down * Lerp(1.5f, 2.2f, (float)rng.NextDouble()),
+                             new Vector3(r * 2f, Lerp(2.6f, 3.6f, (float)rng.NextDouble()), r * 2.2f),
+                             PastelHill(index));
+                    }
+                    // 꺼져 있으면 이 칸은 다른 장식으로 넘기지 않고 그대로 빈 잔디로 남긴다.
                 }
                 else if (roll < 56)
                 {
