@@ -12,6 +12,9 @@ public class Monster2D : MonoBehaviour
     public float shimmerJitter = 0.06f;
     public float shimmerSpeed = 2.5f;
 
+    public float detectionRange = 5f;
+    public float chaseSpeed = 2f;
+
     private SpriteRenderer sr;
     private Collider2D col;
     private SpriteRenderer shimmerRenderer;
@@ -45,6 +48,18 @@ public class Monster2D : MonoBehaviour
         sr.enabled = revealed;
 
         UpdateShimmer(!revealed);
+        ChasePlayer(player);
+    }
+
+    private void ChasePlayer(PlayerMovement2D player)
+    {
+        if (player == null) return;
+
+        Vector2 toPlayer = (Vector2)player.transform.position - (Vector2)transform.position;
+        if (toPlayer.sqrMagnitude > detectionRange * detectionRange) return;
+
+        Vector2 direction = toPlayer.normalized;
+        transform.position += (Vector3)(direction * chaseSpeed * Time.deltaTime);
     }
 
     private void UpdateShimmer(bool active)
