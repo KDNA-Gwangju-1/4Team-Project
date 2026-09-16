@@ -689,7 +689,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 900000030}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -789,11 +789,6 @@ MonoBehaviour:
   m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::Boss2D
   maxHealth: 6
-  moveRangeX: 4
-  baseMoveSpeed: 1.5
-  bulletPrefab: {fileID: 100000001, guid: 90eed1d44a834ce5aa6e459370414d2e, type: 3}
-  baseBulletSpeed: 6
-  baseFireCooldown: 2
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
