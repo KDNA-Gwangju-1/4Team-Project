@@ -34,6 +34,10 @@
 # Recordings can get excessive in size
 /[Rr]ecordings/
 
+# Scene backups recovered by Unity after a crash/unclean shutdown
+/[Aa]ssets/_Recovery/
+/[Aa]ssets/_Recovery.meta
+
 # Uncomment this line if you wish to ignore the asset store tools plugin
 # /[Aa]ssets/AssetStoreTools*
 
