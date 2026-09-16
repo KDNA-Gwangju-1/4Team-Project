@@ -419,10 +419,22 @@ public static partial class BrightDreamBlockoutBuilder
     // ==========================================================
     // 공예 울타리 (07_fence_picket.fbx)
     //
-    // 모델 기준 - 실측 Bounds 1.63(X, 이어붙는 방향) x 1.10(Y, 높이) x 0.18(Z, 두께)
-    // 기본 자세(identity)에서 로컬 +X 가 판자를 이어붙이는 긴 방향이라
-    // Facing(s) 그대로 쓰면 로컬 +X 가 SpineRight(옆) 을 향해 버린다.
-    // 90도 더 돌려서 +X 가 진행 방향(스파인 접선)을 향하게 맞춘다.
+    // identity 회전으로 인스턴스를 하나 띄워서 실측한 결과 (Import 축 보정이 꺼져 있어
+    // Blender Z-up 원본 축이 그대로 남아 있다 - .fbx.meta 의 bakeAxisConversion: 0):
+    //   로컬 +X = 길이 1.63m (판자를 이어붙이는 방향)
+    //   로컬 +Y = 두께 0.18m
+    //   로컬 +Z = 높이 1.10m
+    // 즉 모델이 "누워' 있는 상태 - 로컬 Z(높이)가 Unity 의 Up(Y)이 아니다.
+    // Facing(s) 는 로컬 +Z 를 진행 방향(접선)에, 로컬 +Y 를 월드 Up 에 맞추는 LookRotation 이므로,
+    // Facing(s) 만으로는 로컬 Z 축(실제 높이)이 절대 세워지지 않는다 - Y 축 회전만 추가해서는
+    // (예전 Euler(0,90,0) 시도) 눕는 방향만 바뀔 뿐 세워지지 않았던 이유가 이것이다.
+    //
+    // 그래서 Facing(s) 앞에 축 자체를 재배치하는 보정 회전을 곱한다.
+    //   로컬 X(길이)  -> 중간 Z  (Facing 이 중간 Z 를 진행 방향에 맞춘다)
+    //   로컬 Y(두께)  -> 중간 X  (Facing 이 중간 X 를 옆(경계 안/밖) 방향에 맞춘다)
+    //   로컬 Z(높이)  -> 중간 Y  (Facing 이 중간 Y 를 월드 Up 에 맞춘다)
+    // 이 재배치가 정확히 Quaternion.LookRotation(Vector3.up, Vector3.right) 이다
+    // (로컬 Z -> up, 로컬 Y -> right 로 보내는 회전을 요청하면 나머지 로컬 X 는 자동으로 forward 로 간다).
     //
     // 주의: 이 FBX 는 루트 노드 자체에 scale=100 이 구워져 있다(원본 좌표가 워낙 작아서
     // Blender 쪽에서 100배로 내보낸 것으로 보인다). InstantiatePrefab 이 만든 인스턴스의
@@ -431,6 +443,12 @@ public static partial class BrightDreamBlockoutBuilder
     //
     // 예전 프리미티브 Picket/Rail 은 지우지 않고 꺼 두어서 언제든 비교할 수 있게 남긴다.
     // ==========================================================
+
+    /// <summary>
+    /// 모델 로컬 축 -> 진행방향/Up/옆 재배치 보정 (identity 인스턴스 실측으로 확인, 위 주석 참고).
+    /// Facing(s) 앞에 곱해서 쓴다: Facing(s) * FencePicketAxisFix.
+    /// </summary>
+    private static readonly Quaternion FencePicketAxisFix = Quaternion.LookRotation(Vector3.up, Vector3.right);
     private const string FencePicketFbxPath = "Assets/BrightDream/Models/07_fence_picket.fbx";
     private const float FencePicketLength = 1.63f;
 
@@ -488,7 +506,7 @@ public static partial class BrightDreamBlockoutBuilder
         {
             float s = sAtLength(step * (i + 0.5f));
             Vector3 spot = At(s, (RibbonHalfWidth(s) + offset) * side);
-            Quaternion rot = Facing(s) * Quaternion.Euler(0f, 90f, 0f);
+            Quaternion rot = Facing(s) * FencePicketAxisFix;
 
             var go = (GameObject)UnityEditor.PrefabUtility.InstantiatePrefab(prefab, run);
             go.name = $"FencePanel_{i:D2}";
