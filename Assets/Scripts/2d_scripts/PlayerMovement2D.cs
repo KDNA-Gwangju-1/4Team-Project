@@ -24,7 +24,11 @@ public class PlayerMovement2D : MonoBehaviour
     public float invincibilityDuration = 2f;
     public float invincibilityBlinkInterval = 0.1f;
 
+    public float fallRespawnY = -6f;
+    public float checkpointEdgeMargin = 1f;
+
     private Rigidbody2D rb;
+    private Vector3 lastGroundedPosition;
     private bool jumpRequested;
     private int facingDirection = 1;
     private SpriteRenderer flashlightRenderer;
@@ -45,6 +49,7 @@ public class PlayerMovement2D : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         currentHealth = maxHealth;
+        lastGroundedPosition = transform.position;
         if (flashlight != null)
         {
             flashlightRenderer = flashlight.GetComponent<SpriteRenderer>();
@@ -54,20 +59,53 @@ public class PlayerMovement2D : MonoBehaviour
 
     void Update()
     {
+        RaycastHit2D groundHit = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, groundLayer);
+        bool grounded = groundHit.collider != null;
+
         var keyboard = Keyboard.current;
         if (keyboard != null)
         {
             if (keyboard.dKey.wasPressedThisFrame) facingDirection = 1;
             if (keyboard.aKey.wasPressedThisFrame) facingDirection = -1;
 
-            if (keyboard.spaceKey.wasPressedThisFrame && IsGrounded())
+            if (keyboard.spaceKey.wasPressedThisFrame && grounded)
             {
                 jumpRequested = true;
             }
         }
 
+        if (grounded)
+        {
+            lastGroundedPosition = ComputeCheckpoint(groundHit.collider);
+        }
+        else if (transform.position.y < fallRespawnY)
+        {
+            Respawn();
+        }
+
         UpdateFlashlight();
         UpdateShooting();
+    }
+
+    private Vector3 ComputeCheckpoint(Collider2D floorCollider)
+    {
+        Bounds bounds = floorCollider.bounds;
+        float minX = bounds.min.x + checkpointEdgeMargin;
+        float maxX = bounds.max.x - checkpointEdgeMargin;
+        float x = transform.position.x;
+
+        if (minX <= maxX)
+        {
+            x = Mathf.Clamp(x, minX, maxX);
+        }
+
+        return new Vector3(x, transform.position.y, transform.position.z);
+    }
+
+    private void Respawn()
+    {
+        transform.position = lastGroundedPosition;
+        rb.linearVelocity = Vector2.zero;
     }
 
     private Vector2 GetMouseDirection(Mouse mouse)
@@ -144,11 +182,6 @@ public class PlayerMovement2D : MonoBehaviour
         }
 
         rb.linearVelocity = velocity;
-    }
-
-    private bool IsGrounded()
-    {
-        return Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, groundLayer);
     }
 
     void OnTriggerEnter2D(Collider2D other)
