@@ -1,0 +1,6 @@
+const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),{spawnSync}=require('node:child_process');
+const root=__dirname,ff=path.resolve(root,'../render-deps/imageio_ffmpeg/binaries/ffmpeg-win-x86_64-v7.1.exe');
+const out=path.join(root,'opening-restored-final-1080p.mp4');
+let r=spawnSync(ff,['-v','error','-y','-i',path.join(root,'opening-restored-33s-1080p.mp4'),'-i',path.join(root,'original-premaster.wav'),'-map','0:v','-map','1:a','-c:v','copy','-af','volume=7dB,alimiter=limit=0.684:level=false','-c:a','aac','-b:a','256k','-t','33.3','-movflags','+faststart',out],{windowsHide:true});if(r.status)throw Error(r.stderr.toString());
+r=spawnSync(ff,['-v','error','-i',out,'-f','null','-'],{windowsHide:true});if(r.status)throw Error(r.stderr.toString());
+const m=JSON.parse(fs.readFileSync(path.join(root,'manifest.json'))),b=fs.readFileSync(out);m.output=out;m.bytes=b.length;m.sha256=crypto.createHash('sha256').update(b).digest('hex');m.audioProcessing='Original premaster, overall +7dB and safety limiter, AAC256k; relative mix and timing preserved';m.validation='Full final MP4 decode passed';fs.writeFileSync(path.join(root,'manifest.json'),JSON.stringify(m,null,2));console.log(JSON.stringify(m,null,2));
