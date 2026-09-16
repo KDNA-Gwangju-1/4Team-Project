@@ -19,6 +19,12 @@ public static class MainMenuSceneBuilder
     private const string GameScenePath     = "Assets/Scenes/Game.unity";
     private const string GameSceneName     = "Game";
 
+    // 오프닝 배경 프레임이 들어 있는 폴더 (opening_000.png ~ )
+    private const string OpeningFramesFolder = "Assets/Art/Opening";
+
+    // 원본 GIF 가 프레임당 120ms 였으므로 초당 약 8.33장
+    private const float OpeningFramesPerSecond = 8.3333f;
+
     // ---- 색상 ----
     private static readonly Color BackgroundGray  = new Color(0.30f, 0.30f, 0.30f, 1f);
     private static readonly Color ButtonNormal    = new Color(0.82f, 0.82f, 0.82f, 1f);
@@ -76,11 +82,46 @@ public static class MainMenuSceneBuilder
 
         var canvasRT = canvasGO.GetComponent<RectTransform>();
 
-        // ---------- Background (단색 회색) ----------
+        // ---------- Background (오프닝 애니메이션) ----------
         var background = CreateStretchedObject("Background", canvasRT);
         var bgImage = background.gameObject.AddComponent<Image>();
-        bgImage.color = BackgroundGray;
         bgImage.raycastTarget = false;
+
+        var openingFrames = LoadOpeningFrames();
+        if (openingFrames.Length > 0)
+        {
+            bgImage.sprite = openingFrames[0];
+            bgImage.color   = Color.white;
+            bgImage.type    = Image.Type.Simple;
+
+            // 프레임을 순서대로 갈아 끼우는 스크립트를 붙이고 값을 채워 준다.
+            var player = background.gameObject.AddComponent<OpeningBackgroundPlayer>();
+            var pso = new SerializedObject(player);
+            pso.FindProperty("targetImage").objectReferenceValue = bgImage;
+
+            var frameArray = pso.FindProperty("frames");
+            frameArray.arraySize = openingFrames.Length;
+            for (int i = 0; i < openingFrames.Length; i++)
+                frameArray.GetArrayElementAtIndex(i).objectReferenceValue = openingFrames[i];
+
+            pso.FindProperty("framesPerSecond").floatValue = OpeningFramesPerSecond;
+            pso.FindProperty("loop").boolValue = true;
+            pso.ApplyModifiedPropertiesWithoutUndo();
+
+            Debug.Log("[MainMenuSceneBuilder] 오프닝 프레임 " + openingFrames.Length + "장을 배경에 연결했습니다.");
+        }
+        else
+        {
+            // 프레임을 못 찾으면 원래대로 단색 회색 배경을 쓴다.
+            bgImage.color = BackgroundGray;
+            Debug.LogWarning("[MainMenuSceneBuilder] " + OpeningFramesFolder + " 에서 오프닝 프레임을 찾지 못해 회색 배경을 사용합니다.");
+        }
+
+        // ---------- Scrim (배경 위를 살짝 덮어 버튼 글씨를 읽기 쉽게) ----------
+        var scrim = CreateStretchedObject("Scrim", canvasRT);
+        var scrimImage = scrim.gameObject.AddComponent<Image>();
+        scrimImage.color = new Color(0f, 0f, 0f, 0.45f);
+        scrimImage.raycastTarget = false;
 
         // ---------- 관리 스크립트를 붙일 오브젝트 ----------
         var managerGO = new GameObject("MainMenuManager");
@@ -183,6 +224,80 @@ public static class MainMenuSceneBuilder
     // ==========================================================
     // UI 만들기 도우미
     // ==========================================================
+
+    /// <summary>
+    /// 오프닝 프레임 PNG 들을 Sprite 로 읽어 온다.
+    /// 3D 프로젝트에서는 PNG 가 기본적으로 Sprite 가 아니라서, 먼저 임포트 설정을 맞춰 준다.
+    /// </summary>
+    private static string OpeningFramePath(int index)
+    {
+        return string.Format("{0}/opening_{1:D3}.png", OpeningFramesFolder, index);
+    }
+
+    private static Sprite[] LoadOpeningFrames()
+    {
+        // ── 1단계: 프레임 PNG 들의 임포트 설정을 먼저 전부 맞춘다 ──
+        // (설정을 바꾸자마자 같은 자리에서 Sprite 로 읽으면 재임포트가 끝나기 전이라 null 이 나온다)
+        int frameCount = 0;
+
+        for (int i = 0; ; i++)
+        {
+            string path = OpeningFramePath(i);
+
+            var importer = AssetImporter.GetAtPath(path) as TextureImporter;
+            if (importer == null)
+                break;   // 더 이상 프레임이 없다
+
+            frameCount++;
+
+            bool changed = false;
+            if (importer.textureType != TextureImporterType.Sprite)
+            {
+                importer.textureType = TextureImporterType.Sprite;
+                changed = true;
+            }
+            if (importer.mipmapEnabled)
+            {
+                // 화면을 꽉 채우는 배경이라 밉맵이 필요 없다 (메모리 절약)
+                importer.mipmapEnabled = false;
+                changed = true;
+            }
+            if (importer.alphaSource != TextureImporterAlphaSource.None)
+            {
+                // 불투명한 배경이라 알파 채널이 필요 없다
+                importer.alphaSource = TextureImporterAlphaSource.None;
+                changed = true;
+            }
+            if (importer.textureCompression != TextureImporterCompression.Compressed)
+            {
+                importer.textureCompression = TextureImporterCompression.Compressed;
+                changed = true;
+            }
+            if (changed)
+                importer.SaveAndReimport();
+        }
+
+        // 재임포트가 모두 반영되도록 한 번 정리한다.
+        AssetDatabase.Refresh();
+
+        // ── 2단계: 설정이 끝난 뒤에 Sprite 로 읽어 온다 ──
+        var sprites = new System.Collections.Generic.List<Sprite>();
+
+        for (int i = 0; i < frameCount; i++)
+        {
+            var sprite = AssetDatabase.LoadAssetAtPath<Sprite>(OpeningFramePath(i));
+            if (sprite != null)
+                sprites.Add(sprite);
+        }
+
+        if (sprites.Count != frameCount)
+        {
+            Debug.LogWarning("[MainMenuSceneBuilder] 프레임 " + frameCount + "개 중 " + sprites.Count +
+                             "개만 Sprite 로 읽혔습니다. 메뉴를 한 번 더 실행하면 나머지가 붙습니다.");
+        }
+
+        return sprites.ToArray();
+    }
 
     private static DefaultControls.Resources GetDefaultUIResources()
     {
