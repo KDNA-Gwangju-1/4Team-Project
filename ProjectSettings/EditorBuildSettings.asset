@@ -11,5 +11,11 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Game.unity
     guid: 8b7ef41a5bdecae468c2c2c4ff071d1f
+  - enabled: 1
+    path: Assets/Scenes/BadDream_Stage1.unity
+    guid: ce1448b3499545bb9dad5e20c8d4922f
+  - enabled: 1
+    path: Assets/Scenes/BadDream_stage2.unity
+    guid: 34121965c54103341a7bd5ea06bf9847
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
