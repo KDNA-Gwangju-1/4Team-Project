@@ -243,10 +243,15 @@ public class PlayerMovement2D : MonoBehaviour
 
     private void TryTakeDamageFrom(Collider2D other)
     {
-        if (isInvincible) return;
         if (other.GetComponent<Monster2D>() == null) return;
+        TakeDamage(1);
+    }
 
-        currentHealth = Mathf.Max(0, currentHealth - 1);
+    public void TakeDamage(int amount)
+    {
+        if (isInvincible) return;
+
+        currentHealth = Mathf.Max(0, currentHealth - amount);
 
         if (currentHealth <= 0)
         {

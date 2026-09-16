@@ -1,17 +1,17 @@
 using UnityEngine;
 
-public class Bullet2D : MonoBehaviour
+public class BossBullet2D : MonoBehaviour
 {
+    public float maxDistance = 20f;
+
     private Vector2 direction;
     private float speed;
-    private float maxDistance;
     private Vector3 startPosition;
 
-    public void Init(Vector2 dir, float bulletSpeed, float distance)
+    public void Init(Vector2 dir, float bulletSpeed)
     {
         direction = dir.normalized;
         speed = bulletSpeed;
-        maxDistance = distance;
         startPosition = transform.position;
     }
 
@@ -27,18 +27,10 @@ public class Bullet2D : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        Monster2D monster = other.GetComponent<Monster2D>();
-        if (monster != null && monster.IsRevealed)
+        PlayerMovement2D player = other.GetComponent<PlayerMovement2D>();
+        if (player != null)
         {
-            Destroy(monster.gameObject);
-            Destroy(gameObject);
-            return;
-        }
-
-        Boss2D boss = other.GetComponent<Boss2D>();
-        if (boss != null && boss.IsRevealed)
-        {
-            boss.TakeDamage(1);
+            player.TakeDamage(1);
             Destroy(gameObject);
         }
     }
