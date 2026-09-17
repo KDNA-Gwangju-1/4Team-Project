@@ -1,0 +1,627 @@
+{
+  "poseCount": 124,
+  "allAlphaBinary": true,
+  "allTrianglesUnfolded": true,
+  "poses": [
+    {
+      "strength": 1,
+      "minTriangleAreaRatio": 1,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 1,
+      "minTriangleAreaRatio": 0.9879959715833421,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 1,
+      "minTriangleAreaRatio": 0.9538445234797716,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 1,
+      "minTriangleAreaRatio": 0.9003511119263482,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 1,
+      "minTriangleAreaRatio": 0.8303326137227154,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 1,
+      "minTriangleAreaRatio": 0.7466085584763853,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 1,
+      "minTriangleAreaRatio": 0.65199370973329,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 1,
+      "minTriangleAreaRatio": 0.5492919949937709,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 1,
+      "minTriangleAreaRatio": 0.44129178461384616,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 1,
+      "minTriangleAreaRatio": 0.3307625195918275,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.9,
+      "minTriangleAreaRatio": 0.29792013458513467,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.81,
+      "minTriangleAreaRatio": 0.28052154597170137,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.7290000000000001,
+      "minTriangleAreaRatio": 0.27756761058816687,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.6561000000000001,
+      "minTriangleAreaRatio": 0.287737194602167,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.5904900000000002,
+      "minTriangleAreaRatio": 0.3095183388642628,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.5904900000000002,
+      "minTriangleAreaRatio": 0.2685959966252989,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.5314410000000002,
+      "minTriangleAreaRatio": 0.3131812827745083,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.5314410000000002,
+      "minTriangleAreaRatio": 0.295245936758032,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.5314410000000002,
+      "minTriangleAreaRatio": 0.2889457044053593,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.5314410000000002,
+      "minTriangleAreaRatio": 0.2922319970199834,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.5314410000000002,
+      "minTriangleAreaRatio": 0.30158397254072566,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.5314410000000002,
+      "minTriangleAreaRatio": 0.3162398980434307,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.5904900000000002,
+      "minTriangleAreaRatio": 0.2621264240233685,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.5904900000000002,
+      "minTriangleAreaRatio": 0.28763944706478095,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.5904900000000002,
+      "minTriangleAreaRatio": 0.3164992384467732,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.6561000000000001,
+      "minTriangleAreaRatio": 0.27598467044054764,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.6561000000000001,
+      "minTriangleAreaRatio": 0.31263760717676986,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.7290000000000001,
+      "minTriangleAreaRatio": 0.2786284435109673,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.7290000000000001,
+      "minTriangleAreaRatio": 0.3202707170555199,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.81,
+      "minTriangleAreaRatio": 0.29049091452851156,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.9,
+      "minTriangleAreaRatio": 0.25982774674940096,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.9,
+      "minTriangleAreaRatio": 0.3033269543030676,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 1,
+      "minTriangleAreaRatio": 0.26385627074203427,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.9,
+      "minTriangleAreaRatio": 0.2971183120271685,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.9,
+      "minTriangleAreaRatio": 0.266437582129711,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.81,
+      "minTriangleAreaRatio": 0.32203830928134947,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.81,
+      "minTriangleAreaRatio": 0.31584798685683013,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.81,
+      "minTriangleAreaRatio": 0.3161688421258723,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.81,
+      "minTriangleAreaRatio": 0.3168631675495477,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.81,
+      "minTriangleAreaRatio": 0.3173866518718328,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.81,
+      "minTriangleAreaRatio": 0.31807188177182727,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.81,
+      "minTriangleAreaRatio": 0.31889128735121686,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.81,
+      "minTriangleAreaRatio": 0.3198173433687094,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.81,
+      "minTriangleAreaRatio": 0.3208226261145202,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.81,
+      "minTriangleAreaRatio": 0.3218798576461415,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.81,
+      "minTriangleAreaRatio": 0.3229619373852224,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.81,
+      "minTriangleAreaRatio": 0.3240419610758353,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.9,
+      "minTriangleAreaRatio": 0.2500396373258583,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.9,
+      "minTriangleAreaRatio": 0.25115175898836545,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.9,
+      "minTriangleAreaRatio": 0.25217259407613835,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.9,
+      "minTriangleAreaRatio": 0.2530729665708509,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.81,
+      "minTriangleAreaRatio": 0.32295970068007873,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.81,
+      "minTriangleAreaRatio": 0.2869418109338332,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.81,
+      "minTriangleAreaRatio": 0.2636760626565955,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.81,
+      "minTriangleAreaRatio": 0.25549172131602776,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.81,
+      "minTriangleAreaRatio": 0.2622580862986992,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.81,
+      "minTriangleAreaRatio": 0.28150358753492755,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.81,
+      "minTriangleAreaRatio": 0.3116346403888873,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.9,
+      "minTriangleAreaRatio": 0.277575092207384,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 1,
+      "minTriangleAreaRatio": 0.2541934467148219,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 1,
+      "minTriangleAreaRatio": 0.3202845034916694,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 1,
+      "minTriangleAreaRatio": 0.39190025115126337,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 1,
+      "minTriangleAreaRatio": 0.46629576424016767,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 1,
+      "minTriangleAreaRatio": 0.5422660970480002,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 1,
+      "minTriangleAreaRatio": 0.6182377692780086,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 1,
+      "minTriangleAreaRatio": 0.6923271363493851,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 1,
+      "minTriangleAreaRatio": 0.7626504257862332,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 1,
+      "minTriangleAreaRatio": 0.8273237495679346,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 1,
+      "minTriangleAreaRatio": 0.8844631247131345,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 1,
+      "minTriangleAreaRatio": 0.9321845020973007,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 1,
+      "minTriangleAreaRatio": 0.968603803503869,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 1,
+      "minTriangleAreaRatio": 0.9918369669090218,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.7290000000000001,
+      "minTriangleAreaRatio": 0.27756761058816687,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.7290000000000001,
+      "minTriangleAreaRatio": 0.2788678511488647,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.7290000000000001,
+      "minTriangleAreaRatio": 0.2826612350039165,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.7290000000000001,
+      "minTriangleAreaRatio": 0.28878662758021856,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.7290000000000001,
+      "minTriangleAreaRatio": 0.29708275611530993,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.7290000000000001,
+      "minTriangleAreaRatio": 0.30738824770982237,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.7290000000000001,
+      "minTriangleAreaRatio": 0.3195416646619149,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.81,
+      "minTriangleAreaRatio": 0.2598439155035797,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.81,
+      "minTriangleAreaRatio": 0.27690359485887023,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.81,
+      "minTriangleAreaRatio": 0.29547686439597626,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.81,
+      "minTriangleAreaRatio": 0.3153844424266605,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.9,
+      "minTriangleAreaRatio": 0.26330308026756016,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.9,
+      "minTriangleAreaRatio": 0.28776851698008715,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.9,
+      "minTriangleAreaRatio": 0.3131181288638557,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.9,
+      "minTriangleAreaRatio": 0.2984805616654893,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.81,
+      "minTriangleAreaRatio": 0.29745488232851647,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.7290000000000001,
+      "minTriangleAreaRatio": 0.3030361463529677,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.6561000000000001,
+      "minTriangleAreaRatio": 0.3144239476093933,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.6561000000000001,
+      "minTriangleAreaRatio": 0.25511104543927354,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.5904900000000002,
+      "minTriangleAreaRatio": 0.27806099705250087,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.5314410000000002,
+      "minTriangleAreaRatio": 0.3048660913809188,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.5314410000000002,
+      "minTriangleAreaRatio": 0.25944743052056307,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.47829690000000014,
+      "minTriangleAreaRatio": 0.29535910045765057,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.47829690000000014,
+      "minTriangleAreaRatio": 0.2576527337273279,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.43046721000000016,
+      "minTriangleAreaRatio": 0.3011428189305527,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.43046721000000016,
+      "minTriangleAreaRatio": 0.27123978155350353,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.38742048900000015,
+      "minTriangleAreaRatio": 0.32068556146873284,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.38742048900000015,
+      "minTriangleAreaRatio": 0.2984512066410253,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.38742048900000015,
+      "minTriangleAreaRatio": 0.27890645475941467,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.38742048900000015,
+      "minTriangleAreaRatio": 0.2623190073800313,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.34867844010000015,
+      "minTriangleAreaRatio": 0.32537906539714645,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.34867844010000015,
+      "minTriangleAreaRatio": 0.3165301703951698,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.34867844010000015,
+      "minTriangleAreaRatio": 0.31104827670332014,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.34867844010000015,
+      "minTriangleAreaRatio": 0.30916894317073773,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.34867844010000015,
+      "minTriangleAreaRatio": 0.30916894317073773,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.34867844010000015,
+      "minTriangleAreaRatio": 0.3161811720389258,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.38742048900000015,
+      "minTriangleAreaRatio": 0.26085540464775525,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.38742048900000015,
+      "minTriangleAreaRatio": 0.29537390142552933,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.43046721000000016,
+      "minTriangleAreaRatio": 0.26553594797517693,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.43046721000000016,
+      "minTriangleAreaRatio": 0.32487836893558153,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.47829690000000014,
+      "minTriangleAreaRatio": 0.3224537954453303,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.5904900000000002,
+      "minTriangleAreaRatio": 0.2589224392371966,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.6561000000000001,
+      "minTriangleAreaRatio": 0.2890895563171914,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.81,
+      "minTriangleAreaRatio": 0.2616080465839103,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 1,
+      "minTriangleAreaRatio": 0.25823589252007806,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 1,
+      "minTriangleAreaRatio": 0.2723557111603554,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.81,
+      "minTriangleAreaRatio": 0.30940134210945713,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.7290000000000001,
+      "minTriangleAreaRatio": 0.28613199378959847,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.6561000000000001,
+      "minTriangleAreaRatio": 0.27860338775043625,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.5904900000000002,
+      "minTriangleAreaRatio": 0.2890869363400471,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.5314410000000002,
+      "minTriangleAreaRatio": 0.31827076033792184,
+      "fractionalAlpha": 0
+    },
+    {
+      "strength": 0.5314410000000002,
+      "minTriangleAreaRatio": 0.295245936758032,
+      "fractionalAlpha": 0
+    }
+  ]
+}
