@@ -160,6 +160,7 @@ public static partial class BrightDreamBlockoutBuilder
         CreateMaterials();
         KeepClear.Clear();
         NoTreeZones.Clear();
+        bushCraftKept = 0;
         BuildSpineTable();
 
         var scene = CreateWorkingScene();

@@ -1092,7 +1092,7 @@ public static partial class BrightDreamBlockoutBuilder
                     // 나무 밑동 수풀 - 군락이 땅에서 솟아난 것처럼 묶어 준다
                     MakeBush(target, $"Bush_{index:D2}_{side}", low,
                              Lerp(0.8f, 1.4f, (float)rng.NextDouble()),
-                             rng.Next(2) == 0 ? MatLeafSoft : MatLeafAlt);
+                             rng.Next(2) == 0 ? MatLeafSoft : MatLeafAlt, sHint: s);
                 }
                 else if (progress > 0.60f &&
                          rng.Next(100) < Mathf.RoundToInt(Lerp(30f, 90f, Mathf.InverseLerp(0.60f, 1f, progress))))
@@ -1118,12 +1118,12 @@ public static partial class BrightDreamBlockoutBuilder
                 {
                     MakeBush(target, $"Bush_{index:D2}_{side}", low,
                              Lerp(0.7f, 1.2f, (float)rng.NextDouble()),
-                             rng.Next(2) == 0 ? MatLeafSoft : MatLeafAlt);
+                             rng.Next(2) == 0 ? MatLeafSoft : MatLeafAlt, sHint: s);
                 }
                 else
                 {
                     MakeBush(target, $"Bush_{index:D2}_{side}", low,
-                             Lerp(0.6f, 1.0f, (float)rng.NextDouble()), MatLeafSoft);
+                             Lerp(0.6f, 1.0f, (float)rng.NextDouble()), MatLeafSoft, sHint: s);
                 }
             }
         }
@@ -1411,14 +1411,53 @@ public static partial class BrightDreamBlockoutBuilder
              Vector3.one * canopyRadius * 1.15f, leafMat);
     }
 
-    private static void MakeBush(Transform parent, string name, Vector3 pos, float radius, Material mat)
+    private static void MakeBush(Transform parent, string name, Vector3 pos, float radius, Material mat, float sHint = float.NaN)
     {
         var bush = Child(parent, name);
         Prim(PrimitiveType.Sphere, "Main", bush, pos + Vector3.up * radius * 0.45f,
              new Vector3(radius * 2f, radius * 1.3f, radius * 2f), mat, collider: true);
         Prim(PrimitiveType.Sphere, "Side", bush, pos + new Vector3(radius * 0.6f, radius * 0.3f, radius * 0.3f),
              new Vector3(radius * 1.3f, radius * 0.9f, radius * 1.3f), mat);
+
+        if (Rectangular)
+        {
+            // Rect 는 Primitive 수풀을 그대로 보여주지 않는다 - 지우지는 않고 꺼서
+            // 언제든 다시 비교할 수 있게 남긴다. 근접 우선순위에 든 것만 공예 수풀로 교체한다.
+            bush.gameObject.SetActive(false);
+            bush.name = name + "_Placeholder (비활성 - 비교용)";
+            if (ShouldCraftUpgradeBush(parent, sHint))
+            {
+                BuildCraftBush(parent, name, pos, radius);
+            }
+        }
     }
+
+    /// <summary>
+    /// 19_bush 는 인스턴스당 20,000 triangles 라 58개 전부를 교체하면 씬 삼각형이 약 1.8배로 뛴다.
+    /// 그래서 플레이어 눈에 자주 들어오는 근접 그룹(START 주변 / 길 좌우 / Pathside)만 후보로 삼고,
+    /// 그중에서도 Greenhouse·Pond 접근부는 우선 유지하고 나머지는 절반만 남겨 16~20개 선으로 맞춘다.
+    /// RectBackdrop 의 BackBush(배경 채움) 와 CombatArena 외곽의 EdgeBush 는 대상에서 제외한다.
+    /// </summary>
+    private static bool ShouldCraftUpgradeBush(Transform parent, float sHint)
+    {
+        string pn = parent.name;
+        if (pn == "StartGarden") return true;      // 2개 - START 주변, 전부 유지
+        if (pn == "Pathside") return true;         // 3개 - 길 바로 옆, 전부 유지
+        if (pn != "Boundary_Left" && pn != "Boundary_Right") return false;   // RectBackdrop / CombatArena 등 제외
+
+        if (!float.IsNaN(sHint))
+        {
+            float ghStart = AreaStartS("GreenhousePond"), ghEnd = AreaEndS("GreenhousePond");
+            if (sHint >= ghStart && sHint <= ghEnd) return true;   // Greenhouse/Pond 접근부는 우선 유지
+        }
+
+        // 나머지 길 좌우 구간은 두 개 중 하나만 - 밀도를 줄이면서 경로 전체에 고르게 남긴다.
+        bushCraftKept++;
+        return bushCraftKept % 2 == 0;
+    }
+
+    /// <summary>빌드마다 BuildBlockout 에서 0으로 리셋된다.</summary>
+    private static int bushCraftKept;
 
     private static void MakeFlower(Transform parent, string name, Vector3 pos, float height, Material mat, System.Random rng)
     {

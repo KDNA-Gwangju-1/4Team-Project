@@ -515,6 +515,57 @@ public static partial class BrightDreamBlockoutBuilder
         }
     }
 
+    // ==========================================================
+    // 공예 수풀 (19_bush.fbx)
+    //
+    // identity 인스턴스로 실측한 결과:
+    //   - 이 FBX 는 Fence 와 달리 import 시 이미 "서 있는" 회전이 구워져 있다
+    //     (로컬 eulerAngles = (270.02, 0, 0)). 축을 재배치할 필요가 없어 이 회전을 그대로 곱해서 쓴다.
+    //   - scale 100 원본 그대로일 때 실측 월드 Bounds: 지름 1.37m(반지름 0.685m) x 높이 0.80m, 바닥에 정확히 붙는다.
+    //   - 콜라이더는 0개. Hedge(HedgeSolid) 와 같은 이유로 잎사귀 메시에 MeshCollider 를 걸지 않고
+    //     별도의 단순 SphereCollider 를 세운다 (비용 + 잎 사이 끼임 방지).
+    // ==========================================================
+    private const string BushFbxPath = "Assets/BrightDream/Models/19_bush.fbx";
+
+    /// <summary>identity 인스턴스 실측값 - scale 100 기준 반지름 / 높이(m).</summary>
+    private const float BushNativeRadius = 0.685f;
+    private const float BushNativeHeight = 0.80f;
+
+    /// <summary>
+    /// 기존 Primitive 수풀 자리에 공예 수풀을 세운다.
+    ///
+    /// pos / radius 는 호출부(MakeBush)가 이미 계산해 둔 값을 그대로 받는다 - 위치/분포 의도는 손대지 않는다.
+    /// 반지름은 19_bush 실측 크기를 기준으로 스케일해서 맞추고, 아주 약한 변주만 더한다.
+    /// </summary>
+    private static void BuildCraftBush(Transform parent, string name, Vector3 pos, float radius)
+    {
+        var prefab = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(BushFbxPath);
+        if (prefab == null)
+        {
+            Debug.LogWarning("[BrightDream] 공예 수풀 FBX 를 찾지 못했다 - " + BushFbxPath);
+            return;
+        }
+
+        var rng = new System.Random(name.GetHashCode());
+        float sizeMul = (radius / BushNativeRadius) * Lerp(0.94f, 1.06f, (float)rng.NextDouble());
+        float yaw = Lerp(0f, 360f, (float)rng.NextDouble());
+
+        var root = Child(parent, name + "_Craft");
+        root.position = pos;
+
+        var visual = (GameObject)UnityEditor.PrefabUtility.InstantiatePrefab(prefab, root);
+        visual.transform.localPosition = Vector3.zero;
+        visual.transform.localRotation = Quaternion.Euler(0f, yaw, 0f) * prefab.transform.rotation;
+        visual.transform.localScale = prefab.transform.localScale * sizeMul;
+
+        // 걷는 자리를 막던 원래 Primitive 콜라이더를 대신한다 - 시각 메시와는 분리된 단순 구.
+        var col = new GameObject("Collider");
+        col.transform.SetParent(root, false);
+        col.transform.localPosition = Vector3.up * (BushNativeHeight * sizeMul * 0.5f);
+        var sc = col.AddComponent<SphereCollider>();
+        sc.radius = BushNativeRadius * sizeMul;
+    }
+
     /// <summary>
     /// 온실과 겹치는 조경을 걷어낸다.
     ///
