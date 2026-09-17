@@ -44,8 +44,17 @@ public static partial class BrightDreamBlockoutBuilder
         MakeTree(parent, "Tree_B", At(InArea("StartGarden", 0.55f), 4.1f), 3.2f, 1.1f, MatLeafAlt, rng);
         MakeTree(parent, "Tree_C", At(InArea("StartGarden", 0.85f), 4.0f), 4.0f, 1.35f, MatLeaf, rng);
 
-        MakeFlowerBed(parent, "FlowerBed_L", At(InArea("StartGarden", 0.7f), -3.4f), 1.8f, 8, rng);
-        MakeFlowerBed(parent, "FlowerBed_R", At(InArea("StartGarden", 0.4f), 3.2f), 1.5f, 6, rng);
+        // 다른 구역 확장: 실제 꽃 에셋(daisy_cluster Accent 대신 flower_large + 꽃3 Base Fill) 적용.
+        if (Rectangular)
+        {
+            BuildCraftFlowerBedTest(parent, "FlowerBed_L", At(InArea("StartGarden", 0.7f), -3.4f), 1.8f, 8, rng, fillUsesFlowerThree: true);
+            BuildCraftFlowerBedTest(parent, "FlowerBed_R", At(InArea("StartGarden", 0.4f), 3.2f), 1.5f, 6, rng, fillUsesFlowerThree: true);
+        }
+        else
+        {
+            MakeFlowerBed(parent, "FlowerBed_L", At(InArea("StartGarden", 0.7f), -3.4f), 1.8f, 8, rng);
+            MakeFlowerBed(parent, "FlowerBed_R", At(InArea("StartGarden", 0.4f), 3.2f), 1.5f, 6, rng);
+        }
 
         // START 뒤쪽 마개를 가리는 수풀 (길 위는 비워 둔다)
         for (int i = -1; i <= 1; i += 2)
@@ -68,18 +77,25 @@ public static partial class BrightDreamBlockoutBuilder
         Quaternion swingRot = Facing(swingS);
         Vector3 SR(Vector3 local) => swingBase + swingRot * local;
 
-        Prim(PrimitiveType.Cube, "Post_L", swing, SR(new Vector3(-1.4f, 1.3f, 0f)),
-             new Vector3(0.18f, 2.6f, 0.18f), MatWood, collider: true, rot: swingRot);
-        Prim(PrimitiveType.Cube, "Post_R", swing, SR(new Vector3(1.4f, 1.3f, 0f)),
-             new Vector3(0.18f, 2.6f, 0.18f), MatWood, collider: true, rot: swingRot);
-        Prim(PrimitiveType.Cube, "TopBar", swing, SR(new Vector3(0f, 2.6f, 0f)),
-             new Vector3(3.1f, 0.16f, 0.16f), MatWood, rot: swingRot);
-        Prim(PrimitiveType.Cylinder, "Rope_L", swing, SR(new Vector3(-0.45f, 1.85f, 0f)),
-             new Vector3(0.04f, 0.72f, 0.04f), MatFence);
-        Prim(PrimitiveType.Cylinder, "Rope_R", swing, SR(new Vector3(0.45f, 1.85f, 0f)),
-             new Vector3(0.04f, 0.72f, 0.04f), MatFence);
-        Prim(PrimitiveType.Cube, "Seat", swing, SR(new Vector3(0f, 1.1f, 0f)),
-             new Vector3(1.1f, 0.1f, 0.4f), MatPink, rot: swingRot);
+        if (Rectangular)
+        {
+            BuildCraftSwing(swing, swingBase, swingRot, 2.6f);
+        }
+        else
+        {
+            Prim(PrimitiveType.Cube, "Post_L", swing, SR(new Vector3(-1.4f, 1.3f, 0f)),
+                 new Vector3(0.18f, 2.6f, 0.18f), MatWood, collider: true, rot: swingRot);
+            Prim(PrimitiveType.Cube, "Post_R", swing, SR(new Vector3(1.4f, 1.3f, 0f)),
+                 new Vector3(0.18f, 2.6f, 0.18f), MatWood, collider: true, rot: swingRot);
+            Prim(PrimitiveType.Cube, "TopBar", swing, SR(new Vector3(0f, 2.6f, 0f)),
+                 new Vector3(3.1f, 0.16f, 0.16f), MatWood, rot: swingRot);
+            Prim(PrimitiveType.Cylinder, "Rope_L", swing, SR(new Vector3(-0.45f, 1.85f, 0f)),
+                 new Vector3(0.04f, 0.72f, 0.04f), MatFence);
+            Prim(PrimitiveType.Cylinder, "Rope_R", swing, SR(new Vector3(0.45f, 1.85f, 0f)),
+                 new Vector3(0.04f, 0.72f, 0.04f), MatFence);
+            Prim(PrimitiveType.Cube, "Seat", swing, SR(new Vector3(0f, 1.1f, 0f)),
+                 new Vector3(1.1f, 0.1f, 0.4f), MatPink, rot: swingRot);
+        }
         MakeMarker(markers, "Marker_Clue_01_Swing", At(swingS - 1.2f, 1.9f), MatMarkerClue, 0.34f);
         NoTreeZones.Add(new Vector4(swingBase.x, swingBase.y, swingBase.z, 2.6f));
 
@@ -91,14 +107,26 @@ public static partial class BrightDreamBlockoutBuilder
              new Vector3(0.7f, 0.9f, 0.08f), MatWhiteFlower, rot: Facing(photoS) * Quaternion.Euler(0f, 35f, 4f));
         MakeMarker(markers, "Marker_Clue_02_PhotoAlbum", At(photoS - 0.8f, -1.8f), MatMarkerClue, 0.34f);
 
-        // 길가 벤치
+        // 길가 벤치 - GreenhousePond 작업의 일환으로, 이 씬에 유일한 벤치라 이번에 함께 교체한다
+        // (다른 구역 건드리지 않기 원칙의 명시적 예외로 사용자 승인됨).
         float benchS = InArea("ClueWalk", 0.5f);
-        Prim(PrimitiveType.Cube, "Bench_Seat", parent, At(benchS, -2.1f) + Vector3.up * 0.45f,
-             new Vector3(1.6f, 0.12f, 0.5f), MatWood, collider: true, rot: Facing(benchS));
+        if (Rectangular)
+            BuildCraftBench(parent, "Bench", At(benchS, -2.1f), Facing(benchS));
+        else
+            Prim(PrimitiveType.Cube, "Bench_Seat", parent, At(benchS, -2.1f) + Vector3.up * 0.45f,
+                 new Vector3(1.6f, 0.12f, 0.5f), MatWood, collider: true, rot: Facing(benchS));
 
         MakeFenceRun(parent, "Fence_Left", InArea("ClueWalk", 0.05f), InArea("ClueWalk", 0.5f), -1f, 1.0f);
-        MakeFlowerBed(parent, "FlowerBed_A", At(InArea("ClueWalk", 0.15f), 2.4f), 1.4f, 6, rng);
-        MakeFlowerBed(parent, "FlowerBed_B", At(InArea("ClueWalk", 0.9f), 2.6f), 1.5f, 7, rng);
+        if (Rectangular)
+        {
+            BuildCraftFlowerBedTest(parent, "FlowerBed_A", At(InArea("ClueWalk", 0.15f), 2.4f), 1.4f, 6, rng, fillUsesFlowerThree: true);
+            BuildCraftFlowerBedTest(parent, "FlowerBed_B", At(InArea("ClueWalk", 0.9f), 2.6f), 1.5f, 7, rng, fillUsesFlowerThree: true);
+        }
+        else
+        {
+            MakeFlowerBed(parent, "FlowerBed_A", At(InArea("ClueWalk", 0.15f), 2.4f), 1.4f, 6, rng);
+            MakeFlowerBed(parent, "FlowerBed_B", At(InArea("ClueWalk", 0.9f), 2.6f), 1.5f, 7, rng);
+        }
         MakeTree(parent, "Tree_A", At(InArea("ClueWalk", 0.95f), -3.0f), 4.0f, 1.3f, MatLeafAlt, rng);
     }
 
@@ -157,30 +185,59 @@ public static partial class BrightDreamBlockoutBuilder
 
         Prim(PrimitiveType.Cube, "Stream", bridge, SpinePoint(bridgeS) + Vector3.up * 0.03f,
              new Vector3(CorridorHalfWidth(bridgeS) * 2f - 1f, 0.02f, 1.9f), MatWater, rot: facing);
-        Prim(PrimitiveType.Cube, "Deck", bridge, SpinePoint(bridgeS) + Vector3.up * 0.16f,
-             new Vector3(ribbon * 2f + 0.4f, 0.16f, 3.0f), MatWood, collider: true, rot: facing);
-        for (int side = -1; side <= 1; side += 2)
+
+        if (Rectangular)
         {
-            Vector3 railBase = At(bridgeS, (ribbon + 0.15f) * side);
-            Prim(PrimitiveType.Cube, $"Rail_{side}", bridge, railBase + Vector3.up * 0.8f,
-                 new Vector3(0.1f, 0.1f, 3.0f), MatWood, rot: facing);
-            Prim(PrimitiveType.Cube, $"RailPost_A{side}", bridge,
-                 At(bridgeS + 1.3f, (ribbon + 0.15f) * side) + Vector3.up * 0.45f,
-                 new Vector3(0.14f, 0.9f, 0.14f), MatWood, rot: facing);
-            Prim(PrimitiveType.Cube, $"RailPost_B{side}", bridge,
-                 At(bridgeS - 1.3f, (ribbon + 0.15f) * side) + Vector3.up * 0.45f,
-                 new Vector3(0.14f, 0.9f, 0.14f), MatWood, rot: facing);
+            BuildCraftBridge(bridge, SpinePoint(bridgeS), facing, ribbon * 2f + 0.4f, 3.0f);
+        }
+        else
+        {
+            Prim(PrimitiveType.Cube, "Deck", bridge, SpinePoint(bridgeS) + Vector3.up * 0.16f,
+                 new Vector3(ribbon * 2f + 0.4f, 0.16f, 3.0f), MatWood, collider: true, rot: facing);
+            for (int side = -1; side <= 1; side += 2)
+            {
+                Vector3 railBase = At(bridgeS, (ribbon + 0.15f) * side);
+                Prim(PrimitiveType.Cube, $"Rail_{side}", bridge, railBase + Vector3.up * 0.8f,
+                     new Vector3(0.1f, 0.1f, 3.0f), MatWood, rot: facing);
+                Prim(PrimitiveType.Cube, $"RailPost_A{side}", bridge,
+                     At(bridgeS + 1.3f, (ribbon + 0.15f) * side) + Vector3.up * 0.45f,
+                     new Vector3(0.14f, 0.9f, 0.14f), MatWood, rot: facing);
+                Prim(PrimitiveType.Cube, $"RailPost_B{side}", bridge,
+                     At(bridgeS - 1.3f, (ribbon + 0.15f) * side) + Vector3.up * 0.45f,
+                     new Vector3(0.14f, 0.9f, 0.14f), MatWood, rot: facing);
+            }
         }
 
         // 넓은 구역이 비어 보이지 않게 채운다
-        MakeFlowerBed(parent, "FlowerBed_A", At(InArea("GreenhousePond", 0.12f), 4.2f), 2.2f, 10, rng);
-        MakeFlowerBed(parent, "FlowerBed_B", At(InArea("GreenhousePond", 0.42f), -2.9f), 1.8f, 8, rng);
-        MakeFlowerBed(parent, "FlowerBed_C", At(InArea("GreenhousePond", 0.7f), -4.4f), 2.0f, 9, rng);
+        // GreenhousePond 한정: 실제 꽃 에셋(20_daisy_cluster/21_flower_large) 2종 테스트 배치.
+        // 다른 구역 화단은 그대로 프리미티브 MakeFlowerBed 를 쓴다.
+        if (Rectangular)
+        {
+            BuildCraftFlowerBedTest(parent, "FlowerBed_A", At(InArea("GreenhousePond", 0.12f), 4.2f), 2.2f, 10, rng);
+            BuildCraftFlowerBedTest(parent, "FlowerBed_B", At(InArea("GreenhousePond", 0.42f), -2.9f), 1.8f, 8, rng);
+            BuildCraftFlowerBedTest(parent, "FlowerBed_C", At(InArea("GreenhousePond", 0.7f), -4.4f), 2.0f, 9, rng);
+        }
+        else
+        {
+            MakeFlowerBed(parent, "FlowerBed_A", At(InArea("GreenhousePond", 0.12f), 4.2f), 2.2f, 10, rng);
+            MakeFlowerBed(parent, "FlowerBed_B", At(InArea("GreenhousePond", 0.42f), -2.9f), 1.8f, 8, rng);
+            MakeFlowerBed(parent, "FlowerBed_C", At(InArea("GreenhousePond", 0.7f), -4.4f), 2.0f, 9, rng);
+        }
         MakeTree(parent, "Tree_A", At(InArea("GreenhousePond", 0.2f), 7.0f), 4.4f, 1.5f, MatLeaf, rng);
         MakeTree(parent, "Tree_B", At(InArea("GreenhousePond", 0.72f), 7.4f), 4.2f, 1.45f, MatLeafAlt, rng);
         MakeTree(parent, "Tree_C", At(InArea("GreenhousePond", 0.95f), -6.6f), 4.6f, 1.55f, MatLeaf, rng);
-        MakeLamp(parent, "Lamp_A", At(InArea("GreenhousePond", 0.45f), 2.8f));
-        MakeLamp(parent, "Lamp_B", At(InArea("GreenhousePond", 0.95f), 3.0f));
+        // GreenhousePond 한정: 실제 가로등 에셋(25_lamp_post)으로 교체. 다른 구역의 MakeLamp 는
+        // 그대로 프리미티브를 쓴다.
+        if (Rectangular)
+        {
+            BuildCraftLamp(parent, "Lamp_A", At(InArea("GreenhousePond", 0.45f), 2.8f));
+            BuildCraftLamp(parent, "Lamp_B", At(InArea("GreenhousePond", 0.95f), 3.0f));
+        }
+        else
+        {
+            MakeLamp(parent, "Lamp_A", At(InArea("GreenhousePond", 0.45f), 2.8f));
+            MakeLamp(parent, "Lamp_B", At(InArea("GreenhousePond", 0.95f), 3.0f));
+        }
     }
 
     private static void BuildGreenhouse(Transform parent, Vector3 origin, Quaternion rot)
@@ -345,7 +402,10 @@ public static partial class BrightDreamBlockoutBuilder
         // 두면 계단과 겹친다. 트리하우스가 시작되기 전(구간 맨 앞) 빈 자리로 옮긴다.
         float flowerLamp_t = Rectangular ? 0.02f : 0.2f;
         float lamp_t = Rectangular ? 0.05f : 0.12f;
-        MakeFlowerBed(parent, "FlowerBed_A", At(InArea("WeaponLink", flowerLamp_t), 2.6f), 1.5f, 6, rng);
+        if (Rectangular)
+            BuildCraftFlowerBedTest(parent, "FlowerBed_A", At(InArea("WeaponLink", flowerLamp_t), 2.6f), 1.5f, 6, rng, fillUsesFlowerThree: true);
+        else
+            MakeFlowerBed(parent, "FlowerBed_A", At(InArea("WeaponLink", flowerLamp_t), 2.6f), 1.5f, 6, rng);
         MakeLamp(parent, "Lamp_A", At(InArea("WeaponLink", lamp_t), 2.4f));
     }
 
@@ -545,7 +605,10 @@ public static partial class BrightDreamBlockoutBuilder
         KeepClear.Add(new Vector4(spawn.x, spawn.y, spawn.z, 2.0f));
 
         MakeCrate(parent, "Crate_A", At(InArea("TutorialNook", 0.75f), -3.4f), 0.9f, 22f);
-        MakeFlowerBed(parent, "FlowerBed_A", At(InArea("TutorialNook", 0.2f), -3.6f), 1.5f, 6, rng);
+        if (Rectangular)
+            BuildCraftFlowerBedTest(parent, "FlowerBed_A", At(InArea("TutorialNook", 0.2f), -3.6f), 1.5f, 6, rng, fillUsesFlowerThree: true);
+        else
+            MakeFlowerBed(parent, "FlowerBed_A", At(InArea("TutorialNook", 0.2f), -3.6f), 1.5f, 6, rng);
         MakeTree(parent, "Tree_A", At(InArea("TutorialNook", 0.9f), 4.6f), 4.0f, 1.4f, MatLeafAlt, rng);
     }
 
@@ -659,17 +722,28 @@ public static partial class BrightDreamBlockoutBuilder
         Quaternion facing = Facing(archS);
         float archHalf = RibbonHalfWidth(archS) + 0.6f;
 
-        Prim(PrimitiveType.Cube, "Post_L", arch, At(archS, -archHalf) + Vector3.up * 1.4f,
-             new Vector3(0.2f, 2.8f, 0.2f), MatFence, collider: true, rot: facing);
-        Prim(PrimitiveType.Cube, "Post_R", arch, At(archS, archHalf) + Vector3.up * 1.4f,
-             new Vector3(0.2f, 2.8f, 0.2f), MatFence, collider: true, rot: facing);
-        for (int i = 0; i <= 8; i++)
+        if (Rectangular && IsManuallyOwned("GardenArch_Craft"))
         {
-            float t = i / 8f;
-            Vector3 point = At(archS, Mathf.Lerp(-archHalf, archHalf, t))
-                            + Vector3.up * (2.8f + Mathf.Sin(t * Mathf.PI) * 0.55f);
-            Prim(PrimitiveType.Sphere, $"ArchFlower_{i}", arch, point, Vector3.one * 0.42f,
-                 i % 3 == 0 ? MatPink : i % 3 == 1 ? MatWhiteFlower : MatPurple);
+            // 사용자가 __MANUAL_LAYOUT 에 이미 올려 둔 것을 쓴다 - 아무것도 새로 만들지 않는다.
+        }
+        else if (Rectangular)
+        {
+            BuildCraftGardenArch(arch, At(archS, 0f), facing, archHalf * 2f);
+        }
+        else
+        {
+            Prim(PrimitiveType.Cube, "Post_L", arch, At(archS, -archHalf) + Vector3.up * 1.4f,
+                 new Vector3(0.2f, 2.8f, 0.2f), MatFence, collider: true, rot: facing);
+            Prim(PrimitiveType.Cube, "Post_R", arch, At(archS, archHalf) + Vector3.up * 1.4f,
+                 new Vector3(0.2f, 2.8f, 0.2f), MatFence, collider: true, rot: facing);
+            for (int i = 0; i <= 8; i++)
+            {
+                float t = i / 8f;
+                Vector3 point = At(archS, Mathf.Lerp(-archHalf, archHalf, t))
+                                + Vector3.up * (2.8f + Mathf.Sin(t * Mathf.PI) * 0.55f);
+                Prim(PrimitiveType.Sphere, $"ArchFlower_{i}", arch, point, Vector3.one * 0.42f,
+                     i % 3 == 0 ? MatPink : i % 3 == 1 ? MatWhiteFlower : MatPurple);
+            }
         }
 
         BuildPlazaGateMobile(Child(parent, "PlazaGateMobile"), rng);
@@ -1202,6 +1276,7 @@ public static partial class BrightDreamBlockoutBuilder
 
             float ribbon = RibbonHalfWidth(s);
             int side = (index / 2) % 2 == 0 ? -1 : 1;   // 좌우 번갈아 - 반대쪽은 늘 비어 있다
+            bool inGreenhousePond = Rectangular && AreaNameAt(s) == "GreenhousePond";
 
             Vector3 spot = At(s, (ribbon + Lerp(0.35f, 0.85f, (float)rng.NextDouble())) * side);
             if (IsKeptClear(spot) || IsNoTreeZone(spot)) continue;
@@ -1222,6 +1297,27 @@ public static partial class BrightDreamBlockoutBuilder
                 Vector3 petalSpot = spot + SpineRight(s) * side * Mathf.Cos(angle) * radius
                                          + SpineForward(s) * Mathf.Sin(angle) * radius;
                 if (IsKeptClear(petalSpot)) continue;
+
+                if (inGreenhousePond)
+                {
+                    // GreenhousePond 구간: 실제 꽃 에셋 2종으로 - 무리의 첫 송이만 포인트(Accent),
+                    // 나머지는 Base Fill. 길가 군락이라 Accent 는 화단용보다 더 작게 잡는다.
+                    //
+                    // 중요: rng 는 이 함수 전체(모든 구역)가 공유하는 단일 순차 스트림이다.
+                    // 프리미티브 경로가 여기서 뽑았을 3개 값(mat 선택 1 + NextDouble 2)을 그대로
+                    // 뽑아서 버려야 이후 구역(WeaponLink/TutorialNook/CombatArena 등)의 추첨이
+                    // 밀리지 않는다. 실제 꽃 파라미터는 위치로 시드한 별도의 독립 rng 로 뽑는다.
+                    rng.Next(4);
+                    rng.NextDouble();
+                    rng.NextDouble();
+                    var craftRng = new System.Random(unchecked(index * 977 + side * 31 + k * 7 + 12345));
+                    if (k == 0)
+                        BuildCraftFlowerLarge(container, $"Flower_{index:D3}_{side}_{k}", petalSpot, craftRng,
+                                              heightMin: 0.35f, heightMax: 0.5f);
+                    else
+                        BuildCraftFlowerDaisy(container, $"Flower_{index:D3}_{side}_{k}", petalSpot, craftRng);
+                    continue;
+                }
 
                 Material mat = rng.Next(4) switch
                 {
@@ -1279,40 +1375,45 @@ public static partial class BrightDreamBlockoutBuilder
         };
         const float landmarkGap = 3.0f;
 
-        // 공중 장식은 구간마다 밀도를 다르게 둔다.
-        // 시작 정원에서는 하늘을 거의 비워 두고, 유니콘에 가까워질수록 촘촘해진다.
-        // 처음부터 하늘이 꽉 차 있으면 마지막 구간이 특별해 보이지 않는다.
-        // 간격도 3m 고정이 아니라 3~6m 사이로 흔들어서 격자처럼 규칙적으로 안 보이게 한다.
-        int cloudIndex = 0;
-        for (float s = 3.5f; s < SpineTotalLength - 3f; s += Lerp(3f, 6f, (float)rng.NextDouble()))
+        // 구름 배치 전략은 두 버전이 다르다.
+        //   - 자유형: 길(Spine)을 따라 좌우로만 흩뿌린다 (기존 그대로, 변경 없음).
+        //   - Rect: 길 주변에만 몰리면 Wide/Top View 에서 "길을 따라 구름 띠"로 보인다.
+        //     맵 상자 전체(X/Z) 기준으로 고르게 흩뿌려 "천장 전체에 매단 전시 세트"로 만든다.
+        if (!Rectangular)
         {
-            float progress = Mathf.Clamp01(s / WalkLength);
-            float chance = progress < 0.32f ? 0.62f
-                         : progress < 0.78f ? 0.80f
-                         : 0.95f;
+            int cloudIndex = 0;
+            for (float s = 3.5f; s < SpineTotalLength - 3f; s += Lerp(3f, 6f, (float)rng.NextDouble()))
+            {
+                float progress = Mathf.Clamp01(s / WalkLength);
+                float chance = progress < 0.32f ? 0.62f
+                             : progress < 0.78f ? 0.80f
+                             : 0.95f;
 
-            float nearestLandmarkDist = float.MaxValue;
-            foreach (var ls in landmarkS) nearestLandmarkDist = Mathf.Min(nearestLandmarkDist, Mathf.Abs(s - ls));
-            if (nearestLandmarkDist < landmarkGap) chance *= 0.5f;
+                float nearestLandmarkDist = float.MaxValue;
+                foreach (var ls in landmarkS) nearestLandmarkDist = Mathf.Min(nearestLandmarkDist, Mathf.Abs(s - ls));
+                if (nearestLandmarkDist < landmarkGap) chance *= 0.5f;
 
-            if (rng.NextDouble() > chance) continue;
+                if (rng.NextDouble() > chance) continue;
 
-            float half = CorridorHalfWidth(s);
-            // 가운데로 쏠리지 않게 코리도 폭의 85%까지 넓게 흩뿌린다
-            float lateral = Lerp(-half * 0.85f, half * 0.85f, (float)rng.NextDouble());
+                float half = CorridorHalfWidth(s);
+                // 가운데로 쏠리지 않게 코리도 폭의 85%까지 넓게 흩뿌린다
+                float lateral = Lerp(-half * 0.85f, half * 0.85f, (float)rng.NextDouble());
 
-            int roll = rng.Next(100);
-            float y = roll < 40 ? Lerp(lowMin, lowMax, (float)rng.NextDouble())
-                    : roll < 70 ? Lerp(midMin, midMax, (float)rng.NextDouble())
-                    : Lerp(highMin, highMax, (float)rng.NextDouble());
+                int roll = rng.Next(100);
+                float y = roll < 40 ? Lerp(lowMin, lowMax, (float)rng.NextDouble())
+                        : roll < 70 ? Lerp(midMin, midMax, (float)rng.NextDouble())
+                        : Lerp(highMin, highMax, (float)rng.NextDouble());
 
-            // 뭉치(퍼프)는 중심에서 반지름만큼 아래로도 튀어나온다 - Rect 버전은 층 사이
-            // 여유가 빠듯하니 구름을 자유형보다 살짝 작게 잡아 트리하우스/천장에 안 닿게 한다.
-            float cloudSize = Rectangular ? Lerp(1.4f, 2.0f, (float)rng.NextDouble())
-                                           : Lerp(1.6f, 2.8f, (float)rng.NextDouble());
+                // 뭉치(퍼프)는 중심에서 반지름만큼 아래로도 튀어나온다.
+                float cloudSize = Lerp(1.6f, 2.8f, (float)rng.NextDouble());
 
-            MakeHangingCloud(decorations, $"Cloud_{cloudIndex:D2}", At(s, lateral) + Vector3.up * y, cloudSize, rng);
-            cloudIndex++;
+                MakeHangingCloud(decorations, $"Cloud_{cloudIndex:D2}", At(s, lateral) + Vector3.up * y, cloudSize, rng, Facing(s));
+                cloudIndex++;
+            }
+        }
+        else
+        {
+            BuildRectCeilingCloudField(decorations, rng, lowMin, lowMax, midMin, midMax, highMin, highMax);
         }
 
         // 종이별은 유니콘 접근로에 와서야 눈에 띄게 늘어난다
@@ -1348,23 +1449,228 @@ public static partial class BrightDreamBlockoutBuilder
                  new Vector3(0.9f, 0.28f, 0.06f), MatSun, rot: Quaternion.Euler(0f, 0f, i * 45f));
         }
         MakeString(sun, "SunString", sunPos);
+
+        if (Rectangular)
+        {
+            // 팀원 공예 태양(36_sun)으로 교체한다. 위치/의도(랜드마크 자리)는 그대로 두고
+            // 비주얼만 바꾼다 - 예전 원반+광선 프리미티브는 꺼서 비교용으로 남긴다.
+            sun.gameObject.SetActive(false);
+            sun.name = "Sun_Placeholder (비활성 - 비교용)";
+            BuildCraftSun(decorations, "Sun_Craft", sunPos);
+        }
     }
 
-    private static void MakeHangingCloud(Transform parent, string name, Vector3 center, float size, System.Random rng)
+    /// <summary>
+    /// Rect 맵 전용 - 구름을 길(Spine) 기준이 아니라 상자 바닥 전체(X/Z) 기준으로 흩뿌린다.
+    /// 성긴 격자를 세는 단위로만 쓰고, 실제 위치는 칸 폭보다 큰 지터로 흔들어 격자 티가
+    /// 나지 않게 한다. 칸마다 0~2개를 무작위로 배정해 빈 공간과 군집이 자연스럽게 섞인다.
+    /// </summary>
+    private static void BuildRectCeilingCloudField(Transform decorations, System.Random rng,
+        float lowMin, float lowMax, float midMin, float midMax, float highMin, float highMax)
+    {
+        var rect = RectFootprint();
+        const float margin = 2.0f;
+        float minX = rect.min.x + margin, maxX = rect.max.x - margin;
+        float minZ = rect.min.z + margin, maxZ = rect.max.z - margin;
+        float width = maxX - minX, depth = maxZ - minZ;
+
+        // 보호 구역 - 바로 위에 큰/많은 구름이 몰리면 안 되는 랜드마크의 중심과 반경.
+        Vector3 treehousePos = At(InArea("WeaponLink", 0.30f), 0f);
+        Vector3 combatPos = At(InArea("CombatArena", 0.5f), 0f);
+        Vector3 unicornPos = At(InArea("UnicornPlaza", 0.35f), 0f);
+        var protectedZones = new[]
+        {
+            (center: new Vector2(GreenhouseCenter.x, GreenhouseCenter.z), radius: 8f),
+            (center: new Vector2(treehousePos.x, treehousePos.z),         radius: 8f),
+            (center: new Vector2(combatPos.x, combatPos.z),               radius: 9f),
+            (center: new Vector2(unicornPos.x, unicornPos.z),             radius: 10f),
+        };
+
+        // 4 x 8 = 32칸 - 칸당 평균 1개 미만으로 잡아 목표(28~32개)에 맞춘다. 칸 자체는
+        // 안 보인다 - 아래에서 칸 폭의 1.6배까지 지터를 줘서 이웃 칸을 넘나든다.
+        int cols = 4, rows = 8;
+        float cellW = width / cols, cellD = depth / rows;
+
+        int cloudIndex = 0;
+        for (int cx = 0; cx < cols; cx++)
+        {
+            for (int cz = 0; cz < rows; cz++)
+            {
+                int cellRoll = rng.Next(100);
+                int countHere = cellRoll < 5 ? 0 : cellRoll < 78 ? 1 : 2; // 빈 칸도, 드물게 2개인 칸도 둔다
+
+                for (int k = 0; k < countHere; k++)
+                {
+                    float cellMinX = minX + cx * cellW;
+                    float cellMinZ = minZ + cz * cellD;
+                    float wx = Mathf.Clamp(cellMinX + Lerp(-cellW * 0.6f, cellW * 1.6f, (float)rng.NextDouble()), minX, maxX);
+                    float wz = Mathf.Clamp(cellMinZ + Lerp(-cellD * 0.6f, cellD * 1.6f, (float)rng.NextDouble()), minZ, maxZ);
+
+                    var pos2 = new Vector2(wx, wz);
+                    bool protectedSpot = false;
+                    foreach (var zone in protectedZones)
+                        if (Vector2.Distance(pos2, zone.center) < zone.radius) { protectedSpot = true; break; }
+
+                    // 보호 구역은 완전히 막지 않고 절반 정도만 통과시킨다 - 아예 비면 구멍처럼 보인다.
+                    if (protectedSpot && rng.NextDouble() > 0.45) continue;
+
+                    int roll = rng.Next(100);
+                    bool midTier = roll >= 40 && roll < 70;
+                    float y = roll < 40 ? Lerp(lowMin, lowMax, (float)rng.NextDouble())
+                            : midTier ? Lerp(midMin, midMax, (float)rng.NextDouble())
+                            : Lerp(highMin, highMax, (float)rng.NextDouble());
+
+                    // Small / Medium / Large 3단 - Large 는 소수만, 트리하우스/천장에 너무
+                    // 바짝 붙지 않도록 가운데(mid) 층에서만 뽑는다 (기존 크기 범위 그대로).
+                    int sizeRoll = rng.Next(100);
+                    float cloudSize = midTier
+                        ? (sizeRoll < 45 ? Lerp(1.6f, 2.0f, (float)rng.NextDouble())    // Small 45%
+                         : sizeRoll < 80 ? Lerp(2.0f, 2.45f, (float)rng.NextDouble())   // Medium 35%
+                         : Lerp(2.5f, 2.9f, (float)rng.NextDouble()))                  // Large 20%
+                        : (sizeRoll < 45 ? Lerp(1.6f, 2.0f, (float)rng.NextDouble())    // Small 45%
+                         : Lerp(2.0f, 2.45f, (float)rng.NextDouble()));                // Medium 55%, Large 없음
+
+                    // 보호 구역 위는 크기도 함께 줄인다 - 큰 구름 한두 개만 떠 있어도
+                    // 온실/트리하우스/전투장/유니콘 광장이 가려 보인다.
+                    if (protectedSpot) cloudSize *= 0.6f;
+
+                    // 길 기준 방향이 없는 배경 자리라, 진행 방향 대신 완전 무작위 요(yaw)를 쓴다.
+                    float yaw = (float)rng.NextDouble() * 360f;
+                    Vector3 center = new Vector3(wx, y, wz);
+                    MakeHangingCloud(decorations, $"Cloud_{cloudIndex:D2}", center, cloudSize, rng, Quaternion.Euler(0f, yaw, 0f));
+                    cloudIndex++;
+                }
+            }
+        }
+    }
+
+    // ==========================================================
+    // 천장 종이 구름 (2.5D cutout)
+    //
+    // "전시 세트에 실로 매단 종이 구름" - 두꺼운 솜뭉치 구 대신, 아주 얇게 눌린 구(파이 조각들)
+    // 여러 장을 실루엣 모양대로 겹쳐 깐다.
+    //
+    // 눕혀서(바닥과 나란히) 만들면 넓은 면이 아래(플레이어)를 향해 버려 "구름이 아래를
+    // 내려다보는" 것처럼 보인다 - 실제 매다는 종이 오브제처럼 판을 세워서, 넓은 면이
+    // 옆(플레이어가 걸어오는/지나가는 방향)을 향하고 얇은 단면만 위/아래로 보이게 한다.
+    // 그래서 각 원소는 (좌우 du, 상하 dv, 반지름 비율) - dv 는 실제 월드 상하(y)이고,
+    // 두께(thin) 축은 진행 방향(Facing)에 맞춘 수평 축이다.
+    // ==========================================================
+    private static readonly Vector3[][] CloudSilhouettes =
+    {
+        // Round - 둥글고 뭉실한 실루엣
+        new[] { new Vector3(0f, 0f, 0.34f), new Vector3(-0.28f, 0.05f, 0.24f), new Vector3(0.30f, -0.08f, 0.22f) },
+        // Stretched - 길게 늘어진 실루엣
+        new[]
+        {
+            new Vector3(-0.50f, 0f, 0.20f), new Vector3(-0.22f, 0.06f, 0.27f), new Vector3(0.05f, -0.04f, 0.30f),
+            new Vector3(0.30f, 0.05f, 0.25f), new Vector3(0.52f, -0.03f, 0.18f),
+        },
+        // TwinLobe - 땅콩(쌍봉) 실루엣
+        new[] { new Vector3(-0.26f, 0f, 0.30f), new Vector3(0.26f, 0.03f, 0.30f), new Vector3(0f, 0f, 0.20f) },
+        // Wisp - 비대칭 실루엣
+        new[]
+        {
+            new Vector3(0f, 0f, 0.32f), new Vector3(0.30f, 0.10f, 0.16f), new Vector3(-0.28f, -0.12f, 0.18f),
+            new Vector3(0.12f, -0.28f, 0.14f), new Vector3(-0.15f, 0.25f, 0.15f),
+        },
+    };
+
+    private static void MakeHangingCloud(Transform parent, string name, Vector3 center, float size, System.Random rng, Quaternion faceBase)
     {
         var cloud = Child(parent, name);
-        int puffs = 4 + rng.Next(2);
-        for (int i = 0; i < puffs; i++)
+
+        // 널판을 기준 방향(faceBase - 길 주변은 진행 방향, 배경 지역은 무작위 방향)에 맞춰
+        // 세운다. 그 위에 약간의 요(yaw) 편차만 더해 전부 같은 각도로 줄지어 있지 않게 한다.
+        Quaternion baseRot = faceBase * Quaternion.Euler(0f, Lerp(-35f, 35f, (float)rng.NextDouble()), 0f);
+        MakePaperCutoutCloud(cloud, "Main", center, size, rng, baseRot);
+
+        // 일부만 20~50cm 깊이차를 준 동반 조각을 앞/뒤로 띄워 층이 있는 느낌을 준다 -
+        // 전부 같은 깊이면 오히려 격자처럼 단조로워 보인다.
+        if (rng.NextDouble() < 0.4)
         {
-            float t = puffs == 1 ? 0.5f : i / (float)(puffs - 1);
-            float bulge = Mathf.Sin(t * Mathf.PI) * 0.45f + 0.55f;
-            Vector3 offset = new Vector3(Lerp(-size * 0.5f, size * 0.5f, t),
-                                         (float)rng.NextDouble() * 0.15f,
-                                         (float)rng.NextDouble() * 0.4f - 0.2f);
-            Prim(PrimitiveType.Sphere, $"Puff_{i}", cloud, center + offset,
-                 Vector3.one * size * bulge * 0.62f, MatCloud);
+            float depthShift = Lerp(0.20f, 0.50f, (float)rng.NextDouble()) * (rng.Next(2) == 0 ? 1f : -1f);
+            Vector3 fwd = baseRot * Vector3.forward;
+            Vector3 side = baseRot * Vector3.right;
+            Vector3 companionCenter = center + fwd * depthShift
+                + side * Lerp(-0.8f, 0.8f, (float)rng.NextDouble())
+                + Vector3.up * Lerp(-0.4f, 0.4f, (float)rng.NextDouble());
+            companionCenter.y = Mathf.Min(companionCenter.y, CeilingY - 0.5f);
+            float companionSize = size * Lerp(0.55f, 0.8f, (float)rng.NextDouble());
+            Quaternion companionRot = baseRot * Quaternion.Euler(0f, Lerp(-20f, 20f, (float)rng.NextDouble()), 0f);
+            MakePaperCutoutCloud(cloud, "Companion", companionCenter, companionSize, rng, companionRot);
         }
-        MakeString(cloud, "String", center + Vector3.up * size * 0.2f);
+
+        if (Rectangular)
+        {
+            // 팀원 공예 구름(35_cloud)으로 교체한다. 위치/크기 계산(칸 배치, 층, 지터)은
+            // 위에서 이미 끝난 뒤라 여기서는 rng 를 더 소비하지 않는다 - 이후 배치(별/램프 등)의
+            // 난수 시퀀스가 밀리지 않게 하기 위함이다. 예전 페이퍼 컷아웃 뭉치는 지우지 않고
+            // 꺼서 언제든 비교할 수 있게 남긴다.
+            cloud.gameObject.SetActive(false);
+            cloud.name = name + "_Placeholder (비활성 - 비교용)";
+            BuildCraftCloud(parent, name + "_Craft", center, size, baseRot);
+        }
+    }
+
+    private static void MakePaperCutoutCloud(Transform parent, string name, Vector3 center, float size, System.Random rng, Quaternion rot)
+    {
+        var cutout = Child(parent, name);
+
+        var template = CloudSilhouettes[rng.Next(CloudSilhouettes.Length)];
+        float thickness = Lerp(0.02f, 0.05f, (float)rng.NextDouble());
+        var tone = MatCloudTones[rng.Next(MatCloudTones.Length)];
+
+        Vector3 right = rot * Vector3.right;
+        Vector3 fwd = rot * Vector3.forward;
+
+        // 실 끝을 미리 계산한 추정치가 아니라, 실제로 만들어진 퍼프 렌더러의 world bounds
+        // 최상단에 맞춘다 - 위치/반지름에 각자 다른 난수 지터가 들어가기 때문에, 템플릿
+        // 수치로 미리 어림잡으면(예전 방식) 꼭 맞는 경우보다 뜨는 경우가 더 많았다.
+        //
+        // Y 값만이 아니라 그 최고점을 만든 퍼프의 (x, z) 도 함께 기억한다 - 실은 구름
+        // 중심(center) 이 아니라 "가장 높은 퍼프 바로 위"에서 내려와야 한다. Wisp 처럼
+        // 퍼프가 중심에서 옆으로 많이 벗어나는 실루엣은, 중심 기준으로 내리면 실이 정작
+        // 제일 높은 퍼프를 비껴가 허공에서 끝나 보인다.
+        Vector3 topPoint = new Vector3(center.x, float.MinValue, center.z);
+
+        for (int i = 0; i < template.Length; i++)
+        {
+            var lobe = template[i]; // (du, dv, 반지름 비율)
+            float jitter = Lerp(0.92f, 1.08f, (float)rng.NextDouble());
+            float du = lobe.x * size * jitter;
+            float dv = lobe.y * size * jitter;
+            float radius = lobe.z * size * Lerp(0.9f, 1.1f, (float)rng.NextDouble());
+            float depthJitter = ((float)rng.NextDouble() - 0.5f) * thickness * 1.6f;
+
+            Vector3 pos = center + right * du + Vector3.up * dv + fwd * depthJitter;
+
+            var puff = Prim(PrimitiveType.Sphere, $"Puff_{i}", cutout, pos,
+                 new Vector3(radius * 2f, radius * 2f, thickness), tone, rot: rot);
+
+            var b = puff.GetComponent<MeshRenderer>().bounds;
+            if (b.max.y > topPoint.y) topPoint = new Vector3(b.center.x, b.max.y, b.center.z);
+        }
+
+        // 실 끝을 실측 최상단보다 아주 살짝(0.02m) 안쪽까지 넣어, 틈도 안 뜨고 몸통을
+        // 과하게 뚫고 들어가지도 않게 한다.
+        const float threadInset = 0.02f;
+        MakeCloudThread(cutout, "Thread", topPoint + Vector3.down * threadInset);
+    }
+
+    /// <summary>천장에서 구름까지 이어지는 얇은 실 - 매다는 지점이 잘 보이도록 작은 매듭을 둔다.</summary>
+    private static void MakeCloudThread(Transform parent, string name, Vector3 from)
+    {
+        float height = CeilingY - from.y;
+        if (height <= 0.05f) return;
+
+        Prim(PrimitiveType.Cylinder, name, parent,
+             new Vector3(from.x, from.y + height * 0.5f, from.z),
+             new Vector3(0.015f, height * 0.5f, 0.015f), MatCloudString);
+
+        Prim(PrimitiveType.Sphere, name + "_Anchor", parent,
+             new Vector3(from.x, CeilingY - 0.03f, from.z),
+             Vector3.one * 0.08f, MatCloudString);
     }
 
     private static void MakePaperStar(Transform parent, string name, Vector3 center, float size)
@@ -1377,6 +1683,15 @@ public static partial class BrightDreamBlockoutBuilder
         Prim(PrimitiveType.Cube, "BladeD", star, center, new Vector3(size * 0.4f, size * 1.5f, 0.05f), MatStar,
              rot: Quaternion.Euler(0f, 0f, 45f));
         MakeString(star, "String", center);
+
+        if (Rectangular)
+        {
+            // 팀원 공예 별(37_star)로 교체한다. 위치/높이/실 연결은 그대로 두고 비주얼만
+            // 바꾼다 - 예전 십자 날 프리미티브는 꺼서 비교용으로 남긴다.
+            star.gameObject.SetActive(false);
+            star.name = name + "_Placeholder (비활성 - 비교용)";
+            BuildCraftStar(parent, name + "_Craft", center, size);
+        }
     }
 
     private static void MakeString(Transform parent, string name, Vector3 from)
@@ -1409,6 +1724,54 @@ public static partial class BrightDreamBlockoutBuilder
         Prim(PrimitiveType.Sphere, "Canopy_C", tree,
              basePos + new Vector3((float)rng.NextDouble() * 0.9f - 0.45f, height * 1.02f, (float)rng.NextDouble() * 0.7f - 0.35f),
              Vector3.one * canopyRadius * 1.15f, leafMat);
+
+        if (Rectangular)
+        {
+            // Rect 는 Primitive 나무를 그대로 보여주지 않는다 - 지우지는 않고 꺼서
+            // 언제든 다시 비교할 수 있게 남긴다. 최종 23그루 화이트리스트에 든 것만 공예 나무로 교체한다.
+            // BackTree_XX_Volume(시야 차단 콜라이더)은 이 함수와 별개로 생성되므로 여기서 손대지 않는다.
+            tree.gameObject.SetActive(false);
+            tree.name = name + "_Placeholder (비활성 - 비교용)";
+            string craftAsset = TreeCraftAsset(parent, name);
+            if (craftAsset != null)
+            {
+                BuildCraftTree(parent, name, basePos, height, craftAsset);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 최종 23그루 화이트리스트.
+    ///   START 3(대형) / Main Path 7(중형5+침엽수2) / Greenhouse·Pond 5(대형2+중형3, 기존 유지) /
+    ///   CombatArena 외곽 4(대형2+침엽수2, 프레이밍만) / Background 4(중형2+침엽수2).
+    /// UnicornApproach 는 설계상 경계나무가 없어 추가하지 않는다.
+    /// (parent, name) 조합은 고정 시드(new System.Random(808) 등)로 매 빌드 동일하게 재현된다.
+    /// </summary>
+    private static string TreeCraftAsset(Transform parent, string name)
+    {
+        string pn = parent.name;
+        // START
+        if (pn == "StartGarden" && name == "Tree_C") return "tree4";     // 4번째 종 분배 1/5
+        if (pn == "StartGarden" && (name == "Tree_A" || name == "Tree_B")) return "large";
+        // Greenhouse / Pond - 기존 5그루 유지, 추가 없음 (GreenhousePond 비주얼은 더 수정하지 않는다)
+        if (pn == "GreenhousePond" && (name == "Tree_A" || name == "Tree_B")) return "large";
+        if (pn == "Boundary_Right" && name == "Tree_09") return "tree4";  // 4번째 종 분배 2/5
+        if (pn == "Boundary_Right" && (name == "Tree_08" || name == "Tree_11")) return "medium";
+        // Main Path - 기존 중형 5 + 침엽수 2 추가
+        if (pn == "ClueWalk" && (name == "PhotoTree" || name == "Tree_A")) return "medium";
+        if (pn == "Boundary_Left" && name == "Tree_15") return "tree4";   // 4번째 종 분배 3/5
+        if (pn == "Boundary_Left" && (name == "Tree_07" || name == "Tree_16")) return "medium";
+        if (pn == "Boundary_Right" && name == "Tree_14") return "conifer";
+        if (pn == "Boundary_Left" && name == "Tree_17") return "conifer";
+        // CombatArena 외곽 - 4모서리 프레이밍만
+        if (pn == "CombatArena" && name == "Tree_R0") return "tree4";    // 4번째 종 분배 4/5
+        if (pn == "CombatArena" && name == "Tree_L0") return "large";
+        if (pn == "CombatArena" && (name == "Tree_L1" || name == "Tree_R1")) return "conifer";
+        // Background - 18그루 중 시야에 가장 잘 들어오는 4그루만
+        if (pn == "BackdropGroves" && name == "BackTree_03") return "tree4";  // 4번째 종 분배 5/5
+        if (pn == "BackdropGroves" && name == "BackTree_02") return "medium";
+        if (pn == "BackdropGroves" && (name == "BackTree_18" || name == "BackTree_21")) return "conifer";
+        return null;
     }
 
     private static void MakeBush(Transform parent, string name, Vector3 pos, float radius, Material mat, float sHint = float.NaN)
@@ -1534,8 +1897,18 @@ public static partial class BrightDreamBlockoutBuilder
 
     private static void MakeCrate(Transform parent, string name, Vector3 pos, float size, float rotY)
     {
-        Prim(PrimitiveType.Cube, name, parent, pos + Vector3.up * size * 0.5f,
-             Vector3.one * size, MatWood, collider: true, rot: Quaternion.Euler(0f, rotY, 0f));
+        // GreenhousePond 이후로 이어진 "실제 에셋으로 교체" 작업의 연장 - 7곳(TutorialNook 1 +
+        // CombatArena 6) 전부 여기서 한 번에 분기한다. size 는 목표 높이로 그대로 전달해서
+        // CombatArena 엄폐물의 "눈높이보다 낮게" 라는 의도를 정확히 유지한다.
+        if (Rectangular)
+        {
+            BuildCraftCrate(parent, name, pos, size, rotY);
+        }
+        else
+        {
+            Prim(PrimitiveType.Cube, name, parent, pos + Vector3.up * size * 0.5f,
+                 Vector3.one * size, MatWood, collider: true, rot: Quaternion.Euler(0f, rotY, 0f));
+        }
     }
 
     private static void MakeStakeStar(Transform parent, string name, Vector3 pos, float height)
