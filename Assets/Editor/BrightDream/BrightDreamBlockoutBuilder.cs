@@ -1378,7 +1378,16 @@ public static partial class BrightDreamBlockoutBuilder
         RenderSettings.fog = false;
         RenderSettings.skybox = null;
 
-        var lightGO = new GameObject("Directional Light", typeof(Light));
+        // 재사용 빌드에서 매번 새로 만들면 씬 root 에 Directional Light 가 중복된다 -
+        // 이미 있으면 그것을 그대로 쓰고, 없을 때만 새로 만든다. 의도한 조명 값(색/세기/
+        // 그림자/각도)은 재사용이든 신규든 항상 이 함수가 그대로 적용한다.
+        GameObject lightGO = null;
+        foreach (var go in SceneManager.GetActiveScene().GetRootGameObjects())
+        {
+            if (go.name == "Directional Light" && go.GetComponent<Light>() != null) { lightGO = go; break; }
+        }
+        if (lightGO == null) lightGO = new GameObject("Directional Light", typeof(Light));
+
         var light = lightGO.GetComponent<Light>();
         light.type = LightType.Directional;
         light.color = new Color(1.00f, 0.96f, 0.88f);

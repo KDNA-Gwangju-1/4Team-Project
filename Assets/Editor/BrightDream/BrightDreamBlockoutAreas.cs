@@ -72,29 +72,36 @@ public static partial class BrightDreamBlockoutBuilder
 
         // 그네
         float swingS = InArea("ClueWalk", 0.3f);
-        var swing = Child(parent, "Swing");
         Vector3 swingBase = At(swingS, 2.7f);
         Quaternion swingRot = Facing(swingS);
-        Vector3 SR(Vector3 local) => swingBase + swingRot * local;
 
-        if (Rectangular)
+        if (Rectangular && IsManuallyOwned(parent, "Swing"))
         {
-            BuildCraftSwing(swing, swingBase, swingRot, 2.6f);
+            // 사용자가 __MANUAL_LAYOUT 에 이미 올려 둔 것을 쓴다 - wrapper 자체를 새로 만들지 않는다.
         }
         else
         {
-            Prim(PrimitiveType.Cube, "Post_L", swing, SR(new Vector3(-1.4f, 1.3f, 0f)),
-                 new Vector3(0.18f, 2.6f, 0.18f), MatWood, collider: true, rot: swingRot);
-            Prim(PrimitiveType.Cube, "Post_R", swing, SR(new Vector3(1.4f, 1.3f, 0f)),
-                 new Vector3(0.18f, 2.6f, 0.18f), MatWood, collider: true, rot: swingRot);
-            Prim(PrimitiveType.Cube, "TopBar", swing, SR(new Vector3(0f, 2.6f, 0f)),
-                 new Vector3(3.1f, 0.16f, 0.16f), MatWood, rot: swingRot);
-            Prim(PrimitiveType.Cylinder, "Rope_L", swing, SR(new Vector3(-0.45f, 1.85f, 0f)),
-                 new Vector3(0.04f, 0.72f, 0.04f), MatFence);
-            Prim(PrimitiveType.Cylinder, "Rope_R", swing, SR(new Vector3(0.45f, 1.85f, 0f)),
-                 new Vector3(0.04f, 0.72f, 0.04f), MatFence);
-            Prim(PrimitiveType.Cube, "Seat", swing, SR(new Vector3(0f, 1.1f, 0f)),
-                 new Vector3(1.1f, 0.1f, 0.4f), MatPink, rot: swingRot);
+            var swing = Child(parent, "Swing");
+            if (Rectangular)
+            {
+                BuildCraftSwing(swing, swingBase, swingRot, 2.6f);
+            }
+            else
+            {
+                Vector3 SR(Vector3 local) => swingBase + swingRot * local;
+                Prim(PrimitiveType.Cube, "Post_L", swing, SR(new Vector3(-1.4f, 1.3f, 0f)),
+                     new Vector3(0.18f, 2.6f, 0.18f), MatWood, collider: true, rot: swingRot);
+                Prim(PrimitiveType.Cube, "Post_R", swing, SR(new Vector3(1.4f, 1.3f, 0f)),
+                     new Vector3(0.18f, 2.6f, 0.18f), MatWood, collider: true, rot: swingRot);
+                Prim(PrimitiveType.Cube, "TopBar", swing, SR(new Vector3(0f, 2.6f, 0f)),
+                     new Vector3(3.1f, 0.16f, 0.16f), MatWood, rot: swingRot);
+                Prim(PrimitiveType.Cylinder, "Rope_L", swing, SR(new Vector3(-0.45f, 1.85f, 0f)),
+                     new Vector3(0.04f, 0.72f, 0.04f), MatFence);
+                Prim(PrimitiveType.Cylinder, "Rope_R", swing, SR(new Vector3(0.45f, 1.85f, 0f)),
+                     new Vector3(0.04f, 0.72f, 0.04f), MatFence);
+                Prim(PrimitiveType.Cube, "Seat", swing, SR(new Vector3(0f, 1.1f, 0f)),
+                     new Vector3(1.1f, 0.1f, 0.4f), MatPink, rot: swingRot);
+            }
         }
         MakeMarker(markers, "Marker_Clue_01_Swing", At(swingS - 1.2f, 1.9f), MatMarkerClue, 0.34f);
         NoTreeZones.Add(new Vector4(swingBase.x, swingBase.y, swingBase.z, 2.6f));
@@ -718,31 +725,34 @@ public static partial class BrightDreamBlockoutBuilder
 
         // 꽃 아치 - 마지막 구역으로 들어가는 문
         float archS = InArea("UnicornApproach", 0.45f);
-        var arch = Child(parent, "FlowerArch");
         Quaternion facing = Facing(archS);
         float archHalf = RibbonHalfWidth(archS) + 0.6f;
 
-        if (Rectangular && IsManuallyOwned("GardenArch_Craft"))
+        if (Rectangular && IsManuallyOwned(parent, "FlowerArch"))
         {
-            // 사용자가 __MANUAL_LAYOUT 에 이미 올려 둔 것을 쓴다 - 아무것도 새로 만들지 않는다.
-        }
-        else if (Rectangular)
-        {
-            BuildCraftGardenArch(arch, At(archS, 0f), facing, archHalf * 2f);
+            // 사용자가 __MANUAL_LAYOUT 에 이미 올려 둔 것을 쓴다 - wrapper 자체를 새로 만들지 않는다.
         }
         else
         {
-            Prim(PrimitiveType.Cube, "Post_L", arch, At(archS, -archHalf) + Vector3.up * 1.4f,
-                 new Vector3(0.2f, 2.8f, 0.2f), MatFence, collider: true, rot: facing);
-            Prim(PrimitiveType.Cube, "Post_R", arch, At(archS, archHalf) + Vector3.up * 1.4f,
-                 new Vector3(0.2f, 2.8f, 0.2f), MatFence, collider: true, rot: facing);
-            for (int i = 0; i <= 8; i++)
+            var arch = Child(parent, "FlowerArch");
+            if (Rectangular)
             {
-                float t = i / 8f;
-                Vector3 point = At(archS, Mathf.Lerp(-archHalf, archHalf, t))
-                                + Vector3.up * (2.8f + Mathf.Sin(t * Mathf.PI) * 0.55f);
-                Prim(PrimitiveType.Sphere, $"ArchFlower_{i}", arch, point, Vector3.one * 0.42f,
-                     i % 3 == 0 ? MatPink : i % 3 == 1 ? MatWhiteFlower : MatPurple);
+                BuildCraftGardenArch(arch, At(archS, 0f), facing, archHalf * 2f);
+            }
+            else
+            {
+                Prim(PrimitiveType.Cube, "Post_L", arch, At(archS, -archHalf) + Vector3.up * 1.4f,
+                     new Vector3(0.2f, 2.8f, 0.2f), MatFence, collider: true, rot: facing);
+                Prim(PrimitiveType.Cube, "Post_R", arch, At(archS, archHalf) + Vector3.up * 1.4f,
+                     new Vector3(0.2f, 2.8f, 0.2f), MatFence, collider: true, rot: facing);
+                for (int i = 0; i <= 8; i++)
+                {
+                    float t = i / 8f;
+                    Vector3 point = At(archS, Mathf.Lerp(-archHalf, archHalf, t))
+                                    + Vector3.up * (2.8f + Mathf.Sin(t * Mathf.PI) * 0.55f);
+                    Prim(PrimitiveType.Sphere, $"ArchFlower_{i}", arch, point, Vector3.one * 0.42f,
+                         i % 3 == 0 ? MatPink : i % 3 == 1 ? MatWhiteFlower : MatPurple);
+                }
             }
         }
 
