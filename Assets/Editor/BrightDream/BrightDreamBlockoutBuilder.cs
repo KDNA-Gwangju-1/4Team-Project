@@ -185,12 +185,24 @@ public static partial class BrightDreamBlockoutBuilder
     [MenuItem("Tools/Bright Dream/Build Blockout Scene")]
     public static void BuildBlockout() => BuildBlockout(false);
 
-    /// <summary>외곽만 직사각형인 비교 버전. 중심선 / 구간 / Marker / 조경은 자유형과 동일하다.</summary>
-    [MenuItem("Tools/Bright Dream/Build Rect Blockout Scene (비교용)")]
+    /// <summary>
+    /// 예전에는 이 메뉴가 실제 작업용 Rect Scene 을 통째로 지우고 다시 만들었다.
+    /// 지금은 실제 Scene 을 대상으로는 절대 실행되지 않는다(BuildBlockout 진입부에서 차단) -
+    /// 전체 procedural 생성이 필요하면 "Build TEMP Procedural Reference (Diagnostic Only)" 를 쓸 것.
+    /// </summary>
+    [MenuItem("Tools/Bright Dream/Build Rect Blockout Scene (비교용, 실제 Scene엔 비활성)")]
     public static void BuildRectBlockout() => BuildBlockout(true);
 
     private static void BuildBlockout(bool rectangular)
     {
+        if (rectangular)
+        {
+            Debug.LogWarning("[BrightDream] Full rebuild is disabled for the working Rect scene. " +
+                              "Use targeted patch/update operations instead. " +
+                              "(전체 진단용 생성이 필요하면 Tools > Bright Dream > " +
+                              "Build TEMP Procedural Reference (Diagnostic Only) 를 사용할 것.)");
+            return;
+        }
         buildingRectangular = rectangular;
         EnsureFolders();
         CreateMaterials();
@@ -1508,7 +1520,7 @@ public static partial class BrightDreamBlockoutBuilder
     private const string ReferenceSceneFolder = "Assets/__TEMP_REFERENCE";
     public const string ReferenceScenePath = ReferenceSceneFolder + "/SD_BrightDream_Blockout_Rect_PROCEDURAL_REFERENCE.unity";
 
-    [MenuItem("Tools/Bright Dream/Build PURE Reference Scene (진단용, 격리)")]
+    [MenuItem("Tools/Bright Dream/Build TEMP Procedural Reference (Diagnostic Only)")]
     public static void BuildPureReferenceScene()
     {
         var originalActive = SceneManager.GetActiveScene();
