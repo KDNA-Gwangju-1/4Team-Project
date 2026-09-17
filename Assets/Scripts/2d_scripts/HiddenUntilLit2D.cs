@@ -6,6 +6,7 @@ public class HiddenUntilLit2D : MonoBehaviour
 
     [Range(0f, 1f)]
     public float revealedAlpha = 0.5f;
+    public string revealedLayerName = "Ground";
 
     private SpriteRenderer sr;
     private Collider2D col;
@@ -71,6 +72,6 @@ public class HiddenUntilLit2D : MonoBehaviour
     private void Discover()
     {
         discovered = true;
-        gameObject.layer = LayerMask.NameToLayer("Ground");
+        gameObject.layer = LayerMask.NameToLayer(revealedLayerName);
     }
 }

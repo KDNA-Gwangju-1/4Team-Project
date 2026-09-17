@@ -10,6 +10,7 @@ public class TimedRevealPlatform2D : MonoBehaviour
     public float revealedAlpha = 1f;
     public float timeToReveal = 2.5f;
     public float revealedDuration = 10f;
+    public string revealedLayerName = "Ground";
 
     private SpriteRenderer sr;
     private Collider2D col;
@@ -65,7 +66,7 @@ public class TimedRevealPlatform2D : MonoBehaviour
     {
         isSolid = true;
         revealedTimer = revealedDuration;
-        gameObject.layer = LayerMask.NameToLayer("Ground");
+        gameObject.layer = LayerMask.NameToLayer(revealedLayerName);
         SetAlpha(revealedAlpha);
     }
 

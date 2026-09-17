@@ -20,6 +20,10 @@ public class PlayerMovement2D : MonoBehaviour
     public float wallJumpBoostDuration = 0.3f;
     public LayerMask wallLayer;
 
+    public float dashSpeed = 14f;
+    public float dashDuration = 0.15f;
+    public float dashCooldown = 0.6f;
+
     public Transform flashlight;
     public float lightRange = 3f;
     public float lightHalfAngle = 15f;
@@ -57,6 +61,11 @@ public class PlayerMovement2D : MonoBehaviour
     private float wallJumpBoostDirection;
     private Collider2D pendingWallJumpCollider;
     private Collider2D usedWallCollider;
+    private bool dashRequested;
+    private bool isDashing;
+    private float dashTimer;
+    private float dashCooldownTimer;
+    private float dashDirection;
     private int facingDirection = 1;
     private SpriteRenderer flashlightRenderer;
     private Vector2 lightDirection = Vector2.right;
@@ -98,6 +107,11 @@ public class PlayerMovement2D : MonoBehaviour
 
     void Update()
     {
+        if (dashCooldownTimer > 0f)
+        {
+            dashCooldownTimer -= Time.deltaTime;
+        }
+
         RaycastHit2D groundHit = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, groundLayer);
         bool grounded = groundHit.collider != null;
 
@@ -111,6 +125,12 @@ public class PlayerMovement2D : MonoBehaviour
         {
             if (keyboard.dKey.wasPressedThisFrame) facingDirection = 1;
             if (keyboard.aKey.wasPressedThisFrame) facingDirection = -1;
+
+            if ((keyboard.leftShiftKey.wasPressedThisFrame || keyboard.rightShiftKey.wasPressedThisFrame)
+                && grounded && !isDashing && dashCooldownTimer <= 0f)
+            {
+                dashRequested = true;
+            }
 
             if (keyboard.spaceKey.wasPressedThisFrame)
             {
@@ -264,7 +284,23 @@ public class PlayerMovement2D : MonoBehaviour
 
         Vector2 velocity = rb.linearVelocity;
 
-        if (wallJumpLockTimer > 0f)
+        if (dashRequested)
+        {
+            isDashing = true;
+            dashTimer = dashDuration;
+            dashCooldownTimer = dashCooldown;
+            dashDirection = facingDirection;
+            dashRequested = false;
+        }
+
+        if (isDashing)
+        {
+            velocity.x = dashDirection * dashSpeed;
+            velocity.y = 0f;
+            dashTimer -= Time.fixedDeltaTime;
+            if (dashTimer <= 0f) isDashing = false;
+        }
+        else if (wallJumpLockTimer > 0f)
         {
             wallJumpLockTimer -= Time.fixedDeltaTime;
         }
@@ -317,7 +353,7 @@ public class PlayerMovement2D : MonoBehaviour
 
     public void TakeDamage(int amount)
     {
-        if (isInvincible) return;
+        if (isInvincible || isDashing) return;
 
         currentHealth = Mathf.Max(0, currentHealth - amount);
 

@@ -27,6 +27,13 @@ public class Bullet2D : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        int otherLayer = other.gameObject.layer;
+        if (otherLayer == LayerMask.NameToLayer("Ground") || otherLayer == LayerMask.NameToLayer("Wall"))
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         Monster2D monster = other.GetComponent<Monster2D>();
         if (monster != null && monster.IsRevealed)
         {

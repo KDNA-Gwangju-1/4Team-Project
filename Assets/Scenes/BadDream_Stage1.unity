@@ -267,6 +267,7 @@ GameObject:
   m_Component:
   - component: {fileID: 821553163}
   - component: {fileID: 499155813}
+  - component: {fileID: 900000020}
   m_Layer: 0
   m_Name: DreamVortexBackground
   m_TagString: Untagged
@@ -323,7 +324,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -100
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: b9fe2c674e724aa5a8e6921667292b27, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4b46560abcb591947b6a05a8b41eab97, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -333,6 +334,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &900000020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 368239197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa5e6bf230e4408591848dfd8beb59a7, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::SlowRotate2D
+  degreesPerSecond: 3
 --- !u!1 &643207116
 GameObject:
   m_ObjectHideFlags: 0
@@ -494,7 +508,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
+  m_BackGroundColor: {r: 0.0627, g: 0.0784, b: 0.2431, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -586,7 +600,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 8.19, z: 10}
-  m_LocalScale: {x: 8, y: 8, z: 1}
+  m_LocalScale: {x: 7, y: 7, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 688051111}
