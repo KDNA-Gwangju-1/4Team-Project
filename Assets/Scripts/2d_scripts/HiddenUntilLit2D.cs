@@ -4,10 +4,12 @@ public class HiddenUntilLit2D : MonoBehaviour
 {
     private const int RayCount = 15;
 
+    [Range(0f, 1f)]
+    public float revealedAlpha = 0.5f;
+
     private SpriteRenderer sr;
     private Collider2D col;
     private bool discovered;
-    private int hiddenLayerMask;
 
     void Awake()
     {
@@ -20,19 +22,38 @@ public class HiddenUntilLit2D : MonoBehaviour
         int defaultLayer = LayerMask.NameToLayer("Default");
         gameObject.layer = hiddenLayer;
         Physics2D.IgnoreLayerCollision(hiddenLayer, defaultLayer, true);
-        hiddenLayerMask = 1 << hiddenLayer;
     }
 
     void Update()
     {
-        if (discovered || sr == null || col == null) return;
+        if (sr == null || col == null) return;
 
+        bool lit = IsCurrentlyLit();
+
+        if (!discovered)
+        {
+            if (!lit) return;
+            Discover();
+        }
+
+        sr.enabled = lit;
+        if (lit)
+        {
+            Color c = sr.color;
+            c.a = revealedAlpha;
+            sr.color = c;
+        }
+    }
+
+    private bool IsCurrentlyLit()
+    {
         var player = PlayerMovement2D.Instance;
-        if (player == null || !player.IsLightOn) return;
+        if (player == null || !player.IsLightOn) return false;
 
         Vector2 origin = player.LightOrigin;
         Vector2 baseDir = player.LightDirection;
         float baseAngle = Mathf.Atan2(baseDir.y, baseDir.x) * Mathf.Rad2Deg;
+        int layerMask = 1 << gameObject.layer;
 
         for (int i = 0; i < RayCount; i++)
         {
@@ -40,19 +61,16 @@ public class HiddenUntilLit2D : MonoBehaviour
             float angle = (baseAngle + t * player.lightHalfAngle) * Mathf.Deg2Rad;
             Vector2 dir = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
 
-            RaycastHit2D hit = Physics2D.Raycast(origin, dir, player.lightRange, hiddenLayerMask);
-            if (hit.collider == col)
-            {
-                Discover();
-                return;
-            }
+            RaycastHit2D hit = Physics2D.Raycast(origin, dir, player.lightRange, layerMask);
+            if (hit.collider == col) return true;
         }
+
+        return false;
     }
 
     private void Discover()
     {
         discovered = true;
-        sr.enabled = true;
         gameObject.layer = LayerMask.NameToLayer("Ground");
     }
 }

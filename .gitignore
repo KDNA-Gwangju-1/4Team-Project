@@ -34,6 +34,17 @@
 # Recordings can get excessive in size
 /[Rr]ecordings/
 
+# Scene backups recovered by Unity after a crash/unclean shutdown
+/[Aa]ssets/_Recovery/
+/[Aa]ssets/_Recovery.meta
+
+# Local-only MCP editor bridge config (personal dev tooling, not shared with team)
+/.mcp.json
+/ProjectSettings/McpUnitySettings.json
+
+# Local session handoff notes (not for the team)
+/SESSION_NOTES.md
+
 # Uncomment this line if you wish to ignore the asset store tools plugin
 # /[Aa]ssets/AssetStoreTools*
 
