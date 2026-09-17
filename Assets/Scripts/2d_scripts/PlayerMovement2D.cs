@@ -12,6 +12,14 @@ public class PlayerMovement2D : MonoBehaviour
     public float groundCheckDistance = 1.1f;
     public LayerMask groundLayer;
 
+    public float wallCheckDistance = 0.6f;
+    public float wallJumpUpForce = 7f;
+    public float wallJumpPushForce = 6f;
+    public float wallJumpLockDuration = 0.2f;
+    public float wallJumpBoostSpeed = 8f;
+    public float wallJumpBoostDuration = 0.3f;
+    public LayerMask wallLayer;
+
     public Transform flashlight;
     public float lightRange = 3f;
     public float lightHalfAngle = 15f;
@@ -40,6 +48,15 @@ public class PlayerMovement2D : MonoBehaviour
     private Rigidbody2D rb;
     private Vector3 lastGroundedPosition;
     private bool jumpRequested;
+    private bool wallJumpRequested;
+    private float wallJumpDirection;
+    private bool touchingWallLeft;
+    private bool touchingWallRight;
+    private float wallJumpLockTimer;
+    private float wallJumpBoostTimer;
+    private float wallJumpBoostDirection;
+    private Collider2D pendingWallJumpCollider;
+    private Collider2D usedWallCollider;
     private int facingDirection = 1;
     private SpriteRenderer flashlightRenderer;
     private Vector2 lightDirection = Vector2.right;
@@ -84,21 +101,45 @@ public class PlayerMovement2D : MonoBehaviour
         RaycastHit2D groundHit = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, groundLayer);
         bool grounded = groundHit.collider != null;
 
+        RaycastHit2D wallHitRight = Physics2D.Raycast(transform.position, Vector2.right, wallCheckDistance, wallLayer);
+        RaycastHit2D wallHitLeft = Physics2D.Raycast(transform.position, Vector2.left, wallCheckDistance, wallLayer);
+        touchingWallRight = wallHitRight.collider != null;
+        touchingWallLeft = wallHitLeft.collider != null;
+
         var keyboard = Keyboard.current;
         if (keyboard != null)
         {
             if (keyboard.dKey.wasPressedThisFrame) facingDirection = 1;
             if (keyboard.aKey.wasPressedThisFrame) facingDirection = -1;
 
-            if (keyboard.spaceKey.wasPressedThisFrame && grounded)
+            if (keyboard.spaceKey.wasPressedThisFrame)
             {
-                jumpRequested = true;
+                if (grounded)
+                {
+                    jumpRequested = true;
+                }
+                else if (touchingWallRight && wallHitRight.collider != usedWallCollider)
+                {
+                    wallJumpRequested = true;
+                    wallJumpDirection = -1f;
+                    pendingWallJumpCollider = wallHitRight.collider;
+                }
+                else if (touchingWallLeft && wallHitLeft.collider != usedWallCollider)
+                {
+                    wallJumpRequested = true;
+                    wallJumpDirection = 1f;
+                    pendingWallJumpCollider = wallHitLeft.collider;
+                }
             }
         }
 
         if (grounded)
         {
-            lastGroundedPosition = ComputeCheckpoint(groundHit.collider);
+            usedWallCollider = null;
+            if (groundHit.collider.GetComponent<TimedRevealPlatform2D>() == null)
+            {
+                lastGroundedPosition = ComputeCheckpoint(groundHit.collider);
+            }
         }
         else if (transform.position.y < fallRespawnY)
         {
@@ -222,12 +263,37 @@ public class PlayerMovement2D : MonoBehaviour
         }
 
         Vector2 velocity = rb.linearVelocity;
-        velocity.x = moveInput * moveSpeed;
+
+        if (wallJumpLockTimer > 0f)
+        {
+            wallJumpLockTimer -= Time.fixedDeltaTime;
+        }
+        else if (wallJumpBoostTimer > 0f && moveInput == wallJumpBoostDirection)
+        {
+            wallJumpBoostTimer -= Time.fixedDeltaTime;
+            velocity.x = wallJumpBoostDirection * wallJumpBoostSpeed;
+        }
+        else
+        {
+            wallJumpBoostTimer = 0f;
+            velocity.x = moveInput * moveSpeed;
+        }
 
         if (jumpRequested)
         {
             velocity.y = jumpForce;
             jumpRequested = false;
+        }
+
+        if (wallJumpRequested)
+        {
+            velocity.y = wallJumpUpForce;
+            velocity.x = wallJumpDirection * wallJumpPushForce;
+            wallJumpRequested = false;
+            wallJumpLockTimer = wallJumpLockDuration;
+            wallJumpBoostTimer = wallJumpBoostDuration;
+            wallJumpBoostDirection = wallJumpDirection;
+            usedWallCollider = pendingWallJumpCollider;
         }
 
         rb.linearVelocity = velocity;
