@@ -3,12 +3,17 @@ guid: a415ae0af1e8c18479664a540bc0bfd5
 ModelImporter:
   serializedVersion: 24300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 05_boss_platform_mat
+    second: {fileID: 2100000, guid: 95a355fa9e54ffd4ca5bec184a5c5bdd, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
     materialSearch: 1
-    materialLocation: 0
+    materialLocation: 1
     searchTexturesGlobally: 0
   animations:
     legacyGenerateAnimations: 4

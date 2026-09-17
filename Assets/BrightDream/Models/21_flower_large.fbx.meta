@@ -3,12 +3,17 @@ guid: 1c63858a37866e346996ffa7e220b8ba
 ModelImporter:
   serializedVersion: 24300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 21_flower_large_mat
+    second: {fileID: 2100000, guid: f99732588a88d2549976c10dad5d9cad, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
     materialSearch: 1
-    materialLocation: 0
+    materialLocation: 1
     searchTexturesGlobally: 0
   animations:
     legacyGenerateAnimations: 4

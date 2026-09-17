@@ -3,12 +3,17 @@ guid: 7020c4254e01fc149995af3a484d7cbb
 ModelImporter:
   serializedVersion: 24300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 01_path_curved_mat
+    second: {fileID: 2100000, guid: 659329d1ae0301a4bb7359c5620b04ea, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
     materialSearch: 1
-    materialLocation: 0
+    materialLocation: 1
     searchTexturesGlobally: 0
   animations:
     legacyGenerateAnimations: 4

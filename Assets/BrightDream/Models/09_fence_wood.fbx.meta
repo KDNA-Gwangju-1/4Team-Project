@@ -3,12 +3,17 @@ guid: 0d6397fbb5f7eaa4aab863b8d8ac3920
 ModelImporter:
   serializedVersion: 24300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 09_fence_wood_mat
+    second: {fileID: 2100000, guid: e855125a09a6af94e86426d396840344, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
     materialSearch: 1
-    materialLocation: 0
+    materialLocation: 1
     searchTexturesGlobally: 0
   animations:
     legacyGenerateAnimations: 4

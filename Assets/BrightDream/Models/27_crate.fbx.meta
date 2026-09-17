@@ -3,12 +3,17 @@ guid: ef7012c43a5dc6f4ebebc45fbf2d29b3
 ModelImporter:
   serializedVersion: 24300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 27_crate_mat
+    second: {fileID: 2100000, guid: 9394deef6f44a024d910c7d1ae076dfd, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
     materialSearch: 1
-    materialLocation: 0
+    materialLocation: 1
     searchTexturesGlobally: 0
   animations:
     legacyGenerateAnimations: 4

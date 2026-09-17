@@ -3,12 +3,17 @@ guid: f6ab0bf95db40f24ba6dc906ed86548a
 ModelImporter:
   serializedVersion: 24300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 17_tree_medium_mat
+    second: {fileID: 2100000, guid: 2de9e623c479aca41b16f7fed82a84bc, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
     materialSearch: 1
-    materialLocation: 0
+    materialLocation: 1
     searchTexturesGlobally: 0
   animations:
     legacyGenerateAnimations: 4

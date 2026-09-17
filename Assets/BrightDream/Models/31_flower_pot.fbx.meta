@@ -3,12 +3,17 @@ guid: 9426d13d0987b1b4db99c6793ba084ad
 ModelImporter:
   serializedVersion: 24300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 31_flower_pot_mat
+    second: {fileID: 2100000, guid: 04a3efdc5f208b441a86fca230d3ab89, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
     materialSearch: 1
-    materialLocation: 0
+    materialLocation: 1
     searchTexturesGlobally: 0
   animations:
     legacyGenerateAnimations: 4

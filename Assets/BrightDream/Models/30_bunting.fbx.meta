@@ -3,12 +3,17 @@ guid: 3c73c86da9562c44ca10d3f0db66261c
 ModelImporter:
   serializedVersion: 24300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 30_bunting_mat
+    second: {fileID: 2100000, guid: 538f6ab749a46214ca3008ef71539f28, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
     materialSearch: 1
-    materialLocation: 0
+    materialLocation: 1
     searchTexturesGlobally: 0
   animations:
     legacyGenerateAnimations: 4

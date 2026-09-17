@@ -3,12 +3,17 @@ guid: 45ec0539e8ed8af4681699f0cc22243e
 ModelImporter:
   serializedVersion: 24300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 12_cottage_mat
+    second: {fileID: 2100000, guid: cdbd29f40e8a3f649a43ab04893965c1, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
     materialSearch: 1
-    materialLocation: 0
+    materialLocation: 1
     searchTexturesGlobally: 0
   animations:
     legacyGenerateAnimations: 4

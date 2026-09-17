@@ -3,12 +3,17 @@ guid: 1b40889991b6e874fa993f29e4f83713
 ModelImporter:
   serializedVersion: 24300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 03_grass_tile_mat
+    second: {fileID: 2100000, guid: 211680ba0514a3f4685b7fd751525d41, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
     materialSearch: 1
-    materialLocation: 0
+    materialLocation: 1
     searchTexturesGlobally: 0
   animations:
     legacyGenerateAnimations: 4
