@@ -566,6 +566,8 @@ public static partial class BrightDreamBlockoutBuilder
     /// </summary>
     private static void BuildCraftBush(Transform parent, string name, Vector3 pos, float radius)
     {
+        if (IsManuallyOwned(parent, name + "_Craft")) return; // __MANUAL_LAYOUT 에 이미 있다 - 다시 만들지 않는다.
+
         var prefab = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(BushFbxPath);
         if (prefab == null)
         {
@@ -627,6 +629,8 @@ public static partial class BrightDreamBlockoutBuilder
     /// </summary>
     private static void BuildCraftTree(Transform parent, string name, Vector3 pos, float height, string asset)
     {
+        if (IsManuallyOwned(parent, name + "_Craft")) return; // __MANUAL_LAYOUT 에 이미 있다 - 다시 만들지 않는다.
+
         bool isTreeFour = asset == "tree4";
         string path = asset == "large" ? TreeLargeFbxPath
                      : asset == "conifer" ? TreeConiferFbxPath
@@ -847,6 +851,8 @@ public static partial class BrightDreamBlockoutBuilder
     /// </summary>
     private static void BuildCraftLamp(Transform parent, string name, Vector3 pos)
     {
+        if (IsManuallyOwned(parent, name)) return; // __MANUAL_LAYOUT 에 이미 있다 - 다시 만들지 않는다.
+
         var prefab = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(LampPostFbxPath);
         if (prefab == null)
         {
@@ -895,6 +901,8 @@ public static partial class BrightDreamBlockoutBuilder
     /// </summary>
     private static void BuildCraftBench(Transform parent, string name, Vector3 pos, Quaternion rot)
     {
+        if (IsManuallyOwned(parent, name)) return; // __MANUAL_LAYOUT 에 이미 있다 - 다시 만들지 않는다.
+
         var prefab = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(BenchFbxPath);
         if (prefab == null)
         {
@@ -1079,6 +1087,8 @@ public static partial class BrightDreamBlockoutBuilder
 
     private static void BuildCraftSwing(Transform parent, Vector3 basePos, Quaternion rot, float targetHeight)
     {
+        if (IsManuallyOwned(parent, "Swing_Craft")) return; // __MANUAL_LAYOUT 에 이미 있다 - 다시 만들지 않는다.
+
         var prefab = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(SwingFbxPath);
         if (prefab == null)
         {
@@ -1125,6 +1135,8 @@ public static partial class BrightDreamBlockoutBuilder
 
     private static void BuildCraftGardenArch(Transform parent, Vector3 basePos, Quaternion facing, float targetSpan)
     {
+        if (IsManuallyOwned(parent, "GardenArch_Craft")) return; // __MANUAL_LAYOUT 에 이미 있다 - 다시 만들지 않는다.
+
         var prefab = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(GardenArchFbxPath);
         if (prefab == null)
         {

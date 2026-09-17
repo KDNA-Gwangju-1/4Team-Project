@@ -76,6 +76,9 @@ public static partial class BrightDreamBlockoutBuilder
     /// <summary>이번 빌드 패스에서 찾은(또는 새로 만든) __MANUAL_LAYOUT - IsManuallyOwned 판정에 쓴다.</summary>
     private static Transform CurrentManualLayout;
 
+    /// <summary>이번 빌드 패스의 __GENERATED - 경로 기반 IsManuallyOwned 판정에서 상대 경로의 기준점으로 쓴다.</summary>
+    private static Transform CurrentGenerated;
+
     /// <summary>유니콘 뒤쪽 여유 공간. 광장이 막다른 벽에 딱 붙지 않게 한다.</summary>
     public const float TailLength = 6f;
 
@@ -225,6 +228,7 @@ public static partial class BrightDreamBlockoutBuilder
             manualLayout = EnsureManualLayout(root);
         }
         CurrentManualLayout = manualLayout;
+        CurrentGenerated = generated;
 
         var boundaries = Child(generated, "Boundaries");
         var ceiling = Child(generated, "Ceiling");
@@ -279,6 +283,7 @@ public static partial class BrightDreamBlockoutBuilder
 
         LogMetrics(generated);
         CurrentManualLayout = null;
+        CurrentGenerated = null;
         buildingRectangular = false;
     }
 
@@ -350,6 +355,37 @@ public static partial class BrightDreamBlockoutBuilder
             if (t.name == name) return true;
         }
         return false;
+    }
+
+    /// <summary>
+    /// 이름 하나만으로는 여러 구역에 동명 오브젝트(예: 여러 구역의 "Tree_A_Craft")가 있을 때
+    /// 서로 충돌할 수 있다 - 그래서 이 오버로드는 "__GENERATED 안에서 이 오브젝트가 있었을 상대
+    /// 경로"를 그대로 __MANUAL_LAYOUT 에서도 찾는다(같은 구조를 __MANUAL_LAYOUT 쪽에 그대로
+    /// 옮겨 두었다는 전제). generatedParent 는 개별 오브젝트를 만드는 호출부가 넘겨준 parent
+    /// (예: Landscaping/Boundary_Right, 또는 StartGarden 같은 구역 Transform)이다.
+    /// </summary>
+    private static bool IsManuallyOwned(Transform generatedParent, string childName)
+    {
+        if (CurrentManualLayout == null) return false;
+        string relPath = RelativePathUnder(generatedParent, CurrentGenerated);
+        string fullPath = string.IsNullOrEmpty(relPath) ? childName : relPath + "/" + childName;
+        return CurrentManualLayout.Find(fullPath) != null;
+    }
+
+    /// <summary>t 에서 stopAncestor(보통 __GENERATED) 까지의 "/" 구분 상대 경로. stopAncestor 를
+    /// 못 만나면(참조 빌드처럼 __GENERATED 자체가 없으면) t 의 루트까지 전부 포함한다.</summary>
+    private static string RelativePathUnder(Transform t, Transform stopAncestor)
+    {
+        if (t == null || t == stopAncestor) return "";
+        var stack = new List<string>();
+        Transform cur = t;
+        while (cur != null && cur != stopAncestor)
+        {
+            stack.Add(cur.name);
+            cur = cur.parent;
+        }
+        stack.Reverse();
+        return string.Join("/", stack.ToArray());
     }
 
     // ==========================================================
@@ -1483,6 +1519,7 @@ public static partial class BrightDreamBlockoutBuilder
         bushCraftKept = 0;
         BuildSpineTable();
         CurrentManualLayout = null; // 참조 빌드는 __MANUAL_LAYOUT 개념을 쓰지 않는다 - 순수 생성물만
+        CurrentGenerated = null;
 
         // Additive - 지금 열려 있는 Scene 은 전혀 닫거나 언로드하지 않는다.
         var refScene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Additive);
@@ -1549,6 +1586,7 @@ public static partial class BrightDreamBlockoutBuilder
 
         buildingRectangular = false;
         CurrentManualLayout = null;
+        CurrentGenerated = null;
 
         var afterActive = SceneManager.GetActiveScene();
         Debug.Log("[BrightDream] 참조 Scene 저장 완료 -> " + ReferenceScenePath +
