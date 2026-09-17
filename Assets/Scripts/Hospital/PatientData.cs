@@ -201,7 +201,7 @@ public class PatientData : ScriptableObject
         if (IsTwin)
         {
             string order = isElderTwin ? "언니" : "동생";
-            sb.AppendLine($"  쌍둥이 : {twinSibling.PatientName} ({order}은 본인)");
+            sb.AppendLine($"  쌍둥이 : {twinSibling.PatientName} (본인이 {order})");
         }
 
         if (!string.IsNullOrWhiteSpace(chartNote))

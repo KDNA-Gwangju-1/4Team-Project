@@ -31,6 +31,68 @@ public static class HospitalRoomSceneBuilder
     private const string PatientFolder  = "Assets/Data/Patients";
     private const string RoomFolder     = "Assets/Data/Rooms";
 
+    // 침대 옆에 세우는 사물함 모델 (다운로드받은 FBX).
+    // 원본이 높이 1m 기준으로 만들어져 있고 피벗이 가운데에 있어서,
+    // 배율 = 목표 높이, 높이의 절반만큼 올려 놓으면 바닥에 딱 닿는다.
+    private const string CabinetModelPath = "Assets/Art/Models/Locker.fbx";
+    private const float  CabinetHeight    = 1.55f;
+
+    // 3번(빈) 침대에 쓰는 모델. 머리맛이 +Z 를 보고 있어서 추가 회전이 필요 없다.
+    // ============================================================
+    // 모델 에셋 경로
+    // ============================================================
+    private const string BedModelPath      = "Assets/Art/Models/EmptyBed.fbx";
+    private const string GirlModelPath     = "Assets/Art/Models/GirlSleeping.glb";
+    private const string BlanketModelPath  = "Assets/Art/Models/Blanket.glb";
+    private const string IVPoleModelPath   = "Assets/Art/Models/IVPole.glb";
+    private const string StoolModelPath    = "Assets/Art/Models/Stool.glb";
+    private const string LoveseatModelPath = "Assets/Art/Models/Loveseat.glb";
+    private const string CurtainModelPath  = "Assets/Art/Models/PrivacyCurtain.fbx";
+    private const string DoorModelPath     = "Assets/Art/Models/Door.fbx";
+
+    // ============================================================
+    // 손으로 맞춘 배치값
+    //
+    // 아래 숫자들은 씨에서 직접 잡은 위치를 그대로 적어 둔 것이다.
+    // 자동으로 맞추게 하면 손으로 맞춘 구도가 틀어지므로 건드리지 말 것.
+    // 배치를 바꾸고 싶으면 씨에서 옥기고 그 값을 여기 다시 적는다.
+    // ============================================================
+
+    // 침대 모델 (침대 뿌리 기준 로컬 값)
+    private static readonly Vector3 BedModelEuler = new Vector3(270f, 182.85f, 0f);
+    private static readonly Vector3[] BedModelLocalPos =
+    {
+        new Vector3(0.4408f, 0.6100f, -0.0218f),
+        new Vector3(0.9240f, 0.6100f, -0.0330f),
+        new Vector3(0.0000f, 0.6076f,  0.0000f),
+    };
+    private static readonly float[] BedModelScale = { 2.10000f, 2.10000f, 2.10069f };
+
+    // 사물함 (HeadUnit 뿌리 기준 로컬 값)
+    private static readonly Vector3 CabinetEuler = new Vector3(270f, 180f, 0f);
+    private static readonly Vector3[] CabinetLocalPos =
+    {
+        new Vector3(-0.0634f, 0.9092f, 3.1891f),
+        new Vector3( 1.0700f, 0.9052f, 3.1891f),
+        new Vector3( 0.0747f, 0.8940f, 3.1891f),
+    };
+    private static readonly Vector3[] CabinetLocalScale =
+    {
+        new Vector3(1.88110f, 1.54925f, 1.81711f),
+        new Vector3(1.91038f, 1.54925f, 1.80921f),
+        new Vector3(1.93904f, 1.54925f, 1.78659f),
+    };
+
+
+
+
+
+    // 링거대 (IVStand 뿌리 기준 로컬 값)
+    private static readonly Vector3[] IVPoleLocalPos =
+    {
+        new Vector3(0.2230f, 0.9500f, -0.1450f),
+        new Vector3(1.5330f, 0.9500f, -0.4950f),
+    };
     // ============================================================
     // 방 크기 (안쪽 기준, m)
     // ============================================================
@@ -70,8 +132,24 @@ public static class HospitalRoomSceneBuilder
     [MenuItem("Tools/Hospital/Rebuild Hospital Room Scene")]
     public static void BuildAll()
     {
-        CreateMaterials();
+        // 이 메뉴는 씨을 코드로 통째로 다시 만든다.
+        // 씨에서 손으로 옥기거나 지운 것은 전부 사라지므로 반드시 물어본다.
+        bool confirmed = EditorUtility.DisplayDialog(
+            "병실 씨을 다시 만드시겠습니까?",
+            "HospitalRoom.unity 를 빌더 코드대로 통째로 다시 만듭니다.\n\n" +
+            "씨에서 직접 옥기거나 지우신 것은 전부 없어지고,\n" +
+            "빌더에 적혀 있는 값으로 되돌아갑니다.\n\n" +
+            "직접 작업하신 게 있다면 취소하고 먼저 백업하세요.",
+            "다시 만들기",
+            "취소");
 
+        if (!confirmed)
+        {
+            Debug.Log("[HospitalRoomSceneBuilder] 취소했습니다. 씨은 그대로입니다.");
+            return;
+        }
+
+        CreateMaterials();
         // ---------- 더미데이터부터 만든다 ----------
         PatientData harin, hayun;
         HospitalRoomData room302;
@@ -410,14 +488,8 @@ public static class HospitalRoomSceneBuilder
     {
         var root = BuildUtil.Empty("Door", parent, Vector3.zero).transform;
 
-        BuildUtil.Box("Panel", root, new Vector3(3.10f, 1.05f, -RoomHalfZ + 0.04f),
-                      new Vector3(1.10f, 2.10f, 0.08f), _woodDark, true);
-        BuildUtil.Box("Frame", root, new Vector3(3.10f, 1.10f, -RoomHalfZ + 0.015f),
-                      new Vector3(1.24f, 2.20f, 0.05f), _wood);
-        BuildUtil.Box("Window", root, new Vector3(3.10f, 1.62f, -RoomHalfZ + 0.09f),
-                      new Vector3(0.44f, 0.52f, 0.03f), _glass);
-        BuildUtil.Sphere("Handle", root, new Vector3(2.66f, 1.00f, -RoomHalfZ + 0.10f),
-                         new Vector3(0.07f, 0.07f, 0.07f), _metal);
+        PlaceModel(DoorModelPath, root, "DoorModel",
+                   new Vector3(3.0986f, 1.0489f, -3.5199f), new Vector3(270.02f, 0f, 0f), 209.75350f, true);
     }
 
     // ============================================================
@@ -534,26 +606,29 @@ public static class HospitalRoomSceneBuilder
     {
         var root = new GameObject("Props").transform;
 
-        // 침대 머리맡 벽 수납 유닛
+        // 침대 머리맛 벽 수납 유닛 (뒷판/선반은 도형, 사물함은 모델)
         float[] unitX = { -3.80f, -0.55f, 3.25f };
         for (int i = 0; i < unitX.Length; i++) MakeHeadUnit(root, i + 1, unitX[i]);
 
-        // 링거대 : 1번 침대 바깥쪽, 2번 침대 바깥쪽 (붙어 있는 사이에는 못 놓는다)
+        // 링거대
         MakeIVStand(root, 1, new Vector3(-3.45f, 0f, 2.85f));
         MakeIVStand(root, 2, new Vector3(-1.05f, 0f, 2.85f));
 
-        // 오버베드 테이블
-        MakeOverbedTable(root, 1, new Vector3(-3.60f, 0f, 1.45f), 12f);
-        MakeOverbedTable(root, 2, new Vector3(2.15f, 0f, 1.05f), -8f);
-
-        // 바퀴 달린 둥근 스툴 (사진 앞쪽에 있는 것)
+        // 오버베드 테이블 (1번은 바퀴 없음)
+        // 1번 테이블은 씨에서 부품을 따로 옥겨 놓았다.
+        MakeOverbedTable(root, 1, new Vector3(-3.60f, 0f, 1.45f), 12f,
+                         new Vector3(0.5020f, 0.8600f, -2.1270f),
+                         new Vector3(0.4210f, 0.4400f, -2.1270f),
+                         new Vector3(0.4210f, 0.0300f, -2.1020f),
+                         withCasters: false);
+        MakeOverbedTable(root, 2, new Vector3(3.30f, 0f, 1.45f), -72f,
+                         new Vector3(0f, 0.86f, 0f),
+                         new Vector3(0f, 0.44f, 0f),
+                         new Vector3(0f, 0.03f, 0.10f),
+                         withCasters: true);
         MakeStool(root, new Vector3(-0.30f, 0f, 0.55f));
-
-        // 창가 보호자 소파
         MakeSofa(root, new Vector3(-3.85f, 0f, -1.85f));
-
-        // 3번 침대를 가리는 커튼
-        MakeCurtain(root, 1.20f);
+        MakeCurtain(root);
     }
 
     private static void MakeHeadUnit(Transform parent, int index, float centerX)
@@ -566,56 +641,109 @@ public static class HospitalRoomSceneBuilder
         BuildUtil.Box("Backboard", root, new Vector3(0f, 1.70f, wallZ - 0.02f),
                       new Vector3(0.94f, 1.70f, 0.05f), _wood);
 
-        // 서랍장
-        BuildUtil.Box("Cabinet", root, new Vector3(0f, 0.42f, wallZ - 0.26f),
-                      new Vector3(0.88f, 0.84f, 0.46f), _wood, true);
-        BuildUtil.Box("DrawerLine", root, new Vector3(0f, 0.52f, wallZ - 0.50f),
-                      new Vector3(0.80f, 0.02f, 0.02f), _woodDark);
-        BuildUtil.Box("Handle", root, new Vector3(0f, 0.22f, wallZ - 0.50f),
-                      new Vector3(0.24f, 0.03f, 0.03f), _metal);
+        // 사물함 모델
+        PlaceModel(CabinetModelPath, root, "Cabinet",
+                   CabinetLocalPos[index - 1], CabinetEuler, CabinetLocalScale[index - 1], true);
 
         // 위쪽 선반
-        BuildUtil.Box("Shelf", root, new Vector3(0f, 1.42f, wallZ - 0.18f),
+        BuildUtil.Box("Shelf", root, new Vector3(0f, 1.86f, wallZ - 0.18f),
                       new Vector3(0.90f, 0.05f, 0.30f), _wood, true);
 
         // 의료용 콘센트 패널
-        BuildUtil.Box("OutletPanel", root, new Vector3(0f, 1.05f, wallZ - 0.06f),
+        BuildUtil.Box("OutletPanel", root, new Vector3(0f, 2.12f, wallZ - 0.06f),
                       new Vector3(0.52f, 0.14f, 0.03f), _bedRail);
     }
+
+    /// <summary>
+    /// 다운로드받은 사물함 FBX 를 배치한다.
+    /// 모델을 못 찾으면 예전의 나무 상자로 대신해 씨이 깨지지 않게 한다.
+    /// </summary>
+
+
+    /// <summary>오브젝트와 자식들의 Renderer 를 전부 감싸는 월드 바운즈를 구한다.</summary>
+    private static bool TryGetWorldBounds(GameObject root, out Bounds bounds)
+    {
+        bounds = new Bounds();
+
+        var renderers = root.GetComponentsInChildren<Renderer>(true);
+        if (renderers.Length == 0) return false;
+
+        bounds = renderers[0].bounds;
+        for (int i = 1; i < renderers.Length; i++) bounds.Encapsulate(renderers[i].bounds);
+        return true;
+    }
+
+    /// <summary>
+    /// 모델 에셋을 씨에 놓는다.
+    /// 위치·회전·크기는 손으로 맞춘 값을 그대로 쓴다.
+    /// </summary>
+    private static GameObject PlaceModel(string assetPath, Transform parent, string name,
+                                        Vector3 localPosition, Vector3 localEuler, Vector3 localScale,
+                                        bool addCollider)
+    {
+        var model = AssetDatabase.LoadAssetAtPath<GameObject>(assetPath);
+
+        if (model == null)
+        {
+            Debug.LogWarning($"[HospitalRoomSceneBuilder] 모델을 찾지 못했습니다: {assetPath}\n" +
+                             "해당 오브젝트를 건너뜁니다.");
+            return null;
+        }
+
+        var instance = (GameObject)PrefabUtility.InstantiatePrefab(model);
+        instance.name = name;
+        instance.transform.SetParent(parent, false);
+        instance.transform.localPosition = localPosition;
+        instance.transform.localRotation = Quaternion.Euler(localEuler);
+        instance.transform.localScale    = localScale;
+
+        if (addCollider)
+        {
+            // 모델이 수십만 폴리라 MeshCollider 는 쓰지 않고
+            // 메시 크기에 맞춘 상자 콜라이더를 달아 준다.
+            foreach (var filter in instance.GetComponentsInChildren<MeshFilter>())
+            {
+                if (filter.sharedMesh == null) continue;
+                if (filter.GetComponent<Collider>() != null) continue;
+
+                var box = filter.gameObject.AddComponent<BoxCollider>();
+                box.center = filter.sharedMesh.bounds.center;
+                box.size   = filter.sharedMesh.bounds.size;
+            }
+        }
+
+        return instance;
+    }
+
+    /// <summary>크기가 세 방향 모두 같을 때 쓰는 간편 버전.</summary>
+    private static GameObject PlaceModel(string assetPath, Transform parent, string name,
+                                        Vector3 localPosition, Vector3 localEuler, float uniformScale,
+                                        bool addCollider)
+    {
+        return PlaceModel(assetPath, parent, name, localPosition, localEuler,
+                          Vector3.one * uniformScale, addCollider);
+    }
+
 
     private static void MakeIVStand(Transform parent, int index, Vector3 position)
     {
         var root = BuildUtil.Empty($"IVStand_{index}", parent, position).transform;
 
-        BuildUtil.Cylinder("Base", root, new Vector3(0f, 0.02f, 0f), 0.44f, 0.04f, _metal);
-        BuildUtil.Cylinder("Pole", root, new Vector3(0f, 0.95f, 0f), 0.035f, 1.90f, _metal, true);
-        BuildUtil.Box("HookBar", root, new Vector3(0f, 1.88f, 0f),
-                      new Vector3(0.30f, 0.025f, 0.025f), _metal);
-
-        // 수액 봉지
-        BuildUtil.Box("IVBag", root, new Vector3(0.13f, 1.68f, 0f),
-                      new Vector3(0.14f, 0.26f, 0.05f), _glass);
-
-        // 바퀴
-        for (int i = 0; i < 4; i++)
-        {
-            float angle = i * 90f * Mathf.Deg2Rad;
-            BuildUtil.Sphere($"Caster_{i + 1}", root,
-                             new Vector3(Mathf.Cos(angle) * 0.20f, 0.03f, Mathf.Sin(angle) * 0.20f),
-                             new Vector3(0.06f, 0.06f, 0.06f), _rubber);
-        }
+        PlaceModel(IVPoleModelPath, root, "IVPoleModel",
+                   IVPoleLocalPos[index - 1], Vector3.zero, 1.90f, false);
     }
 
-    private static void MakeOverbedTable(Transform parent, int index, Vector3 position, float yaw)
+    private static void MakeOverbedTable(Transform parent, int index, Vector3 position, float yaw,
+                                         Vector3 topPos, Vector3 columnPos, Vector3 footPos, bool withCasters)
     {
         var root = BuildUtil.Empty($"OverbedTable_{index}", parent, position).transform;
         root.localRotation = Quaternion.Euler(0f, yaw, 0f);
 
-        BuildUtil.Box("Top", root, new Vector3(0f, 0.86f, 0f),
-                      new Vector3(0.78f, 0.04f, 0.44f), _wood, true);
-        BuildUtil.Cylinder("Column", root, new Vector3(0f, 0.44f, 0f), 0.06f, 0.84f, _metal, true);
-        BuildUtil.Box("Foot", root, new Vector3(0f, 0.03f, 0.10f),
-                      new Vector3(0.50f, 0.05f, 0.34f), _metal);
+        BuildUtil.Box("Top", root, topPos, new Vector3(0.78f, 0.04f, 0.44f), _wood, true);
+        BuildUtil.Cylinder("Column", root, columnPos, 0.06f, 0.84f, _metal, true);
+        BuildUtil.Box("Foot", root, footPos, new Vector3(0.50f, 0.05f, 0.34f), _metal);
+
+        if (!withCasters) return;
 
         for (int i = 0; i < 4; i++)
         {
@@ -630,21 +758,8 @@ public static class HospitalRoomSceneBuilder
     {
         var root = BuildUtil.Empty("Stool", parent, position).transform;
 
-        BuildUtil.Cylinder("Seat", root, new Vector3(0f, 0.46f, 0f), 0.42f, 0.09f, _fabric, true);
-        BuildUtil.Cylinder("Column", root, new Vector3(0f, 0.24f, 0f), 0.06f, 0.44f, _metal, true);
-
-        for (int i = 0; i < 5; i++)
-        {
-            float angle = i * 72f * Mathf.Deg2Rad;
-            var leg = BuildUtil.Box($"Leg_{i + 1}", root,
-                                    new Vector3(Mathf.Cos(angle) * 0.13f, 0.05f, Mathf.Sin(angle) * 0.13f),
-                                    new Vector3(0.26f, 0.03f, 0.05f), _bedRail);
-            leg.transform.localRotation = Quaternion.Euler(0f, -i * 72f, 0f);
-
-            BuildUtil.Sphere($"Caster_{i + 1}", root,
-                             new Vector3(Mathf.Cos(angle) * 0.24f, 0.03f, Mathf.Sin(angle) * 0.24f),
-                             new Vector3(0.055f, 0.055f, 0.055f), _rubber);
-        }
+        PlaceModel(StoolModelPath, root, "StoolModel",
+                   new Vector3(0f, 0.2540f, 0f), Vector3.zero, 0.57f, true);
     }
 
     private static void MakeSofa(Transform parent, Vector3 position)
@@ -652,29 +767,16 @@ public static class HospitalRoomSceneBuilder
         var root = BuildUtil.Empty("Sofa", parent, position).transform;
         root.localRotation = Quaternion.Euler(0f, 90f, 0f);
 
-        BuildUtil.Box("Seat",    root, new Vector3(0f, 0.40f, 0f),  new Vector3(1.30f, 0.20f, 0.66f), _fabric, true);
-        BuildUtil.Box("Back",    root, new Vector3(0f, 0.66f, -0.28f), new Vector3(1.30f, 0.72f, 0.14f), _fabric, true);
-        BuildUtil.Box("ArmL",    root, new Vector3(-0.64f, 0.48f, 0f), new Vector3(0.12f, 0.36f, 0.66f), _fabric);
-        BuildUtil.Box("ArmR",    root, new Vector3(0.64f, 0.48f, 0f),  new Vector3(0.12f, 0.36f, 0.66f), _fabric);
-
-        for (int i = 0; i < 4; i++)
-        {
-            float x = (i % 2 == 0) ? -0.56f : 0.56f;
-            float z = (i < 2) ? -0.24f : 0.24f;
-            BuildUtil.Box($"Leg_{i + 1}", root, new Vector3(x, 0.15f, z),
-                          new Vector3(0.07f, 0.30f, 0.07f), _woodDark);
-        }
+        PlaceModel(LoveseatModelPath, root, "LoveseatModel",
+                   new Vector3(0f, 0.5000f, 0f), Vector3.zero, 1.30f, true);
     }
 
-    private static void MakeCurtain(Transform parent, float x)
+    private static void MakeCurtain(Transform parent)
     {
         var root = BuildUtil.Empty("Curtain", parent, Vector3.zero).transform;
 
-        // 3번 침대 쪽을 가리는 커튼. 방 한가운데를 막지 않도록 반쯤 젯혀 둔다.
-        BuildUtil.Box("Rail", root, new Vector3(x, 2.88f, 2.20f),
-                      new Vector3(0.05f, 0.05f, 2.40f), _metal);
-        BuildUtil.Box("Cloth", root, new Vector3(x, 1.85f, 2.72f),
-                      new Vector3(0.03f, 2.00f, 1.30f), _curtain);
+        PlaceModel(CurtainModelPath, root, "CurtainModel",
+                   new Vector3(1.2000f, 1.0000f, 2.7200f), new Vector3(270f, 90f, 0f), 2.00f, false);
     }
 
     // ============================================================
@@ -685,35 +787,79 @@ public static class HospitalRoomSceneBuilder
     {
         var slots = new List<BedSlot>();
 
-        // 1번 : 왼쪽 (언니 하린). 오른쪽 난간은 내려져 있다 → 2번 침대와 맞닿는 쪽
-        var bed1 = MakeBed(1, BedCenterX[0], leftRail: true, rightRail: false);
-        // 2번 : 가운데 (동생 하윤). 왼쪽 난간이 내려져 있다
-        var bed2 = MakeBed(2, BedCenterX[1], leftRail: false, rightRail: true);
-        // 3번 : 빈 침대
-        var bed3 = MakeBed(3, BedCenterX[2], leftRail: true, rightRail: true);
+        var bed1 = MakeBed(1, BedCenterX[0]);
+        var bed2 = MakeBed(2, BedCenterX[1]);
+        var bed3 = MakeBed(3, BedCenterX[2]);
 
-        // 환자는 1번 / 2번에만 눕힌다. (서로 마주 보는 쪽 팔을 뻗어 손을 맞댄다)
-        MakePatient(bed1, harin, innerSide: +1f, armZ: 0.30f);
-        MakePatient(bed2, hayun, innerSide: -1f, armZ: 0.26f);
+        // 1번 / 2번에 자고 있는 아이 모델을 눈힌다.
+        // 2번은 X 크기를 -1 로 뒤집어 언니와 좌우 대칭이 되게 해 둔다.
+        bed1.patientRoot = PlaceModel(GirlModelPath, bed1.root, "GirlModel",
+            new Vector3(0.4408f, 0.9000f, 0.0892f), new Vector3(0f, 180.00f, 0f),
+            new Vector3(1f, 1f, 1f), false);
 
-        // ---------- 왼쪽 아이(하린)에게만 [E] 손대기 를 붙인다 ----------
-        var touch = bed1.patientRoot.AddComponent<PatientTouchInteractable>();
+        bed2.patientRoot = PlaceModel(GirlModelPath, bed2.root, "GirlModel",
+            new Vector3(0.9510f, 0.9000f, 0.1000f), new Vector3(0f, 179.45f, 0f),
+            new Vector3(-1f, 1f, 1f), false);
 
-        var touchSerialized = new SerializedObject(touch);
-        touchSerialized.FindProperty("displayName").stringValue   = "";   // 이름은 환자 데이터에서 자동으로 가져온다
-        touchSerialized.FindProperty("actionLabel").stringValue   = "손대기";
-        touchSerialized.FindProperty("interactRange").floatValue  = 2.0f;
-        touchSerialized.FindProperty("bedSlot").objectReferenceValue    = bed1.slot;
-        touchSerialized.FindProperty("twitchTarget").objectReferenceValue = bed1.innerArm;
-        touchSerialized.FindProperty("twitchAngle").floatValue    = 11f;
-        touchSerialized.FindProperty("twitchDuration").floatValue = 0.85f;
-        touchSerialized.FindProperty("logChartOnTouch").boolValue = true;
-        touchSerialized.ApplyModifiedPropertiesWithoutUndo();
+        // 이불 모델 두 장.
+        // 3번 침대 밑에 매달려 있지만 실제로는 1·2번 아이를 덮는다.
+        PlaceModel(BlanketModelPath, bed3.root, "BlanketModel",
+            new Vector3(-4.5060f, 0.7687f, -0.3590f), Vector3.zero,
+            new Vector3(1.47742f, 1.17580f, 1.47993f), false);
+
+        PlaceModel(BlanketModelPath, bed3.root, "BlanketModel (1)",
+            new Vector3(-2.9986f, 0.7687f, -0.3607f), Vector3.zero,
+            new Vector3(1.58705f, 1.17580f, 1.52688f), false);
+
+        // 빈 침대가 되면 아이가 자동으로 꿼지도록 BedSlot 에 연결
+        LinkPatientVisual(bed1);
+        LinkPatientVisual(bed2);
+
+        // 왼쪽 아이(1번 침대 하린)에게만 [E] 손대기
+        AddTouchInteraction(bed1);
 
         slots.Add(bed1.slot);
         slots.Add(bed2.slot);
         slots.Add(bed3.slot);
         return slots;
+    }
+
+    /// <summary>BedSlot 이 환자 표현물을 켜고 끔 수 있도록 연결한다.</summary>
+    private static void LinkPatientVisual(BedParts bed)
+    {
+        if (bed.patientRoot == null) return;
+
+        var serialized = new SerializedObject(bed.slot);
+        serialized.FindProperty("patientVisual").objectReferenceValue = bed.patientRoot;
+        serialized.ApplyModifiedPropertiesWithoutUndo();
+    }
+
+    /// <summary>
+    /// 침대 위에 [E] 손대기 판정 상자를 만들어 준다.
+    /// 아이 모델에는 콜라이더가 없어서 별도 오브젝트로 둔다.
+    /// </summary>
+    private static void AddTouchInteraction(BedParts bed)
+    {
+        if (bed.patientRoot == null) return;
+
+        var zone = BuildUtil.Empty("TouchZone", bed.root, new Vector3(0.44f, 0.95f, 0.09f));
+
+        var box = zone.AddComponent<BoxCollider>();
+        box.size = new Vector3(0.90f, 0.60f, 1.60f);
+        box.isTrigger = true;
+
+        var touch = zone.AddComponent<PatientTouchInteractable>();
+
+        var serialized = new SerializedObject(touch);
+        serialized.FindProperty("displayName").stringValue   = "쌍둥이 언니";   // 프롬프트에 띄울 호칭
+        serialized.FindProperty("actionLabel").stringValue   = "손대기";
+        serialized.FindProperty("interactRange").floatValue  = 2.0f;
+        serialized.FindProperty("bedSlot").objectReferenceValue      = bed.slot;
+        serialized.FindProperty("twitchTarget").objectReferenceValue = bed.patientRoot.transform;
+        serialized.FindProperty("twitchAngle").floatValue    = 2.5f;   // 모델 전체가 도니까 아주 조금만
+        serialized.FindProperty("twitchDuration").floatValue = 0.85f;
+        serialized.FindProperty("logChartOnTouch").boolValue = true;
+        serialized.ApplyModifiedPropertiesWithoutUndo();
     }
 
     /// <summary>MakeBed / MakePatient 가 주고받는 부품 묶음.</summary>
@@ -722,13 +868,10 @@ public static class HospitalRoomSceneBuilder
         public BedSlot slot;
         public Transform root;
         public GameObject patientRoot;
-        public Renderer head;
-        public Renderer hair;
-        public Transform innerArm;
-        public Text nameplate;
+
     }
 
-    private static BedParts MakeBed(int bedNumber, float centerX, bool leftRail, bool rightRail)
+    private static BedParts MakeBed(int bedNumber, float centerX)
     {
         var go = new GameObject($"Bed_{bedNumber:00}");
         go.transform.position = new Vector3(centerX, 0f, BedCenterZ);
@@ -736,198 +879,41 @@ public static class HospitalRoomSceneBuilder
         var root = go.transform;
         var parts = new BedParts { root = root };
 
-        float halfW = BedWidth * 0.5f;
-        float halfL = BedLength * 0.5f;
+        // 발치 이름표는 쓰지 않는다.
+        // 침대 모델에 이미 이름표 자리가 그려져 있어서 겁쳐 보였다.
 
-        // ---------- 다리 / 바퀴 ----------
-        for (int i = 0; i < 4; i++)
-        {
-            float x = (i % 2 == 0) ? -0.38f : 0.38f;
-            float z = (i < 2) ? -0.86f : 0.86f;
+        // 침대 모델
+        PlaceModel(BedModelPath, root, "BedModel",
+                   BedModelLocalPos[bedNumber - 1], BedModelEuler, BedModelScale[bedNumber - 1], true);
 
-            BuildUtil.Box($"Leg_{i + 1}", root, new Vector3(x, 0.26f, z),
-                          new Vector3(0.07f, 0.36f, 0.07f), _metal);
-            BuildUtil.Cylinder($"Caster_{i + 1}", root, new Vector3(x, 0.05f, z),
-                               0.11f, 0.07f, _rubber);
-        }
-
-        // ---------- 프레임 / 매트리스 ----------
-        BuildUtil.Box("FrameBase", root, new Vector3(0f, 0.49f, 0f),
-                      new Vector3(BedWidth, 0.14f, BedLength), _bedFrame, true);
-        BuildUtil.Box("Mattress", root, new Vector3(0f, 0.65f, 0f),
-                      new Vector3(BedWidth - 0.06f, 0.18f, BedLength - 0.10f), _mattress, true);
-
-        // ---------- 침구 ----------
-        BuildUtil.Box("Pillow", root, new Vector3(0f, 0.775f, 0.76f),
-                      new Vector3(0.58f, 0.11f, 0.34f), _pillow);
-        BuildUtil.Box("Blanket", root, new Vector3(0f, 0.775f, -0.29f),
-                      new Vector3(BedWidth - 0.02f, 0.11f, 1.42f), _blanket);
-        BuildUtil.Box("BlanketFold", root, new Vector3(0f, 0.805f, 0.41f),
-                      new Vector3(BedWidth, 0.07f, 0.14f), _pillow);
-        BuildUtil.Box("FeetBump", root, new Vector3(0f, 0.835f, -0.78f),
-                      new Vector3(0.34f, 0.10f, 0.26f), _blanket);
-
-        // ---------- 헤드보드 / 풋보드 ----------
-        BuildUtil.Box("Headboard", root, new Vector3(0f, 0.88f, halfL - 0.015f),
-                      new Vector3(BedWidth + 0.02f, 0.52f, 0.07f), _bedFrame, true);
-        BuildUtil.Box("Footboard", root, new Vector3(0f, 0.82f, -halfL + 0.015f),
-                      new Vector3(BedWidth + 0.02f, 0.44f, 0.07f), _bedFrame, true);
-
-        // ---------- 옆 난간 ----------
-        // 붙여 놓은 두 침대 사이는 난간을 내려 둔다. (그래야 손이 닿는다)
-        if (leftRail)  MakeRail(root, "Rail_L", -halfW - 0.015f);
-        if (rightRail) MakeRail(root, "Rail_R", halfW + 0.015f);
-
-        // ---------- 발치 이름표 ----------
-        parts.nameplate = MakeNameplate(root, bedNumber);
-
-        // ---------- BedSlot ----------
         var slot = go.AddComponent<BedSlot>();
         parts.slot = slot;
 
         var slotSerialized = new SerializedObject(slot);
         slotSerialized.FindProperty("bedNumber").intValue = bedNumber;
-        slotSerialized.FindProperty("nameplateText").objectReferenceValue = parts.nameplate;
         slotSerialized.ApplyModifiedPropertiesWithoutUndo();
+
         return parts;
     }
 
-    private static void MakeRail(Transform parent, string name, float x)
-    {
-        var rail = BuildUtil.Empty(name, parent, new Vector3(x, 0f, 0f)).transform;
+    /// <summary>
+    /// 다운로드받은 빈 침대 FBX 로 침대를 만든다.
+    /// 모델을 못 찾으면 기본 도형 침대로 대체해 씬이 깨지지 않게 한다.
+    /// </summary>
 
-        BuildUtil.Box("Bar_Top", rail, new Vector3(0f, 1.00f, 0.20f),
-                      new Vector3(0.04f, 0.05f, 1.00f), _bedRail, true);
-        BuildUtil.Box("Panel", rail, new Vector3(0f, 0.87f, 0.20f),
-                      new Vector3(0.03f, 0.24f, 0.94f), _bedRail, true);
-        BuildUtil.Box("Post_A", rail, new Vector3(0f, 0.78f, -0.26f),
-                      new Vector3(0.04f, 0.30f, 0.04f), _metal);
-        BuildUtil.Box("Post_B", rail, new Vector3(0f, 0.78f, 0.66f),
-                      new Vector3(0.04f, 0.30f, 0.04f), _metal);
-    }
+
+
+
 
     /// <summary>침대 발치에 붙는 주황색 이름표 카드 + 글자.</summary>
-    private static Text MakeNameplate(Transform parent, int bedNumber)
-    {
-        float z = -BedLength * 0.5f - 0.03f;
+    /// <summary>침대 발치에 붙는 주황색 이름표 카드 + 글자.</summary>
 
-        BuildUtil.Box("NameplateCard", parent, new Vector3(0f, 0.80f, z),
-                      new Vector3(0.46f, 0.22f, 0.02f), _nameplate);
-
-        var canvasGO = new GameObject("Nameplate", typeof(Canvas), typeof(CanvasScaler));
-        canvasGO.transform.SetParent(parent, false);
-
-        var canvas = canvasGO.GetComponent<Canvas>();
-        canvas.renderMode = RenderMode.WorldSpace;
-
-        var canvasRT = canvasGO.GetComponent<RectTransform>();
-        canvasRT.sizeDelta      = new Vector2(240f, 110f);
-        canvasRT.localScale     = Vector3.one * 0.0017f;
-        canvasRT.localPosition  = new Vector3(0f, 0.80f, z - 0.015f);
-        canvasRT.localRotation  = Quaternion.Euler(0f, 180f, 0f);   // 발치 바깥쪽을 보게
-
-        var textGO = new GameObject("Text", typeof(RectTransform), typeof(CanvasRenderer), typeof(Text));
-        var textRT = textGO.GetComponent<RectTransform>();
-        textRT.SetParent(canvasRT, false);
-        textRT.anchorMin = Vector2.zero;
-        textRT.anchorMax = Vector2.one;
-        textRT.offsetMin = Vector2.zero;
-        textRT.offsetMax = Vector2.zero;
-
-        var text = textGO.GetComponent<Text>();
-        text.font      = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
-        text.text      = bedNumber.ToString();
-        text.fontSize  = 42;
-        text.alignment = TextAnchor.MiddleCenter;
-        text.color     = new Color(0.14f, 0.11f, 0.07f);
-        text.raycastTarget = false;
-        text.horizontalOverflow = HorizontalWrapMode.Overflow;
-        text.verticalOverflow   = VerticalWrapMode.Overflow;
-
-        return text;
-    }
 
     /// <summary>
     /// 침대 위에 누워 있는 아이를 만든다.
     /// innerSide 가 +1 이면 오른쪽(+X)으로, -1 이면 왼쪽(-X)으로 팔을 뻗어 옆 침대 아이와 손을 맞댄다.
     /// </summary>
-    private static void MakePatient(BedParts bed, PatientData patient, float innerSide, float armZ)
-    {
-        float outerSide = -innerSide;
 
-        // 환자 뿌리를 몸통 높이에 둔다. (거리 계산과 상호작용 판정이 자연스러워진다)
-        var patientGO = BuildUtil.Empty("Patient", bed.root, new Vector3(0f, 0.80f, 0.30f));
-        var root = patientGO.transform;
-        bed.patientRoot = patientGO;
-
-        // 상호작용용 판정 상자
-        var collider = patientGO.AddComponent<BoxCollider>();
-        collider.center = new Vector3(0f, 0.05f, -0.15f);
-        collider.size   = new Vector3(0.90f, 0.45f, 1.70f);
-        collider.isTrigger = true;
-
-        // ---------- 머리카락 ----------
-        // 누워 있으므로 얼굴은 위(+Y)를 향한다.
-        // 머리카락을 먼저 낮게 깔고 그 위로 얼굴을 올려야 얼굴이 보인다.
-        var hair = BuildUtil.Sphere("Hair", root, new Vector3(0f, 0.055f, 0.465f),
-                                    new Vector3(0.250f, 0.240f, 0.250f), _hair);
-        bed.hair = hair.GetComponent<Renderer>();
-
-        // 베개 위로 퍼진 머리
-        BuildUtil.Sphere("HairSpread", root, new Vector3(0f, -0.005f, 0.510f),
-                         new Vector3(0.40f, 0.10f, 0.38f), _hair);
-        BuildUtil.Sphere("HairSide_L", root, new Vector3(-0.118f, 0.025f, 0.440f),
-                         new Vector3(0.085f, 0.140f, 0.270f), _hair);
-        BuildUtil.Sphere("HairSide_R", root, new Vector3(0.118f, 0.025f, 0.440f),
-                         new Vector3(0.085f, 0.140f, 0.270f), _hair);
-
-        // ---------- 얼굴 ----------
-        var head = BuildUtil.Sphere("Head", root, new Vector3(0f, 0.085f, 0.405f),
-                                    new Vector3(0.205f, 0.235f, 0.235f), _skin);
-        bed.head = head.GetComponent<Renderer>();
-
-        // 앞머리
-        BuildUtil.Sphere("Bangs", root, new Vector3(0f, 0.170f, 0.462f),
-                         new Vector3(0.21f, 0.09f, 0.14f), _hair);
-
-        // 감은 눈
-        BuildUtil.Box("Eye_L", root, new Vector3(-0.047f, 0.183f, 0.415f),
-                      new Vector3(0.050f, 0.022f, 0.020f), _hair);
-        BuildUtil.Box("Eye_R", root, new Vector3(0.047f, 0.183f, 0.415f),
-                      new Vector3(0.050f, 0.022f, 0.020f), _hair);
-
-        // ---------- 환자복 어깨 (이불 위로 나온 부분) ----------
-        BuildUtil.Box("Gown", root, new Vector3(0f, -0.01f, 0.205f),
-                      new Vector3(0.50f, 0.15f, 0.25f), _gown);
-
-        // ---------- 바깥쪽 팔 : 몸에 붙여 내려 둔다 ----------
-        var outerArm = BuildUtil.Capsule("Arm_Outer", root, new Vector3(outerSide * 0.275f, 0.03f, -0.13f),
-                                         0.085f, 0.50f, _gown);
-        outerArm.transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
-
-        BuildUtil.Sphere("Hand_Outer", root, new Vector3(outerSide * 0.275f, 0.03f, -0.40f),
-                         new Vector3(0.085f, 0.075f, 0.085f), _skin);
-
-        // ---------- 안쪽 팔 : 옆 침대 아이 쪽으로 뻗어 손을 맞댄다 ----------
-        var innerArmGO = BuildUtil.Empty("Arm_Inner", root,
-                                         new Vector3(innerSide * 0.20f, 0.03f, armZ - 0.30f));
-        var innerArm = innerArmGO.transform;
-        bed.innerArm = innerArm;
-
-        var innerArmMesh = BuildUtil.Capsule("Upper", innerArm, new Vector3(innerSide * 0.11f, 0f, 0f),
-                                             0.085f, 0.40f, _gown);
-        innerArmMesh.transform.localRotation = Quaternion.Euler(0f, 0f, 90f);
-
-        BuildUtil.Sphere("Hand_Inner", innerArm, new Vector3(innerSide * 0.30f, 0f, 0.01f),
-                         new Vector3(0.085f, 0.075f, 0.085f), _skin);
-
-        // ---------- BedSlot 에 연결 ----------
-        var slotSerialized = new SerializedObject(bed.slot);
-        slotSerialized.FindProperty("patientVisual").objectReferenceValue = patientGO;
-        slotSerialized.FindProperty("headRenderer").objectReferenceValue  = bed.head;
-        slotSerialized.FindProperty("hairRenderer").objectReferenceValue  = bed.hair;
-        slotSerialized.ApplyModifiedPropertiesWithoutUndo();
-    }
 
     // ============================================================
     // 마무리

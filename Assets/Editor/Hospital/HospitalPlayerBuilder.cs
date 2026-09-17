@@ -15,6 +15,21 @@ public static class HospitalPlayerBuilder
 {
     public const string ViewModelLayerName = "ViewModel";
 
+    // 화면 아래에 보이는 팔 모델
+    private const string LeftArmModelPath  = "Assets/Art/Models/LeftArm.fbx";
+    private const string RightArmModelPath = "Assets/Art/Models/RightArm.fbx";
+
+    // 씨에서 눈으로 맞춘 값.
+    // 더 낮추고 싶으면 y 를 내리고, 더 보이게 하려면 y 를 올린다.
+    // 멈춰 있을 때의 자리. 화면 아래로 완전히 숨는 위치다.
+    // 걸으면 FirstPersonHandsController 가 WalkOffset 만큼 올려 준다.
+    private static readonly Vector3 HandsRootLocalPosition = new Vector3(0f, -0.434f, 0.470f);
+    private static readonly Vector3 HandsWalkOffset        = new Vector3(0f, 0.150f, 0.030f);
+    private const float HandsRootScale = 0.88f;
+    // 팔을 바깥쪽으로 벌리는 각도와, 손끓이 살짝 들리게 하는 각도
+    private const float ArmYawOutward     = 12f;    // 바깥으로 벌리는 각도
+    private const float ArmOutwardOffset  = 0.06f;  // 바깥으로 더 밀어내는 거리 (m)
+    private const float ArmPitch          = 14f;    // 클수록 팔을 아래로 내린다
     // ============================================================
     // 플레이어
     // ============================================================
@@ -25,8 +40,7 @@ public static class HospitalPlayerBuilder
     {
         int viewModelLayer = BuildUtil.EnsureLayer(ViewModelLayerName);
 
-        var skinMat   = BuildUtil.Mat(materialFolder, "M_HandSkin", new Color(0.90f, 0.76f, 0.68f), 0.10f);
-        var sleeveMat = BuildUtil.Mat(materialFolder, "M_Sleeve",   new Color(0.31f, 0.36f, 0.43f), 0.06f);
+
 
         // ---------- 몸통 ----------
         var player = new GameObject("Player");
@@ -68,16 +82,13 @@ public static class HospitalPlayerBuilder
         viewModelCamera.farClipPlane  = 6f;
         viewModelCamera.depth         = camera.depth + 1;
         viewModelCamera.useOcclusionCulling = false;
-
-        // ---------- 손 ----------
-        var hands = BuildUtil.Empty("Hands", viewModelCameraGO.transform, new Vector3(0f, 0f, 0f));
-        var handsComponent = hands.AddComponent<ViewModelHands>();
-
-        MakeHand(hands.transform, -1f, skinMat, sleeveMat);   // 왼손
-        MakeHand(hands.transform, +1f, skinMat, sleeveMat);   // 오른손
-
-        BuildUtil.SetLayerRecursive(hands, viewModelLayer);
-
+        // ---------- 손 (모델) ----------
+        var handsRoot = BuildUtil.Empty("HandsRoot", viewModelCameraGO.transform, HandsRootLocalPosition);
+        handsRoot.transform.localScale = Vector3.one * HandsRootScale;
+        var handsComponent = handsRoot.AddComponent<FirstPersonHandsController>();        PlaceArm(handsRoot.transform, "LeftArm",  LeftArmModelPath,  -ArmYawOutward);
+        PlaceArm(handsRoot.transform, "RightArm", RightArmModelPath,  ArmYawOutward);
+        // 손은 벽에 붙어도 잘리면 안 되므로 ViewModel 레이어로 둔다.
+        BuildUtil.SetLayerRecursive(handsRoot, viewModelLayer);
         // ---------- 스크립트 ----------
         var firstPerson = player.AddComponent<FirstPersonController>();
         var interactor  = player.AddComponent<PlayerInteractor>();
@@ -87,7 +98,11 @@ public static class HospitalPlayerBuilder
         fpsSerialized.ApplyModifiedPropertiesWithoutUndo();
 
         var handsSerialized = new SerializedObject(handsComponent);
-        handsSerialized.FindProperty("player").objectReferenceValue = firstPerson;
+        handsSerialized.FindProperty("playerController").objectReferenceValue = firstPerson;
+        handsSerialized.FindProperty("playerBody").objectReferenceValue = player.transform;
+        handsSerialized.FindProperty("walkOffset").vector3Value = HandsWalkOffset;
+        handsSerialized.FindProperty("leftArm").objectReferenceValue  = handsRoot.transform.Find("LeftArm");
+        handsSerialized.FindProperty("rightArm").objectReferenceValue = handsRoot.transform.Find("RightArm");
         handsSerialized.ApplyModifiedPropertiesWithoutUndo();
 
         var interactorSerialized = new SerializedObject(interactor);
@@ -99,43 +114,36 @@ public static class HospitalPlayerBuilder
     }
 
     /// <summary>손 한 짝을 만든다. side 가 -1 이면 왼손, +1 이면 오른손.</summary>
-    private static void MakeHand(Transform parent, float side, Material skin, Material sleeve)
+    /// <summary>
+    /// 팔 모델 한 쪽을 HandsRoot 밑에 놓는다.
+    /// 좌우 위치는 모델 자체에 들어 있으므로 위치는 0 으로 두고 각도만 준다.
+    /// </summary>
+    /// <summary>
+    /// 팔 모델 한 쪽을 HandsRoot 밑에 놓는다.
+    /// 좌우 간격은 모델 자체에 들어 있고, 여기서는 바깥으로 조금 더 밀고 각도만 준다.
+    /// </summary>
+    private static void PlaceArm(Transform parent, string name, string assetPath, float yaw)
     {
-        string name = side < 0f ? "Hand_L" : "Hand_R";
+        var model = AssetDatabase.LoadAssetAtPath<GameObject>(assetPath);
 
-        // 화면 아래쪽 좌우 구석에 손이 걸치게 놓는다.
-        var root = BuildUtil.Empty(name, parent, new Vector3(side * 0.235f, -0.170f, 0.42f));
-        root.transform.localRotation = Quaternion.Euler(-16f, side * -13f, side * 7f);
-
-        // 소매(팔뚝) — 화면 아래로 빠져나가도록 뒤쪽으로 길게 뻗는다.
-        var forearm = BuildUtil.Capsule("Forearm", root.transform, new Vector3(0f, 0f, -0.22f), 0.090f, 0.34f, sleeve);
-        forearm.transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
-
-        // 손목
-        var wrist = BuildUtil.Capsule("Wrist", root.transform, new Vector3(0f, 0f, -0.048f), 0.072f, 0.09f, skin);
-        wrist.transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
-
-        // 손바닥
-        BuildUtil.Box("Palm", root.transform, new Vector3(0f, 0f, 0.025f),
-                      new Vector3(0.082f, 0.030f, 0.095f), skin);
-
-        // 손가락 4개 (가운데가 조금 더 길다)
-        for (int i = 0; i < 4; i++)
+        if (model == null)
         {
-            float x = -0.0285f + i * 0.019f;
-            float length = 0.068f - Mathf.Abs(i - 1) * 0.007f;
-
-            var finger = BuildUtil.Box($"Finger_{i + 1}", root.transform,
-                                       new Vector3(x, -0.004f, 0.072f + length * 0.5f),
-                                       new Vector3(0.0165f, 0.020f, length), skin);
-            finger.transform.localRotation = Quaternion.Euler(9f, 0f, 0f);
+            Debug.LogWarning($"[HospitalPlayerBuilder] 팔 모델을 찾지 못했습니다: {assetPath}");
+            return;
         }
 
-        // 엄지 (안쪽으로 붙는다)
-        var thumb = BuildUtil.Box("Thumb", root.transform,
-                                  new Vector3(side * -0.048f, -0.004f, 0.030f),
-                                  new Vector3(0.022f, 0.024f, 0.056f), skin);
-        thumb.transform.localRotation = Quaternion.Euler(6f, side * -34f, 0f);
+        var arm = (GameObject)PrefabUtility.InstantiatePrefab(model);
+        arm.name = name;
+        arm.transform.SetParent(parent, false);
+
+        float side = yaw < 0f ? -1f : 1f;
+        arm.transform.localPosition = new Vector3(side * ArmOutwardOffset, 0f, 0f);
+
+        // FBX 임포터가 넣어 둔 축 보정은 그대로 두고 그 위에 각도만 준다.
+        arm.transform.localRotation = Quaternion.Euler(ArmPitch, yaw, 0f) * model.transform.localRotation;
+
+        // 크기도 모델이 가지고 있는 값을 그대로 쓴다. (1 로 덮어쓰면 100배 작아진다)
+        arm.transform.localScale = model.transform.localScale;
     }
 
     // ============================================================

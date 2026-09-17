@@ -34,9 +34,7 @@ public class PlayerInteractor : MonoBehaviour
     [SerializeField] private float nearbyRadius = 2.4f;
 
     [Tooltip("이 각도 안에 들어와 있어야 '쳐다보고 있다'고 친다 (도)")]
-    [SerializeField] private float viewAngle = 55f;
-
-
+    [SerializeField] private float viewAngle = 70f;
     // ------------------------------------------------------------
     private Interactable _current;
     private readonly Collider[] _overlapBuffer = new Collider[32];

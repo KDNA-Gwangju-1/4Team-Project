@@ -35,20 +35,26 @@ public class PatientTouchInteractable : Interactable
 
     /// <summary>몇 번 만졌는지</summary>
     public int TouchCount { get; private set; }
-
-    // 안내문 윗줄은 환자 이름을 그대로 쓴다.
+    // 안내문 윗줄에 뭐라고 띄울지 정한다.
+    // Inspector 의 Display Name 을 적어 두면 그걸 쓰고(예: "쌍둥이 언니"),
+    // 비워 두면 환자 데이터의 실명을 그대로 보여 준다.
     public override string DisplayName
     {
         get
         {
             var patient = Patient;
-            return patient != null ? patient.PatientName : base.DisplayName;
+            // Inspector 의 Display Name 을 적어 두면 그걸 먼저 쓴다.
+            // (환자 실명 대신 '쌍둥이 언니' 처럼 보여 주고 싶을 때)
+            if (!string.IsNullOrWhiteSpace(displayName)) return displayName;
+
+            return patient != null ? patient.PatientName : "";
         }
     }
 
     // 빈 침대면 E 가 뜨지 않는다.
     public override bool CanInteract => isActiveAndEnabled && Patient != null;
 
+    /// <summary>컴포넌트를 처음 붙였을 때의 기본값</summary>
     /// <summary>컴포넌트를 처음 붙였을 때의 기본값</summary>
     private void Reset()
     {
@@ -67,11 +73,11 @@ public class PatientTouchInteractable : Interactable
             if (TouchCount == 1)
             {
                 // 처음 만졌을 때만 차트를 통째로 보여 준다.
-                Debug.Log($"[손대기] {patient.PatientName}의 손을 잡았다. 손끝이 얼음처럼 차다.\n{patient.BuildChartText()}", this);
+                Debug.Log($"[손대기] {DisplayName}의 손을 잡았다. 손끝이 얼음처럼 차다.\n{patient.BuildChartText()}", this);
             }
             else
             {
-                Debug.Log($"[손대기] {patient.PatientName}의 손을 다시 잡았다. ({TouchCount}번째)", this);
+                Debug.Log($"[손대기] {DisplayName}의 손을 다시 잡았다. ({TouchCount}번째)", this);
             }
         }
 
