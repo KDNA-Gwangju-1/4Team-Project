@@ -40,6 +40,14 @@ public class Bullet2D : MonoBehaviour
         {
             boss.TakeDamage(1);
             Destroy(gameObject);
+            return;
+        }
+
+        RangedMonster2D rangedMonster = other.GetComponent<RangedMonster2D>();
+        if (rangedMonster != null && rangedMonster.IsRevealed)
+        {
+            Destroy(rangedMonster.gameObject);
+            Destroy(gameObject);
         }
     }
 }
