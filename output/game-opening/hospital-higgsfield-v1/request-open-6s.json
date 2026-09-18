@@ -1,0 +1,19 @@
+{
+  "job_id": "5b8d0a23-dce4-4487-a398-95573771a7a7",
+  "estimated_credits": 4,
+  "params": {
+    "model": "minimax_hailuo",
+    "variant": "minimax-2.3-fast",
+    "duration": 6,
+    "resolution": "768",
+    "count": 1,
+    "use_unlim": false,
+    "medias": [
+      {
+        "role": "start_image",
+        "value": "c172859e-2fcd-4076-b04d-b3a904f4c8da"
+      }
+    ],
+    "prompt": "A continuous six-second realistic 3D video-game cinematic matching the supplied 3D reference frame. Locked ground-level rear camera, completely stationary throughout. Immediately the single detective walks briskly straight away on the centerline into the hospital, becoming naturally smaller with distance. His full rear silhouette emerges wearing the same tan trench coat, dark gray trousers, brown leather shoes and a brown fedora. Quick natural coordinated strides, no hesitation. Seconds 0-4: approach. Seconds 4-5: cross the open threshold. By second 6 his ENTIRE body, BOTH feet and trailing coat hem are clearly INSIDE the illuminated corridor, continuing away. Completing entry in six seconds is the priority. No pause, slow motion or end hold. Both glass doors are ALREADY fully open from the first frame and remain completely stationary and open. He walks directly through the unobstructed passage without touching any door or handle. Arms swing naturally; no opening or closing motion. Maintain the realistic volumetric game-3D rendering, physically based cloth and leather, coherent anatomy and architecture; no pixel art, cel shading or cartoon. CONSTANT bright daylight with locked exposure and stable colors for the whole shot. Strong soft ambient fill keeps the back of his TAN coat, gray trousers, hat and shoes readable and textured as he recedes. Well-lit corridor maintains visible fabric detail after he enters. No black silhouette, darkening, underexposure, fade to black or vignette. Natural alternating planted feet and subtle coat motion. No ghost trails, frame blending, floating, foot sliding, duplicated limbs, body clipping, teleportation, deforming building, camera movement, zoom, cuts, text or logos."
+  }
+}

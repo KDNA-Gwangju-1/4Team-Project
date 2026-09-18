@@ -23,6 +23,7 @@ public class MainMenuManager : MonoBehaviour
     [Header("Scene 설정")]
     [Tooltip("START 를 눌렀을 때 이동할 Scene 이름")]
     [SerializeField] private string gameSceneName = "Game";
+    private bool startingGame;
 
     [Header("패널 (둘 중 하나만 켜진다)")]
     [SerializeField] private GameObject mainMenuPanel;
@@ -75,6 +76,7 @@ public class MainMenuManager : MonoBehaviour
     /// <summary>START 버튼</summary>
     public void OnStartButton()
     {
+        if (startingGame) return;
         // 저장 안 된 설정이 남아 있을 수 있으니 여기서 확정 저장한다.
         GameSettings.Save();
 
@@ -91,7 +93,14 @@ public class MainMenuManager : MonoBehaviour
             return;
         }
 
-        SceneManager.LoadScene(gameSceneName);
+        startingGame = true;
+        mainMenuPanel.SetActive(false);
+        optionPanel.SetActive(false);
+        var cinematic = gameObject.AddComponent<OpeningCinematicPlayer>();
+        cinematic.Play(
+            () => SceneManager.LoadScene(gameSceneName),
+            () => { startingGame = false; ShowMainMenu(); },
+            audioMixer != null ? GameSettings.MasterVolume : 1f);
     }
 
     /// <summary>OPTION 버튼 : 메인 메뉴를 숨기고 옵션 패널을 연다.</summary>

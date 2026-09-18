@@ -112,3 +112,9 @@ InitTestScene*.unity*
 
 # Auto-generated cache in Assets folder
 /[Aa]ssets/[Ss]ceneDependencyCache*
+
+# ── 대용량 로컬 작업물 ──
+# VARCO 3D OBJ 에셋, Blender 작업 파일, 오프닝 시네마틱 렌더.
+# 합쳐서 1.7GB라 GitHub 무료 LFS 한도(1GB)를 넘긴다.
+# 필요한 사람은 VARCO에서 다시 받거나 담당자에게 요청할 것.
+/output/

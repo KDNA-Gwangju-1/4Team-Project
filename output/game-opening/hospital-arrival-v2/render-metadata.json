@@ -1,0 +1,14 @@
+{
+  "width": 1920,
+  "height": 1080,
+  "fps": 30,
+  "duration": 11.6,
+  "cycleFrames": 36,
+  "cycleSeconds": 1.2,
+  "method": "landmark-guided mesh inbetweens from four approved poses; not 36 hand-drawn poses",
+  "door": "right leaf hinged inward; reaches before rotation; interior occlusion after threshold",
+  "outputs": [
+    "hospital-entry-1080p.mp4",
+    "walk-smooth-review-1080p.mp4"
+  ]
+}

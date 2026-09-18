@@ -1,0 +1,7 @@
+# Leaf-free window review v3
+
+Built-in image_gen edit. Approved v2 hand pose retained; exterior foliage and its cast shadows removed. Interior potted plant retained. Review only: no integration or replacement of previous video. Source retained; output normalized to 1920x1080 with nearest-neighbor scaling.
+
+## Prompt
+
+Use case: precise-object-edit. Edit the supplied pixel-art cutscene. Remove ONLY all exterior foreground tree foliage and branches on the left and all leaf-shaped cast shadows on the exterior stone wall and sill. Reconstruct the obscured beige stone facade with coherent existing masonry courses, unchanged perspective and understated pixel texture. Where the far upper-left truly opens beyond the building, retain a small clear blue sky sliver; do not invent a new landscape. Keep the original camera, 16:9 framing, window geometry, bright daylight, blue-gray frames, glass reflections, pixel-art style and palette exactly. Most importantly preserve the detective's approved pose and identity: one hand rests on the bottom sill, other grips right upright, head gazes diagonally up-left, brown fedora/trenchcoat, natural hands and coat folds. Keep ordinary structural/contact shadows from window and hands; only remove foliage shadows. Keep the small office interior and desk, monitor, white mug, red phone unchanged. The interior potted plant is not the foreground tree and may remain unchanged. No redesign, zoom, additional objects, text or UI. Output 1920x1080. This is a minimally changed leaf-free alternative to the approved pose.
