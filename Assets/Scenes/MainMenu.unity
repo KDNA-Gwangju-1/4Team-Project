@@ -914,7 +914,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c7ab623c8f91f248add67d2d0ce5e2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainMenuManager
-  gameSceneName: Game
+  gameSceneName: HospitalRoom
   mainMenuPanel: {fileID: 943617697}
   optionPanel: {fileID: 1996905241}
   mouseSensitivitySlider: {fileID: 1918346270}

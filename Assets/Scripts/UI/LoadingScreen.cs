@@ -35,6 +35,13 @@ public class LoadingScreen : MonoBehaviour
     /// <summary>로딩 화면을 거쳐서 씬을 바꾼다.</summary>
     public static void Go(string sceneName)
     {
+        if (string.IsNullOrWhiteSpace(sceneName) || sceneName == LoadingSceneName ||
+            !Application.CanStreamedLevelBeLoaded(sceneName) ||
+            !Application.CanStreamedLevelBeLoaded(LoadingSceneName))
+        {
+            Debug.LogError("[LoadingScreen] Invalid loading destination: " + sceneName);
+            return;
+        }
         NextScene = sceneName;
         SceneManager.LoadScene(LoadingSceneName);
     }
@@ -43,7 +50,8 @@ public class LoadingScreen : MonoBehaviour
     {
         string target = string.IsNullOrWhiteSpace(NextScene) ? fallbackScene : NextScene;
 
-        if (string.IsNullOrWhiteSpace(target))
+        if (string.IsNullOrWhiteSpace(target) || target == LoadingSceneName ||
+            !Application.CanStreamedLevelBeLoaded(target))
         {
             Debug.LogError("[LoadingScreen] 갈 씬이 정해져 있지 않습니다. " +
                            "LoadingScreen.Go(\"씬이름\") 으로 부르거나 Fallback Scene 을 채워 주세요.");
@@ -56,6 +64,8 @@ public class LoadingScreen : MonoBehaviour
     private IEnumerator LoadRoutine(string target)
     {
         float started = Time.unscaledTime;
+        // Let the loading artwork render before starting expensive scene deserialization.
+        yield return null;
 
         var op = SceneManager.LoadSceneAsync(target);
         if (op == null)

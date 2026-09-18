@@ -22,7 +22,7 @@ public class MainMenuManager : MonoBehaviour
     // ============================================================
     [Header("Scene 설정")]
     [Tooltip("START 를 눌렀을 때 이동할 Scene 이름")]
-    [SerializeField] private string gameSceneName = "Game";
+    [SerializeField] private string gameSceneName = "HospitalRoom";
     private bool startingGame;
 
     [Header("패널 (둘 중 하나만 켜진다)")]
@@ -93,12 +93,17 @@ public class MainMenuManager : MonoBehaviour
             return;
         }
 
+        if (!Application.CanStreamedLevelBeLoaded(LoadingScreen.LoadingSceneName))
+        {
+            Debug.LogError("[MainMenuManager] Loading scene is missing from Build Settings.");
+            return;
+        }
         startingGame = true;
         mainMenuPanel.SetActive(false);
         optionPanel.SetActive(false);
         var cinematic = gameObject.AddComponent<OpeningCinematicPlayer>();
         cinematic.Play(
-            () => SceneManager.LoadScene(gameSceneName),
+            () => LoadingScreen.Go(gameSceneName),
             () => { startingGame = false; ShowMainMenu(); },
             audioMixer != null ? GameSettings.MasterVolume : 1f);
     }

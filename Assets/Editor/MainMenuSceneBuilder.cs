@@ -17,7 +17,7 @@ public static class MainMenuSceneBuilder
 {
     private const string MainMenuScenePath = "Assets/Scenes/MainMenu.unity";
     private const string GameScenePath     = "Assets/Scenes/Game.unity";
-    private const string GameSceneName     = "Game";
+    private const string GameSceneName     = "HospitalRoom";
 
     // 오프닝 배경 프레임이 들어 있는 폴더 (opening_000.png ~ )
     private const string OpeningFramesFolder = "Assets/Art/Opening";
@@ -43,7 +43,9 @@ public static class MainMenuSceneBuilder
         EditorBuildSettings.scenes = new[]
         {
             new EditorBuildSettingsScene(MainMenuScenePath, true),
+            new EditorBuildSettingsScene("Assets/Scenes/Loading.unity", true),
             new EditorBuildSettingsScene(GameScenePath,     true),
+            new EditorBuildSettingsScene("Assets/Scenes/HospitalRoom.unity", true),
         };
 
         AssetDatabase.SaveAssets();
