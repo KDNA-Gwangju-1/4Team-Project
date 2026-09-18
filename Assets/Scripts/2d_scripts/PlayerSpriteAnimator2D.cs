@@ -22,6 +22,7 @@ public class PlayerSpriteAnimator2D : MonoBehaviour
     private PlayerMovement2D player;
     private AnimState currentState = AnimState.Idle;
     private bool usingFlashlightWalk;
+    private bool usingFlashlightIdle;
     private int frameIndex;
     private float frameTimer;
 
@@ -61,11 +62,20 @@ public class PlayerSpriteAnimator2D : MonoBehaviour
         bool nextUsingFlashlightWalk = next == AnimState.Walk && player != null
             && player.HasLantern && walkFlashlightFrames != null && walkFlashlightFrames.Length > 0;
 
-        if (next != currentState || nextUsingFlashlightWalk != usingFlashlightWalk)
+        bool nextUsingFlashlightIdle = next == AnimState.Idle && player != null
+            && player.IsLightOn && walkFlashlightFrames != null && walkFlashlightFrames.Length > 0;
+
+        if (next != currentState || nextUsingFlashlightWalk != usingFlashlightWalk || nextUsingFlashlightIdle != usingFlashlightIdle)
         {
             currentState = next;
             usingFlashlightWalk = nextUsingFlashlightWalk;
-            frameIndex = 0;
+            usingFlashlightIdle = nextUsingFlashlightIdle;
+
+            // Jump frame 0 tucks the arm out of view, which looks disconnected from the
+            // held-flashlight overlay, so skip straight to frame 1 while the light is on.
+            bool skipFirstJumpFrame = next == AnimState.Jump && player != null && player.IsLightOn
+                && jumpFrames != null && jumpFrames.Length > 1;
+            frameIndex = skipFirstJumpFrame ? 1 : 0;
             frameTimer = 0f;
         }
     }
@@ -74,6 +84,12 @@ public class PlayerSpriteAnimator2D : MonoBehaviour
     {
         Sprite[] frames = CurrentFrames();
         if (frames == null || frames.Length == 0 || sr == null) return;
+
+        if (usingFlashlightIdle)
+        {
+            sr.sprite = frames[0];
+            return;
+        }
 
         bool loops = currentState != AnimState.Jump;
         float duration = CurrentFrameDuration(frameIndex);
@@ -107,7 +123,7 @@ public class PlayerSpriteAnimator2D : MonoBehaviour
         {
             case AnimState.Walk: return usingFlashlightWalk ? walkFlashlightFrames : walkFrames;
             case AnimState.Jump: return jumpFrames;
-            default: return idleFrames;
+            default: return usingFlashlightIdle ? walkFlashlightFrames : idleFrames;
         }
     }
 

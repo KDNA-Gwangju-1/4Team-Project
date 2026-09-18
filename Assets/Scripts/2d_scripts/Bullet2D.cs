@@ -42,10 +42,10 @@ public class Bullet2D : MonoBehaviour
             return;
         }
 
-        Boss2D boss = other.GetComponent<Boss2D>();
-        if (boss != null && boss.IsRevealed)
+        BossTentacle2D tentacle = other.GetComponent<BossTentacle2D>();
+        if (tentacle != null && tentacle.IsRevealed)
         {
-            boss.TakeDamage(1);
+            tentacle.Kill();
             Destroy(gameObject);
             return;
         }

@@ -1,28 +1,15 @@
 using System.Collections;
 using UnityEngine;
 
-public class RangedMonster2D : MonoBehaviour
+public class BossTentacle2D : MonoBehaviour
 {
     private const int RayCount = 15;
     private const float SkinMargin = 1.1f;
 
-    public float detectionRange = 8f;
-    public float fireCooldown = 2f;
-    public GameObject bulletPrefab;
-    public float bulletSpeed = 3f;
-    public float respawnDelay = 20f;
+    public Boss2D boss;
+    public int damageToBoss = 1;
+    public float respawnDelay = 12f;
 
-    public float approachSpeed = 1.5f;
-    public float preferredDistance = 4f;
-
-    public Transform shimmer;
-    public float shimmerScalePulse = 0.15f;
-    public float shimmerAlphaBase = 0.25f;
-    public float shimmerAlphaPulse = 0.1f;
-    public float shimmerJitter = 0.06f;
-    public float shimmerSpeed = 2.5f;
-
-    public bool useSilhouetteVisual = false;
     public Color silhouetteColor = Color.black;
     public Color silhouetteOutlineColor = new Color(0.55f, 0.55f, 0.55f, 1f);
     public float silhouetteOutlineScale = 1.12f;
@@ -30,13 +17,9 @@ public class RangedMonster2D : MonoBehaviour
     private SpriteRenderer sr;
     private Collider2D col;
     private MonsterSpriteAnimator2D animator;
-    private SpriteRenderer shimmerRenderer;
     private SpriteRenderer silhouetteRenderer;
     private SpriteRenderer outlineRenderer;
-    private Vector3 shimmerBasePosition;
-    private Vector3 spawnPosition;
     private int raycastMask;
-    private float lastFireTime = -999f;
     private bool isDead;
 
     public bool IsRevealed => sr != null && sr.enabled;
@@ -50,7 +33,13 @@ public class RangedMonster2D : MonoBehaviour
     {
         isDead = true;
         if (col != null) col.enabled = false;
-        if (shimmerRenderer != null) shimmerRenderer.enabled = false;
+        if (silhouetteRenderer != null) silhouetteRenderer.enabled = false;
+        if (outlineRenderer != null) outlineRenderer.enabled = false;
+
+        if (boss != null)
+        {
+            boss.TakeDamage(damageToBoss);
+        }
 
         if (animator != null && animator.dissolveFrames != null && animator.dissolveFrames.Length > 0)
         {
@@ -61,7 +50,6 @@ public class RangedMonster2D : MonoBehaviour
 
         yield return new WaitForSeconds(respawnDelay);
 
-        transform.position = spawnPosition;
         if (col != null) col.enabled = true;
         if (animator != null) animator.ResetAnimation();
         isDead = false;
@@ -73,19 +61,9 @@ public class RangedMonster2D : MonoBehaviour
         col = GetComponent<Collider2D>();
         animator = GetComponent<MonsterSpriteAnimator2D>();
         if (sr != null) sr.enabled = false;
-        spawnPosition = transform.position;
 
-        if (shimmer != null)
-        {
-            shimmerRenderer = shimmer.GetComponent<SpriteRenderer>();
-            shimmerBasePosition = shimmer.localPosition;
-        }
-
-        if (useSilhouetteVisual)
-        {
-            outlineRenderer = CreateSilhouetteLayer("Outline", silhouetteOutlineColor, silhouetteOutlineScale, sr.sortingOrder - 1);
-            silhouetteRenderer = CreateSilhouetteLayer("Silhouette", silhouetteColor, 1f, sr.sortingOrder);
-        }
+        outlineRenderer = CreateSilhouetteLayer("Outline", silhouetteOutlineColor, silhouetteOutlineScale, sr.sortingOrder - 1);
+        silhouetteRenderer = CreateSilhouetteLayer("Silhouette", silhouetteColor, 1f, sr.sortingOrder);
 
         int bulletLayer = LayerMask.NameToLayer("Bullet");
         raycastMask = ~(1 << bulletLayer);
@@ -112,29 +90,7 @@ public class RangedMonster2D : MonoBehaviour
         bool revealed = player != null && player.IsLightOn && IsLit(player);
         sr.enabled = revealed;
 
-        if (useSilhouetteVisual)
-        {
-            UpdateSilhouette(!revealed);
-        }
-        else
-        {
-            UpdateShimmer(!revealed);
-        }
-
-        ApproachPlayer(player);
-        TryFireAt(player);
-    }
-
-    private void ApproachPlayer(PlayerMovement2D player)
-    {
-        if (player == null) return;
-
-        Vector2 toPlayer = (Vector2)player.transform.position - (Vector2)transform.position;
-        float distance = toPlayer.magnitude;
-        if (distance <= preferredDistance || distance > detectionRange) return;
-
-        Vector2 direction = toPlayer.normalized;
-        transform.position += (Vector3)(direction * approachSpeed * Time.deltaTime);
+        UpdateSilhouette(!revealed);
     }
 
     private void UpdateSilhouette(bool active)
@@ -147,47 +103,6 @@ public class RangedMonster2D : MonoBehaviour
 
         silhouetteRenderer.sprite = sr.sprite;
         outlineRenderer.sprite = sr.sprite;
-        silhouetteRenderer.flipX = sr.flipX;
-        outlineRenderer.flipX = sr.flipX;
-    }
-
-    private void UpdateShimmer(bool active)
-    {
-        if (shimmerRenderer == null) return;
-
-        shimmerRenderer.enabled = active;
-        if (!active) return;
-
-        float t = Time.time * shimmerSpeed;
-
-        float scale = 1f + Mathf.Sin(t) * shimmerScalePulse;
-        shimmer.localScale = new Vector3(scale, scale, 1f);
-
-        Color c = shimmerRenderer.color;
-        c.a = shimmerAlphaBase + Mathf.Sin(t * 1.3f) * shimmerAlphaPulse;
-        shimmerRenderer.color = c;
-
-        Vector3 jitter = new Vector3(Mathf.Sin(t * 2.3f), Mathf.Cos(t * 1.7f), 0f) * shimmerJitter;
-        shimmer.localPosition = shimmerBasePosition + jitter;
-    }
-
-    private void TryFireAt(PlayerMovement2D player)
-    {
-        if (player == null || bulletPrefab == null) return;
-
-        Vector2 toPlayer = (Vector2)player.transform.position - (Vector2)transform.position;
-        if (toPlayer.sqrMagnitude > detectionRange * detectionRange) return;
-        if (Time.time - lastFireTime < fireCooldown) return;
-
-        Vector2 direction = toPlayer.normalized;
-        GameObject bulletObj = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
-        BossBullet2D bullet = bulletObj.GetComponent<BossBullet2D>();
-        if (bullet != null)
-        {
-            bullet.Init(direction, bulletSpeed);
-        }
-
-        lastFireTime = Time.time;
     }
 
     private bool IsLit(PlayerMovement2D player)

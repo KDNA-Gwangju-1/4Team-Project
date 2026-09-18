@@ -27,6 +27,8 @@ public class PlayerMovement2D : MonoBehaviour
     public Transform flashlight;
     public float lightRange = 3f;
     public float lightHalfAngle = 15f;
+    public Vector2 flashlightHandOffset = new Vector2(0.4f, 0.1f);
+    public Vector2 jumpFlashlightHandOffset = new Vector2(0.75f, 0.15f);
 
     public static bool LanternObtained = false;
     public static float? PendingSpawnX = null;
@@ -118,8 +120,8 @@ public class PlayerMovement2D : MonoBehaviour
         RaycastHit2D groundHit = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, groundLayer);
         grounded = groundHit.collider != null;
 
-        RaycastHit2D wallHitRight = Physics2D.Raycast(transform.position, Vector2.right, wallCheckDistance, wallLayer);
-        RaycastHit2D wallHitLeft = Physics2D.Raycast(transform.position, Vector2.left, wallCheckDistance, wallLayer);
+        RaycastHit2D wallHitRight = CastForWall(Vector2.right);
+        RaycastHit2D wallHitLeft = CastForWall(Vector2.left);
         touchingWallRight = wallHitRight.collider != null;
         touchingWallLeft = wallHitLeft.collider != null;
 
@@ -192,6 +194,19 @@ public class PlayerMovement2D : MonoBehaviour
         rb.linearVelocity = velocity;
     }
 
+    private static readonly float[] WallProbeHeights = { 0.8f, 0.4f, 0f, -0.4f, -0.8f };
+
+    private RaycastHit2D CastForWall(Vector2 direction)
+    {
+        foreach (float heightOffset in WallProbeHeights)
+        {
+            Vector2 origin = (Vector2)transform.position + Vector2.up * heightOffset;
+            RaycastHit2D hit = Physics2D.Raycast(origin, direction, wallCheckDistance, wallLayer);
+            if (hit.collider != null) return hit;
+        }
+        return default;
+    }
+
     private Vector3 ComputeCheckpoint(Collider2D floorCollider)
     {
         Bounds bounds = floorCollider.bounds;
@@ -245,7 +260,9 @@ public class PlayerMovement2D : MonoBehaviour
         {
             lightDirection = GetMouseDirection(mouse);
             float angle = Mathf.Atan2(lightDirection.y, lightDirection.x) * Mathf.Rad2Deg;
-            flashlight.position = transform.position;
+            float facing = lightDirection.x >= 0f ? 1f : -1f;
+            Vector2 offset = grounded ? flashlightHandOffset : jumpFlashlightHandOffset;
+            flashlight.position = transform.position + new Vector3(offset.x * facing, offset.y, 0f);
             flashlight.rotation = Quaternion.Euler(0f, 0f, angle);
         }
     }

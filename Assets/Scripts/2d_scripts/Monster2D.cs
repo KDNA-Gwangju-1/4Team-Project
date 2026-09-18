@@ -22,10 +22,17 @@ public class Monster2D : MonoBehaviour
     public float chaseSpeed = 2f;
     public float respawnDelay = 20f;
 
+    public bool useSilhouetteVisual = false;
+    public Color silhouetteColor = Color.black;
+    public Color silhouetteOutlineColor = new Color(0.55f, 0.55f, 0.55f, 1f);
+    public float silhouetteOutlineScale = 1.12f;
+
     private SpriteRenderer sr;
     private Collider2D col;
     private MonsterSpriteAnimator2D animator;
     private SpriteRenderer shimmerRenderer;
+    private SpriteRenderer silhouetteRenderer;
+    private SpriteRenderer outlineRenderer;
     private Vector3 shimmerBasePosition;
     private Vector3 spawnPosition;
     private int raycastMask;
@@ -83,8 +90,27 @@ public class Monster2D : MonoBehaviour
             shimmerBasePosition = shimmer.localPosition;
         }
 
+        if (useSilhouetteVisual)
+        {
+            outlineRenderer = CreateSilhouetteLayer("Outline", silhouetteOutlineColor, silhouetteOutlineScale, sr.sortingOrder - 1);
+            silhouetteRenderer = CreateSilhouetteLayer("Silhouette", silhouetteColor, 1f, sr.sortingOrder);
+        }
+
         int bulletLayer = LayerMask.NameToLayer("Bullet");
         raycastMask = ~(1 << bulletLayer);
+    }
+
+    private SpriteRenderer CreateSilhouetteLayer(string name, Color color, float scale, int sortingOrder)
+    {
+        GameObject go = new GameObject(name);
+        go.transform.SetParent(transform, false);
+        go.transform.localScale = Vector3.one * scale;
+        SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
+        renderer.color = color;
+        renderer.sortingLayerName = sr.sortingLayerName;
+        renderer.sortingOrder = sortingOrder;
+        renderer.enabled = false;
+        return renderer;
     }
 
     void Update()
@@ -95,8 +121,30 @@ public class Monster2D : MonoBehaviour
         bool revealed = player != null && player.IsLightOn && IsLit(player);
         sr.enabled = revealed;
 
-        UpdateShimmer(!revealed);
+        if (useSilhouetteVisual)
+        {
+            UpdateSilhouette(!revealed);
+        }
+        else
+        {
+            UpdateShimmer(!revealed);
+        }
+
         ChasePlayer(player);
+    }
+
+    private void UpdateSilhouette(bool active)
+    {
+        if (silhouetteRenderer == null || outlineRenderer == null) return;
+
+        silhouetteRenderer.enabled = active;
+        outlineRenderer.enabled = active;
+        if (!active) return;
+
+        silhouetteRenderer.sprite = sr.sprite;
+        outlineRenderer.sprite = sr.sprite;
+        silhouetteRenderer.flipX = sr.flipX;
+        outlineRenderer.flipX = sr.flipX;
     }
 
     private void ChasePlayer(PlayerMovement2D player)
