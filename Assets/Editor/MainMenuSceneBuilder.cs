@@ -138,6 +138,7 @@ public static class MainMenuSceneBuilder
         var startButton  = CreateButton(mainPanel, "StartButton",  "START",  new Vector2(0f,  110f), res);
         var optionButton = CreateButton(mainPanel, "OptionButton", "OPTION", new Vector2(0f,    0f), res);
         var exitButton   = CreateButton(mainPanel, "ExitButton",   "EXIT",   new Vector2(0f, -110f), res);
+        MainMenuVisualDesign.Apply(mainPanel);
 
         // ---------- OptionPanel ----------
         var optionPanel = CreateStretchedObject("OptionPanel", canvasRT);
