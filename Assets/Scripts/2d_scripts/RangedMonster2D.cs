@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class RangedMonster2D : MonoBehaviour
@@ -9,6 +10,7 @@ public class RangedMonster2D : MonoBehaviour
     public float fireCooldown = 2f;
     public GameObject bulletPrefab;
     public float bulletSpeed = 3f;
+    public float respawnDelay = 10f;
 
     public Transform shimmer;
     public float shimmerScalePulse = 0.15f;
@@ -21,16 +23,38 @@ public class RangedMonster2D : MonoBehaviour
     private Collider2D col;
     private SpriteRenderer shimmerRenderer;
     private Vector3 shimmerBasePosition;
+    private Vector3 spawnPosition;
     private int raycastMask;
     private float lastFireTime = -999f;
+    private bool isDead;
 
     public bool IsRevealed => sr != null && sr.enabled;
+
+    public void Kill()
+    {
+        StartCoroutine(RespawnAfterDelay());
+    }
+
+    private IEnumerator RespawnAfterDelay()
+    {
+        isDead = true;
+        if (sr != null) sr.enabled = false;
+        if (col != null) col.enabled = false;
+        if (shimmerRenderer != null) shimmerRenderer.enabled = false;
+
+        yield return new WaitForSeconds(respawnDelay);
+
+        transform.position = spawnPosition;
+        if (col != null) col.enabled = true;
+        isDead = false;
+    }
 
     void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
         col = GetComponent<Collider2D>();
         if (sr != null) sr.enabled = false;
+        spawnPosition = transform.position;
 
         if (shimmer != null)
         {
@@ -44,7 +68,7 @@ public class RangedMonster2D : MonoBehaviour
 
     void Update()
     {
-        if (sr == null || col == null) return;
+        if (isDead || sr == null || col == null) return;
 
         var player = PlayerMovement2D.Instance;
         bool revealed = player != null && player.IsLightOn && IsLit(player);

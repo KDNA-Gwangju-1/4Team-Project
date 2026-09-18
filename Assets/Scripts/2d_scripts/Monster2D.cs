@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,12 +20,15 @@ public class Monster2D : MonoBehaviour
 
     public float detectionRange = 5f;
     public float chaseSpeed = 2f;
+    public float respawnDelay = 10f;
 
     private SpriteRenderer sr;
     private Collider2D col;
     private SpriteRenderer shimmerRenderer;
     private Vector3 shimmerBasePosition;
+    private Vector3 spawnPosition;
     private int raycastMask;
+    private bool isDead;
 
     public bool IsRevealed => sr != null && sr.enabled;
 
@@ -34,7 +38,21 @@ public class Monster2D : MonoBehaviour
         {
             DefeatedMonsterIds.Add(monsterId);
         }
-        Destroy(gameObject);
+        StartCoroutine(RespawnAfterDelay());
+    }
+
+    private IEnumerator RespawnAfterDelay()
+    {
+        isDead = true;
+        if (sr != null) sr.enabled = false;
+        if (col != null) col.enabled = false;
+        if (shimmerRenderer != null) shimmerRenderer.enabled = false;
+
+        yield return new WaitForSeconds(respawnDelay);
+
+        transform.position = spawnPosition;
+        if (col != null) col.enabled = true;
+        isDead = false;
     }
 
     void Awake()
@@ -48,6 +66,7 @@ public class Monster2D : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         col = GetComponent<Collider2D>();
         if (sr != null) sr.enabled = false;
+        spawnPosition = transform.position;
 
         if (shimmer != null)
         {
@@ -61,7 +80,7 @@ public class Monster2D : MonoBehaviour
 
     void Update()
     {
-        if (sr == null || col == null) return;
+        if (isDead || sr == null || col == null) return;
 
         var player = PlayerMovement2D.Instance;
         bool revealed = player != null && player.IsLightOn && IsLit(player);
