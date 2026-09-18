@@ -1,0 +1,7 @@
+{
+  "tool": "built-in imagegen",
+  "skill": "C:\\Users\\Note-038\\.codex\\skills\\.system\\imagegen\\SKILL.md",
+  "enemy_attack_sheet": "exec-9b9c1a55-e09f-412c-a6f6-5958f609d486.png",
+  "enemy_dissolve_sheet": "exec-2fd580f4-ef96-4f71-8a19-08e3bbb6b565.png",
+  "notes": "Exact final prompts are stored in 00_docs/IMAGEGEN-PROMPTS.md"
+}

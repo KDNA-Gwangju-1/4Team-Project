@@ -123,3 +123,7 @@ InitTestScene*.unity*
 
 # Auto-generated cache in Assets folder
 /[Aa]ssets/[Ss]ceneDependencyCache*
+
+# Extracted delivery zip contents (source zips already tracked under output/*.zip)
+/output/chapter2-final-delivery-v1/
+/output/chapter2-enemies-distinct-soft-v1/

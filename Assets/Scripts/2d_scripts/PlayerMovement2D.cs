@@ -67,6 +67,7 @@ public class PlayerMovement2D : MonoBehaviour
     private float dashCooldownTimer;
     private float dashDirection;
     private int facingDirection = 1;
+    private bool grounded;
     private SpriteRenderer flashlightRenderer;
     private Vector2 lightDirection = Vector2.right;
     private float lastFireTime = -999f;
@@ -79,6 +80,8 @@ public class PlayerMovement2D : MonoBehaviour
     public Vector2 LightOrigin => transform.position;
     public Vector2 LightDirection => lightDirection;
     public int CurrentHealth => currentHealth;
+    public bool IsGrounded => grounded;
+    public int FacingDirection => facingDirection;
 
     void Awake()
     {
@@ -113,7 +116,7 @@ public class PlayerMovement2D : MonoBehaviour
         }
 
         RaycastHit2D groundHit = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, groundLayer);
-        bool grounded = groundHit.collider != null;
+        grounded = groundHit.collider != null;
 
         RaycastHit2D wallHitRight = Physics2D.Raycast(transform.position, Vector2.right, wallCheckDistance, wallLayer);
         RaycastHit2D wallHitLeft = Physics2D.Raycast(transform.position, Vector2.left, wallCheckDistance, wallLayer);
