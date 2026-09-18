@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb917857ee0988c4a8fa91fb54d3db14, type: 3}
   m_Name: Room_302
   m_EditorClassIdentifier: Assembly-CSharp::HospitalRoomData
-  roomNumber: 302
+  roomNumber: 301
   roomName: "\uC18C\uC544 \uC911\uD658\uC790 \uBCD1\uB3D9"
   ward: "\uBCF8\uAD00 3\uCE35"
   bedCount: 3
