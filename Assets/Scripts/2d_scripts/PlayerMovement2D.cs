@@ -23,9 +23,12 @@ public class PlayerMovement2D : MonoBehaviour
     public float dashSpeed = 14f;
     public float dashDuration = 0.15f;
     public float dashCooldown = 0.6f;
+    public bool allowAirDash = false;
 
     public Transform flashlight;
     public float lightRange = 3f;
+    public float lightMaxSeconds = 10f;
+    public float lightLockoutSeconds = 7f;
     public float lightHalfAngle = 15f;
     public Vector2 flashlightHandOffset = new Vector2(0.4f, 0.1f);
     public Vector2 jumpFlashlightHandOffset = new Vector2(0.75f, 0.15f);
@@ -77,8 +80,13 @@ public class PlayerMovement2D : MonoBehaviour
     private int currentHealth;
     private bool isInvincible;
     private bool hasLantern;
+    private bool respawnAnchorLocked;
+    private float lightCharge;
+    private bool lightLocked;
 
     public bool IsLightOn => flashlightRenderer != null && flashlightRenderer.enabled;
+    public float LightCharge01 => lightMaxSeconds > 0f ? Mathf.Clamp01(lightCharge / lightMaxSeconds) : 0f;
+    public bool LightLocked => lightLocked;
     public Vector2 LightOrigin => transform.position;
     public Vector2 LightDirection => lightDirection;
     public int CurrentHealth => currentHealth;
@@ -103,6 +111,7 @@ public class PlayerMovement2D : MonoBehaviour
         }
 
         lastGroundedPosition = transform.position;
+        lightCharge = lightMaxSeconds;
         if (flashlight != null)
         {
             flashlightRenderer = flashlight.GetComponent<SpriteRenderer>();
@@ -132,7 +141,7 @@ public class PlayerMovement2D : MonoBehaviour
             if (keyboard.aKey.wasPressedThisFrame) facingDirection = -1;
 
             if ((keyboard.leftShiftKey.wasPressedThisFrame || keyboard.rightShiftKey.wasPressedThisFrame)
-                && grounded && !isDashing && dashCooldownTimer <= 0f)
+                && (grounded || allowAirDash) && !isDashing && dashCooldownTimer <= 0f)
             {
                 dashRequested = true;
             }
@@ -161,7 +170,7 @@ public class PlayerMovement2D : MonoBehaviour
         if (grounded)
         {
             usedWallCollider = null;
-            if (groundHit.collider.GetComponent<TimedRevealPlatform2D>() == null)
+            if (!respawnAnchorLocked && groundHit.collider.GetComponent<TimedRevealPlatform2D>() == null)
             {
                 lastGroundedPosition = ComputeCheckpoint(groundHit.collider);
             }
@@ -222,6 +231,30 @@ public class PlayerMovement2D : MonoBehaviour
         return new Vector3(x, transform.position.y, transform.position.z);
     }
 
+    public void SetGravityScale(float scale)
+    {
+        if (rb != null) rb.gravityScale = scale;
+    }
+
+    public void SetRespawnAnchor(Vector3 position)
+    {
+        lastGroundedPosition = position;
+        respawnAnchorLocked = true;
+    }
+
+    public void ClearRespawnAnchor()
+    {
+        respawnAnchorLocked = false;
+    }
+
+    public void AddImpulse(Vector2 impulse)
+    {
+        if (rb == null) return;
+        Vector2 velocity = rb.linearVelocity;
+        velocity += impulse;
+        rb.linearVelocity = velocity;
+    }
+
     private void Respawn()
     {
         transform.position = lastGroundedPosition;
@@ -253,7 +286,28 @@ public class PlayerMovement2D : MonoBehaviour
         if (flashlight == null || flashlightRenderer == null) return;
 
         var mouse = Mouse.current;
-        bool aiming = hasLantern && mouse != null && mouse.leftButton.isPressed;
+        bool wantsLight = hasLantern && mouse != null && mouse.leftButton.isPressed;
+
+        // the lamp runs dry after lightMaxSeconds and stays dead until it has
+        // fully recharged, which takes lightLockoutSeconds
+        bool aiming = wantsLight && !lightLocked && lightCharge > 0f;
+        if (aiming)
+        {
+            lightCharge -= Time.deltaTime;
+            if (lightCharge <= 0f)
+            {
+                lightCharge = 0f;
+                lightLocked = true;
+                aiming = false;
+            }
+        }
+        else if (lightCharge < lightMaxSeconds)
+        {
+            float rechargeRate = lightMaxSeconds / Mathf.Max(0.01f, lightLockoutSeconds);
+            lightCharge = Mathf.Min(lightMaxSeconds, lightCharge + rechargeRate * Time.deltaTime);
+            if (lightLocked && lightCharge >= lightMaxSeconds) lightLocked = false;
+        }
+
         flashlightRenderer.enabled = aiming;
 
         if (aiming)

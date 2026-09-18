@@ -13,6 +13,7 @@ public class MonsterSpriteAnimator2D : MonoBehaviour
     private int frameIndex;
     private float frameTimer;
     private bool isDissolving;
+    private bool isOneShot;
 
     void Awake()
     {
@@ -25,7 +26,7 @@ public class MonsterSpriteAnimator2D : MonoBehaviour
 
     void Update()
     {
-        if (isDissolving || sr == null || activeFrames == null || activeFrames.Length == 0) return;
+        if (isDissolving || isOneShot || sr == null || activeFrames == null || activeFrames.Length == 0) return;
 
         frameTimer += Time.deltaTime;
         if (frameTimer >= activeFrameDuration)
@@ -48,11 +49,33 @@ public class MonsterSpriteAnimator2D : MonoBehaviour
         }
     }
 
+    public IEnumerator PlayOneShotRoutine(Sprite[] frames, float frameDuration)
+    {
+        if (sr == null || frames == null || frames.Length == 0) yield break;
+
+        isOneShot = true;
+        for (int i = 0; i < frames.Length; i++)
+        {
+            sr.sprite = frames[i];
+            yield return new WaitForSeconds(frameDuration);
+        }
+        isOneShot = false;
+        frameIndex = 0;
+        frameTimer = 0f;
+    }
+
+    public void SetLoopFrames(Sprite[] frames)
+    {
+        activeFrames = frames;
+        ResetAnimation();
+    }
+
     public void ResetAnimation()
     {
         frameIndex = 0;
         frameTimer = 0f;
         isDissolving = false;
+        isOneShot = false;
         if (sr != null && activeFrames != null && activeFrames.Length > 0)
         {
             sr.sprite = activeFrames[0];

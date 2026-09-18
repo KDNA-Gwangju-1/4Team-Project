@@ -50,6 +50,22 @@ public class Bullet2D : MonoBehaviour
             return;
         }
 
+        TentacleStrike2D strike = other.GetComponent<TentacleStrike2D>();
+        if (strike != null)
+        {
+            if (strike.CanBeKilled) strike.Kill();
+            Destroy(gameObject);
+            return;
+        }
+
+        Boss2D boss = other.GetComponent<Boss2D>();
+        if (boss != null)
+        {
+            if (boss.CanBeShot) boss.TakeDamage(1);
+            Destroy(gameObject);
+            return;
+        }
+
         RangedMonster2D rangedMonster = other.GetComponent<RangedMonster2D>();
         if (rangedMonster != null && rangedMonster.IsRevealed)
         {
