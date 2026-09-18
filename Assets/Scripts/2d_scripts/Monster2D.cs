@@ -20,7 +20,7 @@ public class Monster2D : MonoBehaviour
 
     public float detectionRange = 5f;
     public float chaseSpeed = 2f;
-    public float respawnDelay = 10f;
+    public float respawnDelay = 20f;
 
     private SpriteRenderer sr;
     private Collider2D col;

@@ -10,7 +10,7 @@ public class RangedMonster2D : MonoBehaviour
     public float fireCooldown = 2f;
     public GameObject bulletPrefab;
     public float bulletSpeed = 3f;
-    public float respawnDelay = 10f;
+    public float respawnDelay = 20f;
 
     public Transform shimmer;
     public float shimmerScalePulse = 0.15f;
