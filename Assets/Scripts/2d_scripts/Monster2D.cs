@@ -24,6 +24,7 @@ public class Monster2D : MonoBehaviour
 
     private SpriteRenderer sr;
     private Collider2D col;
+    private MonsterSpriteAnimator2D animator;
     private SpriteRenderer shimmerRenderer;
     private Vector3 shimmerBasePosition;
     private Vector3 spawnPosition;
@@ -38,20 +39,27 @@ public class Monster2D : MonoBehaviour
         {
             DefeatedMonsterIds.Add(monsterId);
         }
-        StartCoroutine(RespawnAfterDelay());
+        StartCoroutine(KillSequence());
     }
 
-    private IEnumerator RespawnAfterDelay()
+    private IEnumerator KillSequence()
     {
         isDead = true;
-        if (sr != null) sr.enabled = false;
         if (col != null) col.enabled = false;
         if (shimmerRenderer != null) shimmerRenderer.enabled = false;
+
+        if (animator != null && animator.dissolveFrames != null && animator.dissolveFrames.Length > 0)
+        {
+            if (sr != null) sr.enabled = true;
+            yield return animator.PlayDissolveRoutine();
+        }
+        if (sr != null) sr.enabled = false;
 
         yield return new WaitForSeconds(respawnDelay);
 
         transform.position = spawnPosition;
         if (col != null) col.enabled = true;
+        if (animator != null) animator.ResetAnimation();
         isDead = false;
     }
 
@@ -65,6 +73,7 @@ public class Monster2D : MonoBehaviour
 
         sr = GetComponent<SpriteRenderer>();
         col = GetComponent<Collider2D>();
+        animator = GetComponent<MonsterSpriteAnimator2D>();
         if (sr != null) sr.enabled = false;
         spawnPosition = transform.position;
 

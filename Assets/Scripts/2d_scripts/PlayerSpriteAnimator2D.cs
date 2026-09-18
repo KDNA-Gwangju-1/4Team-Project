@@ -15,6 +15,7 @@ public class PlayerSpriteAnimator2D : MonoBehaviour
 
     public Sprite[] jumpFrames;
     public float jumpFrameDuration = 0.12f;
+    public float[] jumpFrameDurations;
 
     private SpriteRenderer sr;
     private Rigidbody2D rb;
@@ -40,7 +41,7 @@ public class PlayerSpriteAnimator2D : MonoBehaviour
 
     private void UpdateState()
     {
-        bool isGrounded = player == null || player.IsGrounded;
+        bool isGrounded = player == null || !player.enabled || player.IsGrounded;
         float horizontalSpeed = rb != null ? Mathf.Abs(rb.linearVelocity.x) : 0f;
 
         AnimState next;
@@ -75,7 +76,7 @@ public class PlayerSpriteAnimator2D : MonoBehaviour
         if (frames == null || frames.Length == 0 || sr == null) return;
 
         bool loops = currentState != AnimState.Jump;
-        float duration = CurrentFrameDuration();
+        float duration = CurrentFrameDuration(frameIndex);
         frameTimer += Time.deltaTime;
         if (frameTimer >= duration && (loops || frameIndex < frames.Length - 1))
         {
@@ -110,12 +111,17 @@ public class PlayerSpriteAnimator2D : MonoBehaviour
         }
     }
 
-    private float CurrentFrameDuration()
+    private float CurrentFrameDuration(int index)
     {
         switch (currentState)
         {
             case AnimState.Walk: return usingFlashlightWalk ? walkFlashlightFrameDuration : walkFrameDuration;
-            case AnimState.Jump: return jumpFrameDuration;
+            case AnimState.Jump:
+                if (jumpFrameDurations != null && index >= 0 && index < jumpFrameDurations.Length)
+                {
+                    return jumpFrameDurations[index];
+                }
+                return jumpFrameDuration;
             default: return idleFrameDuration;
         }
     }
