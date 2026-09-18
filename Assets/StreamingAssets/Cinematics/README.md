@@ -1,5 +1,7 @@
 # Main menu cinematic
 
+Title revision: the 30.3–33.3 second placeholder now reads RE:Dream. Existing scene timing and copied audio are retained. See output/game-opening/title-redream-v1 for the local backup and reproduction script.
+
 MainMenuManager.OnStartButton plays OpeningAndHospital.mp4, then opens Loading with HospitalRoom as its destination.
 
 - Source: approved integrated opening + hospital review, approximately 43.98 seconds, 1920x1080.
