@@ -10,6 +10,8 @@ public class StageEntryTrigger : MonoBehaviour
     [SerializeField] private string message = "Stage 1 단서를 찾아라";
     [SerializeField] private float displayDuration = 4f;
     [SerializeField] private bool triggerOnce = true;
+    [Tooltip("진행 순서. StageProgressManager 상 바로 다음 순서가 아니면 트리거가 무시된다.")]
+    [SerializeField] private int stageIndex = 1;
 
     private bool hasTriggered;
 
@@ -17,6 +19,7 @@ public class StageEntryTrigger : MonoBehaviour
     {
         if (hasTriggered && triggerOnce) return;
         if (other.GetComponentInParent<CharacterController>() == null) return;
+        if (StageProgressManager.Instance != null && !StageProgressManager.Instance.TryCompleteStage(stageIndex)) return;
 
         hasTriggered = true;
         StageMessageUI.Instance?.ShowMessage(message, displayDuration);

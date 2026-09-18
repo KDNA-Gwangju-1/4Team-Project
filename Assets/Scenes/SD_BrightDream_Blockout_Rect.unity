@@ -3370,6 +3370,7 @@ MonoBehaviour:
   message: "Boss Stage\n\uBCF4\uC2A4\uC758 \uC57D\uC810\uC744 \uCC3E\uC544 \uC815\uD654\uC2DC\uCF1C\uB77C"
   displayDuration: 4
   triggerOnce: 1
+  stageIndex: 3
 --- !u!65 &37740146
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -65749,6 +65750,50 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6938873399242510728, guid: 063dc70ed0dbc5241acbc61c140ed140, type: 3}
   m_PrefabInstance: {fileID: 1387729625}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &742886578
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 742886580}
+  - component: {fileID: 742886579}
+  m_Layer: 0
+  m_Name: StageProgressManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &742886579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 742886578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09184e786986a8743b21c6b7740225cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StageProgressManager
+--- !u!4 &742886580
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 742886578}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &743221091
 GameObject:
   m_ObjectHideFlags: 0
@@ -149335,6 +149380,7 @@ MonoBehaviour:
   message: "Stage 1\n\uB2E8\uC11C\uB97C \uCC3E\uC544\uB77C"
   displayDuration: 4
   triggerOnce: 1
+  stageIndex: 1
 --- !u!65 &1726244581
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -150582,6 +150628,7 @@ MonoBehaviour:
   message: "Stage 2\n\uBAAC\uC2A4\uD130\uB97C \uC815\uD654\uC2DC\uCF1C\uB77C"
   displayDuration: 4
   triggerOnce: 1
+  stageIndex: 2
 --- !u!65 &1745439667
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -189271,3 +189318,4 @@ SceneRoots:
   - {fileID: 7782125}
   - {fileID: 1495898715}
   - {fileID: 241522645}
+  - {fileID: 742886580}
