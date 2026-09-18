@@ -3,6 +3,7 @@
 MainMenuManager.OnStartButton now plays OpeningAndHospital.mp4 before loading its existing gameSceneName (currently Game).
 
 - Source: approved integrated opening + hospital review, approximately 43.98 seconds, 1920x1080.
+- Windows playback copy is H.264 Baseline with no B-frames and explicit BT.709 tags, avoiding Media Foundation timestamp/color warnings. Original integrated MP4 is unchanged.
 - StreamingAssets embeds the video in the Windows build; no Desktop/output-folder dependency.
 - Runtime overlay uses a 16:9 aspect-fit image on black, preserving the full picture at other display aspect ratios.
 - Audio uses AudioSource and the existing master-volume preference.

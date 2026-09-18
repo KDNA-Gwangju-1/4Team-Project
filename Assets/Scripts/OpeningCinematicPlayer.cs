@@ -43,7 +43,8 @@ public sealed class OpeningCinematicPlayer : MonoBehaviour
         player.url = Application.streamingAssetsPath + "/Cinematics/OpeningAndHospital.mp4";
         player.renderMode = VideoRenderMode.RenderTexture;
         player.targetTexture = texture;
-        player.waitForFirstFrame = true;
+        player.waitForFirstFrame = false;
+        player.timeUpdateMode = VideoTimeUpdateMode.UnscaledGameTime;
         player.audioOutputMode = VideoAudioOutputMode.AudioSource;
         var audio = overlay.AddComponent<AudioSource>();
         audio.playOnAwake = false;
@@ -75,7 +76,11 @@ public sealed class OpeningCinematicPlayer : MonoBehaviour
         overlay.GetComponentInChildren<RawImage>().color = Color.white;
         source.Play();
     }
-    private void Ended(VideoPlayer source) { Finish(true); }
+    private void Ended(VideoPlayer source)
+    {
+        Debug.Log("[OpeningCinematicPlayer] Completed; continuing to game scene.");
+        Finish(true);
+    }
     private void Error(VideoPlayer source, string message)
     {
         Debug.LogError("[OpeningCinematicPlayer] " + message);
