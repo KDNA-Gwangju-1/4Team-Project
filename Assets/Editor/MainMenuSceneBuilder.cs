@@ -88,7 +88,11 @@ public static class MainMenuSceneBuilder
         bgImage.raycastTarget = false;
 
         var openingFrames = LoadOpeningFrames();
-        if (openingFrames.Length > 0)
+        if (MainMenuLobbyArt.Apply(bgImage))
+        {
+            // Approved static lobby artwork takes priority over the old loop.
+        }
+        else if (openingFrames.Length > 0)
         {
             bgImage.sprite = openingFrames[0];
             bgImage.color   = Color.white;
@@ -120,7 +124,7 @@ public static class MainMenuSceneBuilder
         // ---------- Scrim (배경 위를 살짝 덮어 버튼 글씨를 읽기 쉽게) ----------
         var scrim = CreateStretchedObject("Scrim", canvasRT);
         var scrimImage = scrim.gameObject.AddComponent<Image>();
-        scrimImage.color = new Color(0f, 0f, 0f, 0.45f);
+        scrimImage.color = new Color(0f, 0f, 0f, 0.18f);
         scrimImage.raycastTarget = false;
 
         // ---------- 관리 스크립트를 붙일 오브젝트 ----------
