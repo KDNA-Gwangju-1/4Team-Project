@@ -3,22 +3,27 @@ using UnityEngine;
 public class MonsterAmbushTrap2D : MonoBehaviour
 {
     public GameObject monster;
-    public float spawnRadius = 10f;
+    public int spawnCount = 10;
+    public float spawnRadius = 8f;
 
     private bool triggered;
 
     void OnTriggerEnter2D(Collider2D other)
     {
         if (triggered) return;
-        if (other.GetComponent<PlayerMovement2D>() == null) return;
+        PlayerMovement2D player = other.GetComponent<PlayerMovement2D>();
+        if (player == null) return;
 
         triggered = true;
-        if (monster != null)
+        if (monster == null) return;
+
+        Vector2 center = player.transform.position;
+        for (int i = 0; i < spawnCount; i++)
         {
-            float angle = Random.Range(0f, Mathf.PI * 2f);
+            float angle = (Mathf.PI * 2f / spawnCount) * i;
             Vector2 offset = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * spawnRadius;
-            monster.transform.position = (Vector2)transform.position + offset;
-            monster.SetActive(true);
+            GameObject clone = Instantiate(monster, center + offset, Quaternion.identity);
+            clone.SetActive(true);
         }
     }
 }

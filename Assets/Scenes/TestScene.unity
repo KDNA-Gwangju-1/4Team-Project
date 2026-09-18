@@ -1263,7 +1263,7 @@ MonoBehaviour:
   bulletMaxDistance: 16
   fireCooldown: 1
   maxHealth: 10
-  invincibilityDuration: 2
+  invincibilityDuration: 1.5
   invincibilityBlinkInterval: 0.1
   sceneOnDeath: 
   fallRespawnY: -6
