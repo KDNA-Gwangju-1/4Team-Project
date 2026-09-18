@@ -1,16 +1,11 @@
 fileFormatVersion: 2
-guid: dac481fe5fda6064ea01c8ef4748ee1b
+guid: fbd42c2853d29dc438ef76b18aaf716b
 ModelImporter:
   serializedVersion: 24300
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: 29_photo_album_mat
-    second: {fileID: 2100000, guid: 9212d9a826e5c5c42b31340c8dc0fc47, type: 2}
+  externalObjects: {}
   materials:
-    materialImportMode: 1
+    materialImportMode: 2
     materialName: 0
     materialSearch: 1
     materialLocation: 1
