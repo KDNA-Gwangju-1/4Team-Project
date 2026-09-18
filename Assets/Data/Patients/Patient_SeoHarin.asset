@@ -17,7 +17,7 @@ MonoBehaviour:
   age: 12
   gender: 0
   bloodType: "AB\uD615 Rh+"
-  roomNumber: 302
+  roomNumber: 301
   bedNumber: 1
   admissionDate: 2026-08-21
   diagnosis: "\uC6D0\uC778 \uBBF8\uC0C1 \uC758\uC2DD \uC800\uD558 (R40.2)"

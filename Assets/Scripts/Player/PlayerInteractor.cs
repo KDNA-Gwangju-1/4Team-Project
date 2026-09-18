@@ -52,7 +52,7 @@ public class PlayerInteractor : MonoBehaviour
     {
         // 대사가 나오는 동안에는 쉰다.
         // 대사를 넘기려고 누른 E 가 상호작용까지 같이 눌러 버리면 안 되기 때문이다.
-        if (SubtitleUI.Blocking)
+        if (SubtitleUI.Blocking || ControlGuideUI.Blocking)
         {
             _current = null;
             if (promptUI != null) promptUI.Hide();

@@ -12,6 +12,7 @@ public sealed class OpeningCinematicPlayer : MonoBehaviour
     private RenderTexture texture;
     private Action completed, failed;
     private bool finished;
+    private bool blackout;
 
     public void Play(Action onComplete, Action onFailure, float volume)
     {
@@ -90,10 +91,38 @@ public sealed class OpeningCinematicPlayer : MonoBehaviour
     {
         if (finished) return;
         finished = true;
+
+        if (!success)
+        {
+            // Nothing else takes over the screen, so put the menu back.
+            Cleanup();
+            var onFailure = failed;
+            Destroy(this);
+            onFailure?.Invoke();
+            return;
+        }
+
+        // Keep the black backdrop up and stop only the video.
+        // Destroy() runs before rendering while SceneManager.LoadScene() runs at the end of
+        // the frame, so tearing the overlay down here lets the menu render for one frame in
+        // between - that is the "cinematic -> menu -> loading" flash.
+        blackout = true;
         Cleanup();
-        var callback = success ? completed : failed;
+        completed?.Invoke();
+
+        // If the callback never swaps the scene (missing build entry, bad name) we would be
+        // stuck on black, so undo the blackout and fall back to the menu.
+        StartCoroutine(BlackoutSafety());
+    }
+    private IEnumerator BlackoutSafety()
+    {
+        yield return new WaitForSecondsRealtime(3);
+        Debug.LogWarning("[OpeningCinematicPlayer] Scene never changed; restoring the menu.");
+        blackout = false;
+        Cleanup();
+        var onFailure = failed;
         Destroy(this);
-        callback?.Invoke();
+        onFailure?.Invoke();
     }
     private void Cleanup()
     {
@@ -105,7 +134,13 @@ public sealed class OpeningCinematicPlayer : MonoBehaviour
             player.Stop();
             player.targetTexture = null;
         }
-        if (overlay != null) Destroy(overlay);
+        // While blacked out the overlay stays; the scene load takes it down with everything else.
+        if (overlay != null)
+        {
+            var raw = overlay.GetComponentInChildren<RawImage>();
+            if (raw != null) raw.color = Color.clear;
+            if (!blackout) Destroy(overlay);
+        }
         if (texture != null) { texture.Release(); Destroy(texture); texture = null; }
     }
     private void OnDestroy() { Cleanup(); }
