@@ -890,7 +890,7 @@ Transform:
   m_GameObject: {fileID: 465286316}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 33.3, y: 1.4540871, z: 0}
+  m_LocalPosition: {x: 33.3, y: 1.7522242, z: 0}
   m_LocalScale: {x: 1.2363707, y: 1.4479638, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1293,11 +1293,11 @@ MonoBehaviour:
   - isBoss: 1
     text: "\uADF8\uB798\uC11C \uB0B4\uAC00 \uC774\uB807\uAC8C \uBAA8\uC2B5\uC744
       \uADC0\uC5FD\uAC8C \uBC14\uAFD4\uC92C\uB354\uB2C8"
-    beatAfter: 0
+    beatAfter: 2
   - isBoss: 1
     text: "\uC9C0\uAE08\uC740 \uC774\uB807\uAC8C \uC0AC\uC774\uC88B\uAC8C \uC798
       \uC9C0\uB0B8\uB2E4? \uC778\uC0AC \uD574 \uC624\uBE60~"
-    beatAfter: 2
+    beatAfter: 0
   - isBoss: 1
     text: "\uC790 \uC598\uB4E4\uC544 \uC624\uBE60\uB791 \uC0AC\uC774\uC88B\uAC8C
       \uB180\uC544\uC918~"
@@ -1338,20 +1338,20 @@ MonoBehaviour:
   firstSummonIndex: 2
   firstSummonOrthoSize: 6.5
   firstSummonShotOffset: {x: 2.6, y: 3.4}
-  summonShotOrthoSize: 9.6
-  summonShotOffset: {x: 1.35, y: 6.6}
+  summonShotOrthoSize: 9
+  summonShotOffset: {x: -2, y: 6.4}
   summonTentacleOffsets:
   - -7.3
-  - 11
+  - 7.3
   summonTentacleSize: {x: 7.5, y: 14}
   summonTentacleSink: 0.5
   summonTentacleSwayAngle: 4
   summonTentacleSwayPeriod: 2.4
   summonTentacleIdleFrameInterval: 0.45
   summonMonsterOffsets:
-  - -13.8
-  - 16.5
-  - 5
+  - -15.5
+  - -11.5
+  - 11.5
   summonMonsterHeights:
   - 0
   - 3.4
