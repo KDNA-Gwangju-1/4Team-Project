@@ -114,9 +114,23 @@ public class Stage3Phase2Cutscene : MonoBehaviour
     [Tooltip("Optional in-scene sprite for the shadowed form. Falls back to tinting her down.")]
     public Sprite bossShadowSprite;
     public Color bossShadowTint = new Color(0.10f, 0.06f, 0.14f, 1f);
+    [Tooltip("Second pass: it keeps going until nothing of her is left.")]
+    public Color bossShadowDeepColor = Color.black;
     public float shadowSweepDuration = 1.2f;
+    public float shadowDeepenDuration = 1.4f;
     public float shadowHoldTime = 0.5f;
     public float shadowShake = 0.12f;
+
+    [Header("Phase 2 transformation")]
+    [Tooltip("What she becomes. Left empty, the phase controller's own phase2Frames[0] is used.")]
+    public Sprite phase2Sprite;
+    public Color phase2Tint = Color.white;
+    [Tooltip("Width she swells to as she turns.")]
+    public float phase2Width = 6.4f;
+    public float transformShakeDuration = 1.1f;
+    public float transformShake = 0.3f;
+    public float flashDuration = 0.22f;
+    public float transformHoldTime = 0.9f;
 
     [Header("Kill line")]
     [Tooltip("The slow creep in - dread, not action.")]
@@ -197,7 +211,10 @@ public class Stage3Phase2Cutscene : MonoBehaviour
             if (line.beatAfter == 1)
             {
                 yield return ShadowTurn();
-                yield return ZoomForKillLine(bossShot);
+            }
+            else if (line.beatAfter == 2)
+            {
+                yield return TransformToPhase2(bossShot);
             }
         }
 
@@ -611,14 +628,103 @@ public class Stage3Phase2Cutscene : MonoBehaviour
             yield return null;
         }
 
-        boss.position = basePos;
         bossRenderer.color = bossShadowTint;
         if (bossShadowSprite != null) bossRenderer.sprite = bossShadowSprite;
+
+        // and it keeps going, until she is a hole in the picture
+        t = 0f;
+        while (t < shadowDeepenDuration)
+        {
+            t += Time.deltaTime;
+            float k = Mathf.Clamp01(t / shadowDeepenDuration);
+            bossRenderer.color = Color.Lerp(bossShadowTint, bossShadowDeepColor, k);
+            boss.position = basePos + new Vector3(Random.Range(-1f, 1f) * shadowShake * k,
+                                                  Random.Range(-1f, 1f) * shadowShake * k, 0f);
+            yield return null;
+        }
+
+        boss.position = basePos;
+        bossRenderer.color = bossShadowDeepColor;
 
         // every line from here on wears the shadowed portrait
         if (bossShadowDialogueFrame != null) bossDialogueFrame = bossShadowDialogueFrame;
 
         yield return new WaitForSeconds(shadowHoldTime);
+    }
+
+    // The silhouette swells, the screen goes white, and what comes back is the
+    // phase 2 boss. The controller's claw swing and floor collapse follow.
+    private IEnumerator TransformToPhase2(Vector3 bossShot)
+    {
+        yield return PanTo(bossShot, creepOrthoSize, creepDuration);
+
+        Vector3 basePos = boss.position;
+        Vector3 fromScale = boss.localScale;
+        Vector3 toScale = fromScale;
+        if (bossRenderer != null && bossRenderer.bounds.size.x > 0.001f)
+        {
+            float factor = phase2Width / bossRenderer.bounds.size.x;
+            toScale = new Vector3(fromScale.x * factor, fromScale.y * factor, fromScale.z);
+        }
+
+        float t = 0f;
+        while (t < transformShakeDuration)
+        {
+            t += Time.deltaTime;
+            float k = Mathf.Clamp01(t / transformShakeDuration);
+            boss.localScale = Vector3.Lerp(fromScale, toScale, k);
+            boss.position = basePos + new Vector3(Random.Range(-1f, 1f) * transformShake * k,
+                                                  Random.Range(-1f, 1f) * transformShake * k, 0f);
+            yield return null;
+        }
+        boss.position = basePos;
+        boss.localScale = toScale;
+
+        yield return PanTo(bossShot, snapOrthoSize, snapDuration);
+        if (camFollow != null) camFollow.Shake(0.5f, snapShake);
+
+        // white out, swap, come back
+        yield return FlashWhite();
+
+        Sprite target = phase2Sprite;
+        if (target == null)
+        {
+            BossPhaseController2D controller = boss.GetComponent<BossPhaseController2D>();
+            if (controller != null && controller.phase2Frames != null && controller.phase2Frames.Length > 0)
+            {
+                target = controller.phase2Frames[0];
+            }
+        }
+        if (target != null && bossRenderer != null) bossRenderer.sprite = target;
+        if (bossRenderer != null) bossRenderer.color = phase2Tint;
+
+        yield return PanTo(bossShot, creepOrthoSize, 0.3f);
+        yield return new WaitForSeconds(transformHoldTime);
+    }
+
+    private IEnumerator FlashWhite()
+    {
+        if (blackout == null) yield break;
+
+        blackout.color = new Color(1f, 1f, 1f, 0f);
+        float t = 0f;
+        while (t < flashDuration)
+        {
+            t += Time.deltaTime;
+            blackout.color = new Color(1f, 1f, 1f, Mathf.Clamp01(t / flashDuration));
+            yield return null;
+        }
+        blackout.color = Color.white;
+        yield return new WaitForSeconds(0.08f);
+
+        t = 0f;
+        while (t < flashDuration)
+        {
+            t += Time.deltaTime;
+            blackout.color = new Color(1f, 1f, 1f, 1f - Mathf.Clamp01(t / flashDuration));
+            yield return null;
+        }
+        blackout.color = new Color(0f, 0f, 0f, 0f);
     }
 
     // ---------- "...죽어" ----------

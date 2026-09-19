@@ -890,7 +890,7 @@ Transform:
   m_GameObject: {fileID: 465286316}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 33.3, y: 1.7783445, z: 0}
+  m_LocalPosition: {x: 33.3, y: 2.6278815, z: 0}
   m_LocalScale: {x: 1.2363707, y: 1.4479638, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1528,13 +1528,20 @@ MonoBehaviour:
   - isBoss: 0
     text: "\uAD34\uBB3C, \uC5B4\uC11C \uC30D\uB465\uC774 \uB3D9\uC0DD \uBAB8\uC5D0\uC11C
       \uB098\uAC00"
-    beatAfter: 0
-  - isBoss: 1
-    text: "...\uB0B4\uAC00 \uAD34\uBB3C?"
     beatAfter: 1
   - isBoss: 1
-    text: "...\uC8FD\uC5B4"
+    text: "...\uB0B4\uAC00 \uAD34\uBB3C?"
     beatAfter: 0
+  - isBoss: 1
+    text: ...
+    beatAfter: 0
+  - isBoss: 1
+    text: "\uB108\uC758 \uAFC8\uD0D0\uC815\uC774\uB780 \uAC83\uB4E4\uC740 \uB298
+      \uADF8\uB7F0\uC2DD\uC73C\uB85C \uC6B0\uB9B4 \uBD80\uB974\uC9C0..."
+    beatAfter: 0
+  - isBoss: 1
+    text: "\uC9C4\uC9DC \uAD34\uBB3C\uC774 \uC5B4\uB5A4\uAC74\uC9C0 \uBCF4\uC5EC\uC904\uAC8C..."
+    beatAfter: 2
   dialogueTextArea:
     serializedVersion: 2
     x: 0.4
@@ -1600,9 +1607,18 @@ MonoBehaviour:
   bossHoverAmplitude: 0.18
   bossShadowSprite: {fileID: 0}
   bossShadowTint: {r: 0.1, g: 0.06, b: 0.14, a: 1}
+  bossShadowDeepColor: {r: 0, g: 0, b: 0, a: 1}
   shadowSweepDuration: 1.2
+  shadowDeepenDuration: 1.4
   shadowHoldTime: 0.5
   shadowShake: 0.12
+  phase2Sprite: {fileID: -1158187498100141830, guid: ab77cc86b3db42841bc2045173ece6a3, type: 3}
+  phase2Tint: {r: 1, g: 1, b: 1, a: 1}
+  phase2Width: 6.4
+  transformShakeDuration: 1.1
+  transformShake: 0.3
+  flashDuration: 0.22
+  transformHoldTime: 0.9
   creepOrthoSize: 4.2
   creepDuration: 2.4
   snapOrthoSize: 2
@@ -2066,7 +2082,15 @@ MonoBehaviour:
   firePoint: {fileID: 900000031}
   bulletPrefab: {fileID: 100000001, guid: 90eed1d44a834ce5aa6e459370414d2e, type: 3}
   animator: {fileID: 900000035}
-  clawFrames: []
+  clawFrames:
+  - {fileID: -1158187498100141830, guid: ab77cc86b3db42841bc2045173ece6a3, type: 3}
+  - {fileID: -8612820268264366548, guid: ab77cc86b3db42841bc2045173ece6a3, type: 3}
+  - {fileID: 4501304910762289650, guid: ab77cc86b3db42841bc2045173ece6a3, type: 3}
+  - {fileID: -9209918912815480563, guid: ab77cc86b3db42841bc2045173ece6a3, type: 3}
+  - {fileID: -155374570921067546, guid: ab77cc86b3db42841bc2045173ece6a3, type: 3}
+  - {fileID: 8512368601633333525, guid: ab77cc86b3db42841bc2045173ece6a3, type: 3}
+  - {fileID: 2428706960478032716, guid: ab77cc86b3db42841bc2045173ece6a3, type: 3}
+  - {fileID: -3072476677740898470, guid: ab77cc86b3db42841bc2045173ece6a3, type: 3}
   clawFrameDuration: 0.08
   phase1Interval: 3
   clawRange: 6
