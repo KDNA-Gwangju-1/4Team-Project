@@ -890,7 +890,7 @@ Transform:
   m_GameObject: {fileID: 465286316}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 33.3, y: 3.1803398, z: 0}
+  m_LocalPosition: {x: 33.3, y: 3.303995, z: 0}
   m_LocalScale: {x: 1.2363707, y: 1.4479638, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1612,8 +1612,6 @@ MonoBehaviour:
   phase2Frames:
   - {fileID: -1158187498100141830, guid: ab77cc86b3db42841bc2045173ece6a3, type: 3}
   - {fileID: -3072476677740898470, guid: ab77cc86b3db42841bc2045173ece6a3, type: 3}
-  - {fileID: 2428706960478032716, guid: ab77cc86b3db42841bc2045173ece6a3, type: 3}
-  - {fileID: -3072476677740898470, guid: ab77cc86b3db42841bc2045173ece6a3, type: 3}
   phase2FrameDuration: 0.22
   phase2Tint: {r: 1, g: 1, b: 1, a: 1}
   phase2Width: 6.4
@@ -2066,8 +2064,6 @@ MonoBehaviour:
   phase2AirDash: 1
   phase2Frames:
   - {fileID: -1158187498100141830, guid: ab77cc86b3db42841bc2045173ece6a3, type: 3}
-  - {fileID: -3072476677740898470, guid: ab77cc86b3db42841bc2045173ece6a3, type: 3}
-  - {fileID: 2428706960478032716, guid: ab77cc86b3db42841bc2045173ece6a3, type: 3}
   - {fileID: -3072476677740898470, guid: ab77cc86b3db42841bc2045173ece6a3, type: 3}
   phase2FrameDuration: 0.22
   phase2Cutscene: {fileID: 709877605}
