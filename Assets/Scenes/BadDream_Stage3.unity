@@ -709,6 +709,7 @@ GameObject:
   - component: {fileID: 465286319}
   - component: {fileID: 465286318}
   - component: {fileID: 465286317}
+  - component: {fileID: 465286320}
   m_Layer: 0
   m_Name: BossFarLedge
   m_TagString: Untagged
@@ -798,12 +799,27 @@ Transform:
   m_GameObject: {fileID: 465286316}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 33.3, y: 0.72, z: 0}
+  m_LocalPosition: {x: 33.3, y: 0.9315126, z: 0}
   m_LocalScale: {x: 1.2363707, y: 1.4479638, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &465286320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 465286316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61090678bcc588147a29266fa9ffaf12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FloatBob2D
+  amplitude: 0.22
+  period: 3.6
+  phase: 0
 --- !u!1 &630067326
 GameObject:
   m_ObjectHideFlags: 0
@@ -1169,21 +1185,70 @@ MonoBehaviour:
   shotOffset: {x: 0, y: 0.6, z: -10}
   questionMarkDelay: 0.3
   questionMarkDuration: 1
-  bossLine1: "...\uB204\uAD6C\uC57C, \uC5EC\uAE30\uAC00 \uC5B4\uB518 \uC904 \uC54C\uACE0."
-  playerLine: "\uB124\uAC00 \uAC10\uCD94\uACE0 \uC788\uB294 \uC9C4\uC2E4\uC744 \uCC3E\uC73C\uB7EC
-    \uC654\uC5B4."
-  bossLine2: "\uADF8\uB7FC... \uBE8F\uC5B4\uBD10!"
+  bossLine1: "...? \uC5B4\uB77C \uB108\uB294 \uC724\uACFD\uC120\uC774 \uC5C6\uB124?
+    \uC774\uBC29\uC778\uC774\uC57C?"
+  playerLine: "\uC30D\uB465\uC774 \uB3D9\uC0DD\uC744 \uAD6C\uD558\uB7EC \uC654\uB2E4"
+  bossLine2: "....\uADF8\uB798? \uC800 \uC791\uC740 \uC190\uC804\uB4F1 \uD558\uB098\uB85C?
+    \uC7AC\uBC0C\uB124..."
+  bossLine3: "\uB098 \uB300\uC2E0 \uC774 \uCE5C\uAD6C\uB4E4\uC774 \uB180\uC544\uC904\uAC70\uC57C
+    \uB108\uB3C4 \uC774 \uC138\uC0C1\uC5D0 \uB3D9\uD654\uB418\uC790..."
   bossSpeakerName: ???
   playerSpeakerName: "\uAFC8\uD0D0\uC815"
-  lineDisplayDuration: 2
+  lineDisplayDuration: 6
   lineGap: 0.3
+  bossDialogueFrame: {fileID: 21300000, guid: 58906ac033375a44dbd39c8c55c26b20, type: 3}
+  playerDialogueFrame: {fileID: 21300000, guid: 87a8a037d993e734793549bdadb8ace1, type: 3}
+  dialogueTextArea:
+    serializedVersion: 2
+    x: 0.4
+    y: 0.1
+    width: 0.54
+    height: 0.19
+  dialogueFontSize: 34
+  dialogueTextColor: {r: 1, g: 1, b: 1, a: 1}
+  dialogueFadeDuration: 0.18
+  dialogueFrameWidth01: 0.88
+  dialogueFrameBottomMargin: 24
+  dialogueFrameXOffset: -120
+  lineMinDuration: 0.5
   revealWithBoss:
   - {fileID: 900000030}
   - {fileID: 465286316}
   revealAfterCutscene:
+  - {fileID: 1918697673}
+  revealAfterDelay:
   - {fileID: 1834502762}
   - {fileID: 1234360751}
-  - {fileID: 1918697673}
+  attackStartDelay: 1
+  bossCutsceneGap: 19.2
+  bossCutsceneWidth: 4.8
+  bossCutsceneSortingOrder: 2
+  bossCutsceneGroundY: -2.63
+  summonShotOrthoSize: 9
+  summonShotOffset: {x: 0.2, y: 6.6}
+  summonTentacleOffsets:
+  - -7.3
+  - 7.3
+  summonTentacleSize: {x: 7.5, y: 14}
+  summonTentacleSink: 0.5
+  summonTentacleSwayAngle: 4
+  summonTentacleSwayPeriod: 2.4
+  summonTentacleIdleFrameInterval: 0.45
+  summonMonsterOffsets:
+  - -13.8
+  - 13.2
+  summonMonsterHeights:
+  - 0
+  - 3.4
+  summonMonsterWidth: 2.4
+  summonStagger: 0.28
+  summonPopDuration: 0.3
+  summonHoldTime: 0.7
+  bossExitRiseHeight: 3.2
+  bossExitRiseDuration: 0.55
+  bossExitTravelDuration: 1.15
+  bossExitSettleDuration: 0.3
+  bossExitHoverAmplitude: 0.18
   tendrilAttackFrames:
   - {fileID: 21300000, guid: 9096bfcfc1543564e98c9149d34a19b0, type: 3}
   - {fileID: 21300000, guid: c815ef58f90e3ca4c9d48c30193150cf, type: 3}
@@ -1493,6 +1558,7 @@ GameObject:
   - component: {fileID: 900000036}
   - component: {fileID: 900000038}
   - component: {fileID: 900000039}
+  - component: {fileID: 900000040}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Untagged
@@ -1834,6 +1900,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Parallax2D
   factor: 0.62
   affectY: 0
+--- !u!114 &900000040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 900000030}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61090678bcc588147a29266fa9ffaf12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FloatBob2D
+  amplitude: 0.22
+  period: 3.6
+  phase: 0
 --- !u!1 &927161764
 GameObject:
   m_ObjectHideFlags: 0
@@ -1929,6 +2010,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 927161764}
   m_CullTransparentMesh: 1
+--- !u!1 &979077810
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 979077812}
+  - component: {fileID: 979077811}
+  m_Layer: 0
+  m_Name: __CutsceneProbe
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &979077811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 979077810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2f023844c2b4cd438df81cd68722f00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_TempCutsceneProbe
+  next: 0
+--- !u!4 &979077812
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 979077810}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &994573950
 GameObject:
   m_ObjectHideFlags: 0
@@ -3446,6 +3572,11 @@ MonoBehaviour:
   - 0.1
   dashFrames: []
   dashWalkFrameIndex: 4
+  velocityDrivenJump: 1
+  jumpRiseFrameEnd: 2
+  jumpApexFrame: 3
+  jumpFallFrame: 4
+  jumpApexBand: 2.5
 --- !u!114 &1550880042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5003,3 +5134,4 @@ SceneRoots:
   - {fileID: 696235914}
   - {fileID: 1834502767}
   - {fileID: 465286319}
+  - {fileID: 979077812}

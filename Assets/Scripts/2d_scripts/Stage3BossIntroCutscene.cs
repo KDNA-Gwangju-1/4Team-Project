@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,19 +22,89 @@ public class Stage3BossIntroCutscene : MonoBehaviour
     public float questionMarkDelay = 0.3f;
     public float questionMarkDuration = 1f;
 
-    [TextArea] public string bossLine1 = "...누구야, 여기가 어딘 줄 알고.";
-    [TextArea] public string playerLine = "네가 감추고 있는 진실을 찾으러 왔어.";
-    [TextArea] public string bossLine2 = "그럼... 뺏어봐!";
+    [TextArea] public string bossLine1 = "...? 어라 너는 윤곽선이 없네? 이방인이야?";
+    [TextArea] public string playerLine = "쌍둥이 동생을 구하러 왔다";
+    [TextArea] public string bossLine2 = "....그래? 저 작은 손전등 하나로? 재밌네...";
+    [TextArea] public string bossLine3 = "나 대신 이 친구들이 놀아줄거야 너도 이 세상에 동화되자...";
     public string bossSpeakerName = "???";
     public string playerSpeakerName = "꿈탐정";
     public float lineDisplayDuration = 2f;
     public float lineGap = 0.3f;
 
+    [Header("Dialogue window")]
+    // Full-screen overlays with the portrait and the name plate already drawn in,
+    // so the only thing this script places is the line itself.
+    public Sprite bossDialogueFrame;
+    public Sprite playerDialogueFrame;
+    [Tooltip("Where the line sits inside the frame, in normalized frame coordinates.")]
+    public Rect dialogueTextArea = new Rect(0.40f, 0.10f, 0.54f, 0.19f);
+    public int dialogueFontSize = 34;
+    public Color dialogueTextColor = Color.white;
+    public float dialogueFadeDuration = 0.18f;
+    [Tooltip("Panel width as a fraction of the screen. Sized like a Maple chat box rather than a full-screen takeover.")]
+    [Range(0.3f, 1f)] public float dialogueFrameWidth01 = 0.7f;
+    [Tooltip("Gap from the bottom of the screen, in 1080p reference pixels.")]
+    public float dialogueFrameBottomMargin = 30f;
+    [Tooltip("Shift from screen centre, in 1080p reference pixels. Negative moves the panel left.")]
+    public float dialogueFrameXOffset = -120f;
+    [Tooltip("A line cannot be skipped before this, so a held key never eats one.")]
+    public float lineMinDuration = 0.5f;
+
     [Header("Staging")]
     [Tooltip("Hidden until the camera turns on her - this is her first appearance.")]
     public GameObject[] revealWithBoss;
-    [Tooltip("Hidden for the whole cutscene, switched on when control returns - monsters, HUD.")]
+    [Tooltip("Switched on the moment control returns - HUD.")]
     public GameObject[] revealAfterCutscene;
+    [Tooltip("Switched on after attackStartDelay - monsters. Gives the player a beat to breathe.")]
+    public GameObject[] revealAfterDelay;
+    [Tooltip("How long the arena stays quiet after control returns.")]
+    public float attackStartDelay = 1f;
+
+    [Header("Boss staging")]
+    // She opens the scene standing on the player's own ledge, so the threat is
+    // physical, then withdraws into the background space she fights from. The
+    // retreat IS the explanation for why she cannot be reached in phase 1.
+    [Tooltip("Gap between the player's stop position and the boss during the talk.")]
+    public float bossCutsceneGap = 19.2f;
+    [Tooltip("Drawn width while she shares the player's ledge. She shrinks back on the way out.")]
+    public float bossCutsceneWidth = 4.8f;
+    [Tooltip("Sorting order while she is on the player's plane.")]
+    public int bossCutsceneSortingOrder = 2;
+    [Tooltip("Ground line of the player's ledge.")]
+    public float bossCutsceneGroundY = -2.63f;
+
+    [Header("Summon beat")]
+    // Everything she calls up is placed BESIDE her, never in front, and spaced so
+    // no two silhouettes touch. Offsets are from the boss, in world units.
+    [Tooltip("Camera pulls back this far to hold the whole line-up.")]
+    public float summonShotOrthoSize = 9f;
+    [Tooltip("Summon shot centre: x from the boss, y from the ledge floor.")]
+    public Vector2 summonShotOffset = new Vector2(0.2f, 6.6f);
+    [Tooltip("One tentacle either side of her.")]
+    public float[] summonTentacleOffsets = new float[] { -7.3f, 7.3f };
+    [Tooltip("Bigger than the gameplay tentacle - this beat is the spectacle.")]
+    public Vector2 summonTentacleSize = new Vector2(7.5f, 14f);
+    [Tooltip("Sinks the drawn base into the ledge. The art has empty margin below it, so without this it erupts off the lip instead of out of the floor.")]
+    public float summonTentacleSink = 0.5f;
+    [Tooltip("Slow writhe once it is up - a frozen tentacle reads as a prop.")]
+    public float summonTentacleSwayAngle = 4f;
+    public float summonTentacleSwayPeriod = 2.4f;
+    public float summonTentacleIdleFrameInterval = 0.45f;
+    [Tooltip("Outside the tentacles: one of each monster, matched to revealAfterDelay.")]
+    public float[] summonMonsterOffsets = new float[] { -13.8f, 14.2f };
+    [Tooltip("Height above the ledge floor - the flyer sits up in the air.")]
+    public float[] summonMonsterHeights = new float[] { 0f, 3.8f };
+    public float summonMonsterWidth = 2.4f;
+    public float summonStagger = 0.28f;
+    public float summonPopDuration = 0.3f;
+    public float summonHoldTime = 0.7f;
+
+    [Header("Boss exit")]
+    public float bossExitRiseHeight = 3.2f;
+    public float bossExitRiseDuration = 0.55f;
+    public float bossExitTravelDuration = 1.15f;
+    public float bossExitSettleDuration = 0.3f;
+    public float bossExitHoverAmplitude = 0.18f;
 
     public Sprite[] tendrilAttackFrames;
     public Sprite[] tendrilDissolveFrames;
@@ -48,6 +119,18 @@ public class Stage3BossIntroCutscene : MonoBehaviour
     private Vector3 gameplayCamOffset;
     private Text captionText;
     private Text speakerText;
+    private GameObject captionCanvas;
+    private Image dialogueFrame;
+    private CanvasGroup dialogueGroup;
+    private Text advancePrompt;
+
+    // the ledge pose is whatever the scene was authored with - captured, not hardcoded
+    private Vector3 ledgePosition;
+    private Vector3 ledgeScale;
+    private int ledgeSortingOrder;
+    private Parallax2D bossParallax;
+    private BossAttack2D bossAttack;
+    private readonly List<GameObject> summonProps = new List<GameObject>();
 
     void Start()
     {
@@ -67,6 +150,8 @@ public class Stage3BossIntroCutscene : MonoBehaviour
         // nothing on stage but the player until the script says otherwise
         SetActiveAll(revealWithBoss, false);
         SetActiveAll(revealAfterCutscene, false);
+        SetActiveAll(revealAfterDelay, false);
+        StageBossForward();
         CreateCaption();
 
         StartCoroutine(ZoomOrthoTo(cam.orthographicSize, playerShotOrthoSize, panDuration));
@@ -101,21 +186,37 @@ public class Stage3BossIntroCutscene : MonoBehaviour
 
         // she appears as the camera swings over - that is the reveal
         SetActiveAll(revealWithBoss, true);
+        // her phase controller's Start() runs at the end of this frame and opens
+        // fire, so the shutdown has to land after it
+        yield return null;
+        if (bossAttack != null) bossAttack.SetPhase(0);
 
-        Vector3 bossShotPos = boss.position + shotOffset;
-        Vector3 playerShotPos = (Vector3)(playerRb != null ? (Vector2)playerRb.position : (Vector2)player.transform.position) + shotOffset;
+        // Frame each of them on the middle of their DRAWING, not on their transform.
+        // The player's pivot sits at his waist and hers sits at her feet, so aiming
+        // at raw positions dropped the camera a full unit on every cut to the boss.
+        Vector3 bossShotPos = ShotOn(boss.position.x, bossRenderer);
+        float playerX = playerRb != null ? playerRb.position.x : player.transform.position.x;
+        Vector3 playerShotPos = ShotOn(playerX, player.GetComponent<SpriteRenderer>());
 
         yield return StartCoroutine(PanCameraTo(bossShotPos, bossShotOrthoSize, panDuration));
-        yield return StartCoroutine(ShowLine(bossSpeakerName, bossLine1));
+        yield return StartCoroutine(ShowLine(true, bossSpeakerName, bossLine1));
 
         yield return StartCoroutine(PanCameraTo(playerShotPos, playerShotOrthoSize, panDuration));
-        yield return StartCoroutine(ShowLine(playerSpeakerName, playerLine));
+        yield return StartCoroutine(ShowLine(false, playerSpeakerName, playerLine));
 
         yield return StartCoroutine(PanCameraTo(bossShotPos, bossShotOrthoSize, panDuration));
-        yield return StartCoroutine(PlayTendrilClaw());
-        yield return StartCoroutine(ShowLine(bossSpeakerName, bossLine2));
+        yield return StartCoroutine(ShowLine(true, bossSpeakerName, bossLine2));
+
+        // she calls them up before the line that hands the fight over to them
+        yield return StartCoroutine(SummonRoutine());
+        yield return StartCoroutine(ShowLine(true, bossSpeakerName, bossLine3));
 
         DestroyCaption();
+
+        // pull back far enough to hold both of them, then let her go
+        Vector3 wideShot = new Vector3((playerShotPos.x + ledgePosition.x) * 0.5f, playerShotPos.y + 1.2f, shotOffset.z);
+        yield return StartCoroutine(PanCameraTo(wideShot, gameplayOrthoSize, panDuration));
+        yield return StartCoroutine(BossExitToLedge());
 
         yield return StartCoroutine(PanCameraTo(playerShotPos, gameplayOrthoSize, panDuration));
 
@@ -125,10 +226,253 @@ public class Stage3BossIntroCutscene : MonoBehaviour
             camFollow.enabled = true;
         }
 
-        // cutscene over: the fight starts, and everything else walks on
+        // control first, HUD with it - the arena stays quiet a beat longer
         SetActiveAll(revealAfterCutscene, true);
         player.enabled = true;
+
+        yield return new WaitForSeconds(attackStartDelay);
+
+        SetActiveAll(revealAfterDelay, true);
+        if (bossAttack != null) bossAttack.SetPhase(1);
+
         Destroy(gameObject);
+    }
+
+    // Records the authored ledge pose, then brings her down onto the player's
+    // plane: full size, normal sorting, no parallax. Her attack scripts live on
+    // the same object, so they are switched off until the fight actually starts.
+    private void StageBossForward()
+    {
+        ledgePosition = boss.position;
+        ledgeScale = boss.localScale;
+
+        bossParallax = boss.GetComponent<Parallax2D>();
+        if (bossParallax != null) bossParallax.enabled = false;
+
+        // no drifting while she is standing on solid ground
+        FloatBob2D bob = boss.GetComponent<FloatBob2D>();
+        if (bob != null) bob.enabled = false;
+
+        // disabling the component does NOT stop a running coroutine, and the phase
+        // controller kicks the attack loop off the moment the boss is activated.
+        // Phase 0 is the only thing that actually holds her fire.
+        bossAttack = boss.GetComponent<BossAttack2D>();
+
+        float stopX = (playerRb != null ? playerRb.position.x : player.transform.position.x) + walkStepDistance;
+
+        if (bossRenderer != null)
+        {
+            ledgeSortingOrder = bossRenderer.sortingOrder;
+            bossRenderer.sortingOrder = bossCutsceneSortingOrder;
+
+            // scale by the drawn width so the art can change without retuning this
+            float drawnWidth = bossRenderer.bounds.size.x;
+            if (drawnWidth > 0.001f)
+            {
+                float factor = bossCutsceneWidth / drawnWidth;
+                boss.localScale = new Vector3(ledgeScale.x * factor, ledgeScale.y * factor, ledgeScale.z);
+            }
+        }
+
+        // feet on the ledge: the pivot is not the bottom of the drawing
+        float footOffset = 0f;
+        if (bossRenderer != null) footOffset = boss.position.y - bossRenderer.bounds.min.y;
+        boss.position = new Vector3(stopX + bossCutsceneGap, bossCutsceneGroundY + footOffset, ledgePosition.z);
+    }
+
+    // Her retinue rises beside her: a tentacle on each flank, then one of every
+    // monster that will actually fight, further out still. These are display props
+    // only - the real monsters walk on after the cutscene, unarmed until then.
+    private IEnumerator SummonRoutine()
+    {
+        Vector3 shot = new Vector3(boss.position.x + summonShotOffset.x,
+                                   bossCutsceneGroundY + summonShotOffset.y, shotOffset.z);
+        yield return StartCoroutine(PanCameraTo(shot, summonShotOrthoSize, panDuration));
+
+        if (summonTentacleOffsets != null)
+        {
+            for (int i = 0; i < summonTentacleOffsets.Length; i++)
+            {
+                StartCoroutine(RaiseTentacleProp(boss.position.x + summonTentacleOffsets[i]));
+                yield return new WaitForSeconds(summonStagger);
+            }
+        }
+
+        if (revealAfterDelay != null)
+        {
+            for (int i = 0; i < revealAfterDelay.Length; i++)
+            {
+                float dx = (summonMonsterOffsets != null && i < summonMonsterOffsets.Length) ? summonMonsterOffsets[i] : 0f;
+                float dy = (summonMonsterHeights != null && i < summonMonsterHeights.Length) ? summonMonsterHeights[i] : 0f;
+                StartCoroutine(PopMonsterProp(revealAfterDelay[i], boss.position.x + dx, bossCutsceneGroundY + dy));
+                yield return new WaitForSeconds(summonStagger);
+            }
+        }
+
+        yield return new WaitForSeconds(summonHoldTime);
+    }
+
+    // Sorting sits one below her on purpose: even if a flank prop drifts wide
+    // enough to touch her outline, it can never draw over her.
+    private SpriteRenderer NewProp(string label, float x, float y)
+    {
+        GameObject go = new GameObject(label);
+        go.transform.position = new Vector3(x, y, 0f);
+        SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
+        sr.sortingLayerName = bossRenderer != null ? bossRenderer.sortingLayerName : "Default";
+        sr.sortingOrder = bossCutsceneSortingOrder - 1;
+        summonProps.Add(go);
+        return sr;
+    }
+
+    private IEnumerator RaiseTentacleProp(float x)
+    {
+        if (tendrilAttackFrames == null || tendrilAttackFrames.Length == 0) yield break;
+
+        SpriteRenderer sr = NewProp("SummonTentacle", x, bossCutsceneGroundY - summonTentacleSink);
+        sr.sprite = tendrilAttackFrames[0];
+
+        float nw = sr.sprite.bounds.size.x;
+        float nh = sr.sprite.bounds.size.y;
+        if (nw > 0.001f && nh > 0.001f)
+        {
+            sr.transform.localScale = new Vector3(summonTentacleSize.x / nw, summonTentacleSize.y / nh, 1f);
+        }
+
+        // the art does the rising; the base never leaves the floor
+        int last = Mathf.Min(2, tendrilAttackFrames.Length - 1);
+        for (int i = 0; i <= last; i++)
+        {
+            sr.sprite = tendrilAttackFrames[i];
+            yield return new WaitForSeconds(tendrilFrameDuration);
+        }
+
+        yield return StartCoroutine(WritheTentacleProp(sr, last));
+    }
+
+    // Leans back and forth around its own base while alternating the two risen
+    // frames, so the pair reads as alive for as long as the beat holds.
+    private IEnumerator WritheTentacleProp(SpriteRenderer sr, int risenFrame)
+    {
+        int alt = Mathf.Min(risenFrame + 1, tendrilAttackFrames.Length - 1);
+        float seed = Random.value * 10f;
+        float frameTimer = 0f;
+        bool showAlt = false;
+
+        while (sr != null)
+        {
+            float k = Mathf.Sin((Time.time / Mathf.Max(0.05f, summonTentacleSwayPeriod) + seed) * Mathf.PI * 2f);
+            sr.transform.rotation = Quaternion.Euler(0f, 0f, k * summonTentacleSwayAngle);
+
+            frameTimer += Time.deltaTime;
+            if (frameTimer >= summonTentacleIdleFrameInterval)
+            {
+                frameTimer -= summonTentacleIdleFrameInterval;
+                showAlt = !showAlt;
+                sr.sprite = tendrilAttackFrames[showAlt ? alt : risenFrame];
+            }
+            yield return null;
+        }
+    }
+
+    private IEnumerator PopMonsterProp(GameObject source, float x, float y)
+    {
+        if (source == null) yield break;
+
+        SpriteRenderer from = source.GetComponentInChildren<SpriteRenderer>(true);
+        if (from == null || from.sprite == null) yield break;
+
+        SpriteRenderer sr = NewProp("SummonMonster", x, y);
+        sr.sprite = from.sprite;
+        sr.flipX = true;
+
+        float nw = sr.sprite.bounds.size.x;
+        float scale = nw > 0.001f ? summonMonsterWidth / nw : 1f;
+
+        // y is where the feet go, not the centre, or a ground monster sinks in half
+        float halfHeight = sr.sprite.bounds.size.y * scale * 0.5f;
+        sr.transform.position = new Vector3(x, y + halfHeight, 0f);
+
+        float t = 0f;
+        while (t < summonPopDuration)
+        {
+            t += Time.deltaTime;
+            float k = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(t / summonPopDuration));
+            sr.transform.localScale = Vector3.one * scale * k;
+            yield return null;
+        }
+        sr.transform.localScale = Vector3.one * scale;
+    }
+
+    private void ClearSummonProps()
+    {
+        for (int i = 0; i < summonProps.Count; i++)
+        {
+            if (summonProps[i] != null) Destroy(summonProps[i]);
+        }
+        summonProps.Clear();
+    }
+
+    // Lifts off, drifts back to the ledge, settles. The shrink and the parallax
+    // handover happen across the travel, so the move itself sells the distance.
+    private IEnumerator BossExitToLedge()
+    {
+        Vector3 from = boss.position;
+        Vector3 forwardScale = boss.localScale;
+        Vector3 apex = new Vector3(from.x, from.y + bossExitRiseHeight, from.z);
+
+        yield return StartCoroutine(MoveBoss(from, apex, forwardScale, forwardScale, bossExitRiseDuration, false));
+
+        Vector3 travelApex = new Vector3(ledgePosition.x, ledgePosition.y + bossExitRiseHeight * 0.7f, ledgePosition.z);
+        yield return StartCoroutine(MoveBoss(apex, travelApex, forwardScale, ledgeScale, bossExitTravelDuration, true));
+
+        // she crosses into the background layer only once she is over the ledge
+        if (bossRenderer != null) bossRenderer.sortingOrder = ledgeSortingOrder;
+
+        yield return StartCoroutine(MoveBoss(travelApex, ledgePosition, ledgeScale, ledgeScale, bossExitSettleDuration, false));
+
+        boss.position = ledgePosition;
+        boss.localScale = ledgeScale;
+
+        // parallax anchors on enable, so it has to re-capture from the ledge
+        if (bossParallax != null)
+        {
+            bossParallax.enabled = true;
+            bossParallax.Capture();
+        }
+
+        // she only starts drifting once she is standing on the floating ledge
+        FloatBob2D bob = boss.GetComponent<FloatBob2D>();
+        if (bob != null)
+        {
+            bob.enabled = true;
+            bob.Recapture();
+        }
+
+        ClearSummonProps();
+    }
+
+    private IEnumerator MoveBoss(Vector3 from, Vector3 to, Vector3 scaleFrom, Vector3 scaleTo, float duration, bool hover)
+    {
+        float t = 0f;
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            float k = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(t / duration));
+            Vector3 pos = Vector3.Lerp(from, to, k);
+            if (hover) pos.y += Mathf.Sin(t * 6f) * bossExitHoverAmplitude;
+            boss.position = pos;
+            boss.localScale = Vector3.Lerp(scaleFrom, scaleTo, k);
+            yield return null;
+        }
+        boss.position = to;
+        boss.localScale = scaleTo;
+    }
+
+    private Vector3 ShotOn(float x, SpriteRenderer subject)
+    {
+        float y = subject != null ? subject.bounds.center.y : bossCutsceneGroundY;
+        return new Vector3(x + shotOffset.x, y + shotOffset.y, shotOffset.z);
     }
 
     private static void SetActiveAll(GameObject[] objects, bool active)
@@ -248,23 +592,109 @@ public class Stage3BossIntroCutscene : MonoBehaviour
         cam.orthographicSize = to;
     }
 
-    private IEnumerator ShowLine(string speaker, string line)
+    private IEnumerator ShowLine(bool isBoss, string speaker, string line)
     {
-        if (speakerText != null) speakerText.text = speaker;
-        if (captionText != null) captionText.text = line;
-        yield return new WaitForSeconds(lineDisplayDuration);
+        Sprite frame = isBoss ? bossDialogueFrame : playerDialogueFrame;
+
+        // no window art wired up yet - fall back to the plain caption
+        if (dialogueFrame == null || frame == null)
+        {
+            if (speakerText != null) speakerText.text = speaker;
+            if (captionText != null) captionText.text = line;
+            yield return new WaitForSeconds(lineDisplayDuration);
+            if (speakerText != null) speakerText.text = "";
+            if (captionText != null) captionText.text = "";
+            yield return new WaitForSeconds(lineGap);
+            yield break;
+        }
+
+        // the name plate is part of the art, so the separate label stays empty
         if (speakerText != null) speakerText.text = "";
-        if (captionText != null) captionText.text = "";
+        dialogueFrame.sprite = frame;
+        if (captionText != null) captionText.text = line;
+
+        dialogueFrame.gameObject.SetActive(true);
+        yield return StartCoroutine(FadeDialogue(0f, 1f));
+        yield return StartCoroutine(WaitForAdvance());
+        yield return StartCoroutine(FadeDialogue(1f, 0f));
+        dialogueFrame.gameObject.SetActive(false);
+
         yield return new WaitForSeconds(lineGap);
+    }
+
+    // Reader-paced: Enter (or space / click) moves on, and the line times out on
+    // its own if nobody touches anything. The minimum guards against one press
+    // being counted twice and blowing through two lines.
+    private IEnumerator WaitForAdvance()
+    {
+        float t = 0f;
+        while (t < lineMinDuration)
+        {
+            t += Time.deltaTime;
+            yield return null;
+        }
+
+        if (advancePrompt != null) advancePrompt.enabled = true;
+
+        while (t < lineDisplayDuration)
+        {
+            if (AdvancePressed()) break;
+            if (advancePrompt != null)
+            {
+                Color c = advancePrompt.color;
+                c.a = Mathf.PingPong(Time.time * 1.6f, 1f) * 0.55f + 0.45f;
+                advancePrompt.color = c;
+            }
+            t += Time.deltaTime;
+            yield return null;
+        }
+
+        if (advancePrompt != null) advancePrompt.enabled = false;
+    }
+
+    private static bool AdvancePressed()
+    {
+        return Input.GetKeyDown(KeyCode.Return)
+            || Input.GetKeyDown(KeyCode.KeypadEnter)
+            || Input.GetKeyDown(KeyCode.Space)
+            || Input.GetMouseButtonDown(0);
+    }
+
+    private IEnumerator FadeDialogue(float from, float to)
+    {
+        if (dialogueGroup == null) yield break;
+        if (dialogueFadeDuration <= 0f)
+        {
+            dialogueGroup.alpha = to;
+            yield break;
+        }
+
+        float t = 0f;
+        while (t < dialogueFadeDuration)
+        {
+            t += Time.deltaTime;
+            dialogueGroup.alpha = Mathf.Lerp(from, to, Mathf.Clamp01(t / dialogueFadeDuration));
+            yield return null;
+        }
+        dialogueGroup.alpha = to;
     }
 
     private void CreateCaption()
     {
         GameObject canvasGO = new GameObject("BossIntroCaptionCanvas");
+        captionCanvas = canvasGO;
         Canvas canvas = canvasGO.AddComponent<Canvas>();
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
         canvas.sortingOrder = 10;
-        canvasGO.AddComponent<CanvasScaler>();
+        CanvasScaler scaler = canvasGO.AddComponent<CanvasScaler>();
+        scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        scaler.referenceResolution = new Vector2(1920f, 1080f);
+        scaler.matchWidthOrHeight = 0.5f;
+
+        BuildDialogueWindow(canvasGO.transform);
+        // the window owns the line once it exists; the bare caption below is the
+        // fallback for when no frame art is assigned
+        if (dialogueFrame != null) return;
 
         GameObject speakerGO = new GameObject("BossIntroSpeakerText");
         speakerGO.transform.SetParent(canvasGO.transform, false);
@@ -298,8 +728,84 @@ public class Stage3BossIntroCutscene : MonoBehaviour
         rt.sizeDelta = new Vector2(900f, 100f);
     }
 
+    // The frame is stretched edge to edge rather than aspect-fitted: the line is
+    // anchored to the frame in normalized coordinates, so letterboxing would slide
+    // the text off the box on any screen that is not 16:9.
+    private void BuildDialogueWindow(Transform parent)
+    {
+        if (bossDialogueFrame == null && playerDialogueFrame == null) return;
+
+        GameObject frameGO = new GameObject("DialogueFrame");
+        frameGO.transform.SetParent(parent, false);
+
+        dialogueFrame = frameGO.AddComponent<Image>();
+        dialogueFrame.raycastTarget = false;
+        dialogueFrame.sprite = playerDialogueFrame != null ? playerDialogueFrame : bossDialogueFrame;
+
+        // a panel sitting on the bottom edge, not a full-screen takeover; the rect
+        // carries the art's own aspect so preserveAspect never letterboxes inside it
+        dialogueFrame.preserveAspect = true;
+        Sprite reference = dialogueFrame.sprite;
+        float aspect = (reference != null && reference.rect.height > 0.001f)
+            ? reference.rect.width / reference.rect.height : 16f / 9f;
+
+        float frameWidth = 1920f * dialogueFrameWidth01;
+        RectTransform frt = dialogueFrame.rectTransform;
+        frt.anchorMin = new Vector2(0.5f, 0f);
+        frt.anchorMax = new Vector2(0.5f, 0f);
+        frt.pivot = new Vector2(0.5f, 0f);
+        frt.sizeDelta = new Vector2(frameWidth, frameWidth / aspect);
+        frt.anchoredPosition = new Vector2(dialogueFrameXOffset, dialogueFrameBottomMargin);
+
+        dialogueGroup = frameGO.AddComponent<CanvasGroup>();
+        dialogueGroup.alpha = 0f;
+
+        GameObject lineGO = new GameObject("DialogueLine");
+        lineGO.transform.SetParent(frameGO.transform, false);
+
+        captionText = lineGO.AddComponent<Text>();
+        captionText.font = captionFont;
+        captionText.text = "";
+        captionText.fontSize = dialogueFontSize;
+        captionText.color = dialogueTextColor;
+        captionText.alignment = TextAnchor.MiddleLeft;
+        captionText.horizontalOverflow = HorizontalWrapMode.Wrap;
+        captionText.verticalOverflow = VerticalWrapMode.Truncate;
+        captionText.raycastTarget = false;
+        // the panel shrinks with the screen, so let the line shrink with it rather
+        // than spilling past the box on a long sentence
+        captionText.resizeTextForBestFit = true;
+        captionText.resizeTextMinSize = 10;
+        captionText.resizeTextMaxSize = dialogueFontSize;
+
+        RectTransform lrt = captionText.rectTransform;
+        lrt.anchorMin = new Vector2(dialogueTextArea.xMin, dialogueTextArea.yMin);
+        lrt.anchorMax = new Vector2(dialogueTextArea.xMax, dialogueTextArea.yMax);
+        lrt.offsetMin = Vector2.zero;
+        lrt.offsetMax = Vector2.zero;
+
+        GameObject promptGO = new GameObject("AdvancePrompt");
+        promptGO.transform.SetParent(frameGO.transform, false);
+        advancePrompt = promptGO.AddComponent<Text>();
+        advancePrompt.font = captionFont;
+        advancePrompt.text = "▼";
+        advancePrompt.fontSize = Mathf.Max(14, dialogueFontSize - 6);
+        advancePrompt.alignment = TextAnchor.MiddleRight;
+        advancePrompt.color = dialogueTextColor;
+        advancePrompt.raycastTarget = false;
+
+        RectTransform prt = advancePrompt.rectTransform;
+        prt.anchorMin = new Vector2(dialogueTextArea.xMax - 0.06f, dialogueTextArea.yMin - 0.04f);
+        prt.anchorMax = new Vector2(dialogueTextArea.xMax, dialogueTextArea.yMin + 0.03f);
+        prt.offsetMin = Vector2.zero;
+        prt.offsetMax = Vector2.zero;
+        advancePrompt.enabled = false;
+
+        frameGO.SetActive(false);
+    }
+
     private void DestroyCaption()
     {
-        if (captionText != null) Destroy(captionText.transform.parent.gameObject);
+        if (captionCanvas != null) Destroy(captionCanvas);
     }
 }
