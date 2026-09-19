@@ -24,6 +24,11 @@ namespace BrightDream.Combat
         [SerializeField] private float minSpawnSpacing = 3f;
         [SerializeField] private int maxSpawnAttempts = 8;
 
+        [Tooltip("전투 구역 중심 (기본값: CombatArena 바닥 중심).")]
+        [SerializeField] private Vector3 arenaCenter = new Vector3(30.3987f, 0f, 37.6758f);
+        [Tooltip("이 거리보다 플레이어가 중심에서 멀어지면 전투를 이탈한 것으로 보고 Game Over 처리한다.")]
+        [SerializeField] private float leashDistance = 30f;
+
         private readonly List<Transform> activeMonsters = new List<Transform>();
         private bool spawning;
 
@@ -46,6 +51,22 @@ namespace BrightDream.Combat
                 if (go != null) Destroy(go);
 
             StartCoroutine(SpawnLoop());
+        }
+
+        private void Update()
+        {
+            if (!spawning) return;
+            if (MonsterPurifyManager.Instance != null &&
+                MonsterPurifyManager.Instance.PurifiedCount >= MonsterPurifyManager.TargetCount) return;
+
+            Transform player = PlayerHealth.Instance != null ? PlayerHealth.Instance.transform : null;
+            if (player == null) return;
+
+            Vector3 flatPlayerPos = new Vector3(player.position.x, arenaCenter.y, player.position.z);
+            if (Vector3.Distance(flatPlayerPos, arenaCenter) > leashDistance)
+            {
+                GameOverController.Instance?.TriggerGameOver();
+            }
         }
 
         private IEnumerator SpawnLoop()

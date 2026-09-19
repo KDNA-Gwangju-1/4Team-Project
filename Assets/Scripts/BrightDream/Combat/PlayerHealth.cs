@@ -22,6 +22,7 @@ namespace BrightDream.Combat
         public bool IsInvincible => invincibleTimer > 0f;
 
         private float invincibleTimer;
+        private bool isDead;
 
         private void Awake()
         {
@@ -47,11 +48,17 @@ namespace BrightDream.Combat
         /// <summary>무적 상태면 무시된다. grantInvincibility가 true면 이번 피격 이후 invincibilityDuration만큼 무적이 된다.</summary>
         public void TakeDamage(float amount, bool grantInvincibility = false)
         {
-            if (IsInvincible) return;
+            if (IsInvincible || isDead) return;
 
             CurrentHealth = Mathf.Max(0f, CurrentHealth - amount);
             UpdateHealthBar();
             if (grantInvincibility) invincibleTimer = invincibilityDuration;
+
+            if (CurrentHealth <= 0f)
+            {
+                isDead = true;
+                GameOverController.Instance?.TriggerGameOver();
+            }
         }
 
         private void UpdateHealthBar()

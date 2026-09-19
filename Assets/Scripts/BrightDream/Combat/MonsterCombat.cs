@@ -82,18 +82,27 @@ namespace BrightDream.Combat
             else
             {
                 PlayerHealth.Instance?.TakeDamage(wrongShotDamage);
+                CameraShake.Instance?.Shake();
                 Destroy(gameObject);
             }
         }
 
         private void HandlePlayerContact()
         {
-            isDone = true;
             if (needsPurification)
             {
+                // 무적 상태에서는 부딪혀도 아무 일도 일어나지 않는다 (몬스터도 그대로 유지).
+                if (PlayerHealth.Instance != null && PlayerHealth.Instance.IsInvincible) return;
+
+                isDone = true;
                 PlayerHealth.Instance?.TakeDamage(contactDamage, grantInvincibility: true);
+                Destroy(gameObject);
             }
-            Destroy(gameObject);
+            else
+            {
+                isDone = true;
+                Destroy(gameObject);
+            }
         }
 
         private IEnumerator FlashRedThenDestroy()
