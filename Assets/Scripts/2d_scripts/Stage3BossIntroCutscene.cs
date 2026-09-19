@@ -29,6 +29,12 @@ public class Stage3BossIntroCutscene : MonoBehaviour
     public float lineDisplayDuration = 2f;
     public float lineGap = 0.3f;
 
+    [Header("Staging")]
+    [Tooltip("Hidden until the camera turns on her - this is her first appearance.")]
+    public GameObject[] revealWithBoss;
+    [Tooltip("Hidden for the whole cutscene, switched on when control returns - monsters, HUD.")]
+    public GameObject[] revealAfterCutscene;
+
     public Sprite[] tendrilAttackFrames;
     public Sprite[] tendrilDissolveFrames;
     public float tendrilFrameDuration = 0.08f;
@@ -58,6 +64,9 @@ public class Stage3BossIntroCutscene : MonoBehaviour
         if (camFollow != null) gameplayCamOffset = camFollow.offset;
 
         player.enabled = false;
+        // nothing on stage but the player until the script says otherwise
+        SetActiveAll(revealWithBoss, false);
+        SetActiveAll(revealAfterCutscene, false);
         CreateCaption();
 
         StartCoroutine(ZoomOrthoTo(cam.orthographicSize, playerShotOrthoSize, panDuration));
@@ -90,6 +99,9 @@ public class Stage3BossIntroCutscene : MonoBehaviour
 
         if (bossRenderer != null) bossRenderer.flipX = true;
 
+        // she appears as the camera swings over - that is the reveal
+        SetActiveAll(revealWithBoss, true);
+
         Vector3 bossShotPos = boss.position + shotOffset;
         Vector3 playerShotPos = (Vector3)(playerRb != null ? (Vector2)playerRb.position : (Vector2)player.transform.position) + shotOffset;
 
@@ -113,8 +125,19 @@ public class Stage3BossIntroCutscene : MonoBehaviour
             camFollow.enabled = true;
         }
 
+        // cutscene over: the fight starts, and everything else walks on
+        SetActiveAll(revealAfterCutscene, true);
         player.enabled = true;
         Destroy(gameObject);
+    }
+
+    private static void SetActiveAll(GameObject[] objects, bool active)
+    {
+        if (objects == null) return;
+        for (int i = 0; i < objects.Length; i++)
+        {
+            if (objects[i] != null) objects[i].SetActive(active);
+        }
     }
 
     private IEnumerator ShowQuestionMark()
