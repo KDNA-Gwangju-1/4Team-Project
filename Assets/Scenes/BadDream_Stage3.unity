@@ -799,7 +799,7 @@ Transform:
   m_GameObject: {fileID: 465286316}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 33.3, y: 1.8507389, z: 0}
+  m_LocalPosition: {x: 33.3, y: 1.6196837, z: 0}
   m_LocalScale: {x: 1.2363707, y: 1.4479638, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1412,6 +1412,13 @@ MonoBehaviour:
   lineMinDuration: 0.5
   lineAutoAdvance: 6
   lineGap: 0.3
+  hideDuringCutscene:
+  - {fileID: 1834502762}
+  - {fileID: 1234360751}
+  - {fileID: 1918697673}
+  playerStageX: 18.060001
+  playerStageY: -2.63
+  stageSettleTime: 0.35
   panDuration: 0.9
   shotOffset: {x: 0, y: 0.6, z: -10}
   talkOrthoSize: 5.2

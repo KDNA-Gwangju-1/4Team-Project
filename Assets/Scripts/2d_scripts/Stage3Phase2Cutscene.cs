@@ -38,6 +38,19 @@ public class Stage3Phase2Cutscene : MonoBehaviour
     public float lineAutoAdvance = 6f;
     public float lineGap = 0.3f;
 
+    [Header("Staging")]
+    // The fight is wherever it happened to be when her health broke. None of that
+    // composes, so the arena is cleared and re-set on marks, the same way the
+    // intro stages itself - the scene has to read as its own space, not as a
+    // pause in the middle of gameplay.
+    [Tooltip("Switched off for the scene and back on at the end - monsters, HUD.")]
+    public GameObject[] hideDuringCutscene;
+    [Tooltip("Where the player is placed for the scene. Their live fight position is discarded.")]
+    public float playerStageX = 18.06f;
+    [Tooltip("Ground line the player is stood on.")]
+    public float playerStageY = -2.63f;
+    public float stageSettleTime = 0.35f;
+
     [Header("Camera")]
     public float panDuration = 0.9f;
     public Vector3 shotOffset = new Vector3(0f, 0.6f, -10f);
@@ -121,8 +134,9 @@ public class Stage3Phase2Cutscene : MonoBehaviour
 
         BuildWindow();
 
-        float playerX = player.transform.position.x;
         SpriteRenderer playerRenderer = player.GetComponent<SpriteRenderer>();
+        float playerX = ClearStage(playerRenderer);
+        yield return new WaitForSeconds(stageSettleTime);
 
         yield return TentacleDeathBeat(playerX);
         yield return BossReturn(playerX);
@@ -145,15 +159,59 @@ public class Stage3Phase2Cutscene : MonoBehaviour
         if (window != null) window.Dispose();
         ClearProps();
 
+        RestoreStage();
+
         // rush back out to the gameplay framing - it doubles as the beat where
         // the floor is about to give way
-        yield return PanTo(ShotOn(player.transform.position.x, playerRenderer),
-                           gameplayOrthoSize, pullOutDuration);
+        yield return PanTo(ShotOn(playerX, playerRenderer), gameplayOrthoSize, pullOutDuration);
 
         // control and the camera go back to BossPhaseController2D, which
         // drops the floor out from under him next
         if (camFollow != null) camFollow.enabled = true;
         player.enabled = true;
+    }
+
+    // Wipes the fight off the screen and puts the player on their mark. Returns
+    // the staged x, which every shot in this scene is composed from.
+    private float ClearStage(SpriteRenderer playerRenderer)
+    {
+        // anything the boss threw goes with the fight
+        TentacleStrike2D[] live = UnityEngine.Object.FindObjectsOfType<TentacleStrike2D>();
+        for (int i = 0; i < live.Length; i++)
+        {
+            if (live[i] != null) Destroy(live[i].gameObject);
+        }
+
+        for (int i = 0; i < hideDuringCutscene.Length; i++)
+        {
+            if (hideDuringCutscene[i] != null) hideDuringCutscene[i].SetActive(false);
+        }
+
+        // feet on the mark - the pivot is not the bottom of the drawing
+        float footOffset = playerRenderer != null
+            ? player.transform.position.y - playerRenderer.bounds.min.y : 0f;
+        Vector3 mark = new Vector3(playerStageX, playerStageY + footOffset, player.transform.position.z);
+
+        Rigidbody2D rb = player.GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+            rb.position = mark;
+        }
+        player.transform.position = mark;
+
+        // looking at her, not at wherever he was running
+        if (playerRenderer != null) playerRenderer.flipX = false;
+
+        return playerStageX;
+    }
+
+    private void RestoreStage()
+    {
+        for (int i = 0; i < hideDuringCutscene.Length; i++)
+        {
+            if (hideDuringCutscene[i] != null) hideDuringCutscene[i].SetActive(true);
+        }
     }
 
     private void BuildWindow()
