@@ -76,6 +76,9 @@ public class Stage3BossIntroCutscene : MonoBehaviour
     // no two silhouettes touch. Offsets are from the boss, in world units.
     [Tooltip("Which entry of revealAfterDelay steps out first, on its own.")]
     public int firstSummonIndex = 1;
+    [Tooltip("Where the first one appears - right beside her, because she is showing him off. It drifts out to its slot once the tentacles need the room.")]
+    public float firstSummonRevealOffset = 5f;
+    public float firstSummonDriftDuration = 0.9f;
     [Tooltip("A closer shot for that first one - it is a reveal, not a line-up yet.")]
     public float firstSummonOrthoSize = 6.5f;
     public Vector2 firstSummonShotOffset = new Vector2(3.5f, 3.2f);
@@ -136,6 +139,14 @@ public class Stage3BossIntroCutscene : MonoBehaviour
     private Parallax2D bossParallax;
     private BossAttack2D bossAttack;
     private readonly List<GameObject> summonProps = new List<GameObject>();
+
+    // a placed prop, kept so its rest position can be changed after the fact
+    private class PlacedProp
+    {
+        public SpriteRenderer sr;
+        public Vector3 rest;
+    }
+    private PlacedProp firstProp;
 
     void Start()
     {
@@ -317,7 +328,7 @@ public class Stage3BossIntroCutscene : MonoBehaviour
                                    bossCutsceneGroundY + firstSummonShotOffset.y, shotOffset.z);
         yield return StartCoroutine(PanCameraTo(shot, firstSummonOrthoSize, panDuration * 0.8f));
 
-        yield return StartCoroutine(PopMonsterByIndex(firstSummonIndex));
+        yield return StartCoroutine(PopMonsterByIndex(firstSummonIndex, firstSummonRevealOffset));
         yield return new WaitForSeconds(summonHoldTime);
     }
 
@@ -329,6 +340,14 @@ public class Stage3BossIntroCutscene : MonoBehaviour
         Vector3 shot = new Vector3(boss.position.x + summonShotOffset.x,
                                    bossCutsceneGroundY + summonShotOffset.y, shotOffset.z);
         yield return StartCoroutine(PanCameraTo(shot, summonShotOrthoSize, panDuration));
+
+        // it steps aside first - the tentacle is about to come up where it stands
+        if (firstProp != null && firstSummonIndex >= 0 && summonMonsterOffsets != null
+            && firstSummonIndex < summonMonsterOffsets.Length)
+        {
+            yield return StartCoroutine(DriftProp(firstProp,
+                boss.position.x + summonMonsterOffsets[firstSummonIndex], firstSummonDriftDuration));
+        }
 
         if (summonTentacleOffsets != null)
         {
@@ -354,11 +373,32 @@ public class Stage3BossIntroCutscene : MonoBehaviour
 
     private IEnumerator PopMonsterByIndex(int i)
     {
+        float def = (summonMonsterOffsets != null && i >= 0 && i < summonMonsterOffsets.Length) ? summonMonsterOffsets[i] : 0f;
+        yield return StartCoroutine(PopMonsterByIndex(i, def));
+    }
+
+    private IEnumerator PopMonsterByIndex(int i, float dx)
+    {
         if (revealAfterDelay == null || i < 0 || i >= revealAfterDelay.Length) yield break;
 
-        float dx = (summonMonsterOffsets != null && i < summonMonsterOffsets.Length) ? summonMonsterOffsets[i] : 0f;
         float dy = (summonMonsterHeights != null && i < summonMonsterHeights.Length) ? summonMonsterHeights[i] : 0f;
-        yield return StartCoroutine(PopMonsterProp(revealAfterDelay[i], boss.position.x + dx, bossCutsceneGroundY + dy));
+        yield return StartCoroutine(PopMonsterProp(revealAfterDelay[i], boss.position.x + dx, bossCutsceneGroundY + dy, i == firstSummonIndex));
+    }
+
+    private IEnumerator DriftProp(PlacedProp prop, float targetX, float duration)
+    {
+        if (prop == null || prop.sr == null) yield break;
+
+        Vector3 from = prop.rest;
+        Vector3 to = new Vector3(targetX, from.y, from.z);
+        float t = 0f;
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            prop.rest = Vector3.Lerp(from, to, Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(t / duration)));
+            yield return null;
+        }
+        prop.rest = to;
     }
 
     // Sorting sits one below her on purpose: even if a flank prop drifts wide
@@ -424,7 +464,7 @@ public class Stage3BossIntroCutscene : MonoBehaviour
         }
     }
 
-    private IEnumerator PopMonsterProp(GameObject source, float x, float y)
+    private IEnumerator PopMonsterProp(GameObject source, float x, float y, bool remember)
     {
         if (source == null) yield break;
 
@@ -461,12 +501,18 @@ public class Stage3BossIntroCutscene : MonoBehaviour
         }
         sr.transform.localScale = Vector3.one * scale;
 
-        StartCoroutine(IdleMonsterProp(sr, frames, rest));
+        PlacedProp placed = new PlacedProp();
+        placed.sr = sr;
+        placed.rest = rest;
+        if (remember) firstProp = placed;
+
+        StartCoroutine(IdleMonsterProp(placed, frames));
     }
 
     // Loops its frames and drifts, for as long as the prop is on stage.
-    private IEnumerator IdleMonsterProp(SpriteRenderer sr, Sprite[] frames, Vector3 rest)
+    private IEnumerator IdleMonsterProp(PlacedProp prop, Sprite[] frames)
     {
+        SpriteRenderer sr = prop.sr;
         float seed = Random.value * 10f;
         float frameTimer = 0f;
         int frame = 0;
@@ -485,7 +531,7 @@ public class Stage3BossIntroCutscene : MonoBehaviour
             }
 
             float k = Mathf.Sin((Time.time / Mathf.Max(0.05f, summonMonsterBobPeriod) + seed) * Mathf.PI * 2f);
-            sr.transform.position = rest + new Vector3(0f, k * summonMonsterBobAmplitude, 0f);
+            sr.transform.position = prop.rest + new Vector3(0f, k * summonMonsterBobAmplitude, 0f);
             yield return null;
         }
     }

@@ -890,7 +890,7 @@ Transform:
   m_GameObject: {fileID: 465286316}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 33.3, y: 1.7522242, z: 0}
+  m_LocalPosition: {x: 33.3, y: 1.7783445, z: 0}
   m_LocalScale: {x: 1.2363707, y: 1.4479638, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1336,6 +1336,8 @@ MonoBehaviour:
   bossCutsceneSortingOrder: 2
   bossCutsceneGroundY: -2.63
   firstSummonIndex: 2
+  firstSummonRevealOffset: 5
+  firstSummonDriftDuration: 0.9
   firstSummonOrthoSize: 6.5
   firstSummonShotOffset: {x: 2.6, y: 3.4}
   summonShotOrthoSize: 9
