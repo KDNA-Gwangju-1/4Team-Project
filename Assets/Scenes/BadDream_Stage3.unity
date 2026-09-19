@@ -890,7 +890,7 @@ Transform:
   m_GameObject: {fileID: 465286316}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 33.3, y: 2.6278815, z: 0}
+  m_LocalPosition: {x: 33.3, y: 2.7612014, z: 0}
   m_LocalScale: {x: 1.2363707, y: 1.4479638, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2589,7 +2589,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DevModeStage3
   grantLanternOnStart: 1
-  skipBossIntroCutscene: 0
+  skipBossIntroCutscene: 1
+  jumpToPhase2Key: 283
+  killBossKey: 285
 --- !u!4 &1052065774
 Transform:
   m_ObjectHideFlags: 0
