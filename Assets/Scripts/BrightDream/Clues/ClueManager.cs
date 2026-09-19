@@ -17,6 +17,15 @@ namespace BrightDream.Clues
 
         public const int TotalClueCount = 4;
 
+        /// <summary>체크리스트 표시 순서 및 힌트 이름. 실제 판정은 clueId로 이루어진다.</summary>
+        private static readonly (string Id, string Label)[] ClueChecklist =
+        {
+            ("clue_01_ribbon", "리본"),
+            ("clue_03_tree_carving", "이름"),
+            ("clue_02_photoalbum", "사진첩"),
+            ("clue_04_unsent_letter", "편지"),
+        };
+
         [Header("UI 참조")]
         [SerializeField] private Text progressText;
         [SerializeField] private Text investigateText;
@@ -81,7 +90,14 @@ namespace BrightDream.Clues
 
         private void UpdateProgressUI()
         {
-            if (progressText != null) progressText.text = $"단서 {collectedClueIds.Count} / {TotalClueCount}";
+            if (progressText == null) return;
+
+            string text = $"단서 {collectedClueIds.Count} / {TotalClueCount}";
+            foreach ((string id, string label) in ClueChecklist)
+            {
+                text += "\n[" + (collectedClueIds.Contains(id) ? "○" : " ") + "] " + label;
+            }
+            progressText.text = text;
         }
 
         /// <summary>
