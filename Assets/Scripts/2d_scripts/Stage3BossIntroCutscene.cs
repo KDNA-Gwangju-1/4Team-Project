@@ -22,10 +22,8 @@ public class Stage3BossIntroCutscene : MonoBehaviour
     public float questionMarkDelay = 0.3f;
     public float questionMarkDuration = 1f;
 
-    [TextArea] public string bossLine1 = "...? 어라 너는 윤곽선이 없네? 이방인이야?";
-    [TextArea] public string playerLine = "쌍둥이 동생을 구하러 왔다";
-    [TextArea] public string bossLine2 = "....그래? 저 작은 손전등 하나로? 재밌네...";
-    [TextArea] public string bossLine3 = "나 대신 이 친구들이 놀아줄거야 너도 이 세상에 동화되자...";
+    // beatAfter: 1 = the first monster steps out, 2 = the tentacles and the rest
+    public DialogueLine2D[] lines;
     public string bossSpeakerName = "???";
     public string playerSpeakerName = "꿈탐정";
     public float lineDisplayDuration = 2f;
@@ -76,6 +74,11 @@ public class Stage3BossIntroCutscene : MonoBehaviour
     [Header("Summon beat")]
     // Everything she calls up is placed BESIDE her, never in front, and spaced so
     // no two silhouettes touch. Offsets are from the boss, in world units.
+    [Tooltip("Which entry of revealAfterDelay steps out first, on its own.")]
+    public int firstSummonIndex = 1;
+    [Tooltip("A closer shot for that first one - it is a reveal, not a line-up yet.")]
+    public float firstSummonOrthoSize = 6.5f;
+    public Vector2 firstSummonShotOffset = new Vector2(3.5f, 3.2f);
     [Tooltip("Camera pulls back this far to hold the whole line-up.")]
     public float summonShotOrthoSize = 9f;
     [Tooltip("Summon shot centre: x from the boss, y from the ledge floor.")]
@@ -196,18 +199,40 @@ public class Stage3BossIntroCutscene : MonoBehaviour
         float playerX = playerRb != null ? playerRb.position.x : player.transform.position.x;
         Vector3 playerShotPos = ShotOn(playerX, player.GetComponent<SpriteRenderer>());
 
-        yield return StartCoroutine(PanCameraTo(bossShotPos, bossShotOrthoSize, panDuration));
-        yield return StartCoroutine(ShowLine(true, bossSpeakerName, bossLine1));
+        // the camera only swings when the speaker actually changes
+        bool cameraOnBoss = false;
+        bool firstLine = true;
 
-        yield return StartCoroutine(PanCameraTo(playerShotPos, playerShotOrthoSize, panDuration));
-        yield return StartCoroutine(ShowLine(false, playerSpeakerName, playerLine));
+        for (int i = 0; i < lines.Length; i++)
+        {
+            DialogueLine2D line = lines[i];
+            if (line == null || string.IsNullOrEmpty(line.text)) continue;
 
-        yield return StartCoroutine(PanCameraTo(bossShotPos, bossShotOrthoSize, panDuration));
-        yield return StartCoroutine(ShowLine(true, bossSpeakerName, bossLine2));
+            if (firstLine || line.isBoss != cameraOnBoss)
+            {
+                yield return StartCoroutine(line.isBoss
+                    ? PanCameraTo(bossShotPos, bossShotOrthoSize, panDuration)
+                    : PanCameraTo(playerShotPos, playerShotOrthoSize, panDuration));
+                cameraOnBoss = line.isBoss;
+                firstLine = false;
+            }
 
-        // she calls them up before the line that hands the fight over to them
-        yield return StartCoroutine(SummonRoutine());
-        yield return StartCoroutine(ShowLine(true, bossSpeakerName, bossLine3));
+            yield return StartCoroutine(ShowLine(line.isBoss,
+                line.isBoss ? bossSpeakerName : playerSpeakerName, line.text));
+
+            if (line.beatAfter == 1)
+            {
+                yield return StartCoroutine(SummonFirstMonster());
+                cameraOnBoss = false;   // the shot moved, so re-frame on the next line
+                firstLine = true;
+            }
+            else if (line.beatAfter == 2)
+            {
+                yield return StartCoroutine(SummonTheRest());
+                cameraOnBoss = false;
+                firstLine = true;
+            }
+        }
 
         DestroyCaption();
 
@@ -281,7 +306,21 @@ public class Stage3BossIntroCutscene : MonoBehaviour
     // Her retinue rises beside her: a tentacle on each flank, then one of every
     // monster that will actually fight, further out still. These are display props
     // only - the real monsters walk on after the cutscene, unarmed until then.
-    private IEnumerator SummonRoutine()
+    private IEnumerator SummonFirstMonster()
+    {
+        // one of them steps out while she is still being sweet about it
+        Vector3 shot = new Vector3(boss.position.x + firstSummonShotOffset.x,
+                                   bossCutsceneGroundY + firstSummonShotOffset.y, shotOffset.z);
+        yield return StartCoroutine(PanCameraTo(shot, firstSummonOrthoSize, panDuration * 0.8f));
+
+        yield return StartCoroutine(PopMonsterByIndex(firstSummonIndex));
+        yield return new WaitForSeconds(summonHoldTime);
+    }
+
+    // Her retinue rises beside her: a tentacle on each flank, then whatever
+    // monsters have not been shown yet, further out still. These are display props
+    // only - the real monsters walk on after the cutscene, unarmed until then.
+    private IEnumerator SummonTheRest()
     {
         Vector3 shot = new Vector3(boss.position.x + summonShotOffset.x,
                                    bossCutsceneGroundY + summonShotOffset.y, shotOffset.z);
@@ -300,14 +339,22 @@ public class Stage3BossIntroCutscene : MonoBehaviour
         {
             for (int i = 0; i < revealAfterDelay.Length; i++)
             {
-                float dx = (summonMonsterOffsets != null && i < summonMonsterOffsets.Length) ? summonMonsterOffsets[i] : 0f;
-                float dy = (summonMonsterHeights != null && i < summonMonsterHeights.Length) ? summonMonsterHeights[i] : 0f;
-                StartCoroutine(PopMonsterProp(revealAfterDelay[i], boss.position.x + dx, bossCutsceneGroundY + dy));
+                if (i == firstSummonIndex) continue;   // already out
+                StartCoroutine(PopMonsterByIndex(i));
                 yield return new WaitForSeconds(summonStagger);
             }
         }
 
         yield return new WaitForSeconds(summonHoldTime);
+    }
+
+    private IEnumerator PopMonsterByIndex(int i)
+    {
+        if (revealAfterDelay == null || i < 0 || i >= revealAfterDelay.Length) yield break;
+
+        float dx = (summonMonsterOffsets != null && i < summonMonsterOffsets.Length) ? summonMonsterOffsets[i] : 0f;
+        float dy = (summonMonsterHeights != null && i < summonMonsterHeights.Length) ? summonMonsterHeights[i] : 0f;
+        yield return StartCoroutine(PopMonsterProp(revealAfterDelay[i], boss.position.x + dx, bossCutsceneGroundY + dy));
     }
 
     // Sorting sits one below her on purpose: even if a flank prop drifts wide

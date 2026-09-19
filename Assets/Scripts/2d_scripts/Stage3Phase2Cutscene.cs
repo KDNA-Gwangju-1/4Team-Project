@@ -22,11 +22,9 @@ public class Stage3Phase2Cutscene : MonoBehaviour
     public Sprite playerDialogueFrame;
     [Tooltip("The shadowed portrait. Shown from the moment the shadow takes her.")]
     public Sprite bossShadowDialogueFrame;
-    [TextArea] public string bossLine1 = "...";
-    [TextArea] public string bossLine2 = "너 싫어... 언니 같이 날 힘들게 해";
-    [TextArea] public string playerLine = "괴물, 어서 쌍둥이 동생 몸에서 나가";
-    [TextArea] public string bossLine3 = "...내가 괴물?";
-    [TextArea] public string bossKillLine = "...죽어";
+    // beatAfter: 1 = the shadow takes her, then the creep-and-snap zoom.
+    // Every line after that beat wears the shadowed portrait.
+    public DialogueLine2D[] lines;
 
     [Header("Dialogue window")]
     public Rect dialogueTextArea = new Rect(0.40f, 0.10f, 0.54f, 0.19f);
@@ -165,13 +163,21 @@ public class Stage3Phase2Cutscene : MonoBehaviour
 
         yield return PanTo(twoShot, talkOrthoSize, panDuration);
 
-        yield return Say(bossDialogueFrame, bossLine1);
-        yield return Say(bossDialogueFrame, bossLine2);
-        yield return Say(playerDialogueFrame, playerLine);
-        yield return Say(bossDialogueFrame, bossLine3);
+        for (int i = 0; i < lines.Length; i++)
+        {
+            DialogueLine2D line = lines[i];
+            if (line == null || string.IsNullOrEmpty(line.text)) continue;
 
-        yield return ShadowTurn();
-        yield return KillLine(bossShot);
+            yield return Say(line.isBoss ? bossDialogueFrame : playerDialogueFrame, line.text);
+
+            if (line.beatAfter == 1)
+            {
+                yield return ShadowTurn();
+                yield return ZoomForKillLine(bossShot);
+            }
+        }
+
+        yield return new WaitForSeconds(holdAfterKillLine);
 
         if (window != null) window.Dispose();
         ClearProps();
@@ -531,7 +537,7 @@ public class Stage3Phase2Cutscene : MonoBehaviour
 
     // ---------- "...죽어" ----------
 
-    private IEnumerator KillLine(Vector3 bossShot)
+    private IEnumerator ZoomForKillLine(Vector3 bossShot)
     {
         // creep in first so the snap has something to land against
         yield return PanTo(bossShot, creepOrthoSize, creepDuration);
@@ -539,9 +545,6 @@ public class Stage3Phase2Cutscene : MonoBehaviour
 
         if (camFollow != null) camFollow.Shake(0.35f, snapShake);
         yield return new WaitForSeconds(holdBeforeKillLine);
-
-        yield return Say(bossDialogueFrame, bossKillLine);
-        yield return new WaitForSeconds(holdAfterKillLine);
     }
 
     // ---------- helpers ----------

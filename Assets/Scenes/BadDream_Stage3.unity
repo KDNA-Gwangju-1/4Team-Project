@@ -799,7 +799,7 @@ Transform:
   m_GameObject: {fileID: 465286316}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 33.3, y: 1.4351734, z: 0}
+  m_LocalPosition: {x: 33.3, y: 1.2443587, z: 0}
   m_LocalScale: {x: 1.2363707, y: 1.4479638, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1185,13 +1185,32 @@ MonoBehaviour:
   shotOffset: {x: 0, y: 0.6, z: -10}
   questionMarkDelay: 0.3
   questionMarkDuration: 1
-  bossLine1: "...? \uC5B4\uB77C \uB108\uB294 \uC724\uACFD\uC120\uC774 \uC5C6\uB124?
-    \uC774\uBC29\uC778\uC774\uC57C?"
-  playerLine: "\uC30D\uB465\uC774 \uB3D9\uC0DD\uC744 \uAD6C\uD558\uB7EC \uC654\uB2E4"
-  bossLine2: "....\uADF8\uB798? \uC800 \uC791\uC740 \uC190\uC804\uB4F1 \uD558\uB098\uB85C?
-    \uC7AC\uBC0C\uB124..."
-  bossLine3: "\uB098 \uB300\uC2E0 \uC774 \uCE5C\uAD6C\uB4E4\uC774 \uB180\uC544\uC904\uAC70\uC57C
-    \uB108\uB3C4 \uC774 \uC138\uC0C1\uC5D0 \uB3D9\uD654\uB418\uC790..."
+  lines:
+  - isBoss: 1
+    text: "...\uC5B4\uB77C? \uCC98\uC74C\uBCF4\uB294 \uC0AC\uB78C\uC774\uB124?"
+    beatAfter: 0
+  - isBoss: 1
+    text: "\uC624\uBE64 \uB204\uAD6C\uC57C?"
+    beatAfter: 0
+  - isBoss: 0
+    text: "\uC30D\uB465\uC774 \uB3D9\uC0DD\uC744 \uAD6C\uD558\uB7EC \uC654\uB2E4"
+    beatAfter: 0
+  - isBoss: 1
+    text: "...\uC804\uC5D0\uB3C4 \uBE44\uC2B7\uD55C \uC18C\uB9AC\uB97C \uD558\uBA70
+      \uC654\uB358 \uC5B8\uB2C8 \uC624\uBE60\uB4E4\uC774 \uC640\uC11C \uB0A0 \uAD34\uB86D\uD614\uC5B4..."
+    beatAfter: 0
+  - isBoss: 1
+    text: "\uADF8\uB798\uC11C \uB0B4\uAC00 \uC774\uB807\uAC8C \uBAA8\uC2B5\uC744
+      \uADC0\uC5FD\uAC8C \uBC14\uAFD4\uC92C\uB354\uB2C8"
+    beatAfter: 1
+  - isBoss: 1
+    text: "\uC9C0\uAE08\uC740 \uC774\uB807\uAC8C \uC0AC\uC774\uC88B\uAC8C \uC798
+      \uC9C0\uB0B8\uB2E4? \uC778\uC0AC \uD574 \uC624\uBE60~"
+    beatAfter: 2
+  - isBoss: 1
+    text: "\uC790 \uC598\uB4E4\uC544 \uC624\uBE60\uB791 \uC0AC\uC774\uC88B\uAC8C
+      \uB180\uC544\uC918~"
+    beatAfter: 0
   bossSpeakerName: ???
   playerSpeakerName: "\uAFC8\uD0D0\uC815"
   lineDisplayDuration: 6
@@ -1224,6 +1243,9 @@ MonoBehaviour:
   bossCutsceneWidth: 4.8
   bossCutsceneSortingOrder: 2
   bossCutsceneGroundY: -2.63
+  firstSummonIndex: 1
+  firstSummonOrthoSize: 6.5
+  firstSummonShotOffset: {x: 3.5, y: 3.2}
   summonShotOrthoSize: 9
   summonShotOffset: {x: 0.2, y: 6.6}
   summonTentacleOffsets:
@@ -1392,13 +1414,28 @@ MonoBehaviour:
   bossDialogueFrame: {fileID: 21300000, guid: 58906ac033375a44dbd39c8c55c26b20, type: 3}
   playerDialogueFrame: {fileID: 21300000, guid: 87a8a037d993e734793549bdadb8ace1, type: 3}
   bossShadowDialogueFrame: {fileID: 0}
-  bossLine1: ...
-  bossLine2: "\uB108 \uC2EB\uC5B4... \uC5B8\uB2C8 \uAC19\uC774 \uB0A0 \uD798\uB4E4\uAC8C
-    \uD574"
-  playerLine: "\uAD34\uBB3C, \uC5B4\uC11C \uC30D\uB465\uC774 \uB3D9\uC0DD \uBAB8\uC5D0\uC11C
-    \uB098\uAC00"
-  bossLine3: "...\uB0B4\uAC00 \uAD34\uBB3C?"
-  bossKillLine: "...\uC8FD\uC5B4"
+  lines:
+  - isBoss: 1
+    text: ...
+    beatAfter: 0
+  - isBoss: 1
+    text: "\uC624\uBE60 \uB54C\uBB38\uC5D0 \uB0B4 \uCE5C\uAD6C\uB4E4\uC774 \uC544\uD30C
+      \uD558\uC796\uC544"
+    beatAfter: 0
+  - isBoss: 1
+    text: "\uC624\uBE60 \uC2EB\uC5B4... \uC5B8\uB2C8 \uAC19\uC774 \uB0A0 \uD798\uB4E4\uAC8C
+      \uD574"
+    beatAfter: 0
+  - isBoss: 0
+    text: "\uAD34\uBB3C, \uC5B4\uC11C \uC30D\uB465\uC774 \uB3D9\uC0DD \uBAB8\uC5D0\uC11C
+      \uB098\uAC00"
+    beatAfter: 0
+  - isBoss: 1
+    text: "...\uB0B4\uAC00 \uAD34\uBB3C?"
+    beatAfter: 1
+  - isBoss: 1
+    text: "...\uC8FD\uC5B4"
+    beatAfter: 0
   dialogueTextArea:
     serializedVersion: 2
     x: 0.4
@@ -3709,6 +3746,8 @@ MonoBehaviour:
   jumpApexFrame: 3
   jumpFallFrame: 4
   jumpApexBand: 2.5
+  singleJumpPoseWithLight: 1
+  jumpLightFrame: 3
 --- !u!114 &1550880042
 MonoBehaviour:
   m_ObjectHideFlags: 0
