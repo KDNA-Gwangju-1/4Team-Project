@@ -56,9 +56,13 @@ public class HeldFlashlightVisual2D : MonoBehaviour
         Vector2 hand = (Vector2)player.transform.position + new Vector2(offset.x * facing, offset.y);
 
         Vector2 dir = player.LightDirection.normalized;
-        // the sprite pivots at its middle, so push it forward to leave the handle
-        // sitting on the hand instead of the whole barrel crossing his chest
-        transform.position = hand + dir * (targetLength * gripToCenter01);
+        // Standing, the sprite pivots at its middle so it gets pushed forward to
+        // leave the handle on the hand. Airborne it must NOT be pushed: the jump
+        // offset is already tuned for the raised arm, and adding the push sends it
+        // flying off along the beam whenever he looks up.
+        transform.position = player.IsGrounded
+            ? hand + dir * (targetLength * gripToCenter01)
+            : hand;
 
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0f, 0f, angle);

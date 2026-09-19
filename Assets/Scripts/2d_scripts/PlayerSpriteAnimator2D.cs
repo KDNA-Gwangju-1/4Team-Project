@@ -38,6 +38,9 @@ public class PlayerSpriteAnimator2D : MonoBehaviour
     public int jumpFallFrame = 4;
     [Tooltip("Vertical speed under this magnitude counts as the apex.")]
     public float jumpApexBand = 2.5f;
+    [Tooltip("With the light up, hold one jump pose instead of running the arc. The raised arm makes the cycle read as flailing.")]
+    public bool singleJumpPoseWithLight = true;
+    public int jumpLightFrame = 3;
 
     private SpriteRenderer sr;
     private Rigidbody2D rb;
@@ -146,6 +149,15 @@ public class PlayerSpriteAnimator2D : MonoBehaviour
     private void UpdateAirborneFrame(Sprite[] frames)
     {
         int last = frames.Length - 1;
+
+        // one steady pose while the beam is up
+        if (singleJumpPoseWithLight && player != null && player.IsLightOn)
+        {
+            frameIndex = Mathf.Clamp(jumpLightFrame, 0, last);
+            sr.sprite = frames[frameIndex];
+            return;
+        }
+
         float verticalSpeed = rb.linearVelocity.y;
         bool rising = verticalSpeed > jumpApexBand;
 
