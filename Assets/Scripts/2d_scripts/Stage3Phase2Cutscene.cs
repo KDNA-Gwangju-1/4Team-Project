@@ -61,6 +61,16 @@ public class Stage3Phase2Cutscene : MonoBehaviour
     [Tooltip("The flashlight he carries. Hidden for the idle pose, shown for the shot.")]
     public GameObject heldFlashlight;
 
+    [Header("Opening blackout")]
+    // Cutting straight from the fight makes this read as a pause in gameplay. The
+    // screen goes black first, so what comes back up is understood as its own scene.
+    public float blackoutInDuration = 0.35f;
+    public float blackoutHoldDuration = 0.5f;
+    public float blackoutOutDuration = 0.6f;
+    [Tooltip("Extra blink while it is dark. 0 = a clean fade.")]
+    public int blackoutBlinks = 2;
+    public float blackoutBlinkTime = 0.09f;
+
     [Header("Camera")]
     public float panDuration = 0.9f;
     public Vector3 shotOffset = new Vector3(0f, 0.6f, -10f);
@@ -127,6 +137,8 @@ public class Stage3Phase2Cutscene : MonoBehaviour
     private Rigidbody2D playerBody;
     private RigidbodyType2D originalBodyType;
     private SpriteRenderer stageRenderer;
+    private GameObject blackoutCanvas;
+    private UnityEngine.UI.Image blackout;
     private HeldFlashlightVisual2D heldVisual;
     private DialogueWindow2D window;
     private Parallax2D bossParallax;
@@ -148,9 +160,21 @@ public class Stage3Phase2Cutscene : MonoBehaviour
         gameplayOrthoSize = cam.orthographicSize;
 
         BuildWindow();
+        BuildBlackout();
+
+        // black out BEFORE the stage is rearranged, so the player never sees
+        // themselves teleport onto their mark
+        yield return FadeBlackout(0f, 1f, blackoutInDuration);
+        yield return Blink();
 
         SpriteRenderer playerRenderer = player.GetComponent<SpriteRenderer>();
         float playerX = ClearStage(playerRenderer);
+
+        // frame the opening shot while it is still dark
+        yield return PanTo(ShotOn(playerX + tentacleGapFromPlayer * 0.5f, null), 6.4f, 0f);
+        yield return new WaitForSeconds(blackoutHoldDuration);
+        yield return FadeBlackout(1f, 0f, blackoutOutDuration);
+
         yield return new WaitForSeconds(stageSettleTime);
 
         yield return TentacleDeathBeat(playerX);
@@ -180,6 +204,7 @@ public class Stage3Phase2Cutscene : MonoBehaviour
         yield return new WaitForSeconds(holdAfterKillLine);
 
         if (window != null) window.Dispose();
+        DestroyBlackout();
         ClearProps();
 
         RestoreStage();
@@ -304,6 +329,69 @@ public class Stage3Phase2Cutscene : MonoBehaviour
         window.Build(reference);
     }
 
+    private void BuildBlackout()
+    {
+        blackoutCanvas = new GameObject("CutsceneBlackout");
+        Canvas canvas = blackoutCanvas.AddComponent<Canvas>();
+        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        canvas.sortingOrder = 20;   // over the dialogue window too
+
+        UnityEngine.UI.Image img = blackoutCanvas.AddComponent<UnityEngine.UI.Image>();
+        img.color = new Color(0f, 0f, 0f, 0f);
+        img.raycastTarget = false;
+        RectTransform rt = img.rectTransform;
+        rt.anchorMin = Vector2.zero;
+        rt.anchorMax = Vector2.one;
+        rt.offsetMin = Vector2.zero;
+        rt.offsetMax = Vector2.zero;
+        blackout = img;
+    }
+
+    private IEnumerator FadeBlackout(float from, float to, float duration)
+    {
+        if (blackout == null) yield break;
+        if (duration <= 0f)
+        {
+            SetBlackout(to);
+            yield break;
+        }
+
+        float t = 0f;
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            SetBlackout(Mathf.Lerp(from, to, Mathf.Clamp01(t / duration)));
+            yield return null;
+        }
+        SetBlackout(to);
+    }
+
+    private IEnumerator Blink()
+    {
+        for (int i = 0; i < blackoutBlinks; i++)
+        {
+            SetBlackout(0.55f);
+            yield return new WaitForSeconds(blackoutBlinkTime);
+            SetBlackout(1f);
+            yield return new WaitForSeconds(blackoutBlinkTime);
+        }
+    }
+
+    private void SetBlackout(float alpha)
+    {
+        if (blackout == null) return;
+        Color c = blackout.color;
+        c.a = alpha;
+        blackout.color = c;
+    }
+
+    private void DestroyBlackout()
+    {
+        if (blackoutCanvas != null) Destroy(blackoutCanvas);
+        blackoutCanvas = null;
+        blackout = null;
+    }
+
     private IEnumerator Say(Sprite frame, string line)
     {
         if (window == null || !window.Ready) yield break;
@@ -317,8 +405,6 @@ public class Stage3Phase2Cutscene : MonoBehaviour
         if (tentacleFrames == null || tentacleFrames.Length == 0) yield break;
 
         float x = playerX + tentacleGapFromPlayer;
-        Vector3 beatShot = new Vector3((playerX + x) * 0.5f, tentacleGroundY + 4.2f, shotOffset.z);
-        yield return PanTo(beatShot, 6.4f, panDuration * 0.7f);
 
         SpriteRenderer sr = NewProp("CutsceneTentacle", x, tentacleGroundY - tentacleSink, 5);
         sr.sprite = tentacleFrames[0];

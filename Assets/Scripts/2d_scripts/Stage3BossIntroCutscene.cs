@@ -98,6 +98,10 @@ public class Stage3BossIntroCutscene : MonoBehaviour
     [Tooltip("Height above the ledge floor - the flyer sits up in the air.")]
     public float[] summonMonsterHeights = new float[] { 0f, 3.8f };
     public float summonMonsterWidth = 2.4f;
+    [Tooltip("Summoned monsters play their own idle loop - a frozen one reads as a cardboard cut-out.")]
+    public float summonMonsterFrameInterval = 0.13f;
+    public float summonMonsterBobAmplitude = 0.16f;
+    public float summonMonsterBobPeriod = 1.5f;
     public float summonStagger = 0.28f;
     public float summonPopDuration = 0.3f;
     public float summonHoldTime = 0.7f;
@@ -427,8 +431,16 @@ public class Stage3BossIntroCutscene : MonoBehaviour
         SpriteRenderer from = source.GetComponentInChildren<SpriteRenderer>(true);
         if (from == null || from.sprite == null) yield break;
 
+        // borrow the real monster's own loop so the prop moves like it will in the fight
+        Sprite[] frames = null;
+        MonsterSpriteAnimator2D sourceAnim = source.GetComponent<MonsterSpriteAnimator2D>();
+        if (sourceAnim != null && sourceAnim.activeFrames != null && sourceAnim.activeFrames.Length > 0)
+        {
+            frames = sourceAnim.activeFrames;
+        }
+
         SpriteRenderer sr = NewProp("SummonMonster", x, y);
-        sr.sprite = from.sprite;
+        sr.sprite = frames != null ? frames[0] : from.sprite;
         sr.flipX = true;
 
         float nw = sr.sprite.bounds.size.x;
@@ -436,7 +448,8 @@ public class Stage3BossIntroCutscene : MonoBehaviour
 
         // y is where the feet go, not the centre, or a ground monster sinks in half
         float halfHeight = sr.sprite.bounds.size.y * scale * 0.5f;
-        sr.transform.position = new Vector3(x, y + halfHeight, 0f);
+        Vector3 rest = new Vector3(x, y + halfHeight, 0f);
+        sr.transform.position = rest;
 
         float t = 0f;
         while (t < summonPopDuration)
@@ -447,6 +460,34 @@ public class Stage3BossIntroCutscene : MonoBehaviour
             yield return null;
         }
         sr.transform.localScale = Vector3.one * scale;
+
+        StartCoroutine(IdleMonsterProp(sr, frames, rest));
+    }
+
+    // Loops its frames and drifts, for as long as the prop is on stage.
+    private IEnumerator IdleMonsterProp(SpriteRenderer sr, Sprite[] frames, Vector3 rest)
+    {
+        float seed = Random.value * 10f;
+        float frameTimer = 0f;
+        int frame = 0;
+
+        while (sr != null)
+        {
+            if (frames != null && frames.Length > 1)
+            {
+                frameTimer += Time.deltaTime;
+                if (frameTimer >= summonMonsterFrameInterval)
+                {
+                    frameTimer -= summonMonsterFrameInterval;
+                    frame = (frame + 1) % frames.Length;
+                    sr.sprite = frames[frame];
+                }
+            }
+
+            float k = Mathf.Sin((Time.time / Mathf.Max(0.05f, summonMonsterBobPeriod) + seed) * Mathf.PI * 2f);
+            sr.transform.position = rest + new Vector3(0f, k * summonMonsterBobAmplitude, 0f);
+            yield return null;
+        }
     }
 
     private void ClearSummonProps()
