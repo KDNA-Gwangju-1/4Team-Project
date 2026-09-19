@@ -799,7 +799,7 @@ Transform:
   m_GameObject: {fileID: 465286316}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 33.3, y: 0.9315126, z: 0}
+  m_LocalPosition: {x: 33.3, y: 1.8507389, z: 0}
   m_LocalScale: {x: 1.2363707, y: 1.4479638, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1354,6 +1354,126 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &709877604
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 709877606}
+  - component: {fileID: 709877605}
+  m_Layer: 0
+  m_Name: Stage3Phase2Cutscene
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &709877605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 709877604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddef18d77f1c9054ea3c0cb893b07708, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Stage3Phase2Cutscene
+  player: {fileID: 1550880036}
+  cam: {fileID: 688051110}
+  boss: {fileID: 900000031}
+  bossRenderer: {fileID: 900000032}
+  captionFont: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+  flashlight: {fileID: 1842253845}
+  bossDialogueFrame: {fileID: 21300000, guid: 58906ac033375a44dbd39c8c55c26b20, type: 3}
+  playerDialogueFrame: {fileID: 21300000, guid: 87a8a037d993e734793549bdadb8ace1, type: 3}
+  bossShadowDialogueFrame: {fileID: 0}
+  bossLine1: ...
+  bossLine2: "\uB108 \uC2EB\uC5B4... \uC5B8\uB2C8 \uAC19\uC774 \uB0A0 \uD798\uB4E4\uAC8C
+    \uD574"
+  playerLine: "\uAD34\uBB3C, \uC5B4\uC11C \uC30D\uB465\uC774 \uB3D9\uC0DD \uBAB8\uC5D0\uC11C
+    \uB098\uAC00"
+  bossLine3: "...\uB0B4\uAC00 \uAD34\uBB3C?"
+  bossKillLine: "...\uC8FD\uC5B4"
+  dialogueTextArea:
+    serializedVersion: 2
+    x: 0.4
+    y: 0.1
+    width: 0.54
+    height: 0.19
+  dialogueFontSize: 34
+  dialogueFrameWidth01: 0.88
+  dialogueFrameBottomMargin: 24
+  dialogueFrameXOffset: -120
+  lineMinDuration: 0.5
+  lineAutoAdvance: 6
+  lineGap: 0.3
+  panDuration: 0.9
+  shotOffset: {x: 0, y: 0.6, z: -10}
+  talkOrthoSize: 5.2
+  tentacleFrames:
+  - {fileID: 21300000, guid: 9096bfcfc1543564e98c9149d34a19b0, type: 3}
+  - {fileID: 21300000, guid: c815ef58f90e3ca4c9d48c30193150cf, type: 3}
+  - {fileID: 21300000, guid: aacf20fe87cfd34428a075680bd703b1, type: 3}
+  - {fileID: 21300000, guid: c7eba9eafa6eda94ea9eaa5608b0ee67, type: 3}
+  - {fileID: 21300000, guid: 17ed05c248266b740840d79263846f6c, type: 3}
+  - {fileID: 21300000, guid: de018c7bff3b5034bbba82a9350018a3, type: 3}
+  - {fileID: 21300000, guid: 180ea46a2c87bb84982dcc49e54d2a65, type: 3}
+  - {fileID: 21300000, guid: e1ecdeeea86fcf14291248ecd6a4b963, type: 3}
+  tentacleSize: {x: 6, y: 11.25}
+  tentacleSink: 0.4
+  tentacleGapFromPlayer: 6.5
+  tentacleGroundY: -2.63
+  tentacleFrameDuration: 0.07
+  lightHoldTime: 0.8
+  bulletSprite: {fileID: 21300000, guid: e5da871dede76eb42adf77b1e816fde0, type: 3}
+  bulletSize: 1
+  bulletSpeed: 26
+  hurtFlashColor: {r: 1, g: 0.25, b: 0.25, a: 1}
+  hurtFlashes: 3
+  hurtDuration: 0.5
+  hurtShake: 0.24
+  bossReturnGap: 7
+  bossReturnWidth: 4.8
+  bossForegroundSortingOrder: 2
+  bossGroundY: -2.63
+  bossRiseHeight: 3.2
+  bossRiseDuration: 0.5
+  bossTravelDuration: 1.25
+  bossSettleDuration: 0.35
+  bossHoverAmplitude: 0.18
+  bossShadowSprite: {fileID: 0}
+  bossShadowTint: {r: 0.1, g: 0.06, b: 0.14, a: 1}
+  shadowSweepDuration: 1.2
+  shadowHoldTime: 0.5
+  shadowShake: 0.12
+  creepOrthoSize: 4.2
+  creepDuration: 2.4
+  snapOrthoSize: 2
+  snapDuration: 0.1
+  snapShake: 0.35
+  holdBeforeKillLine: 0.3
+  holdAfterKillLine: 0.5
+  pullOutDuration: 0.45
+--- !u!4 &709877606
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 709877604}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &714530714
 GameObject:
   m_ObjectHideFlags: 0
@@ -1775,6 +1895,7 @@ MonoBehaviour:
   phase2Frames:
   - {fileID: 21300000, guid: b326794d83915a54ea9fcc1943165bcf, type: 3}
   phase2FrameDuration: 0.13
+  phase2Cutscene: {fileID: 709877605}
   moveBossOnPhase2: 1
   phase2BossPosition: {x: 33, y: 5}
   bossMoveTime: 1
@@ -5135,3 +5256,4 @@ SceneRoots:
   - {fileID: 1834502767}
   - {fileID: 465286319}
   - {fileID: 979077812}
+  - {fileID: 709877606}

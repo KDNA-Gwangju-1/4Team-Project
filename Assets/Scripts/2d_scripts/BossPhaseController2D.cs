@@ -29,6 +29,9 @@ public class BossPhaseController2D : MonoBehaviour
     public Sprite[] phase2Frames;
     public float phase2FrameDuration = 0.13f;
 
+    [Tooltip("Plays before the floor drops. The collapse waits for it to finish.")]
+    public Stage3Phase2Cutscene phase2Cutscene;
+
     public bool moveBossOnPhase2 = false;
     public Vector2 phase2BossPosition;
     public float bossMoveTime = 1f;
@@ -77,6 +80,9 @@ public class BossPhaseController2D : MonoBehaviour
 
         if (attack != null) attack.SetPhase(0);
         if (boss != null) boss.Invulnerable = true;
+
+        // she comes back down to him and says her piece before the floor goes
+        if (phase2Cutscene != null) yield return phase2Cutscene.Play();
 
         yield return new WaitForSeconds(slamTelegraph);
 

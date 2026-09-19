@@ -120,9 +120,7 @@ public class Stage3BossIntroCutscene : MonoBehaviour
     private Text captionText;
     private Text speakerText;
     private GameObject captionCanvas;
-    private Image dialogueFrame;
-    private CanvasGroup dialogueGroup;
-    private Text advancePrompt;
+    private DialogueWindow2D window;
 
     // the ledge pose is whatever the scene was authored with - captured, not hardcoded
     private Vector3 ledgePosition;
@@ -597,7 +595,7 @@ public class Stage3BossIntroCutscene : MonoBehaviour
         Sprite frame = isBoss ? bossDialogueFrame : playerDialogueFrame;
 
         // no window art wired up yet - fall back to the plain caption
-        if (dialogueFrame == null || frame == null)
+        if (window == null || !window.Ready || frame == null)
         {
             if (speakerText != null) speakerText.text = speaker;
             if (captionText != null) captionText.text = line;
@@ -608,99 +606,41 @@ public class Stage3BossIntroCutscene : MonoBehaviour
             yield break;
         }
 
-        // the name plate is part of the art, so the separate label stays empty
-        if (speakerText != null) speakerText.text = "";
-        dialogueFrame.sprite = frame;
-        if (captionText != null) captionText.text = line;
-
-        dialogueFrame.gameObject.SetActive(true);
-        yield return StartCoroutine(FadeDialogue(0f, 1f));
-        yield return StartCoroutine(WaitForAdvance());
-        yield return StartCoroutine(FadeDialogue(1f, 0f));
-        dialogueFrame.gameObject.SetActive(false);
-
-        yield return new WaitForSeconds(lineGap);
-    }
-
-    // Reader-paced: Enter (or space / click) moves on, and the line times out on
-    // its own if nobody touches anything. The minimum guards against one press
-    // being counted twice and blowing through two lines.
-    private IEnumerator WaitForAdvance()
-    {
-        float t = 0f;
-        while (t < lineMinDuration)
-        {
-            t += Time.deltaTime;
-            yield return null;
-        }
-
-        if (advancePrompt != null) advancePrompt.enabled = true;
-
-        while (t < lineDisplayDuration)
-        {
-            if (AdvancePressed()) break;
-            if (advancePrompt != null)
-            {
-                Color c = advancePrompt.color;
-                c.a = Mathf.PingPong(Time.time * 1.6f, 1f) * 0.55f + 0.45f;
-                advancePrompt.color = c;
-            }
-            t += Time.deltaTime;
-            yield return null;
-        }
-
-        if (advancePrompt != null) advancePrompt.enabled = false;
-    }
-
-    private static bool AdvancePressed()
-    {
-        return Input.GetKeyDown(KeyCode.Return)
-            || Input.GetKeyDown(KeyCode.KeypadEnter)
-            || Input.GetKeyDown(KeyCode.Space)
-            || Input.GetMouseButtonDown(0);
-    }
-
-    private IEnumerator FadeDialogue(float from, float to)
-    {
-        if (dialogueGroup == null) yield break;
-        if (dialogueFadeDuration <= 0f)
-        {
-            dialogueGroup.alpha = to;
-            yield break;
-        }
-
-        float t = 0f;
-        while (t < dialogueFadeDuration)
-        {
-            t += Time.deltaTime;
-            dialogueGroup.alpha = Mathf.Lerp(from, to, Mathf.Clamp01(t / dialogueFadeDuration));
-            yield return null;
-        }
-        dialogueGroup.alpha = to;
+        yield return window.Show(frame, line);
     }
 
     private void CreateCaption()
     {
-        GameObject canvasGO = new GameObject("BossIntroCaptionCanvas");
-        captionCanvas = canvasGO;
-        Canvas canvas = canvasGO.AddComponent<Canvas>();
+        Sprite reference = playerDialogueFrame != null ? playerDialogueFrame : bossDialogueFrame;
+        if (reference != null)
+        {
+            window = gameObject.AddComponent<DialogueWindow2D>();
+            window.font = captionFont;
+            window.textArea = dialogueTextArea;
+            window.fontSize = dialogueFontSize;
+            window.textColor = dialogueTextColor;
+            window.fadeDuration = dialogueFadeDuration;
+            window.frameWidth01 = dialogueFrameWidth01;
+            window.frameBottomMargin = dialogueFrameBottomMargin;
+            window.frameXOffset = dialogueFrameXOffset;
+            window.lineMinDuration = lineMinDuration;
+            window.lineAutoAdvance = lineDisplayDuration;
+            window.lineGap = lineGap;
+            window.Build(reference);
+            if (window.Ready) return;
+        }
+
+        // fallback: a bare caption at the bottom of the screen
+        captionCanvas = new GameObject("BossIntroCaptionCanvas");
+        Canvas canvas = captionCanvas.AddComponent<Canvas>();
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
         canvas.sortingOrder = 10;
-        CanvasScaler scaler = canvasGO.AddComponent<CanvasScaler>();
-        scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-        scaler.referenceResolution = new Vector2(1920f, 1080f);
-        scaler.matchWidthOrHeight = 0.5f;
-
-        BuildDialogueWindow(canvasGO.transform);
-        // the window owns the line once it exists; the bare caption below is the
-        // fallback for when no frame art is assigned
-        if (dialogueFrame != null) return;
+        captionCanvas.AddComponent<CanvasScaler>();
 
         GameObject speakerGO = new GameObject("BossIntroSpeakerText");
-        speakerGO.transform.SetParent(canvasGO.transform, false);
+        speakerGO.transform.SetParent(captionCanvas.transform, false);
         speakerText = speakerGO.AddComponent<Text>();
         speakerText.font = captionFont;
-        speakerText.text = "";
         speakerText.fontSize = 28;
         speakerText.fontStyle = FontStyle.Bold;
         speakerText.alignment = TextAnchor.MiddleCenter;
@@ -713,10 +653,9 @@ public class Stage3BossIntroCutscene : MonoBehaviour
         srt.sizeDelta = new Vector2(900f, 50f);
 
         GameObject textGO = new GameObject("BossIntroCaptionText");
-        textGO.transform.SetParent(canvasGO.transform, false);
+        textGO.transform.SetParent(captionCanvas.transform, false);
         captionText = textGO.AddComponent<Text>();
         captionText.font = captionFont;
-        captionText.text = "";
         captionText.fontSize = 36;
         captionText.alignment = TextAnchor.MiddleCenter;
         captionText.color = Color.white;
@@ -728,84 +667,9 @@ public class Stage3BossIntroCutscene : MonoBehaviour
         rt.sizeDelta = new Vector2(900f, 100f);
     }
 
-    // The frame is stretched edge to edge rather than aspect-fitted: the line is
-    // anchored to the frame in normalized coordinates, so letterboxing would slide
-    // the text off the box on any screen that is not 16:9.
-    private void BuildDialogueWindow(Transform parent)
-    {
-        if (bossDialogueFrame == null && playerDialogueFrame == null) return;
-
-        GameObject frameGO = new GameObject("DialogueFrame");
-        frameGO.transform.SetParent(parent, false);
-
-        dialogueFrame = frameGO.AddComponent<Image>();
-        dialogueFrame.raycastTarget = false;
-        dialogueFrame.sprite = playerDialogueFrame != null ? playerDialogueFrame : bossDialogueFrame;
-
-        // a panel sitting on the bottom edge, not a full-screen takeover; the rect
-        // carries the art's own aspect so preserveAspect never letterboxes inside it
-        dialogueFrame.preserveAspect = true;
-        Sprite reference = dialogueFrame.sprite;
-        float aspect = (reference != null && reference.rect.height > 0.001f)
-            ? reference.rect.width / reference.rect.height : 16f / 9f;
-
-        float frameWidth = 1920f * dialogueFrameWidth01;
-        RectTransform frt = dialogueFrame.rectTransform;
-        frt.anchorMin = new Vector2(0.5f, 0f);
-        frt.anchorMax = new Vector2(0.5f, 0f);
-        frt.pivot = new Vector2(0.5f, 0f);
-        frt.sizeDelta = new Vector2(frameWidth, frameWidth / aspect);
-        frt.anchoredPosition = new Vector2(dialogueFrameXOffset, dialogueFrameBottomMargin);
-
-        dialogueGroup = frameGO.AddComponent<CanvasGroup>();
-        dialogueGroup.alpha = 0f;
-
-        GameObject lineGO = new GameObject("DialogueLine");
-        lineGO.transform.SetParent(frameGO.transform, false);
-
-        captionText = lineGO.AddComponent<Text>();
-        captionText.font = captionFont;
-        captionText.text = "";
-        captionText.fontSize = dialogueFontSize;
-        captionText.color = dialogueTextColor;
-        captionText.alignment = TextAnchor.MiddleLeft;
-        captionText.horizontalOverflow = HorizontalWrapMode.Wrap;
-        captionText.verticalOverflow = VerticalWrapMode.Truncate;
-        captionText.raycastTarget = false;
-        // the panel shrinks with the screen, so let the line shrink with it rather
-        // than spilling past the box on a long sentence
-        captionText.resizeTextForBestFit = true;
-        captionText.resizeTextMinSize = 10;
-        captionText.resizeTextMaxSize = dialogueFontSize;
-
-        RectTransform lrt = captionText.rectTransform;
-        lrt.anchorMin = new Vector2(dialogueTextArea.xMin, dialogueTextArea.yMin);
-        lrt.anchorMax = new Vector2(dialogueTextArea.xMax, dialogueTextArea.yMax);
-        lrt.offsetMin = Vector2.zero;
-        lrt.offsetMax = Vector2.zero;
-
-        GameObject promptGO = new GameObject("AdvancePrompt");
-        promptGO.transform.SetParent(frameGO.transform, false);
-        advancePrompt = promptGO.AddComponent<Text>();
-        advancePrompt.font = captionFont;
-        advancePrompt.text = "▼";
-        advancePrompt.fontSize = Mathf.Max(14, dialogueFontSize - 6);
-        advancePrompt.alignment = TextAnchor.MiddleRight;
-        advancePrompt.color = dialogueTextColor;
-        advancePrompt.raycastTarget = false;
-
-        RectTransform prt = advancePrompt.rectTransform;
-        prt.anchorMin = new Vector2(dialogueTextArea.xMax - 0.06f, dialogueTextArea.yMin - 0.04f);
-        prt.anchorMax = new Vector2(dialogueTextArea.xMax, dialogueTextArea.yMin + 0.03f);
-        prt.offsetMin = Vector2.zero;
-        prt.offsetMax = Vector2.zero;
-        advancePrompt.enabled = false;
-
-        frameGO.SetActive(false);
-    }
-
     private void DestroyCaption()
     {
+        if (window != null) window.Dispose();
         if (captionCanvas != null) Destroy(captionCanvas);
     }
 }
