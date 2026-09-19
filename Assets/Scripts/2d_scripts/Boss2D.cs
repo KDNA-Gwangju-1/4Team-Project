@@ -11,6 +11,8 @@ public class Boss2D : MonoBehaviour
     public Color hitFlashColor = new Color(1f, 0.3f, 0.3f);
     public float hitFlashDuration = 0.15f;
 
+    [Tooltip("Resting colour. Used to push her into the background while she is out of reach; the attack and hit flashes return to this instead of pure white.")]
+    public Color baseTint = Color.white;
     public bool requireLightToDamage = false;
     public Color weakPointColor = new Color(1f, 0.92f, 0.65f);
 
@@ -31,7 +33,7 @@ public class Boss2D : MonoBehaviour
     public bool IsWeakPointExposed => weakPointExposed;
     public int CurrentHealth => currentHealth;
     public int MaxHealth => maxHealth;
-    public Color BaseColor => weakPointExposed ? weakPointColor : Color.white;
+    public Color BaseColor => weakPointExposed ? weakPointColor : baseTint;
     public bool CanBeShot => !isDying && !Invulnerable && (!requireLightToDamage || weakPointExposed);
 
     void Awake()
@@ -39,7 +41,11 @@ public class Boss2D : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         animator = GetComponent<MonsterSpriteAnimator2D>();
         col = GetComponent<Collider2D>();
-        if (sr != null) sr.enabled = true;
+        if (sr != null)
+        {
+            sr.enabled = true;
+            sr.color = baseTint;
+        }
 
         currentHealth = maxHealth;
 
@@ -58,7 +64,7 @@ public class Boss2D : MonoBehaviour
         weakPointExposed = exposed;
         if (flashRoutine == null && sr != null)
         {
-            sr.color = exposed ? weakPointColor : Color.white;
+            sr.color = exposed ? weakPointColor : baseTint;
         }
     }
 
@@ -86,14 +92,14 @@ public class Boss2D : MonoBehaviour
     {
         sr.color = hitFlashColor;
         yield return new WaitForSeconds(hitFlashDuration);
-        sr.color = weakPointExposed ? weakPointColor : Color.white;
+        sr.color = BaseColor;
         flashRoutine = null;
     }
 
     private IEnumerator DieSequence()
     {
         if (col != null) col.enabled = false;
-        if (sr != null) sr.color = Color.white;
+        if (sr != null) sr.color = baseTint;
 
         if (animator != null && animator.dissolveFrames != null && animator.dissolveFrames.Length > 0)
         {

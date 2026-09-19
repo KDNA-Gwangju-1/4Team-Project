@@ -9,6 +9,11 @@ public class CameraFollow2D : MonoBehaviour
     public float minX;
     public float maxX;
 
+    // A boss arena on a fixed island does not want the camera riding the
+    // player's height - that is what lets the void under the island show.
+    public bool lockY = false;
+    public float lockedY;
+
     private Camera cam;
     private float shakeTimer;
     private float shakeDuration;
@@ -31,6 +36,8 @@ public class CameraFollow2D : MonoBehaviour
         if (target == null) return;
 
         Vector3 desired = target.position + offset;
+
+        if (lockY) desired.y = lockedY;
 
         if (clampToBounds && cam != null && cam.orthographic)
         {

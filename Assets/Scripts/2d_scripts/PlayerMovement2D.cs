@@ -20,9 +20,16 @@ public class PlayerMovement2D : MonoBehaviour
     public float wallJumpBoostDuration = 0.3f;
     public LayerMask wallLayer;
 
-    public float dashSpeed = 14f;
-    public float dashDuration = 0.15f;
-    public float dashCooldown = 0.6f;
+    public float dashSpeed = 20f;
+    public float dashDuration = 0.2f;
+    public float dashCooldown = 0.55f;
+    [Tooltip("Air dashes keep a little gravity so they do not float.")]
+    public float dashGravityScale = 0.15f;
+
+    [Tooltip("How many dashes can be banked at once.")]
+    public int dashStaminaMax = 3;
+    [Tooltip("Seconds to earn one dash back.")]
+    public float dashStaminaRegenTime = 2.8f;
     public bool allowAirDash = false;
 
     public Transform flashlight;
@@ -32,6 +39,8 @@ public class PlayerMovement2D : MonoBehaviour
     public float lightHalfAngle = 15f;
     public Vector2 flashlightHandOffset = new Vector2(0.4f, 0.1f);
     public Vector2 jumpFlashlightHandOffset = new Vector2(0.75f, 0.15f);
+    [Tooltip("How far past the lamp head the shot appears, so it reads as coming out of the flashlight.")]
+    public float muzzleForward = 0.45f;
 
     public static bool LanternObtained = false;
     public static float? PendingSpawnX = null;
@@ -71,9 +80,11 @@ public class PlayerMovement2D : MonoBehaviour
     private float dashTimer;
     private float dashCooldownTimer;
     private float dashDirection;
+    private float dashStamina;
     private int facingDirection = 1;
     private bool grounded;
     private SpriteRenderer flashlightRenderer;
+    private SpriteMask flashlightMask;
     private Vector2 lightDirection = Vector2.right;
     private float lastFireTime = -999f;
     private SpriteRenderer sr;
@@ -91,6 +102,12 @@ public class PlayerMovement2D : MonoBehaviour
     public Vector2 LightDirection => lightDirection;
     public int CurrentHealth => currentHealth;
     public bool IsGrounded => grounded;
+    public bool IsDashing => isDashing;
+    public float DashStamina => dashStamina;
+    public int DashChargesReady => Mathf.FloorToInt(dashStamina);
+    public bool CanDash => dashStamina >= 1f && dashCooldownTimer <= 0f && !isDashing;
+    public float DashDirection => dashDirection;
+    public event System.Action OnDashStarted;
     public int FacingDirection => facingDirection;
 
     void Awake()
@@ -112,10 +129,13 @@ public class PlayerMovement2D : MonoBehaviour
 
         lastGroundedPosition = transform.position;
         lightCharge = lightMaxSeconds;
+        dashStamina = dashStaminaMax;
         if (flashlight != null)
         {
             flashlightRenderer = flashlight.GetComponent<SpriteRenderer>();
             if (flashlightRenderer != null) flashlightRenderer.enabled = false;
+            flashlightMask = flashlight.GetComponent<SpriteMask>();
+            if (flashlightMask != null) flashlightMask.enabled = false;
         }
     }
 
@@ -124,6 +144,11 @@ public class PlayerMovement2D : MonoBehaviour
         if (dashCooldownTimer > 0f)
         {
             dashCooldownTimer -= Time.deltaTime;
+        }
+
+        if (!isDashing && dashStamina < dashStaminaMax)
+        {
+            dashStamina = Mathf.Min(dashStaminaMax, dashStamina + Time.deltaTime / Mathf.Max(0.01f, dashStaminaRegenTime));
         }
 
         RaycastHit2D groundHit = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, groundLayer);
@@ -141,7 +166,8 @@ public class PlayerMovement2D : MonoBehaviour
             if (keyboard.aKey.wasPressedThisFrame) facingDirection = -1;
 
             if ((keyboard.leftShiftKey.wasPressedThisFrame || keyboard.rightShiftKey.wasPressedThisFrame)
-                && (grounded || allowAirDash) && !isDashing && dashCooldownTimer <= 0f)
+                && (grounded || allowAirDash) && !isDashing && dashCooldownTimer <= 0f
+                && dashStamina >= 1f)
             {
                 dashRequested = true;
             }
@@ -309,8 +335,9 @@ public class PlayerMovement2D : MonoBehaviour
         }
 
         flashlightRenderer.enabled = aiming;
+        if (flashlightMask != null) flashlightMask.enabled = aiming;
 
-        if (aiming)
+        if (hasLantern && mouse != null)
         {
             lightDirection = GetMouseDirection(mouse);
             float angle = Mathf.Atan2(lightDirection.y, lightDirection.x) * Mathf.Rad2Deg;
@@ -338,7 +365,11 @@ public class PlayerMovement2D : MonoBehaviour
     {
         if (bulletPrefab == null) return;
 
-        GameObject bulletObj = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+        // fire from the lamp head rather than the player's chest
+        Vector3 origin = (flashlight != null) ? flashlight.position : transform.position;
+        origin += (Vector3)(direction.normalized * muzzleForward);
+
+        GameObject bulletObj = Instantiate(bulletPrefab, origin, Quaternion.identity);
         Bullet2D bullet = bulletObj.GetComponent<Bullet2D>();
         if (bullet != null)
         {
@@ -365,12 +396,16 @@ public class PlayerMovement2D : MonoBehaviour
             dashCooldownTimer = dashCooldown;
             dashDirection = facingDirection;
             dashRequested = false;
+            dashStamina = Mathf.Max(0f, dashStamina - 1f);
+            if (OnDashStarted != null) OnDashStarted();
         }
 
         if (isDashing)
         {
             velocity.x = dashDirection * dashSpeed;
-            velocity.y = 0f;
+            // grounded dashes stay flat; air dashes keep a little fall so the
+            // player does not hang in the air mid-dash
+            velocity.y = grounded ? 0f : velocity.y * dashGravityScale;
             dashTimer -= Time.fixedDeltaTime;
             if (dashTimer <= 0f) isDashing = false;
         }

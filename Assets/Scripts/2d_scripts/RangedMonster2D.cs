@@ -11,6 +11,10 @@ public class RangedMonster2D : MonoBehaviour
     public GameObject bulletPrefab;
     public float bulletSpeed = 3f;
     public float respawnDelay = 20f;
+    [Tooltip("Will not respawn while the player is this close to its spawn point.")]
+    public float respawnClearRadius = 7f;
+    [Tooltip("Seconds it is visible but harmless after respawning.")]
+    public float respawnGrace = 0.9f;
 
     public float approachSpeed = 1.5f;
     public float preferredDistance = 4f;
@@ -51,6 +55,9 @@ public class RangedMonster2D : MonoBehaviour
         isDead = true;
         if (col != null) col.enabled = false;
         if (shimmerRenderer != null) shimmerRenderer.enabled = false;
+        // same leak as Monster2D: the silhouette stayed behind after death
+        if (silhouetteRenderer != null) silhouetteRenderer.enabled = false;
+        if (outlineRenderer != null) outlineRenderer.enabled = false;
 
         if (animator != null && animator.dissolveFrames != null && animator.dissolveFrames.Length > 0)
         {
@@ -61,10 +68,23 @@ public class RangedMonster2D : MonoBehaviour
 
         yield return new WaitForSeconds(respawnDelay);
 
+        // never pop back in on top of the player - that is a free hit they
+        // had no way to avoid
+        while (true)
+        {
+            var waiting = PlayerMovement2D.Instance;
+            if (waiting == null) break;
+            if (Vector2.Distance(waiting.transform.position, spawnPosition) > respawnClearRadius) break;
+            yield return null;
+        }
+
         transform.position = spawnPosition;
-        if (col != null) col.enabled = true;
         if (animator != null) animator.ResetAnimation();
+
+        // fade back in harmless for a moment so the player sees it coming
         isDead = false;
+        yield return new WaitForSeconds(respawnGrace);
+        if (col != null) col.enabled = true;
     }
 
     void Awake()

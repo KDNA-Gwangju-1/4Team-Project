@@ -6,6 +6,8 @@ public class TentacleWave2D
 {
     public string label = "stage";
     public int fromBossHealth = 99;   // applies once boss health drops to or below this
+    // cycled in order, so a stage can mix shapes instead of repeating one
+    public TentaclePattern[] patterns = new TentaclePattern[] { TentaclePattern.Single };
     public int tentacleCount = 1;
     public float waveInterval = 1.5f;
     public float warnDuration = 1.2f;
@@ -31,7 +33,6 @@ public class BossAttack2D : MonoBehaviour
 
     public TentacleStrikeField2D strikeField;
     public int strikeCount = 2;
-    public bool strikeIncludesPlayerSpot = true;
     public TentacleWave2D[] phase1Waves;
 
     public float phase2Interval = 2.4f;
@@ -49,6 +50,7 @@ public class BossAttack2D : MonoBehaviour
     private Coroutine loopRoutine;
     private int phase;
     private int phase2PatternIndex;
+    private int waveCounter;
 
     public int Phase => phase;
     private Color BaseColor => bossRef != null ? bossRef.BaseColor : Color.white;
@@ -93,8 +95,14 @@ public class BossAttack2D : MonoBehaviour
                 if (strikeField != null && strikeField.HasPoints)
                 {
                     int count = wave != null ? wave.tentacleCount : strikeCount;
+                    TentaclePattern shape = TentaclePattern.Single;
+                    if (wave != null && wave.patterns != null && wave.patterns.Length > 0)
+                    {
+                        shape = wave.patterns[waveCounter % wave.patterns.Length];
+                    }
+                    waveCounter++;
                     if (wave != null) strikeField.warnDuration = wave.warnDuration;
-                    yield return strikeField.StrikeRoutine(player.transform.position, count, strikeIncludesPlayerSpot);
+                    yield return strikeField.RunPattern(shape, count);
                 }
                 else
                 {

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerSpriteAnimator2D : MonoBehaviour
 {
-    private enum AnimState { Idle, Walk, Jump }
+    private enum AnimState { Idle, Walk, Jump, Dash }
 
     public Sprite[] idleFrames;
     public float idleFrameDuration = 0.16f;
@@ -16,6 +16,11 @@ public class PlayerSpriteAnimator2D : MonoBehaviour
     public Sprite[] jumpFrames;
     public float jumpFrameDuration = 0.12f;
     public float[] jumpFrameDurations;
+
+    [Tooltip("Optional dedicated dash pose. Falls back to a walk frame.")]
+    public Sprite[] dashFrames;
+    [Tooltip("Which walk frame to hold while dashing - the widest, most forward-leaning stride.")]
+    public int dashWalkFrameIndex = 4;
 
     private SpriteRenderer sr;
     private Rigidbody2D rb;
@@ -46,7 +51,11 @@ public class PlayerSpriteAnimator2D : MonoBehaviour
         float horizontalSpeed = rb != null ? Mathf.Abs(rb.linearVelocity.x) : 0f;
 
         AnimState next;
-        if (!isGrounded)
+        if (player != null && player.IsDashing)
+        {
+            next = AnimState.Dash;
+        }
+        else if (!isGrounded)
         {
             next = AnimState.Jump;
         }
@@ -91,6 +100,14 @@ public class PlayerSpriteAnimator2D : MonoBehaviour
             return;
         }
 
+        if (currentState == AnimState.Dash)
+        {
+            // one held pose reads as a dash; a walk cycle at 20 u/s reads as sliding
+            int index = (dashFrames != null && dashFrames.Length > 0) ? 0 : dashWalkFrameIndex;
+            sr.sprite = frames[Mathf.Clamp(index, 0, frames.Length - 1)];
+            return;
+        }
+
         bool loops = currentState != AnimState.Jump;
         float duration = CurrentFrameDuration(frameIndex);
         frameTimer += Time.deltaTime;
@@ -123,6 +140,9 @@ public class PlayerSpriteAnimator2D : MonoBehaviour
         {
             case AnimState.Walk: return usingFlashlightWalk ? walkFlashlightFrames : walkFrames;
             case AnimState.Jump: return jumpFrames;
+            case AnimState.Dash:
+                if (dashFrames != null && dashFrames.Length > 0) return dashFrames;
+                return walkFrames;
             default: return usingFlashlightIdle ? walkFlashlightFrames : idleFrames;
         }
     }

@@ -61,7 +61,24 @@ public class Bullet2D : MonoBehaviour
         Boss2D boss = other.GetComponent<Boss2D>();
         if (boss != null)
         {
-            if (boss.CanBeShot) boss.TakeDamage(1);
+            if (boss.CanBeShot)
+            {
+                boss.TakeDamage(1);
+            }
+            else
+            {
+                // she is out of reach: show the shot being swallowed instead of
+                // letting it disappear with no feedback at all
+                SpriteRenderer mine = GetComponent<SpriteRenderer>();
+                FadeAwayPuff2D.Spawn(
+                    transform.position,
+                    mine != null ? mine.sprite : null,
+                    new Color(0.15f, 0.12f, 0.18f, 0.85f),
+                    1.1f,
+                    mine != null ? mine.sortingOrder : 0,
+                    0.3f,
+                    2.6f);
+            }
             Destroy(gameObject);
             return;
         }
