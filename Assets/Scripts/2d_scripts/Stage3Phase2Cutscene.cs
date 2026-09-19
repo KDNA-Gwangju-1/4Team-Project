@@ -122,9 +122,11 @@ public class Stage3Phase2Cutscene : MonoBehaviour
     public float shadowShake = 0.12f;
 
     [Header("Phase 2 transformation")]
-    [Tooltip("What she becomes. Left empty, the phase controller's own phase2Frames[0] is used.")]
-    public Sprite phase2Sprite;
-    public Color phase2Tint = Color.white;
+    [Tooltip("What she becomes - this replaces her idle loop, not just one frame.")]
+    public Sprite[] phase2Frames;
+    public float phase2FrameDuration = 0.13f;
+    [Tooltip("Left black until the shadowed boss art arrives - reverting to full colour would show the phase 1 girl again.")]
+    public Color phase2Tint = Color.black;
     [Tooltip("Width she swells to as she turns.")]
     public float phase2Width = 6.4f;
     public float transformShakeDuration = 1.1f;
@@ -686,16 +688,21 @@ public class Stage3Phase2Cutscene : MonoBehaviour
         // white out, swap, come back
         yield return FlashWhite();
 
-        Sprite target = phase2Sprite;
-        if (target == null)
+        // Her MonsterSpriteAnimator2D rewrites the sprite every frame, so setting
+        // the renderer directly lasts exactly one frame. The loop itself has to change.
+        MonsterSpriteAnimator2D animator = boss.GetComponent<MonsterSpriteAnimator2D>();
+        if (phase2Frames != null && phase2Frames.Length > 0)
         {
-            BossPhaseController2D controller = boss.GetComponent<BossPhaseController2D>();
-            if (controller != null && controller.phase2Frames != null && controller.phase2Frames.Length > 0)
+            if (animator != null)
             {
-                target = controller.phase2Frames[0];
+                animator.activeFrameDuration = phase2FrameDuration;
+                animator.SetLoopFrames(phase2Frames);
+            }
+            else if (bossRenderer != null)
+            {
+                bossRenderer.sprite = phase2Frames[0];
             }
         }
-        if (target != null && bossRenderer != null) bossRenderer.sprite = target;
         if (bossRenderer != null) bossRenderer.color = phase2Tint;
 
         yield return PanTo(bossShot, creepOrthoSize, 0.3f);

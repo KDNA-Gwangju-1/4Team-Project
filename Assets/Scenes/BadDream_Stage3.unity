@@ -890,7 +890,7 @@ Transform:
   m_GameObject: {fileID: 465286316}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 33.3, y: 2.7612014, z: 0}
+  m_LocalPosition: {x: 33.3, y: 2.790455, z: 0}
   m_LocalScale: {x: 1.2363707, y: 1.4479638, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1612,8 +1612,10 @@ MonoBehaviour:
   shadowDeepenDuration: 1.4
   shadowHoldTime: 0.5
   shadowShake: 0.12
-  phase2Sprite: {fileID: -1158187498100141830, guid: ab77cc86b3db42841bc2045173ece6a3, type: 3}
-  phase2Tint: {r: 1, g: 1, b: 1, a: 1}
+  phase2Frames:
+  - {fileID: -1158187498100141830, guid: ab77cc86b3db42841bc2045173ece6a3, type: 3}
+  phase2FrameDuration: 0.13
+  phase2Tint: {r: 0, g: 0, b: 0, a: 1}
   phase2Width: 6.4
   transformShakeDuration: 1.1
   transformShake: 0.3
@@ -2049,7 +2051,9 @@ MonoBehaviour:
   collapsingFloors:
   - {fileID: 259253643}
   - {fileID: 1030072447}
-  slamTelegraph: 1
+  slamTelegraph: 0.35
+  clawImpactFrame: 5
+  clawFrameStep: 0.07
   slamHoldTime: 0.35
   shakeDuration: 1.1
   shakeMagnitude: 0.4
@@ -2061,7 +2065,7 @@ MonoBehaviour:
   phase2LaunchImpulse: 4
   phase2AirDash: 1
   phase2Frames:
-  - {fileID: 21300000, guid: b326794d83915a54ea9fcc1943165bcf, type: 3}
+  - {fileID: -1158187498100141830, guid: ab77cc86b3db42841bc2045173ece6a3, type: 3}
   phase2FrameDuration: 0.13
   phase2Cutscene: {fileID: 709877605}
   moveBossOnPhase2: 1

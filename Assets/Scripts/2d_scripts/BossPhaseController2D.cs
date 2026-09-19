@@ -14,6 +14,9 @@ public class BossPhaseController2D : MonoBehaviour
     public GameObject[] collapsingFloors;
 
     public float slamTelegraph = 1f;
+    [Tooltip("Which claw frame lands the hit. The floor breaks ON this frame, not after the whole swing.")]
+    public int clawImpactFrame = 5;
+    public float clawFrameStep = 0.07f;
     public float slamHoldTime = 0.35f;
     public float shakeDuration = 1.1f;
     public float shakeMagnitude = 0.4f;
@@ -86,9 +89,19 @@ public class BossPhaseController2D : MonoBehaviour
 
         yield return new WaitForSeconds(slamTelegraph);
 
-        if (attack != null && attack.animator != null && attack.clawFrames != null && attack.clawFrames.Length > 0)
+        // Wind up, then break the floor ON the impact frame. Playing the whole
+        // swing first and collapsing afterwards reads as two unrelated events.
+        Sprite[] claw = (attack != null) ? attack.clawFrames : null;
+        bool hasClaw = claw != null && claw.Length > 0 && attack.animator != null;
+        int impact = hasClaw ? Mathf.Clamp(clawImpactFrame, 0, claw.Length - 1) : 0;
+
+        if (hasClaw)
         {
-            yield return attack.animator.PlayOneShotRoutine(attack.clawFrames, attack.clawFrameDuration);
+            for (int i = 0; i <= impact; i++)
+            {
+                attack.animator.ShowFrame(claw[i]);
+                yield return new WaitForSeconds(clawFrameStep);
+            }
         }
 
         if (cameraFollow != null) cameraFollow.Shake(shakeDuration, shakeMagnitude);
@@ -108,6 +121,17 @@ public class BossPhaseController2D : MonoBehaviour
         for (int i = 0; i < collapsingFloors.Length; i++)
         {
             StartCoroutine(CollapseRoutine(collapsingFloors[i], i * 0.08f));
+        }
+
+        // the rest of the swing follows through while the floor is already falling
+        if (hasClaw)
+        {
+            for (int i = impact + 1; i < claw.Length; i++)
+            {
+                attack.animator.ShowFrame(claw[i]);
+                yield return new WaitForSeconds(clawFrameStep);
+            }
+            attack.animator.ReleaseFrame();
         }
 
         yield return new WaitForSeconds(slamHoldTime);

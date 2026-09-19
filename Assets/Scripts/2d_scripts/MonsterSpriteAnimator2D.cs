@@ -64,9 +64,25 @@ public class MonsterSpriteAnimator2D : MonoBehaviour
         frameTimer = 0f;
     }
 
+    // Hold one frame, overriding the idle loop until the loop is restored or
+    // another frame is shown. Used for hand-timed beats like the claw swing,
+    // where the collapse has to land on a specific frame.
+    public void ShowFrame(Sprite frame)
+    {
+        if (sr == null || frame == null) return;
+        isOneShot = true;
+        sr.sprite = frame;
+    }
+
+    public void ReleaseFrame()
+    {
+        isOneShot = false;
+    }
+
     public void SetLoopFrames(Sprite[] frames)
     {
         activeFrames = frames;
+        isOneShot = false;
         ResetAnimation();
     }
 
