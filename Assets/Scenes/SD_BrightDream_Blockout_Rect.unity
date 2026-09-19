@@ -33557,6 +33557,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StageGate
   requiredStage: 2
+  requireAllCluesCollected: 0
 --- !u!65 &356481159
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -79328,19 +79329,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 874862291}
   m_Mesh: {fileID: 1620061905}
---- !u!134 &874912020
-PhysicsMaterial:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  serializedVersion: 2
-  m_DynamicFriction: 0.6
-  m_StaticFriction: 0.6
-  m_Bounciness: 0
-  m_FrictionCombine: 0
-  m_BounceCombine: 0
 --- !u!1001 &876248470
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -104581,6 +104569,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StageGate
   requiredStage: 1
+  requireAllCluesCollected: 1
 --- !u!65 &1203134974
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -104588,7 +104577,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1203134971}
-  m_Material: {fileID: 874912020}
+  m_Material: {fileID: 1735668421}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -151268,6 +151257,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1734944784}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!134 &1735668421
+PhysicsMaterial:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ' (Instance)'
+  serializedVersion: 2
+  m_DynamicFriction: 0.6
+  m_StaticFriction: 0.6
+  m_Bounciness: 0
+  m_FrictionCombine: 0
+  m_BounceCombine: 0
 --- !u!1 &1735779069
 GameObject:
   m_ObjectHideFlags: 0

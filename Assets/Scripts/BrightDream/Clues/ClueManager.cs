@@ -45,6 +45,23 @@ namespace BrightDream.Clues
         {
             UpdateProgressUI();
             if (investigateText != null) investigateText.gameObject.SetActive(false);
+            if (progressText != null) progressText.gameObject.SetActive(false);
+        }
+
+        private void OnEnable()
+        {
+            StageProgressManager.OnStageChanged += HandleStageChanged;
+        }
+
+        private void OnDisable()
+        {
+            StageProgressManager.OnStageChanged -= HandleStageChanged;
+        }
+
+        /// <summary>Stage 1 안내 문구가 뜨는 시점(=CurrentStage가 1이 되는 시점)에 단서 진행도 UI를 노출한다.</summary>
+        private void HandleStageChanged(int currentStage)
+        {
+            if (currentStage == 1 && progressText != null) progressText.gameObject.SetActive(true);
         }
 
         public bool IsCollected(string clueId) => collectedClueIds.Contains(clueId);
