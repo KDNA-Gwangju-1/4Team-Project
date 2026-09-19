@@ -212,10 +212,11 @@ public class Stage3Phase2Cutscene : MonoBehaviour
 
             if (line.beatAfter == 1)
             {
-                yield return ShadowTurn();
+                yield return ShadowStage1();
             }
             else if (line.beatAfter == 2)
             {
+                yield return ShadowStage2();
                 yield return TransformToPhase2(bossShot);
             }
         }
@@ -612,46 +613,43 @@ public class Stage3Phase2Cutscene : MonoBehaviour
 
     // ---------- the shadow takes her ----------
 
-    private IEnumerator ShadowTurn()
+    // Stage one: the shadow crawls over her while he is still calling her a monster.
+    private IEnumerator ShadowStage1()
+    {
+        yield return DarkenBoss(bossShadowTint, shadowSweepDuration);
+        if (bossShadowSprite != null && bossRenderer != null) bossRenderer.sprite = bossShadowSprite;
+
+        // every line from here on wears the shadowed portrait
+        if (bossShadowDialogueFrame != null) bossDialogueFrame = bossShadowDialogueFrame;
+
+        yield return new WaitForSeconds(shadowHoldTime);
+    }
+
+    // Stage two: it keeps going until she is a hole in the picture.
+    private IEnumerator ShadowStage2()
+    {
+        yield return DarkenBoss(bossShadowDeepColor, shadowDeepenDuration);
+        yield return new WaitForSeconds(shadowHoldTime);
+    }
+
+    private IEnumerator DarkenBoss(Color target, float duration)
     {
         if (bossRenderer == null) yield break;
 
         Color from = bossRenderer.color;
         Vector3 basePos = boss.position;
         float t = 0f;
-
-        while (t < shadowSweepDuration)
+        while (t < duration)
         {
             t += Time.deltaTime;
-            float k = Mathf.Clamp01(t / shadowSweepDuration);
-            bossRenderer.color = Color.Lerp(from, bossShadowTint, k);
+            float k = Mathf.Clamp01(t / duration);
+            bossRenderer.color = Color.Lerp(from, target, k);
             boss.position = basePos + new Vector3(Random.Range(-1f, 1f) * shadowShake * k,
                                                   Random.Range(-1f, 1f) * shadowShake * k, 0f);
             yield return null;
         }
-
-        bossRenderer.color = bossShadowTint;
-        if (bossShadowSprite != null) bossRenderer.sprite = bossShadowSprite;
-
-        // and it keeps going, until she is a hole in the picture
-        t = 0f;
-        while (t < shadowDeepenDuration)
-        {
-            t += Time.deltaTime;
-            float k = Mathf.Clamp01(t / shadowDeepenDuration);
-            bossRenderer.color = Color.Lerp(bossShadowTint, bossShadowDeepColor, k);
-            boss.position = basePos + new Vector3(Random.Range(-1f, 1f) * shadowShake * k,
-                                                  Random.Range(-1f, 1f) * shadowShake * k, 0f);
-            yield return null;
-        }
-
         boss.position = basePos;
-        bossRenderer.color = bossShadowDeepColor;
-
-        // every line from here on wears the shadowed portrait
-        if (bossShadowDialogueFrame != null) bossDialogueFrame = bossShadowDialogueFrame;
-
-        yield return new WaitForSeconds(shadowHoldTime);
+        bossRenderer.color = target;
     }
 
     // The silhouette swells, the screen goes white, and what comes back is the

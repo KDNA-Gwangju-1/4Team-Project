@@ -890,7 +890,7 @@ Transform:
   m_GameObject: {fileID: 465286316}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 33.3, y: 2.790455, z: 0}
+  m_LocalPosition: {x: 33.3, y: 3.022734, z: 0}
   m_LocalScale: {x: 1.2363707, y: 1.4479638, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1531,17 +1531,14 @@ MonoBehaviour:
     beatAfter: 1
   - isBoss: 1
     text: "...\uB0B4\uAC00 \uAD34\uBB3C?"
-    beatAfter: 0
-  - isBoss: 1
-    text: ...
-    beatAfter: 0
+    beatAfter: 2
   - isBoss: 1
     text: "\uB108\uC758 \uAFC8\uD0D0\uC815\uC774\uB780 \uAC83\uB4E4\uC740 \uB298
       \uADF8\uB7F0\uC2DD\uC73C\uB85C \uC6B0\uB9B4 \uBD80\uB974\uC9C0..."
     beatAfter: 0
   - isBoss: 1
     text: "\uC9C4\uC9DC \uAD34\uBB3C\uC774 \uC5B4\uB5A4\uAC74\uC9C0 \uBCF4\uC5EC\uC904\uAC8C..."
-    beatAfter: 2
+    beatAfter: 0
   dialogueTextArea:
     serializedVersion: 2
     x: 0.4
@@ -1615,7 +1612,7 @@ MonoBehaviour:
   phase2Frames:
   - {fileID: -1158187498100141830, guid: ab77cc86b3db42841bc2045173ece6a3, type: 3}
   phase2FrameDuration: 0.13
-  phase2Tint: {r: 0, g: 0, b: 0, a: 1}
+  phase2Tint: {r: 1, g: 1, b: 1, a: 1}
   phase2Width: 6.4
   transformShakeDuration: 1.1
   transformShake: 0.3
