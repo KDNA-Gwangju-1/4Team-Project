@@ -85,7 +85,11 @@ namespace BrightDream.Clues
             UpdateProgressUI();
 
             OnClueCollected?.Invoke(clue.ClueId);
-            if (collectedClueIds.Count >= TotalClueCount) OnAllCluesCollected?.Invoke();
+            if (collectedClueIds.Count >= TotalClueCount)
+            {
+                OnAllCluesCollected?.Invoke();
+                StageMessageUI.Instance?.ShowMessage("Stage1 Clear\n정화총 획득가능");
+            }
         }
 
         private void UpdateProgressUI()
