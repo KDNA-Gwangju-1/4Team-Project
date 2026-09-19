@@ -799,7 +799,7 @@ Transform:
   m_GameObject: {fileID: 465286316}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 33.3, y: 1.6196837, z: 0}
+  m_LocalPosition: {x: 33.3, y: 1.7469169, z: 0}
   m_LocalScale: {x: 1.2363707, y: 1.4479638, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1419,6 +1419,10 @@ MonoBehaviour:
   playerStageX: 18.060001
   playerStageY: -2.63
   stageSettleTime: 0.35
+  flashlightCone: {fileID: 1842253844}
+  playerStageSprite: {fileID: 21300000, guid: d12c15e04fe7bac4da2591ddaf43e951, type: 3}
+  playerAimSprite: {fileID: 21300000, guid: d12c15e04fe7bac4da2591ddaf43e951, type: 3}
+  heldFlashlight: {fileID: 1550880050}
   panDuration: 0.9
   shotOffset: {x: 0, y: 0.6, z: -10}
   talkOrthoSize: 5.2
@@ -3838,7 +3842,9 @@ MonoBehaviour:
   offSprite: {fileID: 21300000, guid: 0d0987d25d6045342b2a27b8cf9a092a, type: 3}
   onSprite: {fileID: 21300000, guid: cd2d53f6ad501824ca4a1860c2fff249, type: 3}
   handOffset: {x: 0.4, y: 0.1}
+  idleHandOffset: {x: 0.12, y: -0.05}
   targetLength: 0.9
+  idleSpeedThreshold: 0.1
 --- !u!1 &1573053677
 GameObject:
   m_ObjectHideFlags: 0

@@ -50,6 +50,18 @@ public class Stage3Phase2Cutscene : MonoBehaviour
     [Tooltip("Ground line the player is stood on.")]
     public float playerStageY = -2.63f;
     public float stageSettleTime = 0.35f;
+    [Tooltip("The light cone. Dark for the staged shots, lit only while he burns the tentacle.")]
+    public GameObject flashlightCone;
+    // The walk-with-flashlight frames have his legs apart mid-stride, which reads
+    // as "paused mid-run" rather than as a man standing his ground. The scene uses
+    // an idle pose for the confrontation and only swaps to the arm-out frame for
+    // the shot itself.
+    [Tooltip("Standing pose for the confrontation. Left empty, his first idle frame is used.")]
+    public Sprite playerStageSprite;
+    [Tooltip("Arm-out pose, used only while he lights and shoots the tentacle.")]
+    public Sprite playerAimSprite;
+    [Tooltip("The flashlight he carries. Hidden for the idle pose, shown for the shot.")]
+    public GameObject heldFlashlight;
 
     [Header("Camera")]
     public float panDuration = 0.9f;
@@ -113,6 +125,11 @@ public class Stage3Phase2Cutscene : MonoBehaviour
 
     private CameraFollow2D camFollow;
     private float gameplayOrthoSize;
+    private PlayerSpriteAnimator2D playerAnimator;
+    private Rigidbody2D playerBody;
+    private RigidbodyType2D originalBodyType;
+    private SpriteRenderer stageRenderer;
+    private HeldFlashlightVisual2D heldVisual;
     private DialogueWindow2D window;
     private Parallax2D bossParallax;
     private FloatBob2D bossBob;
@@ -192,18 +209,61 @@ public class Stage3Phase2Cutscene : MonoBehaviour
             ? player.transform.position.y - playerRenderer.bounds.min.y : 0f;
         Vector3 mark = new Vector3(playerStageX, playerStageY + footOffset, player.transform.position.z);
 
-        Rigidbody2D rb = player.GetComponent<Rigidbody2D>();
-        if (rb != null)
+        playerBody = player.GetComponent<Rigidbody2D>();
+        if (playerBody != null)
         {
-            rb.linearVelocity = Vector2.zero;
-            rb.position = mark;
+            playerBody.linearVelocity = Vector2.zero;
+            playerBody.position = mark;
+            // nothing nudges him off his mark for the rest of the scene
+            originalBodyType = playerBody.bodyType;
+            playerBody.bodyType = RigidbodyType2D.Kinematic;
         }
         player.transform.position = mark;
+
+        // The gameplay animator reads velocity and light state, so left running it
+        // freezes him mid-stride with the beam still up. A staged scene needs a
+        // chosen pose, not whatever frame the fight happened to end on.
+        playerAnimator = player.GetComponent<PlayerSpriteAnimator2D>();
+        if (playerAnimator != null) playerAnimator.enabled = false;
+        stageRenderer = playerRenderer;
+
+        // it decides its own visibility from live player state, which is frozen
+        // for the whole scene - the cutscene places it by hand instead
+        if (heldFlashlight != null)
+        {
+            heldVisual = heldFlashlight.GetComponent<HeldFlashlightVisual2D>();
+            if (heldVisual != null) heldVisual.enabled = false;
+        }
+
+        SetPlayerPose(false);
+        if (flashlightCone != null) flashlightCone.SetActive(false);
 
         // looking at her, not at wherever he was running
         if (playerRenderer != null) playerRenderer.flipX = false;
 
         return playerStageX;
+    }
+
+    private void SetPlayerPose(bool aiming)
+    {
+        if (stageRenderer == null) return;
+
+        Sprite pose = aiming ? playerAimSprite : playerStageSprite;
+        if (pose == null && playerAnimator != null)
+        {
+            Sprite[] frames = aiming ? playerAnimator.walkFlashlightFrames : playerAnimator.idleFrames;
+            if (frames != null && frames.Length > 0) pose = frames[0];
+        }
+        if (pose != null) stageRenderer.sprite = pose;
+
+        // he only raises the flashlight for the shot; the rest of the scene he
+        // just stands there
+        if (heldFlashlight != null)
+        {
+            heldFlashlight.SetActive(aiming);
+            SpriteRenderer heldRenderer = heldFlashlight.GetComponent<SpriteRenderer>();
+            if (heldRenderer != null) heldRenderer.enabled = aiming;
+        }
     }
 
     private void RestoreStage()
@@ -212,6 +272,12 @@ public class Stage3Phase2Cutscene : MonoBehaviour
         {
             if (hideDuringCutscene[i] != null) hideDuringCutscene[i].SetActive(true);
         }
+
+        if (playerAnimator != null) playerAnimator.enabled = true;
+        if (heldFlashlight != null) heldFlashlight.SetActive(true);
+        if (heldVisual != null) heldVisual.enabled = true;
+        if (playerBody != null) playerBody.bodyType = originalBodyType;
+        if (flashlightCone != null) flashlightCone.SetActive(true);
     }
 
     private void BuildWindow()
@@ -266,18 +332,42 @@ public class Stage3Phase2Cutscene : MonoBehaviour
         }
 
         // he puts the beam on it first - that is the whole verb of this fight
+        SetPlayerPose(true);
+        if (flashlightCone != null) flashlightCone.SetActive(true);
         AimFlashlightAt(sr.bounds.center);
         yield return new WaitForSeconds(lightHoldTime);
 
         yield return FireShot(sr.bounds.center);
         yield return HurtAndDie(sr, risen);
+
+        // beam down, arm down - he squares up for what comes next
+        if (flashlightCone != null) flashlightCone.SetActive(false);
+        SetPlayerPose(false);
     }
 
     private void AimFlashlightAt(Vector3 target)
     {
         if (flashlight == null) return;
+
         Vector3 dir = target - flashlight.position;
-        flashlight.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        flashlight.rotation = Quaternion.Euler(0f, 0f, angle);
+
+        // the cone renderer keeps whatever alpha gameplay last left on it
+        SpriteRenderer coneRenderer = flashlight.GetComponent<SpriteRenderer>();
+        if (coneRenderer != null)
+        {
+            Color c = coneRenderer.color;
+            c.a = 1f;
+            coneRenderer.color = c;
+            coneRenderer.enabled = true;
+        }
+
+        if (heldFlashlight != null && heldFlashlight.activeSelf)
+        {
+            heldFlashlight.transform.position = flashlight.position;
+            heldFlashlight.transform.rotation = Quaternion.Euler(0f, 0f, angle);
+        }
     }
 
     private IEnumerator FireShot(Vector3 target)

@@ -88,8 +88,12 @@ public class PlayerSpriteAnimator2D : MonoBehaviour
         bool nextUsingFlashlightWalk = next == AnimState.Walk && player != null
             && player.HasLantern && walkFlashlightFrames != null && walkFlashlightFrames.Length > 0;
 
-        bool nextUsingFlashlightIdle = next == AnimState.Idle && player != null
-            && player.IsLightOn && walkFlashlightFrames != null && walkFlashlightFrames.Length > 0;
+        // Standing still used to borrow walkFlashlightFrames[0] purely because that
+        // art has the flashlight in hand - and that frame has his legs further apart
+        // than any other in the cycle, so holding a light while standing read as a
+        // frozen walk. Idle now uses the idle cycle and HeldFlashlightVisual2D draws
+        // the flashlight on top.
+        bool nextUsingFlashlightIdle = false;
 
         if (next != currentState || nextUsingFlashlightWalk != usingFlashlightWalk || nextUsingFlashlightIdle != usingFlashlightIdle)
         {
@@ -110,12 +114,6 @@ public class PlayerSpriteAnimator2D : MonoBehaviour
     {
         Sprite[] frames = CurrentFrames();
         if (frames == null || frames.Length == 0 || sr == null) return;
-
-        if (usingFlashlightIdle)
-        {
-            sr.sprite = frames[0];
-            return;
-        }
 
         if (currentState == AnimState.Dash)
         {
@@ -201,7 +199,7 @@ public class PlayerSpriteAnimator2D : MonoBehaviour
             case AnimState.Dash:
                 if (dashFrames != null && dashFrames.Length > 0) return dashFrames;
                 return walkFrames;
-            default: return usingFlashlightIdle ? walkFlashlightFrames : idleFrames;
+            default: return idleFrames;
         }
     }
 
