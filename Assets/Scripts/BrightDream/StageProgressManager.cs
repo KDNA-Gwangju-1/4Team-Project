@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -7,6 +8,9 @@ using UnityEngine;
 public class StageProgressManager : MonoBehaviour
 {
     public static StageProgressManager Instance { get; private set; }
+
+    /// <summary>CurrentStage가 갱신될 때마다 새 값과 함께 발생. StageGate가 이를 구독해 잠금을 해제한다.</summary>
+    public static event Action<int> OnStageChanged;
 
     public int CurrentStage { get; private set; }
 
@@ -25,6 +29,7 @@ public class StageProgressManager : MonoBehaviour
     {
         if (stageIndex != CurrentStage + 1) return false;
         CurrentStage = stageIndex;
+        OnStageChanged?.Invoke(CurrentStage);
         return true;
     }
 }
