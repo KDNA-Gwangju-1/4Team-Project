@@ -10,16 +10,22 @@ public class HeldFlashlightVisual2D : MonoBehaviour
     public float targetLength = 0.9f;
     [Tooltip("Horizontal speed under this counts as standing still.")]
     public float idleSpeedThreshold = 0.1f;
+    [Tooltip("Draw order while he stands. Behind the body, so it reads as his far hand rather than his chest.")]
+    public int idleSortingOrder = -1;
+    [Tooltip("Where along its length the hand grips it. 0.5 puts the butt of the handle on the hand.")]
+    [Range(0f, 1f)] public float gripToCenter01 = 0.5f;
 
     private SpriteRenderer sr;
     private PlayerMovement2D player;
     private Rigidbody2D body;
+    private int airborneSortingOrder;
 
     void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
         player = GetComponentInParent<PlayerMovement2D>();
         if (player != null) body = player.GetComponent<Rigidbody2D>();
+        if (sr != null) airborneSortingOrder = sr.sortingOrder;
     }
 
     void Update()
@@ -42,11 +48,18 @@ public class HeldFlashlightVisual2D : MonoBehaviour
             transform.localScale = new Vector3(scale, scale, 1f);
         }
 
+        // standing, it belongs behind him; in the air the old order still applies
+        sr.sortingOrder = player.IsGrounded ? idleSortingOrder : airborneSortingOrder;
+
         float facing = player.LightDirection.x >= 0f ? 1f : -1f;
         Vector2 offset = player.IsGrounded ? idleHandOffset : player.jumpFlashlightHandOffset;
-        transform.position = (Vector2)player.transform.position + new Vector2(offset.x * facing, offset.y);
+        Vector2 hand = (Vector2)player.transform.position + new Vector2(offset.x * facing, offset.y);
 
-        Vector2 dir = player.LightDirection;
+        Vector2 dir = player.LightDirection.normalized;
+        // the sprite pivots at its middle, so push it forward to leave the handle
+        // sitting on the hand instead of the whole barrel crossing his chest
+        transform.position = hand + dir * (targetLength * gripToCenter01);
+
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0f, 0f, angle);
     }
