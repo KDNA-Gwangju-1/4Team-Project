@@ -13,6 +13,7 @@ namespace BrightDream.Clues
         [SerializeField] private Camera playerCamera;
         [SerializeField] private float interactDistance = 3.5f;
         [SerializeField] private Text promptText;
+        [SerializeField] private CrosshairController crosshair;
 
         private ClueInteractable currentTarget;
 
@@ -30,6 +31,7 @@ namespace BrightDream.Clues
             {
                 currentTarget.Investigate();
                 SetPrompt(false);
+                if (crosshair != null) crosshair.SetHovering(false);
                 currentTarget = null;
             }
         }
@@ -50,6 +52,7 @@ namespace BrightDream.Clues
                 currentTarget = hitClue;
                 if (currentTarget != null) currentTarget.SetHighlighted(true);
                 SetPrompt(currentTarget != null);
+                if (crosshair != null) crosshair.SetHovering(currentTarget != null);
             }
         }
 

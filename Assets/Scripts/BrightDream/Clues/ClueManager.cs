@@ -21,6 +21,7 @@ namespace BrightDream.Clues
         [SerializeField] private Text progressText;
         [SerializeField] private Text investigateText;
         [SerializeField] private float investigateTextDuration = 4f;
+        [SerializeField] private float pauseBetweenLines = 1f;
 
         public event Action<string> OnClueCollected;
         public event Action OnAllCluesCollected;
@@ -66,19 +67,28 @@ namespace BrightDream.Clues
             if (progressText != null) progressText.text = $"단서 {collectedClueIds.Count} / {TotalClueCount}";
         }
 
+        /// <summary>
+        /// investigateText 안에 빈 줄("\n\n")이 있으면 그걸 기준으로 잘라 각 줄을 순서대로 보여준다
+        /// (예: 편지 단서처럼 "...\n\n잠시 후...\n\n..." 형태로 대사를 두 번에 나눠 띄우고 싶을 때).
+        /// </summary>
         private void ShowInvestigateText(string text)
         {
             if (investigateText == null) return;
             if (hideTextRoutine != null) StopCoroutine(hideTextRoutine);
-            investigateText.text = text;
-            investigateText.gameObject.SetActive(true);
-            hideTextRoutine = StartCoroutine(HideTextAfterDelay());
+            string[] parts = text.Split(new[] { "\n\n" }, StringSplitOptions.RemoveEmptyEntries);
+            hideTextRoutine = StartCoroutine(ShowTextSequence(parts));
         }
 
-        private IEnumerator HideTextAfterDelay()
+        private IEnumerator ShowTextSequence(string[] parts)
         {
-            yield return new WaitForSeconds(investigateTextDuration);
-            if (investigateText != null) investigateText.gameObject.SetActive(false);
+            for (int i = 0; i < parts.Length; i++)
+            {
+                investigateText.text = parts[i].Trim();
+                investigateText.gameObject.SetActive(true);
+                yield return new WaitForSeconds(investigateTextDuration);
+                investigateText.gameObject.SetActive(false);
+                if (i < parts.Length - 1) yield return new WaitForSeconds(pauseBetweenLines);
+            }
             hideTextRoutine = null;
         }
     }
