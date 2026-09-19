@@ -14,6 +14,7 @@ namespace BrightDream.Combat
         [SerializeField] private float maxHealth = 100f;
         [SerializeField] private float invincibilityDuration = 1f;
         [SerializeField] private Image healthBarFill;
+        [SerializeField] private Text healthText;
 
         public event Action<float> OnHealthChanged;
 
@@ -57,6 +58,7 @@ namespace BrightDream.Combat
         {
             float ratio = CurrentHealth / maxHealth;
             if (healthBarFill != null) healthBarFill.fillAmount = ratio;
+            if (healthText != null) healthText.text = $"{Mathf.CeilToInt(CurrentHealth)} / {Mathf.CeilToInt(maxHealth)}";
             OnHealthChanged?.Invoke(ratio);
         }
     }

@@ -10,7 +10,7 @@ namespace BrightDream.Combat
         [SerializeField] private Camera playerCamera;
         [SerializeField] private Transform muzzlePoint;
         [SerializeField] private GameObject projectilePrefab;
-        [SerializeField] private float fireCooldown = 0.25f;
+        [SerializeField] private float fireCooldown = 0.3f;
 
         private float cooldownTimer;
 
@@ -26,7 +26,7 @@ namespace BrightDream.Combat
             if (!WeaponPickup.PlayerHasWeapon) return;
             if (cooldownTimer > 0f) return;
 
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButton(0))
             {
                 Fire();
                 cooldownTimer = fireCooldown;
@@ -38,7 +38,8 @@ namespace BrightDream.Combat
             if (projectilePrefab == null || playerCamera == null) return;
 
             Vector3 origin = muzzlePoint != null ? muzzlePoint.position : playerCamera.transform.position;
-            Instantiate(projectilePrefab, origin, Quaternion.LookRotation(playerCamera.transform.forward));
+            GameObject projectile = Instantiate(projectilePrefab, origin, Quaternion.LookRotation(playerCamera.transform.forward));
+            projectile.SetActive(true);
         }
     }
 }
