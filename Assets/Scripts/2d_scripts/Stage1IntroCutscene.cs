@@ -18,7 +18,8 @@ public class Stage1IntroCutscene : MonoBehaviour
     public Sprite playerDialogueFrame;
     [TextArea] public string[] lines = {
         "...언니 쪽이랑은 많이 다른 꿈이네...",
-        "...그러고 보니 동생 쪽이 언니를 별로 안 좋아했다고 들었던 것 같은데...",
+        "...딱 봐도 질 나쁜 악몽 같은데 추가 요금을 청구해야겠어.",
+        "...그러고 보니 동생 쪽이 언니를 별로 안 좋아했다고 들었던 것 같은데... 그게 이유일지도...",
         "...뭐가 됐든 쉽지 않아 보여. 정신 바짝 차리고 가 보자."
     };
     public float dialogueDelay = 0.5f;
