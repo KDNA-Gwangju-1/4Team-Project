@@ -137,6 +137,7 @@ public class Stage3EndingCutscene : MonoBehaviour
         if (player == null || cam == null) yield break;
 
         player.enabled = false;
+        player.CutsceneInvulnerable = true;
         CameraFollow2D follow = cam.GetComponent<CameraFollow2D>();
         if (follow != null) follow.enabled = false;
 

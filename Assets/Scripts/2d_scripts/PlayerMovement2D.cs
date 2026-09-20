@@ -112,6 +112,9 @@ public class PlayerMovement2D : MonoBehaviour
     public bool IsGrounded => grounded;
     public bool IsDashing => isDashing;
     public bool DashGraceActive => dashGraceTimer > 0f;
+    // Cutscenes take control away, so anything still in flight would land as a
+    // free hit the player had no way to avoid.
+    public bool CutsceneInvulnerable { get; set; }
     public float DashStamina => dashStamina;
     public int DashChargesReady => Mathf.FloorToInt(dashStamina);
     public bool CanDash => dashStamina >= 1f && dashCooldownTimer <= 0f && !isDashing;
@@ -517,7 +520,7 @@ public class PlayerMovement2D : MonoBehaviour
 
     public void TakeDamage(int amount)
     {
-        if (isInvincible || isDashing || dashGraceTimer > 0f) return;
+        if (isInvincible || isDashing || dashGraceTimer > 0f || CutsceneInvulnerable) return;
 
         currentHealth = Mathf.Max(0, currentHealth - amount);
 

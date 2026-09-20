@@ -163,6 +163,7 @@ public class Stage3BossIntroCutscene : MonoBehaviour
         if (camFollow != null) gameplayCamOffset = camFollow.offset;
 
         player.enabled = false;
+        player.CutsceneInvulnerable = true;
         // nothing on stage but the player until the script says otherwise
         SetActiveAll(revealWithBoss, false);
         SetActiveAll(revealAfterCutscene, false);
@@ -266,6 +267,7 @@ public class Stage3BossIntroCutscene : MonoBehaviour
 
         // control first, HUD with it - the arena stays quiet a beat longer
         SetActiveAll(revealAfterCutscene, true);
+        player.CutsceneInvulnerable = false;
         player.enabled = true;
 
         yield return new WaitForSeconds(attackStartDelay);

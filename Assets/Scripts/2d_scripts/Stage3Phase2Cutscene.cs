@@ -198,6 +198,7 @@ public class Stage3Phase2Cutscene : MonoBehaviour
         camFollow = cam.GetComponent<CameraFollow2D>();
         if (camFollow != null) camFollow.enabled = false;
         player.enabled = false;
+        player.CutsceneInvulnerable = true;
 
         // CameraFollow2D owns position but not zoom, so the gameplay framing has
         // to be put back by hand or phase 2 starts locked inside the snap zoom
@@ -269,6 +270,7 @@ public class Stage3Phase2Cutscene : MonoBehaviour
         // fight - chasing him up and down the stack would swing the boss in and
         // out of frame.
         if (camFollow != null) camFollow.enabled = !lockCameraForPhase2;
+        player.CutsceneInvulnerable = false;
         player.enabled = true;
     }
 
@@ -276,11 +278,18 @@ public class Stage3Phase2Cutscene : MonoBehaviour
     // the staged x, which every shot in this scene is composed from.
     private float ClearStage(SpriteRenderer playerRenderer)
     {
-        // anything the boss threw goes with the fight
+        // anything the boss threw goes with the fight - bullets already in the air
+        // would otherwise land during the cutscene, with no way to dodge them
         TentacleStrike2D[] live = UnityEngine.Object.FindObjectsOfType<TentacleStrike2D>();
         for (int i = 0; i < live.Length; i++)
         {
             if (live[i] != null) Destroy(live[i].gameObject);
+        }
+
+        BossBullet2D[] shots = UnityEngine.Object.FindObjectsOfType<BossBullet2D>();
+        for (int i = 0; i < shots.Length; i++)
+        {
+            if (shots[i] != null) Destroy(shots[i].gameObject);
         }
 
         for (int i = 0; i < hideDuringCutscene.Length; i++)
