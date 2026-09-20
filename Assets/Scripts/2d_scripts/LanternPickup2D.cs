@@ -13,15 +13,8 @@ public class LanternPickup2D : MonoBehaviour
 
     [Header("Prompt")]
     [TextArea] public string promptText = "Z키를 눌러서 줍기";
+    [Tooltip("Left empty, the prompt uses its own default face.")]
     public Font font;
-    public int fontSize = 30;
-    public Color textColor = new Color(1f, 0.95f, 0.75f);
-    [Tooltip("Height on screen, 0 = bottom, 1 = top.")]
-    [Range(0f, 1f)] public float screenHeight01 = 0.32f;
-    public float fadeDuration = 0.15f;
-    [Tooltip("Slow pulse, so it reads as something to act on.")]
-    public float pulseSpeed = 3f;
-    public float pulseDepth = 0.2f;
 
     [Header("Idle motion")]
     [Tooltip("Gentle bob while it waits to be found.")]
@@ -62,12 +55,6 @@ public class LanternPickup2D : MonoBehaviour
         {
             prompt = gameObject.AddComponent<InteractPrompt2D>();
             prompt.font = font;
-            prompt.fontSize = fontSize;
-            prompt.textColor = textColor;
-            prompt.screenHeight01 = screenHeight01;
-            prompt.fadeDuration = fadeDuration;
-            prompt.pulseSpeed = pulseSpeed;
-            prompt.pulseDepth = pulseDepth;
         }
         if (prompt != null) prompt.SetVisible(inRange, promptText);
 
