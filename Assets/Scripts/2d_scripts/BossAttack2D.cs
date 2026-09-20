@@ -85,6 +85,10 @@ public class BossAttack2D : MonoBehaviour
     [Tooltip("Her normal phase 2 colour while attacking.")]
     public Color phase2ActiveTint = Color.white;
     [TextArea] public string tiredHint = "보스가 지쳤다!  비추고 공격하자";
+    [Tooltip("She drops out of the sky to rest on the floor - a boss you have to light up should not be hovering out of reach.")]
+    public bool tiredLandsOnFloor = true;
+    public float tiredLandY = -2.63f;
+    public float tiredLandTime = 0.8f;
     [Tooltip("How far she leans toward the player while resting. 0 = stay put.")]
     public float tiredApproach = 0f;
     public float tiredApproachTime = 0.6f;
@@ -346,7 +350,21 @@ public class BossAttack2D : MonoBehaviour
         if (bossRef == null) yield break;
 
         Vector3 home = transform.position;
-        if (tiredApproach != 0f) yield return SlideBoss(home, home + Vector3.left * tiredApproach, tiredApproachTime);
+
+        if (tiredLandsOnFloor)
+        {
+            var target = PlayerMovement2D.Instance;
+            float landX = transform.position.x;
+            if (target != null && tiredApproach != 0f)
+            {
+                landX = Mathf.MoveTowards(landX, target.transform.position.x, tiredApproach);
+            }
+            yield return SlideBoss(transform.position, new Vector3(landX, tiredLandY, home.z), tiredLandTime);
+        }
+        else if (tiredApproach != 0f)
+        {
+            yield return SlideBoss(home, home + Vector3.left * tiredApproach, tiredApproachTime);
+        }
 
         // she has to hold still to be shot at
         BossFlight2D flight = GetComponent<BossFlight2D>();
@@ -387,7 +405,11 @@ public class BossAttack2D : MonoBehaviour
         bossRef.baseTint = phase2ActiveTint;
         if (sr != null) sr.color = phase2ActiveTint;
 
-        if (tiredApproach != 0f) yield return SlideBoss(transform.position, home, tiredApproachTime);
+        // back into the air before she starts throwing again
+        if (tiredLandsOnFloor || tiredApproach != 0f)
+        {
+            yield return SlideBoss(transform.position, home, tiredLandTime);
+        }
         if (flight != null) flight.Begin();
     }
 
@@ -408,14 +430,35 @@ public class BossAttack2D : MonoBehaviour
         if (fan == null) yield break;
         yield return TelegraphRoutine(phase2Telegraph);
 
-        float baseAngle = FanCentreAngle(fan.aimBlend);
         int n = Mathf.Max(1, fan.count);
-        for (int i = 0; i < n; i++)
+        int waves = Mathf.Max(1, fan.waves);
+
+        for (int w = 0; w < waves; w++)
         {
-            float t = (n == 1) ? 0f : (i / (float)(n - 1)) * 2f - 1f;
-            SpawnBullet(baseAngle + t * fan.spreadAngle * 0.5f, fan.speed);
+            // re-aim on every wave, so standing still is punished
+            float baseAngle = FanCentreAngle(fan.aimBlend) + w * fan.waveAngleStep;
+            float speed = Mathf.Max(0.5f, fan.speed + w * fan.waveSpeedStep);
+
+            for (int i = 0; i < n; i++)
+            {
+                // sweeping runs edge to edge; otherwise it opens from the middle out
+                int index = fan.sweep ? i : OutwardIndex(i, n);
+                float t = (n == 1) ? 0f : (index / (float)(n - 1)) * 2f - 1f;
+                SpawnBullet(baseAngle + t * fan.spreadAngle * 0.5f, speed);
+
+                if (fan.stagger > 0f && i < n - 1) yield return new WaitForSeconds(fan.stagger);
+            }
+
+            if (w < waves - 1) yield return new WaitForSeconds(fan.waveInterval);
         }
-        yield return null;
+    }
+
+    // 0, n-1, 1, n-2, ... so the fan blooms outward from its centre line
+    private static int OutwardIndex(int i, int n)
+    {
+        int mid = n / 2;
+        int step = (i + 1) / 2;
+        return (i % 2 == 0) ? Mathf.Clamp(mid - step, 0, n - 1) : Mathf.Clamp(mid + step, 0, n - 1);
     }
 
     // Leans toward the player without ever swinging behind her.

@@ -781,7 +781,7 @@ Transform:
   m_GameObject: {fileID: 465286316}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 33.3, y: 5.088428, z: 0}
+  m_LocalPosition: {x: 33.3, y: 5.2151275, z: 0}
   m_LocalScale: {x: 1.2363707, y: 1.4479638, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1891,21 +1891,50 @@ MonoBehaviour:
   ringCount: 6
   ringBulletSpeed: 3.6
   phase2Fans:
-  - label: "3\uC904\uAE30"
-    count: 3
-    spreadAngle: 55
-    speed: 5
-    aimBlend: 0.6
-  - label: "5\uC904\uAE30"
-    count: 5
-    spreadAngle: 130
-    speed: 3.8
+  - label: "\uC4F8\uC5B4\uB0B4\uB9AC\uAE30"
+    count: 7
+    spreadAngle: 140
+    speed: 3.2
     aimBlend: 0.35
-  - label: "1\uC904\uAE30"
-    count: 1
-    spreadAngle: 0
-    speed: 7.5
+    stagger: 0.08
+    sweep: 1
+    waves: 1
+    waveInterval: 0
+    waveAngleStep: 0
+    waveSpeedStep: 0
+  - label: "\uAD50\uCC28 \uD30C\uB3D9"
+    count: 5
+    spreadAngle: 100
+    speed: 3.6
+    aimBlend: 0.5
+    stagger: 0.05
+    sweep: 1
+    waves: 3
+    waveInterval: 0.45
+    waveAngleStep: 18
+    waveSpeedStep: 0.5
+  - label: "\uC870\uC900 3\uC5F0\uC0AC"
+    count: 3
+    spreadAngle: 22
+    speed: 6.5
     aimBlend: 1
+    stagger: 0
+    sweep: 1
+    waves: 3
+    waveInterval: 0.28
+    waveAngleStep: 0
+    waveSpeedStep: 0.8
+  - label: "\uAF43"
+    count: 9
+    spreadAngle: 170
+    speed: 2.8
+    aimBlend: 0.2
+    stagger: 0.06
+    sweep: 0
+    waves: 1
+    waveInterval: 0
+    waveAngleStep: 0
+    waveSpeedStep: 0
   phase2UsesTentacles: 1
   phase2TentacleEvery: 2
   phase2TentaclePatterns: 0100000004000000
@@ -1914,14 +1943,17 @@ MonoBehaviour:
   fitColliderToPhase2Art: 1
   phase2HitCentre01: {x: 0.5, y: 0.43}
   phase2HitRadius01: 0.28
-  attacksBeforeTired: 2
+  attacksBeforeTired: 4
   tiredDuration: 4
   tiredUsesSilhouette: 1
   tiredSilhouette: {r: 0, g: 0, b: 0, a: 1}
   tiredRevealed: {r: 1, g: 0.92, b: 0.65, a: 1}
   phase2ActiveTint: {r: 1, g: 1, b: 1, a: 1}
   tiredHint: "\uBCF4\uC2A4\uAC00 \uC9C0\uCCE4\uB2E4!  \uBE44\uCD94\uACE0 \uACF5\uACA9\uD558\uC790"
-  tiredApproach: 0
+  tiredLandsOnFloor: 1
+  tiredLandY: -2.63
+  tiredLandTime: 0.8
+  tiredApproach: 5
   tiredApproachTime: 0.7
   fanBaseAngle: 180
   fanAimBlend: 0.6
