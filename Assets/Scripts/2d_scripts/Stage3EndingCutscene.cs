@@ -51,6 +51,10 @@ public class Stage3EndingCutscene : MonoBehaviour
     public float holdAfterDissolve = 0.9f;
 
     [Header("Camera")]
+    [Tooltip("How close the camera sits while she comes apart. Smaller is tighter - this is the one moment the art is worth looking at.")]
+    public float dissolveOrthoSize = 3.8f;
+    [Tooltip("Pull back out to the two-shot over this long, once she is gone.")]
+    public float dissolvePullOutDuration = 1.4f;
     public float shotOrthoSize = 5f;
     public float panDuration = 1f;
     public Vector3 shotOffset = new Vector3(0f, 0.6f, -10f);
@@ -84,6 +88,7 @@ public class Stage3EndingCutscene : MonoBehaviour
     public float whiteHold = 1.5f;
 
     private Transform sister;
+    private SpriteRenderer sisterRenderer;
     private DialogueWindow2D window;
     private GameObject overlayCanvas;
     private Image overlay;
@@ -195,16 +200,22 @@ public class Stage3EndingCutscene : MonoBehaviour
         yield return Blink();
         ClearBattlefield();
         yield return new WaitForSeconds(blackoutHold);
+
+        // she is built while the screen is still black, so the camera can be put
+        // right on her before anyone sees where it went
+        BuildSister();
+        SnapTo(DissolveShotCentre(), dissolveOrthoSize);
+
         yield return Fade(Color.black, 1f, 0f, blackoutOutDuration);
 
         // --- she comes apart, and the child is what is left ---
-        yield return DissolveRoutine();
+        yield return DissolveFrames();
 
         Vector3 sisterPos = sister != null ? sister.position : new Vector3(lastBossPosition.x, sisterGroundY, 0f);
         Vector3 anchorX = detective != null ? detective.position : player.transform.position;
         Vector3 twoShot = new Vector3((anchorX.x + sisterPos.x) * 0.5f,
                                       sisterGroundY + 1.6f, shotOffset.z);
-        yield return PanTo(twoShot, shotOrthoSize, panDuration);
+        yield return PanTo(twoShot, shotOrthoSize, dissolvePullOutDuration);
         yield return new WaitForSeconds(holdAfterDissolve);
 
         for (int i = 0; i < lines.Length; i++)
@@ -326,9 +337,9 @@ public class Stage3EndingCutscene : MonoBehaviour
     // Boss2D.DieSequence plays its own dissolve and then destroys the object, so
     // anything we drive through the boss renderer vanishes mid-scene. The ending
     // spawns its own sprite instead and lets the boss tear itself down.
-    private IEnumerator DissolveRoutine()
+    private void BuildSister()
     {
-        if (dissolveFrames == null || dissolveFrames.Length == 0) yield break;
+        if (dissolveFrames == null || dissolveFrames.Length == 0) return;
 
         Vector3 where = lastBossPosition;
         if (bossRenderer != null)
@@ -345,10 +356,10 @@ public class Stage3EndingCutscene : MonoBehaviour
             : new Vector3(where.x, sisterGroundY, 0f);
         sister = go.transform;
 
-        SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
-        sr.sprite = dissolveFrames[0];
-        sr.sortingLayerName = sortingLayer;
-        sr.sortingOrder = sortingOrder;
+        sisterRenderer = go.AddComponent<SpriteRenderer>();
+        sisterRenderer.sprite = dissolveFrames[0];
+        sisterRenderer.sortingLayerName = sortingLayer;
+        sisterRenderer.sortingOrder = sortingOrder;
 
         if (useAnchorScale && sisterAnchor != null)
         {
@@ -357,24 +368,48 @@ public class Stage3EndingCutscene : MonoBehaviour
         }
         else
         {
-            float native = sr.sprite.bounds.size.x;
+            float native = sisterRenderer.sprite.bounds.size.x;
             if (native > 0.001f)
             {
                 float factor = sisterWidth / native;
                 go.transform.localScale = new Vector3(factor, factor, 1f);
             }
         }
+    }
+
+    // Centre of the drawn figure, not the mark under her feet - a camera aimed at
+    // the pivot puts her head out of frame at this distance.
+    private Vector3 DissolveShotCentre()
+    {
+        if (sisterRenderer != null)
+        {
+            Bounds b = sisterRenderer.bounds;
+            return new Vector3(b.center.x, b.center.y, shotOffset.z);
+        }
+        Vector3 fallback = sister != null ? sister.position : lastBossPosition;
+        return new Vector3(fallback.x, fallback.y + 1.6f, shotOffset.z);
+    }
+
+    private IEnumerator DissolveFrames()
+    {
+        if (sisterRenderer == null) yield break;
 
         // beat on the intact form first - dissolving straight away reads as a
         // glitch rather than as something happening to her
-        sr.sprite = dissolveFrames[0];
+        sisterRenderer.sprite = dissolveFrames[0];
         yield return new WaitForSeconds(dissolveFirstFrameHold);
 
         for (int i = 1; i < dissolveFrames.Length; i++)
         {
-            sr.sprite = dissolveFrames[i];
+            sisterRenderer.sprite = dissolveFrames[i];
             yield return new WaitForSeconds(dissolveFrameDuration);
         }
+    }
+
+    private void SnapTo(Vector3 target, float ortho)
+    {
+        cam.transform.position = new Vector3(target.x, target.y, cam.transform.position.z);
+        cam.orthographicSize = ortho;
     }
 
     private IEnumerator WalkToHer(Vector3 sisterPos)

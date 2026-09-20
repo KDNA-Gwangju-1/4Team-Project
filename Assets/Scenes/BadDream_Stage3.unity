@@ -1314,6 +1314,9 @@ MonoBehaviour:
   - {fileID: 1721486570}
   - {fileID: 749689151}
   attackStartDelay: 1
+  phase1Hint: "\uCD09\uC218\uAC00 \uC57D\uC810\uC778 \uB4EF \uD558\uB2E4!  \uCD09\uC218\uB97C
+    \uBE44\uCD94\uACE0 \uC3D8\uC790"
+  phase1HintDuration: 5
   bossCutsceneGap: 19.2
   bossCutsceneWidth: 4.8
   bossCutsceneSortingOrder: 2
@@ -2117,6 +2120,7 @@ MonoBehaviour:
   hitFlashDuration: 0.15
   baseTint: {r: 0.42, g: 0.42, b: 0.52, a: 1}
   requireLightToDamage: 0
+  acceptsDirectHits: 1
   weakPointColor: {r: 1, g: 0.92, b: 0.65, a: 1}
   beamPassesThroughGround: 1
 --- !u!114 &900000035
@@ -5283,6 +5287,8 @@ MonoBehaviour:
   playerAnchor: {fileID: 1264703303}
   sisterGroundY: -2.63
   holdAfterDissolve: 1.2
+  dissolveOrthoSize: 3.8
+  dissolvePullOutDuration: 1.4
   shotOrthoSize: 5
   panDuration: 1
   shotOffset: {x: 0, y: 0.6, z: -10}

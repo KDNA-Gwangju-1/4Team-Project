@@ -62,6 +62,10 @@ public class Stage3BossIntroCutscene : MonoBehaviour
     public string phase1Hint = "촉수가 약점인 듯 하다!  촉수를 비추고 쏘자";
     public float phase1HintDuration = 5f;
 
+    // Once per run, full stop. A tutorial line that comes back after the player
+    // has already worked it out reads as a bug.
+    private static bool phase1HintShown;
+
     [Header("Boss staging")]
     // She opens the scene standing on the player's own ledge, so the threat is
     // physical, then withdraws into the background space she fights from. The
@@ -279,8 +283,9 @@ public class Stage3BossIntroCutscene : MonoBehaviour
         SetActiveAll(revealAfterDelay, true);
         if (bossAttack != null) bossAttack.SetPhase(1);
 
-        if (!string.IsNullOrEmpty(phase1Hint) && boss != null)
+        if (!phase1HintShown && !string.IsNullOrEmpty(phase1Hint) && boss != null)
         {
+            phase1HintShown = true;
             ScreenHint2D hint = boss.GetComponent<ScreenHint2D>();
             if (hint == null) hint = boss.gameObject.AddComponent<ScreenHint2D>();
             hint.Show(phase1Hint, phase1HintDuration);
