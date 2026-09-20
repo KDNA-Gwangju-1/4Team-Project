@@ -207,6 +207,29 @@ public class Stage3EndingCutscene : MonoBehaviour
     // Everything that says "this is a fight" comes off the screen.
     private void StageScene()
     {
+        // Clearing what is on screen is not enough while her attack loop is still
+        // running - it just spawns the next fan a moment later. Stop the source.
+        if (boss != null)
+        {
+            boss.Invulnerable = true;
+
+            BossAttack2D attack = boss.GetComponent<BossAttack2D>();
+            if (attack != null)
+            {
+                attack.StopAllCoroutines();
+                attack.SetPhase(0);
+                attack.enabled = false;
+            }
+
+            BossFlight2D flight = boss.GetComponent<BossFlight2D>();
+            if (flight != null) { flight.Stop(); flight.enabled = false; }
+
+            TentacleStrikeField2D field = boss.GetComponent<TentacleStrikeField2D>();
+            if (field != null) { field.StopAllCoroutines(); field.enabled = false; }
+        }
+
+        ClearBattlefield();
+
         // her own DieSequence is already playing; hide it so the blackout covers
         // gameplay the instant her health hits zero, not after a death animation
         if (bossRenderer != null) bossRenderer.enabled = false;
@@ -249,6 +272,9 @@ public class Stage3EndingCutscene : MonoBehaviour
     {
         foreach (TentacleStrike2D t in FindObjectsOfType<TentacleStrike2D>()) Destroy(t.gameObject);
         foreach (BossBullet2D b in FindObjectsOfType<BossBullet2D>()) Destroy(b.gameObject);
+        foreach (Bullet2D b in FindObjectsOfType<Bullet2D>()) Destroy(b.gameObject);
+        GameObject warn = GameObject.Find("TentacleWaveWarning");
+        while (warn != null) { DestroyImmediate(warn); warn = GameObject.Find("TentacleWaveWarning"); }
         foreach (Monster2D m in FindObjectsOfType<Monster2D>()) m.gameObject.SetActive(false);
         foreach (RangedMonster2D m in FindObjectsOfType<RangedMonster2D>()) m.gameObject.SetActive(false);
     }
