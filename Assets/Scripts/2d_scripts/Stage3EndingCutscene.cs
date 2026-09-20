@@ -94,6 +94,7 @@ public class Stage3EndingCutscene : MonoBehaviour
     private Image overlay;
     private bool played;
     private bool sceneActive;
+    private bool bossBound;
     private Transform detective;
     private SpriteRenderer detectiveRenderer;
     private Sprite[] detectiveWalk;
@@ -109,8 +110,22 @@ public class Stage3EndingCutscene : MonoBehaviour
             if (marker != null) marker.enabled = false;
         }
 
-        if (boss == null) boss = FindObjectOfType<Boss2D>();
-        if (boss != null) boss.OnDied += HandleBossDied;
+        BindBoss();
+    }
+
+    // The intro cutscene keeps her switched off until her entrance, so at Start
+    // there is nothing for FindObjectOfType to return and we would never hear
+    // that she died. Search inactive objects too, and keep trying until she is
+    // on stage.
+    private void BindBoss()
+    {
+        if (bossBound) return;
+        if (boss == null) boss = FindObjectOfType<Boss2D>(true);
+        if (boss == null) return;
+
+        if (bossRenderer == null) bossRenderer = boss.GetComponent<SpriteRenderer>();
+        boss.OnDied += HandleBossDied;
+        bossBound = true;
     }
 
     void OnDestroy()
@@ -122,6 +137,8 @@ public class Stage3EndingCutscene : MonoBehaviour
 
     void Update()
     {
+        BindBoss();
+
         // Killing the source is not quite enough: a fan already mid-coroutine, a
         // monster re-enabling itself, anything we have not thought of, still puts
         // bullets on screen. While the ending runs, nothing gets to.
@@ -131,6 +148,19 @@ public class Stage3EndingCutscene : MonoBehaviour
         for (int i = 0; i < shots.Length; i++)
         {
             if (shots[i] != null) Destroy(shots[i].gameObject);
+        }
+
+        // monsters respawn on a timer, so one sweep at the start is not enough
+        Monster2D[] walkers = FindObjectsOfType<Monster2D>();
+        for (int i = 0; i < walkers.Length; i++)
+        {
+            if (walkers[i] != null) walkers[i].gameObject.SetActive(false);
+        }
+
+        RangedMonster2D[] shooters = FindObjectsOfType<RangedMonster2D>();
+        for (int i = 0; i < shooters.Length; i++)
+        {
+            if (shooters[i] != null) shooters[i].gameObject.SetActive(false);
         }
 
         TentacleStrike2D[] live = FindObjectsOfType<TentacleStrike2D>();
