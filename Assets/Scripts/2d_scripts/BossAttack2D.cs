@@ -50,6 +50,27 @@ public class BossAttack2D : MonoBehaviour
     // beat a dense wall: at the range she rests from, bullets under ~1.6 apart
     // leave no gap the player can physically fit through.
     public BulletFan2D[] phase2Fans;
+    [Tooltip("Her default in phase 2 is to stalk the floor and swipe, Bloody Queen style. Every Nth attack she takes off for the barrage instead.")]
+    public int airBarrageEvery = 4;
+    [Tooltip("How long she hangs in the air before the barrage lands.")]
+    public float airRiseTime = 0.8f;
+    public float airBarrageHeight = 6f;
+    public float airReturnTime = 0.7f;
+    [Tooltip("She has to be this close to swipe. Further away she closes the gap first.")]
+    public float phase2ClawRange = 4.5f;
+
+    [Header("Phase 2 dash swipe")]
+    // Her walk is slow on purpose, so the one time she moves fast has to be
+    // announced. The blink is the tell; miss it and the dash connects.
+    [Tooltip("Every Nth ground attack becomes the dash instead of a standing swipe.")]
+    public int dashSwipeEvery = 3;
+    public int dashBlinkCount = 3;
+    public float dashBlinkTime = 0.12f;
+    public Color dashBlinkColor = new Color(1f, 0.35f, 0.35f);
+    public float dashSpeed = 26f;
+    [Tooltip("How far past the player she carries through.")]
+    public float dashOvershoot = 3f;
+    public float dashRecover = 0.4f;
     [Tooltip("She keeps her tentacles in phase 2 - the arena is the same ground, so the floor threat still works.")]
     public bool phase2UsesTentacles = true;
     [Tooltip("A tentacle pattern every N fans. 1 = after every fan.")]
@@ -133,7 +154,7 @@ public class BossAttack2D : MonoBehaviour
             FitHitBoxToArt();
 
             BossFlight2D flight = GetComponent<BossFlight2D>();
-            if (flight != null) flight.Begin();
+            if (flight != null) flight.EnterGround();
             bossRef.Invulnerable = true;
             bossRef.requireLightToDamage = false;
             bossRef.baseTint = phase2ActiveTint;
@@ -183,12 +204,20 @@ public class BossAttack2D : MonoBehaviour
                 phase2PatternIndex++;
                 yield return ClawWindUp();
 
-                if (phase2Fans != null && phase2Fans.Length > 0)
+                bool barrageTurn = airBarrageEvery > 0 && phase2PatternIndex % airBarrageEvery == 0;
+
+                if (barrageTurn)
                 {
-                    yield return FanRoutine(phase2Fans[(phase2PatternIndex - 1) % phase2Fans.Length]);
+                    yield return AirBarrageRoutine();
                 }
-                else if (phase2PatternIndex % 2 == 1) yield return AimedSpreadRoutine(player);
-                else yield return RingBurstRoutine();
+                else if (dashSwipeEvery > 0 && phase2PatternIndex % dashSwipeEvery == 0)
+                {
+                    yield return DashSwipeRoutine(player);
+                }
+                else
+                {
+                    yield return GroundSwipeRoutine(player);
+                }
 
                 if (phase2UsesTentacles && strikeField != null && strikeField.HasPoints
                     && phase2TentacleEvery > 0 && phase2PatternIndex % phase2TentacleEvery == 0
@@ -410,7 +439,7 @@ public class BossAttack2D : MonoBehaviour
         {
             yield return SlideBoss(transform.position, home, tiredLandTime);
         }
-        if (flight != null) flight.Begin();
+        if (flight != null) flight.EnterGround();
     }
 
     private IEnumerator SlideBoss(Vector3 from, Vector3 to, float duration)
@@ -423,6 +452,98 @@ public class BossAttack2D : MonoBehaviour
             yield return null;
         }
         transform.position = to;
+    }
+
+    // Her bread and butter in phase 2: close the gap on the floor and swipe.
+    private IEnumerator GroundSwipeRoutine(PlayerMovement2D player)
+    {
+        BossFlight2D flight = GetComponent<BossFlight2D>();
+        if (flight != null && flight.mode != BossFlight2D.Mode.Ground) flight.EnterGround();
+
+        if (player != null)
+        {
+            // give her a moment to get within reach rather than swiping at air
+            float waited = 0f;
+            while (waited < 1.5f && Mathf.Abs(player.transform.position.x - transform.position.x) > phase2ClawRange)
+            {
+                waited += Time.deltaTime;
+                yield return null;
+            }
+        }
+
+        if (flight != null) flight.Stop();
+        yield return ClawRoutine();
+        if (flight != null) flight.EnterGround();
+    }
+
+    // Blink on the spot, then cross the arena with the claw out.
+    private IEnumerator DashSwipeRoutine(PlayerMovement2D player)
+    {
+        BossFlight2D flight = GetComponent<BossFlight2D>();
+        if (flight != null) flight.Stop();
+
+        // the tell
+        Color normal = sr != null ? sr.color : Color.white;
+        for (int i = 0; i < dashBlinkCount; i++)
+        {
+            if (sr != null) sr.color = dashBlinkColor;
+            yield return new WaitForSeconds(dashBlinkTime);
+            if (sr != null) sr.color = normal;
+            yield return new WaitForSeconds(dashBlinkTime);
+        }
+
+        if (player == null)
+        {
+            if (flight != null) flight.EnterGround();
+            yield break;
+        }
+
+        float dir = Mathf.Sign(player.transform.position.x - transform.position.x);
+        if (Mathf.Approximately(dir, 0f)) dir = -1f;
+        float targetX = player.transform.position.x + dir * dashOvershoot;
+
+        if (sr != null) sr.flipX = dir > 0f;
+        if (animator != null && clawFrames != null && clawFrames.Length > 0)
+        {
+            animator.ShowFrame(clawFrames[Mathf.Clamp(phase2ClawImpactFrame, 0, clawFrames.Length - 1)]);
+        }
+        if (clawHitbox != null) clawHitbox.SetHitboxActive(true);
+
+        while (Mathf.Abs(targetX - transform.position.x) > 0.1f)
+        {
+            transform.position = Vector3.MoveTowards(transform.position,
+                new Vector3(targetX, transform.position.y, transform.position.z), dashSpeed * Time.deltaTime);
+            yield return null;
+        }
+
+        if (clawHitbox != null) clawHitbox.SetHitboxActive(false);
+        if (animator != null) animator.ReleaseFrame();
+        if (sr != null) sr.color = normal;
+
+        yield return new WaitForSeconds(dashRecover);
+        if (flight != null) flight.EnterGround();
+    }
+
+    // The one big pattern: she lifts off and empties everything at once.
+    private IEnumerator AirBarrageRoutine()
+    {
+        BossFlight2D flight = GetComponent<BossFlight2D>();
+        if (flight != null) flight.Stop();
+
+        Vector3 ground = transform.position;
+        Vector3 apex = new Vector3(ground.x, ground.y + airBarrageHeight, ground.z);
+        yield return SlideBoss(ground, apex, airRiseTime);
+
+        if (phase2Fans != null)
+        {
+            for (int i = 0; i < phase2Fans.Length; i++)
+            {
+                yield return FanRoutine(phase2Fans[i]);
+            }
+        }
+
+        yield return SlideBoss(transform.position, ground, airReturnTime);
+        if (flight != null) flight.EnterGround();
     }
 
     private IEnumerator FanRoutine(BulletFan2D fan)

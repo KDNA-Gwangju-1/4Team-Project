@@ -5,6 +5,16 @@ using UnityEngine;
 // she is going and still has to reposition rather than camp one spot.
 public class BossFlight2D : MonoBehaviour
 {
+    public enum Mode { Ground, Air }
+
+    [Tooltip("Ground is her default in phase 2 - she stalks the arena like the player. Air is only for the barrage.")]
+    public Mode mode = Mode.Ground;
+    [Tooltip("Floor line she walks on.")]
+    public float groundY = -2.63f;
+    [Tooltip("Walking is quicker than drifting.")]
+    public float groundMoveDuration = 1.1f;
+    public float groundHoverTime = 0.25f;
+
     [Tooltip("Horizontal band she patrols, in world x.")]
     public float minX = 21f;
     public float maxX = 45f;
@@ -58,6 +68,28 @@ public class BossFlight2D : MonoBehaviour
         flying = true;
     }
 
+    public void EnterGround()
+    {
+        mode = Mode.Ground;
+        Begin();
+    }
+
+    public void EnterAir()
+    {
+        mode = Mode.Air;
+        Begin();
+    }
+
+    private float CurrentMoveDuration
+    {
+        get { return mode == Mode.Ground ? groundMoveDuration : moveDuration; }
+    }
+
+    private float CurrentHoverTime
+    {
+        get { return mode == Mode.Ground ? groundHoverTime : hoverTime; }
+    }
+
     public void Stop()
     {
         flying = false;
@@ -81,7 +113,8 @@ public class BossFlight2D : MonoBehaviour
         // a handful of tries is enough to land a point that is actually a trip
         for (int i = 0; i < 12; i++)
         {
-            Vector2 candidate = new Vector2(Random.Range(lo, hi), Random.Range(minY, maxY));
+            Vector2 candidate = new Vector2(Random.Range(lo, hi),
+                mode == Mode.Ground ? groundY : Random.Range(minY, maxY));
             if (Vector2.Distance(candidate, current) < minTravel) continue;
             if (stayNearPlayer && !FarEnoughFromPlayer(candidate)) continue;
             return candidate;
@@ -89,7 +122,7 @@ public class BossFlight2D : MonoBehaviour
 
         // fall back to the far side of whatever band is allowed
         float farX = (current.x - lo < hi - current.x) ? hi : lo;
-        return new Vector2(farX, Random.Range(minY, maxY));
+        return new Vector2(farX, mode == Mode.Ground ? groundY : Random.Range(minY, maxY));
     }
 
     private bool FarEnoughFromPlayer(Vector2 candidate)
@@ -111,7 +144,7 @@ public class BossFlight2D : MonoBehaviour
         }
 
         travelTimer += Time.deltaTime;
-        float k = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(travelTimer / Mathf.Max(0.05f, moveDuration)));
+        float k = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(travelTimer / Mathf.Max(0.05f, CurrentMoveDuration)));
         ApplyBob(Vector2.Lerp(from, to, k));
 
         if (faceTravelDirection && sr != null && Mathf.Abs(to.x - from.x) > 0.1f)
@@ -124,13 +157,16 @@ public class BossFlight2D : MonoBehaviour
             from = to;
             to = PickPoint(from);
             travelTimer = 0f;
-            waitTimer = hoverTime;
+            waitTimer = CurrentHoverTime;
         }
     }
 
     private void ApplyBob(Vector2 basePosition)
     {
-        float bob = Mathf.Sin((Time.time / Mathf.Max(0.05f, bobPeriod) + seed) * Mathf.PI * 2f) * bobAmplitude;
+        // feet stay planted on the ground; only the airborne form drifts
+        float bob = (mode == Mode.Air)
+            ? Mathf.Sin((Time.time / Mathf.Max(0.05f, bobPeriod) + seed) * Mathf.PI * 2f) * bobAmplitude
+            : 0f;
         transform.position = new Vector3(basePosition.x, basePosition.y + bob, transform.position.z);
     }
 }
