@@ -13,6 +13,8 @@ public class TentacleStrike2D : MonoBehaviour
 
     public Boss2D boss;
     public int damageToBoss = 1;
+    [Tooltip("Shots needed to bring one down. The hits before the last one only flinch; the last is what writhes and sinks.")]
+    public int hitsToKill = 2;
     public int damageToPlayer = 1;
 
     // wave tentacles are pure boss attack: they erupt, threaten, and sink again
@@ -61,6 +63,8 @@ public class TentacleStrike2D : MonoBehaviour
     private bool killed;
     private bool lit;
     private bool bodyShown;
+    private int hitsTaken;
+    private Coroutine flinchRoutine;
 
     // the mask decides what is DRAWN; this decides what can be SHOT
     public bool IsRevealed => lit;
@@ -290,8 +294,50 @@ public class TentacleStrike2D : MonoBehaviour
     public void Kill()
     {
         if (killed || !vulnerable) return;
+
+        hitsTaken++;
+        if (hitsTaken < Mathf.Max(1, hitsToKill))
+        {
+            // not down yet - enough of a reaction that the shot clearly landed,
+            // but it keeps its window open
+            if (flinchRoutine != null) StopCoroutine(flinchRoutine);
+            flinchRoutine = StartCoroutine(FlinchRoutine());
+            return;
+        }
+
+        if (flinchRoutine != null) { StopCoroutine(flinchRoutine); flinchRoutine = null; }
         killed = true;
         if (boss != null) boss.TakeDamage(damageToBoss);
+    }
+
+    // A short jolt for a hit that is not the last one. Unlike HurtRoutine this
+    // leaves the mask alone, so an unlit tentacle stays a silhouette.
+    private IEnumerator FlinchRoutine()
+    {
+        float duration = hurtDuration * 0.4f;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            float decay = 1f - elapsed / duration;
+            if (spriteTransform != null)
+            {
+                spriteTransform.localPosition = spriteBaseLocalPos
+                    + new Vector3(Random.Range(-1f, 1f) * hurtShake * 0.55f * decay, 0f, 0f);
+            }
+
+            bool hot = Mathf.Repeat(elapsed / duration * 4f, 2f) < 1f;
+            if (sr != null) sr.color = hot ? hurtFlashColor : Color.white;
+            if (silhouetteRenderer != null) silhouetteRenderer.color = hot ? hurtFlashColor : silhouetteColor;
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        if (spriteTransform != null) spriteTransform.localPosition = spriteBaseLocalPos;
+        if (sr != null) sr.color = Color.white;
+        if (silhouetteRenderer != null) silhouetteRenderer.color = silhouetteColor;
+        flinchRoutine = null;
     }
 
     void OnTriggerEnter2D(Collider2D other) { TryHurt(other); }

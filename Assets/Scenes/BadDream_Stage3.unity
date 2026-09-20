@@ -2408,6 +2408,7 @@ MonoBehaviour:
   warnBlink: 0.18
   warnDuration: 1
   exposedTime: 3
+  hitsToKill: 2
   waitForWaveToFinish: 1
   chaseDelay: 0.55
   sweepDelay: 0.3
@@ -3675,7 +3676,7 @@ MonoBehaviour:
   dashGravityScale: 0.15
   dashStaminaMax: 3
   dashStaminaRegenTime: 2.8
-  allowAirDash: 0
+  allowAirDash: 1
   flashlight: {fileID: 1842253845}
   lightRange: 11.1
   lightMaxSeconds: 10
@@ -3688,7 +3689,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 372116472560046534, guid: 5baa211d11cbf7b45ac66619e4fda022, type: 3}
   bulletSpeed: 20
   bulletMaxDistance: 16
-  fireCooldown: 1
+  fireCooldown: 0.8333333
   maxHealth: 10
   invincibilityDuration: 1.5
   invincibilityBlinkInterval: 0.1
