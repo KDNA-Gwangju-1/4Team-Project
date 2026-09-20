@@ -48,6 +48,25 @@ public class BossAttack2D : MonoBehaviour
     public float ringBulletSpeed = 4f;
     [Tooltip("The wide pattern is a fan too, not a ring - she throws them, so nothing should fly out behind her.")]
     public float ringSpreadAngle = 120f;
+    [Header("Phase 2 tired window")]
+    // She is untouchable while throwing. The opening is the breather afterwards:
+    // she drops to a shadow he has to light up before he can hit anything.
+    // Without this the phase is over in twenty seconds.
+    [Tooltip("How many fans she throws before she needs a rest.")]
+    public int attacksBeforeTired = 2;
+    public float tiredDuration = 4f;
+    [Tooltip("Carves the real picture out of the shadow wherever the beam lands, instead of flipping the whole sprite at once.")]
+    public bool tiredUsesSilhouette = true;
+    [Tooltip("What she looks like while resting and unlit.")]
+    public Color tiredSilhouette = Color.black;
+    [Tooltip("What the beam reveals - this is the window where shots land.")]
+    public Color tiredRevealed = new Color(1f, 0.92f, 0.65f);
+    [Tooltip("Her normal phase 2 colour while attacking.")]
+    public Color phase2ActiveTint = Color.white;
+    [Tooltip("How far she leans toward the player while resting. 0 = stay put.")]
+    public float tiredApproach = 0f;
+    public float tiredApproachTime = 0.6f;
+
     [Tooltip("Fan centre when she is not aiming: straight out from her, toward the platforms.")]
     public float fanBaseAngle = 180f;
     [Tooltip("How much the fan leans toward the player. 0 = always straight out, 1 = fully aimed.")]
@@ -82,6 +101,14 @@ public class BossAttack2D : MonoBehaviour
         }
         if (clawHitbox != null) clawHitbox.SetHitboxActive(false);
         if (sr != null) sr.color = BaseColor;
+
+        if (phase == 2 && bossRef != null)
+        {
+            bossRef.Invulnerable = true;
+            bossRef.requireLightToDamage = false;
+            bossRef.baseTint = phase2ActiveTint;
+            if (sr != null) sr.color = phase2ActiveTint;
+        }
 
         if (phase > 0) loopRoutine = StartCoroutine(AttackLoop());
     }
@@ -130,6 +157,11 @@ public class BossAttack2D : MonoBehaviour
                 else yield return RingBurstRoutine();
 
                 yield return ClawFollowThrough();
+
+                if (attacksBeforeTired > 0 && phase2PatternIndex % attacksBeforeTired == 0)
+                {
+                    yield return TiredRoutine();
+                }
             }
         }
     }
@@ -254,6 +286,57 @@ public class BossAttack2D : MonoBehaviour
             SpawnBullet(baseAngle + t * ringSpreadAngle * 0.5f, ringBulletSpeed);
         }
         yield return null;
+    }
+
+    // The breather. She can only be hurt here, and only where the beam falls.
+    private IEnumerator TiredRoutine()
+    {
+        if (bossRef == null) yield break;
+
+        Vector3 home = transform.position;
+        if (tiredApproach != 0f) yield return SlideBoss(home, home + Vector3.left * tiredApproach, tiredApproachTime);
+
+        LightSilhouette2D shadow = GetComponent<LightSilhouette2D>();
+        if (tiredUsesSilhouette && shadow != null)
+        {
+            // the mask does the reveal, so the body keeps its own colours
+            shadow.silhouetteColor = tiredSilhouette;
+            shadow.Active = true;
+            bossRef.baseTint = phase2ActiveTint;
+            bossRef.weakPointColor = phase2ActiveTint;
+            if (sr != null) sr.color = phase2ActiveTint;
+        }
+        else
+        {
+            bossRef.baseTint = tiredSilhouette;
+            bossRef.weakPointColor = tiredRevealed;
+            if (sr != null) sr.color = tiredSilhouette;
+        }
+
+        bossRef.requireLightToDamage = true;
+        bossRef.Invulnerable = false;
+
+        yield return new WaitForSeconds(tiredDuration);
+
+        if (shadow != null) shadow.Active = false;
+        bossRef.requireLightToDamage = false;
+        bossRef.Invulnerable = true;
+        bossRef.baseTint = phase2ActiveTint;
+        if (sr != null) sr.color = phase2ActiveTint;
+
+        if (tiredApproach != 0f) yield return SlideBoss(transform.position, home, tiredApproachTime);
+    }
+
+    private IEnumerator SlideBoss(Vector3 from, Vector3 to, float duration)
+    {
+        float t = 0f;
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            transform.position = Vector3.Lerp(from, to, Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(t / duration)));
+            yield return null;
+        }
+        transform.position = to;
     }
 
     // Leans toward the player without ever swinging behind her.
