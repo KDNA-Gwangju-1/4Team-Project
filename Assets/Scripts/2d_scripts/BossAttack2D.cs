@@ -94,8 +94,10 @@ public class BossAttack2D : MonoBehaviour
     // She is untouchable while throwing. The opening is the breather afterwards:
     // she drops to a shadow he has to light up before he can hit anything.
     // Without this the phase is over in twenty seconds.
-    [Tooltip("How many fans she throws before she needs a rest.")]
-    public int attacksBeforeTired = 2;
+    [Tooltip("Rest on a clock, not a count. She stays airborne throwing patterns and comes down on this interval.")]
+    public float tiredIntervalSeconds = 15f;
+    [Tooltip("Legacy count-based trigger. 0 = off, use the interval instead.")]
+    public int attacksBeforeTired = 0;
     public float tiredDuration = 4f;
     [Tooltip("Carves the real picture out of the shadow wherever the beam lands, instead of flipping the whole sprite at once.")]
     public bool tiredUsesSilhouette = true;
@@ -126,6 +128,7 @@ public class BossAttack2D : MonoBehaviour
     private Coroutine loopRoutine;
     private int phase;
     private int phase2PatternIndex;
+    private float lastTiredTime;
     private int waveCounter;
 
     public int Phase => phase;
@@ -153,8 +156,9 @@ public class BossAttack2D : MonoBehaviour
         {
             FitHitBoxToArt();
 
+            lastTiredTime = Time.time;
             BossFlight2D flight = GetComponent<BossFlight2D>();
-            if (flight != null) flight.EnterGround();
+            if (flight != null) flight.EnterAir();
             bossRef.Invulnerable = true;
             bossRef.requireLightToDamage = false;
             bossRef.baseTint = phase2ActiveTint;
@@ -204,19 +208,14 @@ public class BossAttack2D : MonoBehaviour
                 phase2PatternIndex++;
                 yield return ClawWindUp();
 
-                bool barrageTurn = airBarrageEvery > 0 && phase2PatternIndex % airBarrageEvery == 0;
-
-                if (barrageTurn)
+                // she stays up there; the only ground time is the rest
+                if (phase2Fans != null && phase2Fans.Length > 0)
                 {
-                    yield return AirBarrageRoutine();
-                }
-                else if (dashSwipeEvery > 0 && phase2PatternIndex % dashSwipeEvery == 0)
-                {
-                    yield return DashSwipeRoutine(player);
+                    yield return FanRoutine(phase2Fans[(phase2PatternIndex - 1) % phase2Fans.Length]);
                 }
                 else
                 {
-                    yield return GroundSwipeRoutine(player);
+                    yield return AimedSpreadRoutine(player);
                 }
 
                 if (phase2UsesTentacles && strikeField != null && strikeField.HasPoints
@@ -230,9 +229,12 @@ public class BossAttack2D : MonoBehaviour
 
                 yield return ClawFollowThrough();
 
-                if (attacksBeforeTired > 0 && phase2PatternIndex % attacksBeforeTired == 0)
+                bool byCount = attacksBeforeTired > 0 && phase2PatternIndex % attacksBeforeTired == 0;
+                bool byClock = tiredIntervalSeconds > 0f && Time.time - lastTiredTime >= tiredIntervalSeconds;
+                if (byCount || byClock)
                 {
                     yield return TiredRoutine();
+                    lastTiredTime = Time.time;
                 }
             }
         }
@@ -439,7 +441,7 @@ public class BossAttack2D : MonoBehaviour
         {
             yield return SlideBoss(transform.position, home, tiredLandTime);
         }
-        if (flight != null) flight.EnterGround();
+        if (flight != null) flight.EnterAir();
     }
 
     private IEnumerator SlideBoss(Vector3 from, Vector3 to, float duration)

@@ -781,7 +781,7 @@ Transform:
   m_GameObject: {fileID: 465286316}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 33.3, y: 5.033462, z: 0}
+  m_LocalPosition: {x: 33.3, y: 5.4366083, z: 0}
   m_LocalScale: {x: 1.2363707, y: 1.4479638, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2169,9 +2169,9 @@ MonoBehaviour:
     tentacleCount: 3
     waveInterval: 1
     warnDuration: 0.8
-  phase2Interval: 2.4
+  phase2Interval: 1.6
   phase2FiresOnClaw: 1
-  phase2ClawImpactFrame: 5
+  phase2ClawImpactFrame: 1
   phase2ClawFrameStep: 0.07
   phase2Telegraph: 0.6
   aimedSpreadCount: 4
@@ -2224,12 +2224,12 @@ MonoBehaviour:
     waveInterval: 0
     waveAngleStep: 0
     waveSpeedStep: 0
-  airBarrageEvery: 4
+  airBarrageEvery: 0
   airRiseTime: 0.8
   airBarrageHeight: 6
   airReturnTime: 0.7
   phase2ClawRange: 4.5
-  dashSwipeEvery: 3
+  dashSwipeEvery: 0
   dashBlinkCount: 3
   dashBlinkTime: 0.12
   dashBlinkColor: {r: 1, g: 0.35, b: 0.35, a: 1}
@@ -2244,8 +2244,9 @@ MonoBehaviour:
   fitColliderToPhase2Art: 1
   phase2HitCentre01: {x: 0.5, y: 0.43}
   phase2HitRadius01: 0.28
-  attacksBeforeTired: 4
-  tiredDuration: 4
+  tiredIntervalSeconds: 15
+  attacksBeforeTired: 0
+  tiredDuration: 4.5
   tiredUsesSilhouette: 1
   tiredSilhouette: {r: 0, g: 0, b: 0, a: 1}
   tiredRevealed: {r: 1, g: 0.92, b: 0.65, a: 1}
@@ -2369,7 +2370,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5c3b3710d397294b88e9bccdceef52c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFlight2D
-  mode: 0
+  mode: 1
   groundY: -2.63
   groundMoveDuration: 2
   groundHoverTime: 0.4
