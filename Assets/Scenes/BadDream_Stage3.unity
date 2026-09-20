@@ -385,7 +385,7 @@ Transform:
   m_GameObject: {fileID: 320876496}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 31, y: 7.4, z: 0}
+  m_LocalPosition: {x: 28.5, y: 7.2, z: 0}
   m_LocalScale: {x: 0.5084746, y: 0.27149323, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -768,7 +768,7 @@ Transform:
   m_GameObject: {fileID: 465286316}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 33.3, y: 3.586594, z: 0}
+  m_LocalPosition: {x: 33.3, y: 3.5867288, z: 0}
   m_LocalScale: {x: 1.2363707, y: 1.4479638, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1508,9 +1508,12 @@ MonoBehaviour:
   ascentSpin: 0
   ascentBlackoutIn: 0.7
   arenaRevealHold: 1.3
-  bossBurstWidth: 11
-  bossBurstOffset: {x: 9, y: 3.5}
+  bossBurstWidth: 13.5
+  bossBurstOffset: {x: 13, y: -0.99999976}
   bossBurstDuration: 0.22
+  lockCameraForPhase2: 1
+  phase2CameraCentre: {x: 37, y: 3}
+  phase2CameraOrtho: 7.4
   bossBurstShake: 0.5
   bossBurstHold: 0.8
   creepOrthoSize: 4.2
@@ -2600,7 +2603,7 @@ Transform:
   m_GameObject: {fileID: 1258285219}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 34, y: 3.2, z: 0}
+  m_LocalPosition: {x: 31.5, y: 3, z: 0}
   m_LocalScale: {x: 0.63559324, y: 0.31674206, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2832,7 +2835,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1335518756
 Transform:
   m_ObjectHideFlags: 0
@@ -2882,7 +2885,7 @@ Transform:
   m_GameObject: {fileID: 1406964588}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 34, y: 3.2, z: 0}
+  m_LocalPosition: {x: 31.5, y: 3, z: 0}
   m_LocalScale: {x: 0.5084746, y: 0.27149323, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4830,7 +4833,7 @@ Transform:
   m_GameObject: {fileID: 2047064223}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 31, y: -1, z: 0}
+  m_LocalPosition: {x: 28.5, y: -1.2, z: 0}
   m_LocalScale: {x: 0.5084746, y: 0.27149323, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

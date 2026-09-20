@@ -153,6 +153,10 @@ public class Stage3Phase2Cutscene : MonoBehaviour
     [Tooltip("Where she bursts in, measured from the player's landing spot.")]
     public Vector2 bossBurstOffset = new Vector2(9f, 3.5f);
     public float bossBurstDuration = 0.22f;
+    [Tooltip("Zakum framing: the camera stops following and holds the whole arena, platforms left, boss right.")]
+    public bool lockCameraForPhase2 = true;
+    public Vector2 phase2CameraCentre = new Vector2(37f, 3f);
+    public float phase2CameraOrtho = 7.4f;
     public float bossBurstShake = 0.5f;
     public float bossBurstHold = 0.8f;
 
@@ -255,9 +259,10 @@ public class Stage3Phase2Cutscene : MonoBehaviour
 
         RestoreStage();
 
-        // control and the camera go back to BossPhaseController2D, which
-        // drops the floor out from under him next
-        if (camFollow != null) camFollow.enabled = true;
+        // The arena fits on one screen, so the camera stays put for the whole
+        // fight - chasing him up and down the stack would swing the boss in and
+        // out of frame.
+        if (camFollow != null) camFollow.enabled = !lockCameraForPhase2;
         player.enabled = true;
     }
 
@@ -813,8 +818,16 @@ public class Stage3Phase2Cutscene : MonoBehaviour
         // she is simply not there when the lights come up
         if (bossRenderer != null) bossRenderer.enabled = false;
 
-        cam.transform.position = new Vector3(landing.x, landing.y + 1.5f, shotOffset.z);
-        cam.orthographicSize = gameplayOrthoSize;
+        if (lockCameraForPhase2)
+        {
+            cam.transform.position = new Vector3(phase2CameraCentre.x, phase2CameraCentre.y, shotOffset.z);
+            cam.orthographicSize = phase2CameraOrtho;
+        }
+        else
+        {
+            cam.transform.position = new Vector3(landing.x, landing.y + 1.5f, shotOffset.z);
+            cam.orthographicSize = gameplayOrthoSize;
+        }
 
         yield return FadeBlackout(1f, 0f, blackoutOutDuration);
         yield return new WaitForSeconds(arenaRevealHold);
