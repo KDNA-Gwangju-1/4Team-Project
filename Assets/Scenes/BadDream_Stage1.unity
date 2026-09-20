@@ -165,8 +165,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61090678bcc588147a29266fa9ffaf12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FloatBob2D
-  amplitude: 0.22
-  period: 3.75
+  amplitude: 0.283
+  period: 3.4803846
   phase: 0.9200001
 --- !u!114 &32545169
 MonoBehaviour:
@@ -287,8 +287,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61090678bcc588147a29266fa9ffaf12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FloatBob2D
-  amplitude: 0.34777778
-  period: 3.2
+  amplitude: 0.3793889
+  period: 4.3330555
   phase: 0
 --- !u!114 &46044483
 MonoBehaviour:
@@ -591,8 +591,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61090678bcc588147a29266fa9ffaf12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FloatBob2D
-  amplitude: 0.30944443
-  period: 3.2
+  amplitude: 0.311
+  period: 4.9280767
   phase: 0.5500001
 --- !u!114 &90765228
 MonoBehaviour:
@@ -694,13 +694,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 221162767}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0.08603005, w: 0.99629253}
   m_LocalPosition: {x: 8, y: -10, z: 0}
   m_LocalScale: {x: 3.2, y: 3.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1506519788}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -9.871}
 --- !u!114 &221162769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -713,8 +713,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61090678bcc588147a29266fa9ffaf12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FloatBob2D
-  amplitude: 0.2711111
-  period: 3.75
+  amplitude: 0.24
+  period: 4.2999997
   phase: 0.07000005
 --- !u!114 &221162770
 MonoBehaviour:
@@ -1082,8 +1082,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61090678bcc588147a29266fa9ffaf12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FloatBob2D
-  amplitude: 0.24555552
-  period: 3.75
+  amplitude: 0.2918889
+  period: 3.9590173
   phase: 0.37
 --- !u!114 &445958190
 MonoBehaviour:
@@ -1354,8 +1354,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61090678bcc588147a29266fa9ffaf12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FloatBob2D
-  amplitude: 0.4372222
-  period: 5.4
+  amplitude: 0.421
+  period: 5.501154
   phase: 0.18000007
 --- !u!114 &576440047
 MonoBehaviour:
@@ -2029,8 +2029,8 @@ Transform:
   m_GameObject: {fileID: 859167822}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: -0.05233596, w: 0.9986295}
-  m_LocalPosition: {x: -38, y: -5, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_LocalPosition: {x: -34.72, y: -1.24, z: 0}
+  m_LocalScale: {x: 0.658, y: 0.77415, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -2081,8 +2081,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61090678bcc588147a29266fa9ffaf12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FloatBob2D
-  amplitude: 0.3733333
-  period: 4.3
+  amplitude: 0.39133334
+  period: 4.838718
   phase: 0.29000008
 --- !u!114 &879467296
 MonoBehaviour:
@@ -2344,8 +2344,8 @@ Transform:
   m_GameObject: {fileID: 900000006}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -19.45, z: 0}
-  m_LocalScale: {x: 3.9963167, y: 3.9963167, z: 1}
+  m_LocalPosition: {x: 0.04, y: -19.66, z: 0}
+  m_LocalScale: {x: 2.4783409, y: 2.1512673, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -2701,13 +2701,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 976049000}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: 0.092537165, w: 0.9957093}
   m_LocalPosition: {x: -10, y: -8, z: 0}
   m_LocalScale: {x: 2.7, y: 2.7, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1506519788}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 10.619}
 --- !u!114 &976049002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2720,8 +2720,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61090678bcc588147a29266fa9ffaf12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FloatBob2D
-  amplitude: 0.33499998
-  period: 4.85
+  amplitude: 0.3142239
+  period: 3.7565958
   phase: 0.96000004
 --- !u!114 &976049003
 MonoBehaviour:
@@ -2842,8 +2842,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61090678bcc588147a29266fa9ffaf12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FloatBob2D
-  amplitude: 0.22
-  period: 5.4
+  amplitude: 0.274
+  period: 3.4007692
   phase: 0.48000002
 --- !u!114 &982795480
 MonoBehaviour:
@@ -3127,13 +3127,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 996287572}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0.1042716, w: 0.9945489}
   m_LocalPosition: {x: -4, y: -14, z: 0}
   m_LocalScale: {x: 3.5, y: 3.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1506519788}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -11.97}
 --- !u!114 &996287574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3146,8 +3146,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61090678bcc588147a29266fa9ffaf12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FloatBob2D
-  amplitude: 0.23277777
-  period: 5.4
+  amplitude: 0.24
+  period: 3.5
   phase: 0.33000004
 --- !u!114 &996287575
 MonoBehaviour:
@@ -3431,13 +3431,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1083711539}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: 0.063983865, w: 0.997951}
   m_LocalPosition: {x: -21, y: -11, z: 0}
   m_LocalScale: {x: 3.1, y: 3.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1506519788}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 7.337}
 --- !u!114 &1083711541
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3450,8 +3450,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61090678bcc588147a29266fa9ffaf12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FloatBob2D
-  amplitude: 0.28388888
-  period: 3.75
+  amplitude: 0.24560525
+  period: 3.9495847
   phase: 0.22000003
 --- !u!114 &1083711542
 MonoBehaviour:
@@ -3572,8 +3572,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61090678bcc588147a29266fa9ffaf12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FloatBob2D
-  amplitude: 0.45
-  period: 4.3
+  amplitude: 0.432
+  period: 5.9984612
   phase: 0.59000003
 --- !u!114 &1108596730
 MonoBehaviour:
@@ -3967,8 +3967,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61090678bcc588147a29266fa9ffaf12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FloatBob2D
-  amplitude: 0.24555552
-  period: 4.85
+  amplitude: 0.32399997
+  period: 4.243077
   phase: 0.81000006
 --- !u!114 &1241514700
 MonoBehaviour:
@@ -4271,8 +4271,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61090678bcc588147a29266fa9ffaf12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FloatBob2D
-  amplitude: 0.36055553
-  period: 4.3
+  amplitude: 0.38277778
+  period: 4.3630342
   phase: 0.44000006
 --- !u!114 &1337577201
 MonoBehaviour:
@@ -4432,8 +4432,8 @@ Transform:
   m_GameObject: {fileID: 1352721565}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: -0.06975647, w: 0.9975641}
-  m_LocalPosition: {x: 25, y: -3, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_LocalPosition: {x: 20.68, y: -2.77, z: 0}
+  m_LocalScale: {x: 0.85877246, y: 0.8475574, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -5202,8 +5202,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61090678bcc588147a29266fa9ffaf12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FloatBob2D
-  amplitude: 0.30944443
-  period: 4.85
+  amplitude: 0.2940833
+  period: 4.778429
   phase: 0.110000014
 --- !u!114 &1717862434
 MonoBehaviour:
@@ -5324,8 +5324,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61090678bcc588147a29266fa9ffaf12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FloatBob2D
-  amplitude: 0.4372222
-  period: 4.3
+  amplitude: 0.41625
+  period: 5.4591346
   phase: 0.74
 --- !u!114 &1744612699
 MonoBehaviour:
@@ -5537,8 +5537,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61090678bcc588147a29266fa9ffaf12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FloatBob2D
-  amplitude: 0.39888886
-  period: 3.2
+  amplitude: 0.43199998
+  period: 5.1984615
   phase: 0.85
 --- !u!114 &1794309363
 MonoBehaviour:
@@ -6023,8 +6023,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61090678bcc588147a29266fa9ffaf12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FloatBob2D
-  amplitude: 0.41166666
-  period: 3.2
+  amplitude: 0.39374998
+  period: 5.2600965
   phase: 0.70000005
 --- !u!114 &1908303587
 MonoBehaviour:
@@ -6145,8 +6145,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61090678bcc588147a29266fa9ffaf12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FloatBob2D
-  amplitude: 0.29666665
-  period: 4.85
+  amplitude: 0.2925
+  period: 4.364423
   phase: 0.6600001
 --- !u!114 &1970949584
 MonoBehaviour:
