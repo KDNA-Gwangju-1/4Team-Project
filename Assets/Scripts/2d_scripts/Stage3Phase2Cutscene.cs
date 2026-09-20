@@ -618,10 +618,6 @@ public class Stage3Phase2Cutscene : MonoBehaviour
     {
         yield return DarkenBoss(bossShadowTint, shadowSweepDuration);
         if (bossShadowSprite != null && bossRenderer != null) bossRenderer.sprite = bossShadowSprite;
-
-        // every line from here on wears the shadowed portrait
-        if (bossShadowDialogueFrame != null) bossDialogueFrame = bossShadowDialogueFrame;
-
         yield return new WaitForSeconds(shadowHoldTime);
     }
 
@@ -702,6 +698,9 @@ public class Stage3Phase2Cutscene : MonoBehaviour
             }
         }
         if (bossRenderer != null) bossRenderer.color = phase2Tint;
+
+        // what she is now speaks with a different face
+        if (bossShadowDialogueFrame != null) bossDialogueFrame = bossShadowDialogueFrame;
 
         yield return PanTo(bossShot, creepOrthoSize, 0.3f);
         yield return new WaitForSeconds(transformHoldTime);
