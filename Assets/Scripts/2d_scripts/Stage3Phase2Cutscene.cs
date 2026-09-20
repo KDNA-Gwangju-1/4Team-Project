@@ -58,6 +58,8 @@ public class Stage3Phase2Cutscene : MonoBehaviour
     public Sprite playerStageSprite;
     [Tooltip("Arm-out pose, used only while he lights and shoots the tentacle.")]
     public Sprite playerAimSprite;
+    [Tooltip("Airborne pose for the rise out of the arena - standing still while floating upward reads as a bug.")]
+    public Sprite playerAscendSprite;
     [Tooltip("The flashlight he carries. Hidden for the idle pose, shown for the shot.")]
     public GameObject heldFlashlight;
 
@@ -773,6 +775,9 @@ public class Stage3Phase2Cutscene : MonoBehaviour
     // in is the floating map with nobody else on it.
     private IEnumerator AscendToPhase2()
     {
+        // he is being lifted, not standing
+        if (playerAscendSprite != null && stageRenderer != null) stageRenderer.sprite = playerAscendSprite;
+
         Vector3 playerFrom = player.transform.position;
         Vector3 bossFrom = boss.position;
         Vector3 camFrom = cam.transform.position;

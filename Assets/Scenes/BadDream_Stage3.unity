@@ -768,7 +768,7 @@ Transform:
   m_GameObject: {fileID: 465286316}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 33.3, y: 3.5770407, z: 0}
+  m_LocalPosition: {x: 33.3, y: 4.058991, z: 0}
   m_LocalScale: {x: 1.2363707, y: 1.4479638, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1440,6 +1440,7 @@ MonoBehaviour:
   flashlightCone: {fileID: 1842253844}
   playerStageSprite: {fileID: 21300000, guid: d12c15e04fe7bac4da2591ddaf43e951, type: 3}
   playerAimSprite: {fileID: 21300000, guid: d12c15e04fe7bac4da2591ddaf43e951, type: 3}
+  playerAscendSprite: {fileID: 21300000, guid: 692e171e26ada08408fcb969b7b1cf0f, type: 3}
   heldFlashlight: {fileID: 1550880050}
   blackoutInDuration: 0.35
   blackoutHoldDuration: 0.5
@@ -1508,8 +1509,8 @@ MonoBehaviour:
   ascentSpin: 0
   ascentBlackoutIn: 0.7
   arenaRevealHold: 1.3
-  bossBurstWidth: 14.5
-  bossBurstOffset: {x: 13.799999, y: -1.1999998}
+  bossBurstWidth: 26.4
+  bossBurstOffset: {x: 12.799999, y: -12.7}
   bossBurstDuration: 0.22
   lockCameraForPhase2: 1
   phase2CameraCentre: {x: 37, y: 3}
@@ -1867,6 +1868,9 @@ MonoBehaviour:
     waveInterval: 1
     warnDuration: 0.8
   phase2Interval: 2.4
+  phase2FiresOnClaw: 1
+  phase2ClawImpactFrame: 5
+  phase2ClawFrameStep: 0.07
   phase2Telegraph: 0.6
   aimedSpreadCount: 5
   aimedSpreadAngle: 40
