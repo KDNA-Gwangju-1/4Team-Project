@@ -63,6 +63,8 @@ public class Stage3EndingCutscene : MonoBehaviour
     public float stopGap = 2.2f;
     public float walkSpeed = 2.4f;
     public float walkFrameDuration = 0.13f;
+    [Tooltip("Pose he settles into once he stops. Left empty, his first idle frame is used - a walk frame leaves him mid-stride.")]
+    public Sprite arrivedSprite;
 
     [Header("Fade to white")]
     [Tooltip("The screen whites out while he is still walking, not after he stops.")]
@@ -290,7 +292,13 @@ public class Stage3EndingCutscene : MonoBehaviour
             yield return null;
         }
 
-        if (walk != null && sr != null) sr.sprite = walk[0];
+        // walk[0] is still a stride, so he would stand there with one foot out
+        Sprite settled = arrivedSprite;
+        if (settled == null && anim != null && anim.idleFrames != null && anim.idleFrames.Length > 0)
+        {
+            settled = anim.idleFrames[0];
+        }
+        if (settled != null && sr != null) sr.sprite = settled;
     }
 
     // ---------- helpers ----------
