@@ -46,6 +46,11 @@ public class BossAttack2D : MonoBehaviour
     public float aimedBulletSpeed = 5.5f;
     public int ringCount = 8;
     public float ringBulletSpeed = 4f;
+    // Phase 2 cycles these in order, one per claw swing. Few, well-spaced streams
+    // beat a dense wall: at the range she rests from, bullets under ~1.6 apart
+    // leave no gap the player can physically fit through.
+    public BulletFan2D[] phase2Fans;
+
     [Tooltip("The wide pattern is a fan too, not a ring - she throws them, so nothing should fly out behind her.")]
     public float ringSpreadAngle = 120f;
     [Header("Phase 2 hit box")]
@@ -165,7 +170,11 @@ public class BossAttack2D : MonoBehaviour
                 phase2PatternIndex++;
                 yield return ClawWindUp();
 
-                if (phase2PatternIndex % 2 == 1) yield return AimedSpreadRoutine(player);
+                if (phase2Fans != null && phase2Fans.Length > 0)
+                {
+                    yield return FanRoutine(phase2Fans[(phase2PatternIndex - 1) % phase2Fans.Length]);
+                }
+                else if (phase2PatternIndex % 2 == 1) yield return AimedSpreadRoutine(player);
                 else yield return RingBurstRoutine();
 
                 yield return ClawFollowThrough();
@@ -371,15 +380,35 @@ public class BossAttack2D : MonoBehaviour
         transform.position = to;
     }
 
+    private IEnumerator FanRoutine(BulletFan2D fan)
+    {
+        if (fan == null) yield break;
+        yield return TelegraphRoutine(phase2Telegraph);
+
+        float baseAngle = FanCentreAngle(fan.aimBlend);
+        int n = Mathf.Max(1, fan.count);
+        for (int i = 0; i < n; i++)
+        {
+            float t = (n == 1) ? 0f : (i / (float)(n - 1)) * 2f - 1f;
+            SpawnBullet(baseAngle + t * fan.spreadAngle * 0.5f, fan.speed);
+        }
+        yield return null;
+    }
+
     // Leans toward the player without ever swinging behind her.
     private float FanCentreAngle()
+    {
+        return FanCentreAngle(fanAimBlend);
+    }
+
+    private float FanCentreAngle(float blend)
     {
         var player = PlayerMovement2D.Instance;
         if (player == null) return fanBaseAngle;
 
         Vector2 toPlayer = (Vector2)player.transform.position - (Vector2)firePoint.position;
         float aimed = Mathf.Atan2(toPlayer.y, toPlayer.x) * Mathf.Rad2Deg;
-        return Mathf.LerpAngle(fanBaseAngle, aimed, fanAimBlend);
+        return Mathf.LerpAngle(fanBaseAngle, aimed, blend);
     }
 
     private void SpawnBullet(float angleDegrees, float speed)

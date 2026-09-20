@@ -781,7 +781,7 @@ Transform:
   m_GameObject: {fileID: 465286316}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 33.3, y: 4.7905207, z: 0}
+  m_LocalPosition: {x: 33.3, y: 5.0818377, z: 0}
   m_LocalScale: {x: 1.2363707, y: 1.4479638, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1888,12 +1888,28 @@ MonoBehaviour:
   phase2ClawImpactFrame: 5
   phase2ClawFrameStep: 0.07
   phase2Telegraph: 0.6
-  aimedSpreadCount: 6
-  aimedSpreadAngle: 55
-  aimedBulletSpeed: 5.5
-  ringCount: 9
-  ringBulletSpeed: 4
-  ringSpreadAngle: 120
+  aimedSpreadCount: 4
+  aimedSpreadAngle: 62
+  aimedBulletSpeed: 5
+  ringCount: 6
+  ringBulletSpeed: 3.6
+  phase2Fans:
+  - label: "3\uC904\uAE30"
+    count: 3
+    spreadAngle: 55
+    speed: 5
+    aimBlend: 0.6
+  - label: "5\uC904\uAE30"
+    count: 5
+    spreadAngle: 130
+    speed: 3.8
+    aimBlend: 0.35
+  - label: "1\uC904\uAE30"
+    count: 1
+    spreadAngle: 0
+    speed: 7.5
+    aimBlend: 1
+  ringSpreadAngle: 135
   fitColliderToPhase2Art: 1
   phase2HitCentre01: {x: 0.5, y: 0.43}
   phase2HitRadius01: 0.28
