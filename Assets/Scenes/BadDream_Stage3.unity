@@ -781,7 +781,7 @@ Transform:
   m_GameObject: {fileID: 465286316}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 33.3, y: 4.616792, z: 0}
+  m_LocalPosition: {x: 33.3, y: 4.7905207, z: 0}
   m_LocalScale: {x: 1.2363707, y: 1.4479638, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1523,7 +1523,7 @@ MonoBehaviour:
   ascentBlackoutIn: 0.7
   arenaRevealHold: 1.3
   bossBurstWidth: 30
-  bossBurstOffset: {x: 14.299999, y: -15.376848}
+  bossBurstOffset: {x: 17, y: -15.376848}
   bossBurstDuration: 0.22
   lockCameraForPhase2: 1
   phase2CameraCentre: {x: 37, y: 3}
@@ -1740,6 +1740,7 @@ MonoBehaviour:
   baseTint: {r: 0.42, g: 0.42, b: 0.52, a: 1}
   requireLightToDamage: 0
   weakPointColor: {r: 1, g: 0.92, b: 0.65, a: 1}
+  beamPassesThroughGround: 1
 --- !u!114 &900000035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1903,8 +1904,8 @@ MonoBehaviour:
   tiredRevealed: {r: 1, g: 0.92, b: 0.65, a: 1}
   phase2ActiveTint: {r: 1, g: 1, b: 1, a: 1}
   tiredHint: "\uBCF4\uC2A4\uAC00 \uC9C0\uCCE4\uB2E4!  \uBE44\uCD94\uACE0 \uACF5\uACA9\uD558\uC790"
-  tiredApproach: 0
-  tiredApproachTime: 0.6
+  tiredApproach: 4
+  tiredApproachTime: 0.7
   fanBaseAngle: 180
   fanAimBlend: 0.6
   telegraphColor: {r: 1, g: 0.55, b: 0.55, a: 1}
@@ -2606,7 +2607,7 @@ Transform:
   m_GameObject: {fileID: 1258285219}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 30.2, y: 3.5768476, z: 0}
+  m_LocalPosition: {x: 27.5, y: 3.5768476, z: 0}
   m_LocalScale: {x: 0.63559324, y: 0.31674206, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2782,7 +2783,7 @@ Transform:
   m_GameObject: {fileID: 1406964588}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 30.2, y: 3, z: 0}
+  m_LocalPosition: {x: 27.5, y: 3, z: 0}
   m_LocalScale: {x: 0.84745765, y: 0.84745765, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

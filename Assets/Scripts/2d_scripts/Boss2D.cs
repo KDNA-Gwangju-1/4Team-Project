@@ -15,6 +15,8 @@ public class Boss2D : MonoBehaviour
     public Color baseTint = Color.white;
     public bool requireLightToDamage = false;
     public Color weakPointColor = new Color(1f, 0.92f, 0.65f);
+    [Tooltip("Let the flashlight reach her through platforms - otherwise the nearest ledge eats the ray.")]
+    public bool beamPassesThroughGround = true;
 
     public event Action<int, int> OnDamaged;
     public event Action OnDied;
@@ -50,7 +52,13 @@ public class Boss2D : MonoBehaviour
         currentHealth = maxHealth;
 
         int bulletLayer = LayerMask.NameToLayer("Bullet");
+        // Platforms must not block the beam. In phase 2 she sits behind a stack of
+        // them, and a ray that stops on the nearest ledge means she can never be lit.
         raycastMask = ~(1 << bulletLayer);
+        if (beamPassesThroughGround)
+        {
+            raycastMask &= ~(1 << LayerMask.NameToLayer("Ground"));
+        }
     }
 
     void Update()
