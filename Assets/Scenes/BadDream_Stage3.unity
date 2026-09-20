@@ -781,7 +781,7 @@ Transform:
   m_GameObject: {fileID: 465286316}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 33.3, y: 5.7680926, z: 0}
+  m_LocalPosition: {x: 33.3, y: 6.033389, z: 0}
   m_LocalScale: {x: 1.2363707, y: 1.4479638, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5082,6 +5082,115 @@ Transform:
   - {fileID: 1075919181}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1928006269
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1928006271}
+  - component: {fileID: 1928006270}
+  m_Layer: 0
+  m_Name: Stage3Ending
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1928006270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928006269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b40ba5a63bffa6448b90b62e3611dd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Stage3EndingCutscene
+  player: {fileID: 1550880036}
+  cam: {fileID: 688051110}
+  boss: {fileID: 900000034}
+  bossRenderer: {fileID: 900000032}
+  captionFont: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+  blackoutInDuration: 0.4
+  blackoutBlinks: 2
+  blackoutBlinkTime: 0.1
+  blackoutHold: 0.5
+  blackoutOutDuration: 0.8
+  dissolveFrames:
+  - {fileID: 21300000, guid: b326794d83915a54ea9fcc1943165bcf, type: 3}
+  - {fileID: 21300000, guid: e604a2ec446c5a24b8e96b37a0db8118, type: 3}
+  - {fileID: 21300000, guid: 49d8acdac6374b44d8cc510e52aa8b8e, type: 3}
+  - {fileID: 21300000, guid: d0feaee035a66f841b7c1680c94cdc07, type: 3}
+  - {fileID: 21300000, guid: 76b317aac027c7549ac675707e1fbdbb, type: 3}
+  - {fileID: 21300000, guid: 3c22c6b7172bc814482c69f8cb5fccfd, type: 3}
+  - {fileID: 21300000, guid: 7d17ba634656ca340a89690c6f026eed, type: 3}
+  - {fileID: 21300000, guid: ad0a0f915e79ff44c9106816e65bc03a, type: 3}
+  dissolveFrameDuration: 0.16
+  sisterWidth: 2.4
+  sisterGroundY: -2.63
+  holdAfterDissolve: 0.9
+  shotOrthoSize: 5
+  panDuration: 1
+  shotOffset: {x: 0, y: 0.6, z: -10}
+  playerDialogueFrame: {fileID: 21300000, guid: 87a8a037d993e734793549bdadb8ace1, type: 3}
+  sisterDialogueFrame: {fileID: 0}
+  lines:
+  - isBoss: 1
+    text: "\uD751\uD751..."
+    beatAfter: 0
+  - isBoss: 1
+    text: "\uBD80\uBAA8\uB2D8\uC774 \uBCF4\uACE0\uC2F6\uC5B4..."
+    beatAfter: 0
+  - isBoss: 1
+    text: "\uC5B8\uB2C8\uB3C4 \uBCF4\uACE0\uC2F6\uC5B4..."
+    beatAfter: 0
+  - isBoss: 0
+    text: "\uC9D1\uC5D0 \uB370\uB824\uB2E4 \uC904\uAC8C"
+    beatAfter: 0
+  - isBoss: 1
+    text: "...\uC815\uB9D0\uB85C? \uB098 \uB3CC\uC544\uAC08 \uC218 \uC788\uB294\uAC70\uC57C?"
+    beatAfter: 0
+  - isBoss: 0
+    text: "\uBB3C\uB860\uC774\uC9C0 \uB3CC\uC544\uAC00\uC790"
+    beatAfter: 0
+  dialogueTextArea:
+    serializedVersion: 2
+    x: 0.4
+    y: 0.1
+    width: 0.54
+    height: 0.19
+  dialogueFontSize: 34
+  dialogueFrameWidth01: 0.88
+  dialogueFrameBottomMargin: 24
+  dialogueFrameXOffset: -120
+  lineMinDuration: 0.5
+  lineAutoAdvance: 6
+  lineGap: 0.3
+  stopGap: 2.2
+  walkSpeed: 2.4
+  walkFrameDuration: 0.13
+  whiteFadeDuration: 2.6
+  whiteHold: 1.5
+--- !u!4 &1928006271
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928006269}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2047064223
 GameObject:
   m_ObjectHideFlags: 0
@@ -5515,3 +5624,4 @@ SceneRoots:
   - {fileID: 709877606}
   - {fileID: 1721486575}
   - {fileID: 749689156}
+  - {fileID: 1928006271}
