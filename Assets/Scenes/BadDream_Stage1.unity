@@ -2767,16 +2767,16 @@ MonoBehaviour:
   promptText: "Z\uD0A4\uB97C \uB20C\uB7EC \uD3BC\uCE58\uAE30"
   sheet: {fileID: 21300000, guid: d33dfdb9935e060448e0ddac73fdc20c, type: 3}
   font: {fileID: 0}
-  fontSize: 27
+  fontSize: 22
   inkColor: {r: 0.13, g: 0.1, b: 0.09, a: 1}
   sheetHeight01: 0.92
   paperRect01:
     serializedVersion: 2
-    x: 0.26
-    y: 0.12
-    width: 0.48
-    height: 0.75
-  writingInset01: 0.11
+    x: 0.14
+    y: 0.081
+    width: 0.741
+    height: 0.818
+  writingInset01: 0.06
   openFadeDuration: 0.18
   noteBody: "\uB3C4\uC6C0\uB9D0\n\n\uB9C8\uC6B0\uC2A4 \uC624\uB978\uCABD \uBC84\uD2BC 
     -  \uBE5B\uC744 \uCF2D\uB2C8\uB2E4\n\uB9C8\uC6B0\uC2A4 \uC67C\uCABD \uBC84\uD2BC 
