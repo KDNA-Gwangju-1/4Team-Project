@@ -48,6 +48,16 @@ public class BossAttack2D : MonoBehaviour
     public float ringBulletSpeed = 4f;
     [Tooltip("The wide pattern is a fan too, not a ring - she throws them, so nothing should fly out behind her.")]
     public float ringSpreadAngle = 120f;
+    [Header("Phase 2 hit box")]
+    // Her collider was authored for the small phase 1 sprite. Blowing her up to
+    // fill the screen drags that collider far below the arena, so the beam can
+    // never touch it. Refit it to the drawn body when phase 2 starts.
+    public bool fitColliderToPhase2Art = true;
+    [Tooltip("Centre of the drawn body inside the frame. Measured: 50% across, 43% up.")]
+    public Vector2 phase2HitCentre01 = new Vector2(0.5f, 0.43f);
+    [Tooltip("Hit radius as a fraction of the frame width.")]
+    public float phase2HitRadius01 = 0.28f;
+
     [Header("Phase 2 tired window")]
     // She is untouchable while throwing. The opening is the breather afterwards:
     // she drops to a shadow he has to light up before he can hit anything.
@@ -105,6 +115,7 @@ public class BossAttack2D : MonoBehaviour
 
         if (phase == 2 && bossRef != null)
         {
+            FitHitBoxToArt();
             bossRef.Invulnerable = true;
             bossRef.requireLightToDamage = false;
             bossRef.baseTint = phase2ActiveTint;
@@ -287,6 +298,19 @@ public class BossAttack2D : MonoBehaviour
             SpawnBullet(baseAngle + t * ringSpreadAngle * 0.5f, ringBulletSpeed);
         }
         yield return null;
+    }
+
+    private void FitHitBoxToArt()
+    {
+        if (!fitColliderToPhase2Art || sr == null || sr.sprite == null) return;
+
+        CircleCollider2D circle = GetComponent<CircleCollider2D>();
+        if (circle == null) return;
+
+        // local frame, pivot at bottom centre
+        Vector2 frame = sr.sprite.bounds.size;
+        circle.offset = new Vector2((phase2HitCentre01.x - 0.5f) * frame.x, phase2HitCentre01.y * frame.y);
+        circle.radius = phase2HitRadius01 * frame.x;
     }
 
     // The breather. She can only be hurt here, and only where the beam falls.
