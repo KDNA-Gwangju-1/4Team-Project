@@ -28,6 +28,8 @@ public class Stage3EndingCutscene : MonoBehaviour
     public float sisterWidth = 2.4f;
     public string sortingLayer = "Default";
     public int sortingOrder = 1;
+    [Tooltip("Drag an empty here to place her by hand in the Scene view. Left empty, she appears where the boss died.")]
+    public Transform sisterAnchor;
     public float sisterGroundY = -2.63f;
     public float holdAfterDissolve = 0.9f;
 
@@ -68,6 +70,14 @@ public class Stage3EndingCutscene : MonoBehaviour
 
     void Start()
     {
+        // the anchor carries a translucent preview so the shot can be composed in
+        // the editor; it must never show up in the running game
+        if (sisterAnchor != null)
+        {
+            SpriteRenderer marker = sisterAnchor.GetComponent<SpriteRenderer>();
+            if (marker != null) marker.enabled = false;
+        }
+
         if (boss == null) boss = FindObjectOfType<Boss2D>();
         if (boss != null) boss.OnDied += HandleBossDied;
     }
@@ -181,9 +191,11 @@ public class Stage3EndingCutscene : MonoBehaviour
             where = bossRenderer.transform.position;
             bossRenderer.enabled = false;
         }
+        // a hand-placed mark always wins, so the shot can be composed in the editor
+        if (sisterAnchor != null) where = sisterAnchor.position;
 
         GameObject go = new GameObject("Sister");
-        go.transform.position = new Vector3(where.x, sisterGroundY, 0f);
+        go.transform.position = new Vector3(where.x, sisterAnchor != null ? sisterAnchor.position.y : sisterGroundY, 0f);
         sister = go.transform;
 
         SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
