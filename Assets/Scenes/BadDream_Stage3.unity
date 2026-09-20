@@ -2182,7 +2182,7 @@ MonoBehaviour:
   boss: {fileID: 900000034}
   attack: {fileID: 900000037}
   cameraFollow: {fileID: 688051107}
-  phase2AtHealth: 8
+  phase2AtHealth: 11
   phase1Objects: []
   phase2Objects: []
   collapsingFloors:
@@ -2408,7 +2408,7 @@ MonoBehaviour:
   warnBlink: 0.18
   warnDuration: 1
   exposedTime: 3
-  hitsToKill: 2
+  hitsToKill: 1
   waitForWaveToFinish: 1
   chaseDelay: 0.55
   sweepDelay: 0.3

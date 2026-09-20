@@ -47,8 +47,8 @@ public class TentacleStrikeField2D : MonoBehaviour
     public float warnBlink = 0.18f;
     public float warnDuration = 1f;
     public float exposedTime = 3f;
-    [Tooltip("Shots needed to bring one tentacle down. Raising this lengthens phase 1 - the boss only takes damage through them.")]
-    public int hitsToKill = 2;
+    [Tooltip("Shots needed to bring one tentacle down. Phase 1 length is set by BossPhaseController2D.phase2AtHealth, not by this.")]
+    public int hitsToKill = 1;
 
     public bool waitForWaveToFinish = true;
     public float chaseDelay = 0.55f;

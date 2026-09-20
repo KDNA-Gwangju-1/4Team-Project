@@ -13,8 +13,8 @@ public class TentacleStrike2D : MonoBehaviour
 
     public Boss2D boss;
     public int damageToBoss = 1;
-    [Tooltip("Shots needed to bring one down. The hits before the last one only flinch; the last is what writhes and sinks.")]
-    public int hitsToKill = 2;
+    [Tooltip("Shots needed to bring one down. At 1 it goes on the first hit; above that the earlier hits only flinch and the last is what writhes and sinks.")]
+    public int hitsToKill = 1;
     public int damageToPlayer = 1;
 
     // wave tentacles are pure boss attack: they erupt, threaten, and sink again
