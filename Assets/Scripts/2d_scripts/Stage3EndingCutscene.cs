@@ -207,6 +207,11 @@ public class Stage3EndingCutscene : MonoBehaviour
 
     private IEnumerator PlayEnding()
     {
+        // OnDied is raised from inside TakeDamage, which the bullet calls from its
+        // own trigger callback, so everything below would run while the physics
+        // step is still in flight. One frame costs nothing and gets us out.
+        yield return null;
+
         if (player == null) player = PlayerMovement2D.Instance;
         if (cam == null) cam = Camera.main;
         if (player == null || cam == null) yield break;
@@ -366,15 +371,29 @@ public class Stage3EndingCutscene : MonoBehaviour
         }
         foreach (BossBullet2D b in FindObjectsOfType<BossBullet2D>()) Destroy(b.gameObject);
         foreach (Bullet2D b in FindObjectsOfType<Bullet2D>()) Destroy(b.gameObject);
-        GameObject warn = GameObject.Find("TentacleWaveWarning");
-        while (warn != null) { DestroyImmediate(warn); warn = GameObject.Find("TentacleWaveWarning"); }
+
+        DestroyAllNamed("TentacleWaveWarning");
 
         // fight messages ("보스가 지쳤다!") have no business here
         foreach (ScreenHint2D hint in FindObjectsOfType<ScreenHint2D>()) hint.Hide();
-        GameObject stray = GameObject.Find("ScreenHintCanvas");
-        while (stray != null) { DestroyImmediate(stray); stray = GameObject.Find("ScreenHintCanvas"); }
+        DestroyAllNamed("ScreenHintCanvas");
+
         foreach (Monster2D m in FindObjectsOfType<Monster2D>()) m.gameObject.SetActive(false);
         foreach (RangedMonster2D m in FindObjectsOfType<RangedMonster2D>()) m.gameObject.SetActive(false);
+    }
+
+    // Gathered in one pass and queued for destruction. The old
+    // while (GameObject.Find(name) != null) DestroyImmediate(...) only ever
+    // terminated because of DestroyImmediate, and DestroyImmediate is forbidden
+    // inside a physics callback - which is exactly where we are when the shot
+    // that kills her arrives. It took the editor down with it.
+    private void DestroyAllNamed(string targetName)
+    {
+        Transform[] all = FindObjectsOfType<Transform>();
+        for (int i = 0; i < all.Length; i++)
+        {
+            if (all[i] != null && all[i].name == targetName) Destroy(all[i].gameObject);
+        }
     }
 
     // Boss2D.DieSequence plays its own dissolve and then destroys the object, so
