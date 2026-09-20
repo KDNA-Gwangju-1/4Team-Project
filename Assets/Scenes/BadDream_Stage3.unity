@@ -2238,8 +2238,12 @@ MonoBehaviour:
   dashRecover: 0.4
   phase2UsesTentacles: 1
   phase2TentacleEvery: 2
-  phase2TentaclePatterns: 0100000004000000
+  phase2TentaclePatterns: 04000000
   phase2TentacleCount: 2
+  phase2OverridesWave: 1
+  phase2DominoSpacing: 3.2
+  phase2DominoDelay: 0.34
+  phase2DominoWarn: 0.33
   ringSpreadAngle: 135
   fitColliderToPhase2Art: 1
   phase2HitCentre01: {x: 0.5, y: 0.43}

@@ -75,8 +75,17 @@ public class BossAttack2D : MonoBehaviour
     public bool phase2UsesTentacles = true;
     [Tooltip("A tentacle pattern every N fans. 1 = after every fan.")]
     public int phase2TentacleEvery = 2;
-    public TentaclePattern[] phase2TentaclePatterns = new TentaclePattern[] { TentaclePattern.Chase, TentaclePattern.Domino };
+    public TentaclePattern[] phase2TentaclePatterns = new TentaclePattern[] { TentaclePattern.Domino };
     public int phase2TentacleCount = 2;
+    // Phase 1's wave has to stay slower than a running player (5 u/s) or it cannot
+    // be outrun at all. Phase 2 is deliberately faster than a run: the answer becomes
+    // jumping it rather than racing it, and the air dash is there for that.
+    [Tooltip("Override the wave speed in phase 2. Spacing / delay is its travel speed.")]
+    public bool phase2OverridesWave = true;
+    public float phase2DominoSpacing = 3f;
+    public float phase2DominoDelay = 0.5f;
+    [Tooltip("Shorter warning to match the quicker wave.")]
+    public float phase2DominoWarn = 0.4f;
 
     [Tooltip("The wide pattern is a fan too, not a ring - she throws them, so nothing should fly out behind her.")]
     public float ringSpreadAngle = 120f;
@@ -129,6 +138,7 @@ public class BossAttack2D : MonoBehaviour
     private int phase;
     private int phase2PatternIndex;
     private float lastTiredTime;
+    private bool isTired;
     private int waveCounter;
 
     public int Phase => phase;
@@ -218,13 +228,28 @@ public class BossAttack2D : MonoBehaviour
                     yield return AimedSpreadRoutine(player);
                 }
 
-                if (phase2UsesTentacles && strikeField != null && strikeField.HasPoints
+                if (!isTired && phase2UsesTentacles && strikeField != null && strikeField.HasPoints
                     && phase2TentacleEvery > 0 && phase2PatternIndex % phase2TentacleEvery == 0
                     && phase2TentaclePatterns != null && phase2TentaclePatterns.Length > 0)
                 {
                     TentaclePattern shape = phase2TentaclePatterns[waveCounter % phase2TentaclePatterns.Length];
                     waveCounter++;
+
+                    float keepSpacing = strikeField.dominoSpacing;
+                    float keepDelay = strikeField.dominoDelay;
+                    float keepWarn = strikeField.dominoWarnDuration;
+                    if (phase2OverridesWave)
+                    {
+                        strikeField.dominoSpacing = phase2DominoSpacing;
+                        strikeField.dominoDelay = phase2DominoDelay;
+                        strikeField.dominoWarnDuration = phase2DominoWarn;
+                    }
+
                     yield return strikeField.RunPattern(shape, phase2TentacleCount);
+
+                    strikeField.dominoSpacing = keepSpacing;
+                    strikeField.dominoDelay = keepDelay;
+                    strikeField.dominoWarnDuration = keepWarn;
                 }
 
                 yield return ClawFollowThrough();
@@ -397,6 +422,11 @@ public class BossAttack2D : MonoBehaviour
             yield return SlideBoss(home, home + Vector3.left * tiredApproach, tiredApproachTime);
         }
 
+        // no floor waves while she is down here - the player needs the ground free
+        // to stand on and aim, and she is not the one throwing them right now
+        isTired = true;
+        ClearLiveTentacles();
+
         // she has to hold still to be shot at
         BossFlight2D flight = GetComponent<BossFlight2D>();
         if (flight != null) flight.Stop();
@@ -441,7 +471,17 @@ public class BossAttack2D : MonoBehaviour
         {
             yield return SlideBoss(transform.position, home, tiredLandTime);
         }
+        isTired = false;
         if (flight != null) flight.EnterAir();
+    }
+
+    private static void ClearLiveTentacles()
+    {
+        TentacleStrike2D[] live = UnityEngine.Object.FindObjectsOfType<TentacleStrike2D>();
+        for (int i = 0; i < live.Length; i++)
+        {
+            if (live[i] != null) Destroy(live[i].gameObject);
+        }
     }
 
     private IEnumerator SlideBoss(Vector3 from, Vector3 to, float duration)
