@@ -7,27 +7,27 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: 01 • Vanilla painted timber
+      name: "01 \u2022 Vanilla painted timber"
     second: {fileID: 2100000, guid: 5318b937ae954f978b33d64f2ef91a34, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: 02 • Mist mint cellophane
+      name: "02 \u2022 Mist mint cellophane"
     second: {fileID: 2100000, guid: 269057aee5c4438a9843c969fe6384a4, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: 03 • Warm cream card
+      name: "03 \u2022 Warm cream card"
     second: {fileID: 2100000, guid: 58e851165cda4e9393c5a6a945811ed8, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: 04 • Felt sage
+      name: "04 \u2022 Felt sage"
     second: {fileID: 2100000, guid: d1961b8ab7614b948a1d68b73946fe4e, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: 05 • Paper petals and fabric
+      name: "05 \u2022 Paper petals and fabric"
     second: {fileID: 2100000, guid: b03326296c5d4b24b64c595ae9994045, type: 2}
   materials:
     materialImportMode: 2
