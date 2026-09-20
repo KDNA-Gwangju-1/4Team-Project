@@ -2939,9 +2939,28 @@ MonoBehaviour:
   startOrthoSize: 10
   revealOrthoSize: 22
   zoomOutDuration: 3
-  dialogueLine: "\uC5B8\uB2C8\uB791\uC740... \uAFC8\uC774 \uB9CE\uC774 \uB2E4\uB974\uB124..."
+  playerDialogueFrame: {fileID: 21300000, guid: 87a8a037d993e734793549bdadb8ace1, type: 3}
+  lines:
+  - "...\uC5B8\uB2C8 \uCABD\uC774\uB791\uC740 \uB9CE\uC774 \uB2E4\uB978 \uAFC8\uC774\uB124..."
+  - "...\uADF8\uB7EC\uACE0 \uBCF4\uB2C8 \uB3D9\uC0DD \uCABD\uC774 \uC5B8\uB2C8\uB97C
+    \uBCC4\uB85C \uC548 \uC88B\uC544\uD588\uB2E4\uACE0 \uB4E4\uC5C8\uB358 \uAC83
+    \uAC19\uC740\uB370..."
+  - "...\uBB50\uAC00 \uB410\uB4E0 \uC27D\uC9C0 \uC54A\uC544 \uBCF4\uC5EC. \uC815\uC2E0
+    \uBC14\uC9DD \uCC28\uB9AC\uACE0 \uAC00 \uBCF4\uC790."
   dialogueDelay: 0.5
-  dialogueDisplayDuration: 2.5
+  dialogueTextArea:
+    serializedVersion: 2
+    x: 0.4
+    y: 0.1
+    width: 0.54
+    height: 0.19
+  dialogueFontSize: 34
+  dialogueTextColor: {r: 1, g: 1, b: 1, a: 1}
+  dialogueFrameWidth01: 0.88
+  dialogueFrameBottomMargin: 24
+  dialogueFrameXOffset: -120
+  lineAutoAdvance: 6
+  lineGap: 0.3
 --- !u!1 &759127213
 GameObject:
   m_ObjectHideFlags: 0
@@ -3884,6 +3903,9 @@ MonoBehaviour:
   lockedMessage: "\uC548\uC774 \uC5B4\uB461\uB2E4. \uBE5B\uC774 \uB420\uB9CC\uD55C
     \uAC78 \uCC3E\uC544\uBCF4\uC790"
   lockedMessageDuration: 2.5
+  useRange: 2.8
+  useKey: 37
+  promptMessage: "W\uD0A4\uB97C \uB20C\uB7EC \uC774\uB3D9"
 --- !u!1 &900000006
 GameObject:
   m_ObjectHideFlags: 0
