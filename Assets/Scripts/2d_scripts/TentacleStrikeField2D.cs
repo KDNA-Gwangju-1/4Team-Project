@@ -63,6 +63,8 @@ public class TentacleStrikeField2D : MonoBehaviour
     // A wave is a commitment, not a reflex test. Marking each tentacle just before
     // it rises tells the player nothing about where the wave is going, so the whole
     // path lights up first and holds long enough to read and act on.
+    [Tooltip("How far the wave travels. 0 = the whole arena, which marks the entire floor and tells the player nothing.")]
+    public float dominoSpan = 0f;
     [Tooltip("Light the whole path before the wave rolls, instead of one spot at a time.")]
     public bool dominoWarnsWholePath = false;
     [Tooltip("How long that full-path warning holds. Longer than the per-tentacle one on purpose.")]
@@ -261,19 +263,31 @@ public class TentacleStrikeField2D : MonoBehaviour
         if (!dominoRollsTowardPlayer) direction = -direction;
         float cursor = (direction > 0f) ? arenaMinX : arenaMaxX;
 
+        // A wave across the whole arena lights the entire floor, which reads as
+        // "everywhere is dangerous" and cannot be acted on. Limit it to a stretch
+        // that starts far enough out to be seen coming and still reaches the player.
+        float spanLimit = dominoSpan;
+        if (spanLimit > 0f)
+        {
+            float startX = Mathf.Clamp(playerX - direction * spanLimit, arenaMinX, arenaMaxX);
+            cursor = startX;
+        }
+
         float spacing = Mathf.Max(0.5f, dominoSpacing);
         int guard = Mathf.CeilToInt(Mathf.Abs(arenaMaxX - arenaMinX) / spacing) + 2;
 
         float perTentacleWarn = dominoWarnDuration;
         if (dominoWarnsWholePath)
         {
-            yield return PathWarningRoutine(cursor, direction, spacing, guard);
+            yield return PathWarningRoutine(cursor, direction, spacing, guard, spanLimit);
             perTentacleWarn = dominoWarnAfterPath;
         }
 
+        float travelled = 0f;
         for (int i = 0; i < guard; i++)
         {
             if (cursor < arenaMinX - 0.01f || cursor > arenaMaxX + 0.01f) break;
+            if (spanLimit > 0f && travelled > spanLimit) break;
 
             // adjacent on purpose here, so the usual separation rule is relaxed
             if (IsUsable(cursor, spacing * 0.9f))
@@ -282,23 +296,27 @@ public class TentacleStrikeField2D : MonoBehaviour
                 yield return new WaitForSeconds(dominoDelay);
             }
             cursor += direction * spacing;
+            travelled += spacing;
         }
     }
 
     // One strip across every column the wave will hit.
-    private IEnumerator PathWarningRoutine(float startX, float direction, float spacing, int guard)
+    private IEnumerator PathWarningRoutine(float startX, float direction, float spacing, int guard, float spanLimit)
     {
         float lo = startX, hi = startX;
         float cursor = startX;
+        float walked = 0f;
         for (int i = 0; i < guard; i++)
         {
             if (cursor < arenaMinX - 0.01f || cursor > arenaMaxX + 0.01f) break;
+            if (spanLimit > 0f && walked > spanLimit) break;
             if (IsUsable(cursor, spacing * 0.9f))
             {
                 lo = Mathf.Min(lo, cursor);
                 hi = Mathf.Max(hi, cursor);
             }
             cursor += direction * spacing;
+            walked += spacing;
         }
         if (hi - lo < 0.5f) yield break;
 
