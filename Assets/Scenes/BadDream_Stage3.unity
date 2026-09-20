@@ -2245,7 +2245,7 @@ MonoBehaviour:
   phase2DominoDelay: 0.34
   phase2DominoWarn: 0.33
   phase2WarnsWholePath: 1
-  phase2PathWarnDuration: 1.8
+  phase2PathWarnDuration: 2.6
   phase2DominoSpan: 16
   ringSpreadAngle: 135
   fitColliderToPhase2Art: 1

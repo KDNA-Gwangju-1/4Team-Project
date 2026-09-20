@@ -25,6 +25,8 @@ public class PlayerMovement2D : MonoBehaviour
     public float dashSpeed = 20f;
     public float dashDuration = 0.2f;
     public float dashCooldown = 0.55f;
+    [Tooltip("Invulnerable for this long after the dash ends, so finishing next to something is not a free hit.")]
+    public float postDashInvincibility = 0.25f;
     [Tooltip("Air dashes keep a little gravity so they do not float.")]
     public float dashGravityScale = 0.15f;
 
@@ -81,6 +83,7 @@ public class PlayerMovement2D : MonoBehaviour
     private Collider2D usedWallCollider;
     private bool dashRequested;
     private bool isDashing;
+    private float dashGraceTimer;
     private float dashTimer;
     private float dashCooldownTimer;
     private float dashDirection;
@@ -108,6 +111,7 @@ public class PlayerMovement2D : MonoBehaviour
     public int CurrentHealth => currentHealth;
     public bool IsGrounded => grounded;
     public bool IsDashing => isDashing;
+    public bool DashGraceActive => dashGraceTimer > 0f;
     public float DashStamina => dashStamina;
     public int DashChargesReady => Mathf.FloorToInt(dashStamina);
     public bool CanDash => dashStamina >= 1f && dashCooldownTimer <= 0f && !isDashing;
@@ -151,6 +155,8 @@ public class PlayerMovement2D : MonoBehaviour
         {
             dashCooldownTimer -= Time.deltaTime;
         }
+
+        if (dashGraceTimer > 0f) dashGraceTimer -= Time.deltaTime;
 
         if (!isDashing && dashStamina < dashStaminaMax)
         {
@@ -449,7 +455,14 @@ public class PlayerMovement2D : MonoBehaviour
             // player does not hang in the air mid-dash
             velocity.y = grounded ? 0f : velocity.y * dashGravityScale;
             dashTimer -= Time.fixedDeltaTime;
-            if (dashTimer <= 0f) isDashing = false;
+            if (dashTimer <= 0f)
+            {
+                isDashing = false;
+                // Contact damage is re-checked by OnTriggerStay the instant the dash
+                // ends, so stopping inside something you just dashed through counted
+                // as a hit. A short grace makes the dash actually get you out.
+                dashGraceTimer = postDashInvincibility;
+            }
         }
         else if (wallJumpLockTimer > 0f)
         {
@@ -504,7 +517,7 @@ public class PlayerMovement2D : MonoBehaviour
 
     public void TakeDamage(int amount)
     {
-        if (isInvincible || isDashing) return;
+        if (isInvincible || isDashing || dashGraceTimer > 0f) return;
 
         currentHealth = Mathf.Max(0, currentHealth - amount);
 
