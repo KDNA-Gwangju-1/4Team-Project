@@ -84,8 +84,11 @@ public class BossAttack2D : MonoBehaviour
     public bool phase2OverridesWave = true;
     public float phase2DominoSpacing = 3f;
     public float phase2DominoDelay = 0.5f;
-    [Tooltip("Shorter warning to match the quicker wave.")]
+    [Tooltip("Shorter per-tentacle warning to match the quicker wave.")]
     public float phase2DominoWarn = 0.4f;
+    [Tooltip("Phase 2 only: light the whole wave path first. Phase 1 keeps its per-tentacle markers.")]
+    public bool phase2WarnsWholePath = true;
+    public float phase2PathWarnDuration = 1.6f;
 
     [Tooltip("The wide pattern is a fan too, not a ring - she throws them, so nothing should fly out behind her.")]
     public float ringSpreadAngle = 120f;
@@ -238,11 +241,15 @@ public class BossAttack2D : MonoBehaviour
                     float keepSpacing = strikeField.dominoSpacing;
                     float keepDelay = strikeField.dominoDelay;
                     float keepWarn = strikeField.dominoWarnDuration;
+                    bool keepPathWarn = strikeField.dominoWarnsWholePath;
+                    float keepPathTime = strikeField.dominoPathWarnDuration;
                     if (phase2OverridesWave)
                     {
                         strikeField.dominoSpacing = phase2DominoSpacing;
                         strikeField.dominoDelay = phase2DominoDelay;
                         strikeField.dominoWarnDuration = phase2DominoWarn;
+                        strikeField.dominoWarnsWholePath = phase2WarnsWholePath;
+                        strikeField.dominoPathWarnDuration = phase2PathWarnDuration;
                     }
 
                     yield return strikeField.RunPattern(shape, phase2TentacleCount);
@@ -250,6 +257,8 @@ public class BossAttack2D : MonoBehaviour
                     strikeField.dominoSpacing = keepSpacing;
                     strikeField.dominoDelay = keepDelay;
                     strikeField.dominoWarnDuration = keepWarn;
+                    strikeField.dominoWarnsWholePath = keepPathWarn;
+                    strikeField.dominoPathWarnDuration = keepPathTime;
                 }
 
                 yield return ClawFollowThrough();

@@ -2244,6 +2244,8 @@ MonoBehaviour:
   phase2DominoSpacing: 3.2
   phase2DominoDelay: 0.34
   phase2DominoWarn: 0.33
+  phase2WarnsWholePath: 1
+  phase2PathWarnDuration: 1.8
   ringSpreadAngle: 135
   fitColliderToPhase2Art: 1
   phase2HitCentre01: {x: 0.5, y: 0.43}
@@ -2318,6 +2320,10 @@ MonoBehaviour:
   dominoRollsTowardPlayer: 1
   dominoWarnDuration: 0.55
   dominoHoldTime: 0.35
+  dominoWarnsWholePath: 0
+  dominoPathWarnDuration: 1.6
+  dominoPathWarnHeight: 0.5
+  dominoWarnAfterPath: 0.12
 --- !u!114 &900000039
 MonoBehaviour:
   m_ObjectHideFlags: 0

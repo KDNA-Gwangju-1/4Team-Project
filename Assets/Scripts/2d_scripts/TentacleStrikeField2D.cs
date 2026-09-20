@@ -60,6 +60,17 @@ public class TentacleStrikeField2D : MonoBehaviour
     public float dominoWarnDuration = 0.55f;
     public float dominoHoldTime = 0.35f;
 
+    // A wave is a commitment, not a reflex test. Marking each tentacle just before
+    // it rises tells the player nothing about where the wave is going, so the whole
+    // path lights up first and holds long enough to read and act on.
+    [Tooltip("Light the whole path before the wave rolls, instead of one spot at a time.")]
+    public bool dominoWarnsWholePath = false;
+    [Tooltip("How long that full-path warning holds. Longer than the per-tentacle one on purpose.")]
+    public float dominoPathWarnDuration = 1.6f;
+    public float dominoPathWarnHeight = 0.5f;
+    [Tooltip("Per-tentacle warning once the path warning has played. Kept short so the wave stays quick.")]
+    public float dominoWarnAfterPath = 0.12f;
+
     private readonly List<float> points = new List<float>();
     private readonly List<TentacleStrike2D> live = new List<TentacleStrike2D>();
 
@@ -253,6 +264,13 @@ public class TentacleStrikeField2D : MonoBehaviour
         float spacing = Mathf.Max(0.5f, dominoSpacing);
         int guard = Mathf.CeilToInt(Mathf.Abs(arenaMaxX - arenaMinX) / spacing) + 2;
 
+        float perTentacleWarn = dominoWarnDuration;
+        if (dominoWarnsWholePath)
+        {
+            yield return PathWarningRoutine(cursor, direction, spacing, guard);
+            perTentacleWarn = dominoWarnAfterPath;
+        }
+
         for (int i = 0; i < guard; i++)
         {
             if (cursor < arenaMinX - 0.01f || cursor > arenaMaxX + 0.01f) break;
@@ -260,11 +278,52 @@ public class TentacleStrikeField2D : MonoBehaviour
             // adjacent on purpose here, so the usual separation rule is relaxed
             if (IsUsable(cursor, spacing * 0.9f))
             {
-                wave.Add(Spawn(cursor, false, dominoWarnDuration, dominoHoldTime));
+                wave.Add(Spawn(cursor, false, perTentacleWarn, dominoHoldTime));
                 yield return new WaitForSeconds(dominoDelay);
             }
             cursor += direction * spacing;
         }
+    }
+
+    // One strip across every column the wave will hit.
+    private IEnumerator PathWarningRoutine(float startX, float direction, float spacing, int guard)
+    {
+        float lo = startX, hi = startX;
+        float cursor = startX;
+        for (int i = 0; i < guard; i++)
+        {
+            if (cursor < arenaMinX - 0.01f || cursor > arenaMaxX + 0.01f) break;
+            if (IsUsable(cursor, spacing * 0.9f))
+            {
+                lo = Mathf.Min(lo, cursor);
+                hi = Mathf.Max(hi, cursor);
+            }
+            cursor += direction * spacing;
+        }
+        if (hi - lo < 0.5f) yield break;
+
+        var player = PlayerMovement2D.Instance;
+        float fromY = player != null ? player.transform.position.y : fallbackGroundY;
+        float y = GroundYAt((lo + hi) * 0.5f, fromY);
+
+        GameObject go = new GameObject("TentacleWaveWarning");
+        go.transform.position = new Vector3((lo + hi) * 0.5f, y + 0.06f, 0f);
+        go.transform.localScale = new Vector3((hi - lo) + tentacleSize.x, dominoPathWarnHeight, 1f);
+
+        SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
+        sr.sprite = warningSprite;
+        sr.sortingLayerName = sortingLayer;
+        sr.sortingOrder = sortingOrder + 1;
+
+        float elapsed = 0f;
+        while (elapsed < dominoPathWarnDuration)
+        {
+            float k = Mathf.PingPong(elapsed / Mathf.Max(0.01f, warnBlink), 1f);
+            sr.color = Color.Lerp(warnColorA, warnColorB, k);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        Destroy(go);
     }
 
     private IEnumerator WaitForWave(List<TentacleStrike2D> wave)
