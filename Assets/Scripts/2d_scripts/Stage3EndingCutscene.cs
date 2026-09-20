@@ -338,6 +338,11 @@ public class Stage3EndingCutscene : MonoBehaviour
         foreach (Bullet2D b in FindObjectsOfType<Bullet2D>()) Destroy(b.gameObject);
         GameObject warn = GameObject.Find("TentacleWaveWarning");
         while (warn != null) { DestroyImmediate(warn); warn = GameObject.Find("TentacleWaveWarning"); }
+
+        // fight messages ("보스가 지쳤다!") have no business here
+        foreach (ScreenHint2D hint in FindObjectsOfType<ScreenHint2D>()) hint.Hide();
+        GameObject stray = GameObject.Find("ScreenHintCanvas");
+        while (stray != null) { DestroyImmediate(stray); stray = GameObject.Find("ScreenHintCanvas"); }
         foreach (Monster2D m in FindObjectsOfType<Monster2D>()) m.gameObject.SetActive(false);
         foreach (RangedMonster2D m in FindObjectsOfType<RangedMonster2D>()) m.gameObject.SetActive(false);
     }

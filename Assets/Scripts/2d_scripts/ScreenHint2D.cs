@@ -26,6 +26,10 @@ public class ScreenHint2D : MonoBehaviour
         if (canvasGO != null) return;
 
         canvasGO = new GameObject("ScreenHintCanvas");
+        // parented to the owner so it dies with it. Left at the root, the boss's
+        // "she is tired" line outlived the boss and sat over the ending cutscene.
+        // A screen space overlay canvas ignores its transform, so this is free.
+        canvasGO.transform.SetParent(transform, false);
         Canvas canvas = canvasGO.AddComponent<Canvas>();
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
         canvas.sortingOrder = 15;
@@ -68,6 +72,17 @@ public class ScreenHint2D : MonoBehaviour
     {
         if (running != null) { StopCoroutine(running); running = null; }
         if (label != null) SetAlpha(0f);
+    }
+
+    // the owner can be torn down mid-message; nothing should be left on screen
+    void OnDisable()
+    {
+        if (canvasGO != null) canvasGO.SetActive(false);
+    }
+
+    void OnEnable()
+    {
+        if (canvasGO != null) canvasGO.SetActive(true);
     }
 
     private IEnumerator ShowRoutine(string message, float duration)
