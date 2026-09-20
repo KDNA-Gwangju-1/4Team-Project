@@ -4,7 +4,8 @@ using UnityEngine;
 public class DevModeStage3 : MonoBehaviour
 {
     public bool grantLanternOnStart = true;
-    public bool skipBossIntroCutscene = true;
+    [Tooltip("Off by default: pressing Play should show the stage the way a player meets it, starting from the intro cutscene. Turn on only while iterating on the fight itself.")]
+    public bool skipBossIntroCutscene = false;
 
     [Header("Shortcuts")]
     [Tooltip("Drops the boss straight to the phase 2 threshold, so the transition cutscene plays now.")]

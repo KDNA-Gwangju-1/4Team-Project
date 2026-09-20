@@ -2828,7 +2828,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DevModeStage3
   grantLanternOnStart: 1
-  skipBossIntroCutscene: 1
+  skipBossIntroCutscene: 0
   jumpToPhase2Key: 283
   killBossKey: 285
   endingKey: 286
