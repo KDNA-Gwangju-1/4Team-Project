@@ -57,6 +57,10 @@ public class Stage3BossIntroCutscene : MonoBehaviour
     public GameObject[] revealAfterDelay;
     [Tooltip("How long the arena stays quiet after control returns.")]
     public float attackStartDelay = 1f;
+    [TextArea]
+    [Tooltip("Shown as the fight starts. Nothing about the arena says the tentacles are the weak point, so it has to be said.")]
+    public string phase1Hint = "촉수가 약점인 듯 하다!  촉수를 비추고 쏘자";
+    public float phase1HintDuration = 5f;
 
     [Header("Boss staging")]
     // She opens the scene standing on the player's own ledge, so the threat is
@@ -274,6 +278,13 @@ public class Stage3BossIntroCutscene : MonoBehaviour
 
         SetActiveAll(revealAfterDelay, true);
         if (bossAttack != null) bossAttack.SetPhase(1);
+
+        if (!string.IsNullOrEmpty(phase1Hint) && boss != null)
+        {
+            ScreenHint2D hint = boss.GetComponent<ScreenHint2D>();
+            if (hint == null) hint = boss.gameObject.AddComponent<ScreenHint2D>();
+            hint.Show(phase1Hint, phase1HintDuration);
+        }
 
         Destroy(gameObject);
     }

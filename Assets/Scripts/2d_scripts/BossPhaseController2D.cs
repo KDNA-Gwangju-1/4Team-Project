@@ -58,6 +58,9 @@ public class BossPhaseController2D : MonoBehaviour
         if (boss != null)
         {
             boss.requireLightToDamage = false;
+            // "얘들아 놀아줘" - she does not fight in phase 1, so she cannot be
+            // fought either. The tentacles are her, and killing one is what hurts.
+            boss.acceptsDirectHits = false;
             boss.OnDamaged += HandleDamaged;
         }
 
@@ -155,6 +158,7 @@ public class BossPhaseController2D : MonoBehaviour
         {
             boss.requireLightToDamage = true;
             boss.Invulnerable = false;
+            boss.acceptsDirectHits = true;
         }
 
         phase = 2;

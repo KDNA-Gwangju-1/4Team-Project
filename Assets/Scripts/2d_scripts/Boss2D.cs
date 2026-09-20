@@ -14,6 +14,8 @@ public class Boss2D : MonoBehaviour
     [Tooltip("Resting colour. Used to push her into the background while she is out of reach; the attack and hit flashes return to this instead of pure white.")]
     public Color baseTint = Color.white;
     public bool requireLightToDamage = false;
+    [Tooltip("Off in phase 1: she sends her children out to play and the tentacles are what is actually connected to her, so shooting her is swallowed. TentacleStrike2D.Kill still reaches her.")]
+    public bool acceptsDirectHits = true;
     public Color weakPointColor = new Color(1f, 0.92f, 0.65f);
     [Tooltip("Let the flashlight reach her through platforms - otherwise the nearest ledge eats the ray.")]
     public bool beamPassesThroughGround = true;
@@ -36,7 +38,7 @@ public class Boss2D : MonoBehaviour
     public int CurrentHealth => currentHealth;
     public int MaxHealth => maxHealth;
     public Color BaseColor => weakPointExposed ? weakPointColor : baseTint;
-    public bool CanBeShot => !isDying && !Invulnerable && (!requireLightToDamage || weakPointExposed);
+    public bool CanBeShot => !isDying && !Invulnerable && acceptsDirectHits && (!requireLightToDamage || weakPointExposed);
 
     void Awake()
     {
