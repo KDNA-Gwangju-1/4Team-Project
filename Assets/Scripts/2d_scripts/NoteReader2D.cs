@@ -30,23 +30,23 @@ public class NoteReader2D : MonoBehaviour
     [TextArea(12, 30)]
     [Tooltip("{lightSeconds} {lockout} {dashCount} {dashRegen} are filled in from the player so the numbers cannot go stale.")]
     public string noteBody =
-        "손전등 사용법\n" +
+        "도움말\n" +
         "\n" +
-        "마우스 오른쪽 버튼  -  빛을 켠다\n" +
-        "마우스 왼쪽 버튼  -  광탄을 쏜다\n" +
+        "마우스 오른쪽 버튼  -  빛을 켭니다\n" +
+        "마우스 왼쪽 버튼  -  광탄을 쏩니다\n" +
         "Shift  -  대시 회피\n" +
         "\n" +
         "몬스터를 빛으로 비춘 상태에서 광탄을 맞혀야\n" +
-        "처치할 수 있다. 비추지 않고 쏘면 맞지 않는다.\n" +
-        "쏘는 동안에도 계속 비추고 있어야 한다.\n" +
+        "처치할 수 있습니다. 비추지 않고 쏘면 맞지 않습니다.\n" +
+        "쏘는 동안에도 계속 비추고 있어야 합니다.\n" +
         "\n" +
-        "빛과 대시는 게이지를 쓴다.\n" +
+        "빛과 대시는 게이지를 사용합니다.\n" +
         "빛은 {lightSeconds}초까지 켤 수 있고, 다 쓰면\n" +
-        "{lockout}초 동안 다시 켜지지 않는다.\n" +
+        "{lockout}초 동안 다시 켜지지 않습니다.\n" +
         "대시는 {dashCount}번까지 연달아 쓸 수 있고,\n" +
-        "한 칸이 {dashRegen}초마다 다시 찬다.\n" +
+        "한 칸이 {dashRegen}초마다 다시 찹니다.\n" +
         "\n" +
-        "아껴 써라. 어둠 속에서 꺼지면 답이 없다.";
+        "이 공간은 저중력이라 체감이 낯설 수 있습니다.";
 
     private InteractPrompt2D prompt;
     private GameObject canvasGO;
