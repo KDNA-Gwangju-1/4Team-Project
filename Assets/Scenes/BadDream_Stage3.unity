@@ -781,7 +781,7 @@ Transform:
   m_GameObject: {fileID: 465286316}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 33.3, y: 5.0818377, z: 0}
+  m_LocalPosition: {x: 33.3, y: 5.2182302, z: 0}
   m_LocalScale: {x: 1.2363707, y: 1.4479638, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1429,7 +1429,7 @@ MonoBehaviour:
     beatAfter: 0
   - isBoss: 1
     text: "\uC9C4\uC9DC \uAD34\uBB3C\uC774 \uC5B4\uB5A4\uAC74\uC9C0 \uBCF4\uC5EC\uC904\uAC8C..."
-    beatAfter: 3
+    beatAfter: 0
   dialogueTextArea:
     serializedVersion: 2
     x: 0.4
@@ -1506,17 +1506,14 @@ MonoBehaviour:
   - {fileID: -3072476677740898470, guid: ab77cc86b3db42841bc2045173ece6a3, type: 3}
   phase2FrameDuration: 0.22
   phase2Tint: {r: 1, g: 1, b: 1, a: 1}
-  phase2Width: 6.4
+  phase2Width: 9
   transformShakeDuration: 1.1
   transformShake: 0.3
   flashDuration: 0.22
   transformHoldTime: 0.9
-  phase2Arena: {fileID: 1335518755}
-  hideForPhase2:
-  - {fileID: 259253643}
-  - {fileID: 1030072447}
-  - {fileID: 465286316}
-  phase2Anchor: {fileID: 1258285220}
+  phase2Arena: {fileID: 0}
+  hideForPhase2: []
+  phase2Anchor: {fileID: 0}
   ascentHeight: 7
   ascentDuration: 2.4
   ascentSpin: 0
@@ -1525,7 +1522,7 @@ MonoBehaviour:
   bossBurstWidth: 30
   bossBurstOffset: {x: 17, y: -15.376848}
   bossBurstDuration: 0.22
-  lockCameraForPhase2: 1
+  lockCameraForPhase2: 0
   phase2CameraCentre: {x: 37, y: 3}
   phase2CameraOrtho: 7.4
   bossBurstShake: 0.5
@@ -1603,6 +1600,7 @@ GameObject:
   - component: {fileID: 900000039}
   - component: {fileID: 900000040}
   - component: {fileID: 900000041}
+  - component: {fileID: 900000042}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Untagged
@@ -1802,8 +1800,7 @@ MonoBehaviour:
   cameraFollow: {fileID: 688051107}
   phase2AtHealth: 8
   phase1Objects: []
-  phase2Objects:
-  - {fileID: 1335518755}
+  phase2Objects: []
   collapsingFloors:
   - {fileID: 259253643}
   - {fileID: 1030072447}
@@ -1816,7 +1813,7 @@ MonoBehaviour:
   collapseFallSpeed: 7
   collapseFadeTime: 1.4
   phase2RespawnAnchor: {fileID: 1258285220}
-  phase2GravityScale: 0.45
+  phase2GravityScale: 0.7
   phase2FallRespawnY: -24
   phase2LaunchImpulse: 0
   phase2AirDash: 1
@@ -1909,6 +1906,10 @@ MonoBehaviour:
     spreadAngle: 0
     speed: 7.5
     aimBlend: 1
+  phase2UsesTentacles: 1
+  phase2TentacleEvery: 2
+  phase2TentaclePatterns: 0100000004000000
+  phase2TentacleCount: 2
   ringSpreadAngle: 135
   fitColliderToPhase2Art: 1
   phase2HitCentre01: {x: 0.5, y: 0.43}
@@ -1920,7 +1921,7 @@ MonoBehaviour:
   tiredRevealed: {r: 1, g: 0.92, b: 0.65, a: 1}
   phase2ActiveTint: {r: 1, g: 1, b: 1, a: 1}
   tiredHint: "\uBCF4\uC2A4\uAC00 \uC9C0\uCCE4\uB2E4!  \uBE44\uCD94\uACE0 \uACF5\uACA9\uD558\uC790"
-  tiredApproach: 4
+  tiredApproach: 0
   tiredApproachTime: 0.7
   fanBaseAngle: 180
   fanAimBlend: 0.6
@@ -2023,6 +2024,28 @@ MonoBehaviour:
   silhouetteColor: {r: 0, g: 0, b: 0, a: 1}
   outlineColor: {r: 0.55, g: 0.55, b: 0.55, a: 1}
   outlineScale: 1.04
+--- !u!114 &900000042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 900000030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5c3b3710d397294b88e9bccdceef52c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossFlight2D
+  minX: 13.1152115
+  maxX: 43.745987
+  minY: 2
+  maxY: 7.5
+  moveDuration: 2.2
+  hoverTime: 0.6
+  minTravel: 8
+  bobAmplitude: 0.35
+  bobPeriod: 1.8
+  faceTravelDirection: 1
 --- !u!1 &927161764
 GameObject:
   m_ObjectHideFlags: 0
@@ -2750,7 +2773,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1335518756
 Transform:
   m_ObjectHideFlags: 0

@@ -50,6 +50,12 @@ public class BossAttack2D : MonoBehaviour
     // beat a dense wall: at the range she rests from, bullets under ~1.6 apart
     // leave no gap the player can physically fit through.
     public BulletFan2D[] phase2Fans;
+    [Tooltip("She keeps her tentacles in phase 2 - the arena is the same ground, so the floor threat still works.")]
+    public bool phase2UsesTentacles = true;
+    [Tooltip("A tentacle pattern every N fans. 1 = after every fan.")]
+    public int phase2TentacleEvery = 2;
+    public TentaclePattern[] phase2TentaclePatterns = new TentaclePattern[] { TentaclePattern.Chase, TentaclePattern.Domino };
+    public int phase2TentacleCount = 2;
 
     [Tooltip("The wide pattern is a fan too, not a ring - she throws them, so nothing should fly out behind her.")]
     public float ringSpreadAngle = 120f;
@@ -121,6 +127,9 @@ public class BossAttack2D : MonoBehaviour
         if (phase == 2 && bossRef != null)
         {
             FitHitBoxToArt();
+
+            BossFlight2D flight = GetComponent<BossFlight2D>();
+            if (flight != null) flight.Begin();
             bossRef.Invulnerable = true;
             bossRef.requireLightToDamage = false;
             bossRef.baseTint = phase2ActiveTint;
@@ -176,6 +185,15 @@ public class BossAttack2D : MonoBehaviour
                 }
                 else if (phase2PatternIndex % 2 == 1) yield return AimedSpreadRoutine(player);
                 else yield return RingBurstRoutine();
+
+                if (phase2UsesTentacles && strikeField != null && strikeField.HasPoints
+                    && phase2TentacleEvery > 0 && phase2PatternIndex % phase2TentacleEvery == 0
+                    && phase2TentaclePatterns != null && phase2TentaclePatterns.Length > 0)
+                {
+                    TentaclePattern shape = phase2TentaclePatterns[waveCounter % phase2TentaclePatterns.Length];
+                    waveCounter++;
+                    yield return strikeField.RunPattern(shape, phase2TentacleCount);
+                }
 
                 yield return ClawFollowThrough();
 
@@ -330,6 +348,10 @@ public class BossAttack2D : MonoBehaviour
         Vector3 home = transform.position;
         if (tiredApproach != 0f) yield return SlideBoss(home, home + Vector3.left * tiredApproach, tiredApproachTime);
 
+        // she has to hold still to be shot at
+        BossFlight2D flight = GetComponent<BossFlight2D>();
+        if (flight != null) flight.Stop();
+
         LightSilhouette2D shadow = GetComponent<LightSilhouette2D>();
         if (tiredUsesSilhouette && shadow != null)
         {
@@ -366,6 +388,7 @@ public class BossAttack2D : MonoBehaviour
         if (sr != null) sr.color = phase2ActiveTint;
 
         if (tiredApproach != 0f) yield return SlideBoss(transform.position, home, tiredApproachTime);
+        if (flight != null) flight.Begin();
     }
 
     private IEnumerator SlideBoss(Vector3 from, Vector3 to, float duration)
