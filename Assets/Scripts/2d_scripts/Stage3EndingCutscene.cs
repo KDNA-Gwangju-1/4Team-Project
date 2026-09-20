@@ -63,6 +63,8 @@ public class Stage3EndingCutscene : MonoBehaviour
     public float walkFrameDuration = 0.13f;
 
     [Header("Fade to white")]
+    [Tooltip("The screen whites out while he is still walking, not after he stops.")]
+    public float whiteFadeDelay = 0.3f;
     public float whiteFadeDuration = 2.6f;
     public float whiteHold = 1.5f;
 
@@ -174,10 +176,14 @@ public class Stage3EndingCutscene : MonoBehaviour
 
         if (window != null) window.Dispose();
 
+        // --- he walks, and the light takes the screen while he is still walking ---
+        yield return new WaitForSeconds(whiteFadeDelay);
+        StartCoroutine(Fade(Color.white, 0f, 1f, whiteFadeDuration));
         yield return WalkToHer(sisterPos);
 
-        // --- out, on white ---
-        yield return Fade(Color.white, 0f, 1f, whiteFadeDuration);
+        // whatever is left of the fade, plus a beat on full white
+        float remaining = Mathf.Max(0f, whiteFadeDuration - (Time.time - fadeStarted));
+        if (remaining > 0f) yield return new WaitForSeconds(remaining);
         yield return new WaitForSeconds(whiteHold);
     }
 
@@ -317,9 +323,12 @@ public class Stage3EndingCutscene : MonoBehaviour
         rt.offsetMax = Vector2.zero;
     }
 
+    private float fadeStarted;
+
     private IEnumerator Fade(Color colour, float from, float to, float duration)
     {
         if (overlay == null) yield break;
+        fadeStarted = Time.time;
         float t = 0f;
         while (t < duration)
         {
