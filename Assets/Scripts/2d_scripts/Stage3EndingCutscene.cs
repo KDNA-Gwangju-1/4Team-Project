@@ -89,6 +89,10 @@ public class Stage3EndingCutscene : MonoBehaviour
     private Image overlay;
     private bool played;
     private bool sceneActive;
+    private Transform detective;
+    private SpriteRenderer detectiveRenderer;
+    private Sprite[] detectiveWalk;
+    private Sprite detectiveIdle;
 
     void Start()
     {
@@ -197,7 +201,8 @@ public class Stage3EndingCutscene : MonoBehaviour
         yield return DissolveRoutine();
 
         Vector3 sisterPos = sister != null ? sister.position : new Vector3(lastBossPosition.x, sisterGroundY, 0f);
-        Vector3 twoShot = new Vector3((player.transform.position.x + sisterPos.x) * 0.5f,
+        Vector3 anchorX = detective != null ? detective.position : player.transform.position;
+        Vector3 twoShot = new Vector3((anchorX.x + sisterPos.x) * 0.5f,
                                       sisterGroundY + 1.6f, shotOffset.z);
         yield return PanTo(twoShot, shotOrthoSize, panDuration);
         yield return new WaitForSeconds(holdAfterDissolve);
@@ -275,18 +280,35 @@ public class Stage3EndingCutscene : MonoBehaviour
             body.bodyType = RigidbodyType2D.Kinematic;
         }
 
+        // The cutscene must not inherit anything from the fight: which way he was
+        // last facing, the animator's current frame, the flashlight, his physics.
+        // Switching each of those off and hoping none was missed is what kept
+        // leaking through, so the detective on screen is our own sprite and the
+        // played character is simply gone for the duration.
         PlayerSpriteAnimator2D anim = player.GetComponent<PlayerSpriteAnimator2D>();
         SpriteRenderer sr = player.GetComponent<SpriteRenderer>();
-        if (anim != null)
+
+        detectiveWalk = (anim != null) ? anim.walkFrames : null;
+        detectiveIdle = arrivedSprite;
+        if (detectiveIdle == null && anim != null && anim.idleFrames != null && anim.idleFrames.Length > 0)
+            detectiveIdle = anim.idleFrames[0];
+        if (detectiveIdle == null && sr != null) detectiveIdle = sr.sprite;
+
+        GameObject stand = new GameObject("EndingDetective");
+        stand.transform.position = player.transform.position;
+        stand.transform.localScale = player.transform.lossyScale;
+        detectiveRenderer = stand.AddComponent<SpriteRenderer>();
+        detectiveRenderer.sprite = detectiveIdle;
+        if (sr != null)
         {
-            anim.enabled = false;
-            if (sr != null)
-            {
-                Sprite pose = arrivedSprite;
-                if (pose == null && anim.idleFrames != null && anim.idleFrames.Length > 0) pose = anim.idleFrames[0];
-                if (pose != null) sr.sprite = pose;
-            }
+            detectiveRenderer.sortingLayerID = sr.sortingLayerID;
+            detectiveRenderer.sortingOrder = sr.sortingOrder;
         }
+        // he is looking at her from the moment the lights come back
+        detectiveRenderer.flipX = lastBossPosition.x < stand.transform.position.x;
+        detective = stand.transform;
+
+        player.gameObject.SetActive(false);
     }
 
     // Anything still flying or crawling would undercut the moment.
@@ -357,28 +379,22 @@ public class Stage3EndingCutscene : MonoBehaviour
 
     private IEnumerator WalkToHer(Vector3 sisterPos)
     {
-        SpriteRenderer sr = player.GetComponent<SpriteRenderer>();
-        PlayerSpriteAnimator2D anim = player.GetComponent<PlayerSpriteAnimator2D>();
-        Rigidbody2D body = player.GetComponent<Rigidbody2D>();
-        if (anim != null) anim.enabled = false;
-        if (body != null) body.linearVelocity = Vector2.zero;
+        if (detective == null || detectiveRenderer == null) yield break;
 
-        float dir = Mathf.Sign(sisterPos.x - player.transform.position.x);
+        float dir = Mathf.Sign(sisterPos.x - detective.position.x);
         if (Mathf.Approximately(dir, 0f)) dir = 1f;
-        if (sr != null) sr.flipX = dir < 0f;
+        detectiveRenderer.flipX = dir < 0f;
 
-        Sprite[] walk = (anim != null && anim.walkFrames != null && anim.walkFrames.Length > 0) ? anim.walkFrames : null;
+        Sprite[] walk = (detectiveWalk != null && detectiveWalk.Length > 0) ? detectiveWalk : null;
         float targetX = sisterPos.x - dir * stopGap;
         float frameTimer = 0f;
         int frame = 0;
 
-        while (Mathf.Abs(targetX - player.transform.position.x) > 0.05f)
+        while (Mathf.Abs(targetX - detective.position.x) > 0.05f)
         {
-            Vector3 next = Vector3.MoveTowards(player.transform.position,
-                new Vector3(targetX, player.transform.position.y, player.transform.position.z),
+            detective.position = Vector3.MoveTowards(detective.position,
+                new Vector3(targetX, detective.position.y, detective.position.z),
                 walkSpeed * Time.deltaTime);
-            player.transform.position = next;
-            if (body != null) body.position = next;
 
             if (walk != null)
             {
@@ -387,19 +403,14 @@ public class Stage3EndingCutscene : MonoBehaviour
                 {
                     frameTimer -= walkFrameDuration;
                     frame = (frame + 1) % walk.Length;
-                    if (sr != null) sr.sprite = walk[frame];
+                    detectiveRenderer.sprite = walk[frame];
                 }
             }
             yield return null;
         }
 
         // walk[0] is still a stride, so he would stand there with one foot out
-        Sprite settled = arrivedSprite;
-        if (settled == null && anim != null && anim.idleFrames != null && anim.idleFrames.Length > 0)
-        {
-            settled = anim.idleFrames[0];
-        }
-        if (settled != null && sr != null) sr.sprite = settled;
+        if (detectiveIdle != null) detectiveRenderer.sprite = detectiveIdle;
     }
 
     // ---------- helpers ----------

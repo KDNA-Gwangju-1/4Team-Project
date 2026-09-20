@@ -34,7 +34,11 @@ public class Parallax2D : MonoBehaviour
         if (cam == null) cam = Camera.main;
         if (cam == null || !captured) return;
 
-        Vector3 travel = cam.transform.position - cameraAnchor;
+        // same reason as FloatBob2D: an offset applied while nothing is playing
+        // becomes part of the saved scene, and the next capture builds on it
+        Vector3 travel = Application.isPlaying
+            ? cam.transform.position - cameraAnchor
+            : Vector3.zero;
         Vector3 pos = transform.position;
         pos.x = anchor.x + travel.x * (1f - factor);
         if (affectY) pos.y = anchor.y + travel.y * (1f - factor);
