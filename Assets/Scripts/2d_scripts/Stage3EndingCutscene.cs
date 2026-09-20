@@ -88,6 +88,7 @@ public class Stage3EndingCutscene : MonoBehaviour
     private GameObject overlayCanvas;
     private Image overlay;
     private bool played;
+    private bool sceneActive;
 
     void Start()
     {
@@ -109,6 +110,26 @@ public class Stage3EndingCutscene : MonoBehaviour
     }
 
     private Vector3 lastBossPosition;
+
+    void Update()
+    {
+        // Killing the source is not quite enough: a fan already mid-coroutine, a
+        // monster re-enabling itself, anything we have not thought of, still puts
+        // bullets on screen. While the ending runs, nothing gets to.
+        if (!sceneActive) return;
+
+        BossBullet2D[] shots = FindObjectsOfType<BossBullet2D>();
+        for (int i = 0; i < shots.Length; i++)
+        {
+            if (shots[i] != null) Destroy(shots[i].gameObject);
+        }
+
+        TentacleStrike2D[] live = FindObjectsOfType<TentacleStrike2D>();
+        for (int i = 0; i < live.Length; i++)
+        {
+            if (live[i] != null) Destroy(live[i].gameObject);
+        }
+    }
 
     void LateUpdate()
     {
@@ -160,6 +181,7 @@ public class Stage3EndingCutscene : MonoBehaviour
             player.transform.position = playerAnchor.position;
         }
 
+        sceneActive = true;
         StageScene();
         BuildOverlay();
         BuildWindow();
