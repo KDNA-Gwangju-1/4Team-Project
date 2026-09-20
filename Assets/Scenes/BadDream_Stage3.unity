@@ -366,10 +366,9 @@ GameObject:
   - component: {fileID: 320876497}
   - component: {fileID: 320876500}
   - component: {fileID: 320876499}
-  - component: {fileID: 320876498}
   - component: {fileID: 320876501}
   - component: {fileID: 320876502}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: FloatPlatform_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -386,28 +385,11 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 27.5, y: 7.4, z: 0}
-  m_LocalScale: {x: 0.70621467, y: 0.3846154, z: 1}
+  m_LocalScale: {x: 0.84745765, y: 0.84745765, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1335518756}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &320876498
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 320876496}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdcf22d6ba06457080e6f7b95981c8c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TimedRevealPlatform2D
-  silhouetteAlpha: 0.3
-  revealedAlpha: 1
-  timeToReveal: 0.9
-  revealedDuration: 8
-  revealedLayerName: Ground
 --- !u!61 &320876499
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -442,7 +424,7 @@ BoxCollider2D:
   m_UsedByEffector: 1
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.38068002}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -452,7 +434,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 7.08, y: 2.21}
+  m_Size: {x: 6.5844, y: 0.6}
   m_EdgeRadius: 0
 --- !u!212 &320876500
 SpriteRenderer:
@@ -768,7 +750,7 @@ Transform:
   m_GameObject: {fileID: 465286316}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 33.3, y: 4.058991, z: 0}
+  m_LocalPosition: {x: 33.3, y: 4.19241, z: 0}
   m_LocalScale: {x: 1.2363707, y: 1.4479638, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1427,9 +1409,9 @@ MonoBehaviour:
   dialogueFrameWidth01: 0.88
   dialogueFrameBottomMargin: 24
   dialogueFrameXOffset: -120
-  lineMinDuration: 0.5
-  lineAutoAdvance: 6
-  lineGap: 0.3
+  lineMinDuration: 0.1
+  lineAutoAdvance: 0.7
+  lineGap: 0.1
   hideDuringCutscene:
   - {fileID: 1834502762}
   - {fileID: 1234360751}
@@ -1443,7 +1425,7 @@ MonoBehaviour:
   playerAscendSprite: {fileID: 21300000, guid: 692e171e26ada08408fcb969b7b1cf0f, type: 3}
   heldFlashlight: {fileID: 1550880050}
   blackoutInDuration: 0.35
-  blackoutHoldDuration: 0.5
+  blackoutHoldDuration: 0.2
   blackoutOutDuration: 0.6
   blackoutBlinks: 2
   blackoutBlinkTime: 0.09
@@ -1464,7 +1446,7 @@ MonoBehaviour:
   tentacleGapFromPlayer: 6.5
   tentacleGroundY: -2.63
   tentacleFrameDuration: 0.07
-  lightHoldTime: 0.8
+  lightHoldTime: 0.3
   bulletSprite: {fileID: 21300000, guid: e5da871dede76eb42adf77b1e816fde0, type: 3}
   bulletSize: 1
   bulletSpeed: 26
@@ -1484,9 +1466,9 @@ MonoBehaviour:
   bossShadowSprite: {fileID: 0}
   bossShadowTint: {r: 0.1, g: 0.06, b: 0.14, a: 1}
   bossShadowDeepColor: {r: 0, g: 0, b: 0, a: 1}
-  shadowSweepDuration: 1.2
-  shadowDeepenDuration: 1.4
-  shadowHoldTime: 0.5
+  shadowSweepDuration: 0.4
+  shadowDeepenDuration: 0.4
+  shadowHoldTime: 0.15
   shadowShake: 0.12
   phase2Frames:
   - {fileID: -1158187498100141830, guid: ab77cc86b3db42841bc2045173ece6a3, type: 3}
@@ -1494,10 +1476,10 @@ MonoBehaviour:
   phase2FrameDuration: 0.22
   phase2Tint: {r: 1, g: 1, b: 1, a: 1}
   phase2Width: 6.4
-  transformShakeDuration: 1.1
+  transformShakeDuration: 0.4
   transformShake: 0.3
   flashDuration: 0.22
-  transformHoldTime: 0.9
+  transformHoldTime: 0.3
   phase2Arena: {fileID: 1335518755}
   hideForPhase2:
   - {fileID: 259253643}
@@ -1505,20 +1487,20 @@ MonoBehaviour:
   - {fileID: 465286316}
   phase2Anchor: {fileID: 1258285220}
   ascentHeight: 7
-  ascentDuration: 2.4
+  ascentDuration: 1
   ascentSpin: 0
   ascentBlackoutIn: 0.7
-  arenaRevealHold: 1.3
-  bossBurstWidth: 26.4
-  bossBurstOffset: {x: 12.799999, y: -12.7}
+  arenaRevealHold: 0.4
+  bossBurstWidth: 30
+  bossBurstOffset: {x: 14.299999, y: -15.376848}
   bossBurstDuration: 0.22
   lockCameraForPhase2: 1
   phase2CameraCentre: {x: 37, y: 3}
   phase2CameraOrtho: 7.4
   bossBurstShake: 0.5
-  bossBurstHold: 0.8
+  bossBurstHold: 0.4
   creepOrthoSize: 4.2
-  creepDuration: 2.4
+  creepDuration: 0.5
   snapOrthoSize: 2
   snapDuration: 0.1
   snapShake: 0.35
@@ -1810,7 +1792,7 @@ MonoBehaviour:
   phase2FrameDuration: 0.22
   phase2Cutscene: {fileID: 709877605}
   cutsceneHandlesArenaChange: 1
-  moveBossOnPhase2: 1
+  moveBossOnPhase2: 0
   phase2BossPosition: {x: 33, y: 5}
   bossMoveTime: 1
 --- !u!114 &900000037
@@ -1939,7 +1921,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 900000030}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e8b96a505f505e14483c33f5816c7052, type: 3}
   m_Name: 
@@ -2605,7 +2587,7 @@ Transform:
   m_GameObject: {fileID: 1258285219}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 30.2, y: 3, z: 0}
+  m_LocalPosition: {x: 30.2, y: 3.5768476, z: 0}
   m_LocalScale: {x: 0.63559324, y: 0.31674206, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2763,10 +2745,9 @@ GameObject:
   - component: {fileID: 1406964589}
   - component: {fileID: 1406964592}
   - component: {fileID: 1406964591}
-  - component: {fileID: 1406964590}
   - component: {fileID: 1406964593}
   - component: {fileID: 1406964594}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: FloatPlatform_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2783,28 +2764,11 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 30.2, y: 3, z: 0}
-  m_LocalScale: {x: 0.70621467, y: 0.3846154, z: 1}
+  m_LocalScale: {x: 0.84745765, y: 0.84745765, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1335518756}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1406964590
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1406964588}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdcf22d6ba06457080e6f7b95981c8c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TimedRevealPlatform2D
-  silhouetteAlpha: 0.3
-  revealedAlpha: 1
-  timeToReveal: 0.9
-  revealedDuration: 8
-  revealedLayerName: Ground
 --- !u!61 &1406964591
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2839,7 +2803,7 @@ BoxCollider2D:
   m_UsedByEffector: 1
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.38068002}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -2849,7 +2813,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 7.08, y: 2.21}
+  m_Size: {x: 6.5844, y: 0.6}
   m_EdgeRadius: 0
 --- !u!212 &1406964592
 SpriteRenderer:
@@ -4713,8 +4677,7 @@ GameObject:
   - component: {fileID: 2047064224}
   - component: {fileID: 2047064227}
   - component: {fileID: 2047064226}
-  - component: {fileID: 2047064225}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: FloatPlatform_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4731,28 +4694,11 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 27.5, y: -1.4, z: 0}
-  m_LocalScale: {x: 0.70621467, y: 0.3846154, z: 1}
+  m_LocalScale: {x: 0.84745765, y: 0.84745765, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1335518756}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2047064225
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2047064223}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdcf22d6ba06457080e6f7b95981c8c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TimedRevealPlatform2D
-  silhouetteAlpha: 0.3
-  revealedAlpha: 1
-  timeToReveal: 0.9
-  revealedDuration: 8
-  revealedLayerName: Ground
 --- !u!61 &2047064226
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4787,7 +4733,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.38068002}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -4797,7 +4743,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 7.08, y: 2.21}
+  m_Size: {x: 6.5844, y: 0.6}
   m_EdgeRadius: 0
 --- !u!212 &2047064227
 SpriteRenderer:
