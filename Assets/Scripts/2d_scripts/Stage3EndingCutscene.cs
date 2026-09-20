@@ -30,6 +30,10 @@ public class Stage3EndingCutscene : MonoBehaviour
     public int sortingOrder = 1;
     [Tooltip("Drag an empty here to place her by hand in the Scene view. Left empty, she appears where the boss died.")]
     public Transform sisterAnchor;
+    [Tooltip("Take the anchor's scale too, so what you see in the Scene view is what plays.")]
+    public bool useAnchorScale = true;
+    [Tooltip("Where he stands for the scene. Left empty, he stays wherever the fight left him.")]
+    public Transform playerAnchor;
     public float sisterGroundY = -2.63f;
     public float holdAfterDissolve = 0.9f;
 
@@ -130,6 +134,14 @@ public class Stage3EndingCutscene : MonoBehaviour
         CameraFollow2D follow = cam.GetComponent<CameraFollow2D>();
         if (follow != null) follow.enabled = false;
 
+        // put him on his mark, so the ending composes the same way every run
+        if (playerAnchor != null)
+        {
+            Rigidbody2D body = player.GetComponent<Rigidbody2D>();
+            if (body != null) { body.linearVelocity = Vector2.zero; body.position = playerAnchor.position; }
+            player.transform.position = playerAnchor.position;
+        }
+
         BuildOverlay();
         BuildWindow();
 
@@ -195,7 +207,9 @@ public class Stage3EndingCutscene : MonoBehaviour
         if (sisterAnchor != null) where = sisterAnchor.position;
 
         GameObject go = new GameObject("Sister");
-        go.transform.position = new Vector3(where.x, sisterAnchor != null ? sisterAnchor.position.y : sisterGroundY, 0f);
+        go.transform.position = (sisterAnchor != null)
+            ? sisterAnchor.position
+            : new Vector3(where.x, sisterGroundY, 0f);
         sister = go.transform;
 
         SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
@@ -203,11 +217,19 @@ public class Stage3EndingCutscene : MonoBehaviour
         sr.sortingLayerName = sortingLayer;
         sr.sortingOrder = sortingOrder;
 
-        float native = sr.sprite.bounds.size.x;
-        if (native > 0.001f)
+        if (useAnchorScale && sisterAnchor != null)
         {
-            float factor = sisterWidth / native;
-            go.transform.localScale = new Vector3(factor, factor, 1f);
+            // the marker in the scene IS the composition - don't recompute it
+            go.transform.localScale = sisterAnchor.localScale;
+        }
+        else
+        {
+            float native = sr.sprite.bounds.size.x;
+            if (native > 0.001f)
+            {
+                float factor = sisterWidth / native;
+                go.transform.localScale = new Vector3(factor, factor, 1f);
+            }
         }
 
         for (int i = 0; i < dissolveFrames.Length; i++)
