@@ -10,6 +10,8 @@ public class PlayerMovement2D : MonoBehaviour
     public float moveSpeed = 5f;
     public float jumpForce = 7f;
     public float groundCheckDistance = 1.1f;
+    [Tooltip("Downward kick when dropping through a platform, so he clears it even from a standstill.")]
+    public float dropThroughNudge = 2f;
     public LayerMask groundLayer;
 
     public float wallCheckDistance = 0.6f;
@@ -174,7 +176,16 @@ public class PlayerMovement2D : MonoBehaviour
 
             if (keyboard.spaceKey.wasPressedThisFrame)
             {
-                if (grounded)
+                bool holdingDown = keyboard.sKey.isPressed || keyboard.downArrowKey.isPressed;
+                DropThroughPlatform2D dropper = (grounded && holdingDown && groundHit.collider != null)
+                    ? groundHit.collider.GetComponent<DropThroughPlatform2D>() : null;
+
+                if (dropper != null)
+                {
+                    // down + jump falls to the platform below instead of jumping
+                    StartCoroutine(DropThroughRoutine(groundHit.collider, dropper.passThroughTime));
+                }
+                else if (grounded)
                 {
                     jumpRequested = true;
                 }
@@ -230,6 +241,27 @@ public class PlayerMovement2D : MonoBehaviour
     }
 
     private static readonly float[] WallProbeHeights = { 0.8f, 0.4f, 0f, -0.4f, -0.8f };
+
+    // Turns off collision with just that one platform for a moment. Disabling the
+    // platform's collider outright would drop anything else standing on it too.
+    private System.Collections.IEnumerator DropThroughRoutine(Collider2D platform, float duration)
+    {
+        Collider2D self = GetComponent<Collider2D>();
+        if (self == null || platform == null) yield break;
+
+        Physics2D.IgnoreCollision(self, platform, true);
+        grounded = false;
+
+        // a nudge down so he leaves the surface even when standing perfectly still
+        if (rb != null && rb.linearVelocity.y > -0.1f)
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, -dropThroughNudge);
+        }
+
+        yield return new WaitForSeconds(duration);
+
+        if (self != null && platform != null) Physics2D.IgnoreCollision(self, platform, false);
+    }
 
     private RaycastHit2D CastForWall(Vector2 direction)
     {
