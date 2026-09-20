@@ -39,6 +39,8 @@ public class PlayerMovement2D : MonoBehaviour
     public float lightMaxSeconds = 10f;
     public float lightLockoutSeconds = 7f;
     public float lightHalfAngle = 15f;
+    [Tooltip("Left on, the beam starts from wherever HeldFlashlightVisual2D puts the flashlight, so the cone and the prop can never drift apart.")]
+    public bool beamFollowsHeldFlashlight = true;
     public Vector2 flashlightHandOffset = new Vector2(0.4f, 0.1f);
     public Vector2 jumpFlashlightHandOffset = new Vector2(0.75f, 0.15f);
     [Tooltip("How far past the lamp head the shot appears, so it reads as coming out of the flashlight.")]
@@ -86,6 +88,7 @@ public class PlayerMovement2D : MonoBehaviour
     private int facingDirection = 1;
     private bool grounded;
     private SpriteRenderer flashlightRenderer;
+    private HeldFlashlightVisual2D heldVisual;
     private SpriteMask flashlightMask;
     private Vector2 lightDirection = Vector2.right;
     private float lastFireTime = -999f;
@@ -134,6 +137,7 @@ public class PlayerMovement2D : MonoBehaviour
         dashStamina = dashStaminaMax;
         if (flashlight != null)
         {
+            heldVisual = GetComponentInChildren<HeldFlashlightVisual2D>(true);
             flashlightRenderer = flashlight.GetComponent<SpriteRenderer>();
             if (flashlightRenderer != null) flashlightRenderer.enabled = false;
             flashlightMask = flashlight.GetComponent<SpriteMask>();
@@ -374,7 +378,13 @@ public class PlayerMovement2D : MonoBehaviour
             lightDirection = GetMouseDirection(mouse);
             float angle = Mathf.Atan2(lightDirection.y, lightDirection.x) * Mathf.Rad2Deg;
             float facing = lightDirection.x >= 0f ? 1f : -1f;
+            // The cone and the drawn flashlight used to carry separate offsets, so
+            // the beam left from a point that was not the lamp. One number now.
             Vector2 offset = grounded ? flashlightHandOffset : jumpFlashlightHandOffset;
+            if (beamFollowsHeldFlashlight && grounded && heldVisual != null)
+            {
+                offset = heldVisual.idleHandOffset;
+            }
             flashlight.position = transform.position + new Vector3(offset.x * facing, offset.y, 0f);
             flashlight.rotation = Quaternion.Euler(0f, 0f, angle);
         }
