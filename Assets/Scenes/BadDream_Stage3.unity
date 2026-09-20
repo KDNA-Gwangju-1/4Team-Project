@@ -1799,9 +1799,9 @@ MonoBehaviour:
   collapseFallSpeed: 7
   collapseFadeTime: 1.4
   phase2RespawnAnchor: {fileID: 1258285220}
-  phase2GravityScale: 0.25
+  phase2GravityScale: 0.45
   phase2FallRespawnY: -24
-  phase2LaunchImpulse: 4
+  phase2LaunchImpulse: 0
   phase2AirDash: 1
   phase2Frames:
   - {fileID: -1158187498100141830, guid: ab77cc86b3db42841bc2045173ece6a3, type: 3}
