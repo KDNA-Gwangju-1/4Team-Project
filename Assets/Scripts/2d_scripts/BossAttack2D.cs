@@ -63,6 +63,7 @@ public class BossAttack2D : MonoBehaviour
     public Color tiredRevealed = new Color(1f, 0.92f, 0.65f);
     [Tooltip("Her normal phase 2 colour while attacking.")]
     public Color phase2ActiveTint = Color.white;
+    [TextArea] public string tiredHint = "보스가 지쳤다!  비추고 공격하자";
     [Tooltip("How far she leans toward the player while resting. 0 = stay put.")]
     public float tiredApproach = 0f;
     public float tiredApproachTime = 0.6f;
@@ -315,6 +316,13 @@ public class BossAttack2D : MonoBehaviour
 
         bossRef.requireLightToDamage = true;
         bossRef.Invulnerable = false;
+
+        if (!string.IsNullOrEmpty(tiredHint))
+        {
+            ScreenHint2D hint = GetComponent<ScreenHint2D>();
+            if (hint == null) hint = gameObject.AddComponent<ScreenHint2D>();
+            hint.Show(tiredHint, tiredDuration);
+        }
 
         yield return new WaitForSeconds(tiredDuration);
 
