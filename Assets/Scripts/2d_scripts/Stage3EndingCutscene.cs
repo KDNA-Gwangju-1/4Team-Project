@@ -26,6 +26,8 @@ public class Stage3EndingCutscene : MonoBehaviour
     public float dissolveFrameDuration = 0.16f;
     [Tooltip("Drawn width of what is left. She is a child, not a boss.")]
     public float sisterWidth = 2.4f;
+    public string sortingLayer = "Default";
+    public int sortingOrder = 1;
     public float sisterGroundY = -2.63f;
     public float holdAfterDissolve = 0.9f;
 
@@ -58,6 +60,7 @@ public class Stage3EndingCutscene : MonoBehaviour
     public float whiteFadeDuration = 2.6f;
     public float whiteHold = 1.5f;
 
+    private Transform sister;
     private DialogueWindow2D window;
     private GameObject overlayCanvas;
     private Image overlay;
@@ -74,10 +77,36 @@ public class Stage3EndingCutscene : MonoBehaviour
         if (boss != null) boss.OnDied -= HandleBossDied;
     }
 
+    private Vector3 lastBossPosition;
+
+    void LateUpdate()
+    {
+        // the boss object is destroyed shortly after it dies, so its last spot
+        // has to be remembered while it is still around
+        if (!played && bossRenderer != null) lastBossPosition = bossRenderer.transform.position;
+    }
+
+    // Dev shortcut: skip straight here without killing the boss first.
+    public void PlayNow()
+    {
+        if (played) return;
+        played = true;
+
+        if (boss != null)
+        {
+            boss.Invulnerable = true;
+            BossAttack2D attack = boss.GetComponent<BossAttack2D>();
+            if (attack != null) attack.SetPhase(0);
+            if (bossRenderer != null) lastBossPosition = bossRenderer.transform.position;
+        }
+        StartCoroutine(PlayEnding());
+    }
+
     private void HandleBossDied()
     {
         if (played) return;
         played = true;
+        if (bossRenderer != null) lastBossPosition = bossRenderer.transform.position;
         StartCoroutine(PlayEnding());
     }
 
@@ -104,7 +133,7 @@ public class Stage3EndingCutscene : MonoBehaviour
         // --- she comes apart, and the child is what is left ---
         yield return DissolveRoutine();
 
-        Vector3 sisterPos = boss != null ? boss.transform.position : player.transform.position;
+        Vector3 sisterPos = sister != null ? sister.position : new Vector3(lastBossPosition.x, sisterGroundY, 0f);
         Vector3 twoShot = new Vector3((player.transform.position.x + sisterPos.x) * 0.5f,
                                       sisterGroundY + 1.6f, shotOffset.z);
         yield return PanTo(twoShot, shotOrthoSize, panDuration);
@@ -139,37 +168,39 @@ public class Stage3EndingCutscene : MonoBehaviour
         foreach (RangedMonster2D m in FindObjectsOfType<RangedMonster2D>()) m.gameObject.SetActive(false);
     }
 
+    // Boss2D.DieSequence plays its own dissolve and then destroys the object, so
+    // anything we drive through the boss renderer vanishes mid-scene. The ending
+    // spawns its own sprite instead and lets the boss tear itself down.
     private IEnumerator DissolveRoutine()
     {
-        if (bossRenderer == null || dissolveFrames == null || dissolveFrames.Length == 0) yield break;
+        if (dissolveFrames == null || dissolveFrames.Length == 0) yield break;
 
-        // the animator would overwrite every frame we set
-        MonsterSpriteAnimator2D animator = bossRenderer.GetComponent<MonsterSpriteAnimator2D>();
-        if (animator != null) animator.enabled = false;
+        Vector3 where = lastBossPosition;
+        if (bossRenderer != null)
+        {
+            where = bossRenderer.transform.position;
+            bossRenderer.enabled = false;
+        }
 
-        LightSilhouette2D shadow = bossRenderer.GetComponent<LightSilhouette2D>();
-        if (shadow != null) shadow.Active = false;
+        GameObject go = new GameObject("Sister");
+        go.transform.position = new Vector3(where.x, sisterGroundY, 0f);
+        sister = go.transform;
 
-        BossFlight2D flight = bossRenderer.GetComponent<BossFlight2D>();
-        if (flight != null) flight.Stop();
+        SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
+        sr.sprite = dissolveFrames[0];
+        sr.sortingLayerName = sortingLayer;
+        sr.sortingOrder = sortingOrder;
 
-        bossRenderer.enabled = true;
-        bossRenderer.color = Color.white;
-
-        // she is a child now, and she is on the ground
-        Sprite last = dissolveFrames[dissolveFrames.Length - 1];
-        float native = last.bounds.size.x;
+        float native = sr.sprite.bounds.size.x;
         if (native > 0.001f)
         {
             float factor = sisterWidth / native;
-            bossRenderer.transform.localScale = new Vector3(factor, factor, bossRenderer.transform.localScale.z);
+            go.transform.localScale = new Vector3(factor, factor, 1f);
         }
-        Vector3 p = bossRenderer.transform.position;
-        bossRenderer.transform.position = new Vector3(p.x, sisterGroundY, p.z);
 
         for (int i = 0; i < dissolveFrames.Length; i++)
         {
-            bossRenderer.sprite = dissolveFrames[i];
+            sr.sprite = dissolveFrames[i];
             yield return new WaitForSeconds(dissolveFrameDuration);
         }
     }

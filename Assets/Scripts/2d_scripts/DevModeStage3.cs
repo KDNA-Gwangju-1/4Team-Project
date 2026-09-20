@@ -11,6 +11,8 @@ public class DevModeStage3 : MonoBehaviour
     public KeyCode jumpToPhase2Key = KeyCode.F2;
     [Tooltip("Kills the boss outright.")]
     public KeyCode killBossKey = KeyCode.F4;
+    [Tooltip("Jumps straight to the ending cutscene without fighting.")]
+    public KeyCode endingKey = KeyCode.F5;
 
     void Awake()
     {
@@ -33,6 +35,12 @@ public class DevModeStage3 : MonoBehaviour
     {
         if (Input.GetKeyDown(jumpToPhase2Key)) DamageBossTo(PhaseThreshold());
         if (Input.GetKeyDown(killBossKey)) DamageBossTo(0);
+
+        if (Input.GetKeyDown(endingKey))
+        {
+            var ending = FindObjectOfType<Stage3EndingCutscene>();
+            if (ending != null) ending.PlayNow();
+        }
     }
 
     private static int PhaseThreshold()
