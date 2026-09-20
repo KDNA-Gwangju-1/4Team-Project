@@ -19,6 +19,8 @@ public class TentacleStrikeField2D : MonoBehaviour
     public Boss2D boss;
     public Transform bossBody;
     public float bossClearance = 0.6f;
+    [Tooltip("Keep tentacles away from the boss. Only makes sense while she stands on the floor - once she is airborne this blanks out the ground beneath her.")]
+    public bool respectBossClearance = true;
 
     public float arenaMinX = 19f;
     public float arenaMaxX = 48f;
@@ -100,6 +102,7 @@ public class TentacleStrikeField2D : MonoBehaviour
 
     private float ForbiddenRadius()
     {
+        if (!respectBossClearance) return 0f;
         if (bossBody == null) return 0f;
 
         float bossHalfWidth = 0f;

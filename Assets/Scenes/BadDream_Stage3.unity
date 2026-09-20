@@ -781,7 +781,7 @@ Transform:
   m_GameObject: {fileID: 465286316}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 33.3, y: 5.7604146, z: 0}
+  m_LocalPosition: {x: 33.3, y: 5.7680926, z: 0}
   m_LocalScale: {x: 1.2363707, y: 1.4479638, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2247,6 +2247,7 @@ MonoBehaviour:
   phase2WarnsWholePath: 1
   phase2PathWarnDuration: 2.6
   phase2DominoSpan: 16
+  phase2IgnoresBossClearance: 1
   ringSpreadAngle: 135
   fitColliderToPhase2Art: 1
   phase2HitCentre01: {x: 0.5, y: 0.43}
@@ -2282,6 +2283,7 @@ MonoBehaviour:
   boss: {fileID: 900000034}
   bossBody: {fileID: 900000031}
   bossClearance: 0.6
+  respectBossClearance: 1
   arenaMinX: 11.1152115
   arenaMaxX: 46.745987
   pointSpacing: 1.8
@@ -3542,6 +3544,7 @@ MonoBehaviour:
   dashSpeed: 20
   dashDuration: 0.2
   dashCooldown: 0.55
+  postDashInvincibility: 0.25
   dashGravityScale: 0.15
   dashStaminaMax: 3
   dashStaminaRegenTime: 2.8

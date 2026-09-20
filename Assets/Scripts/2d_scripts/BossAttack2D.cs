@@ -91,6 +91,8 @@ public class BossAttack2D : MonoBehaviour
     public float phase2PathWarnDuration = 1.6f;
     [Tooltip("How wide a stretch the wave covers. Not the whole arena - that lights the entire floor.")]
     public float phase2DominoSpan = 16f;
+    [Tooltip("She is in the air in phase 2, so the ground under her is fair game. Leaving the clearance on blanks out most of the wave.")]
+    public bool phase2IgnoresBossClearance = true;
 
     [Tooltip("The wide pattern is a fan too, not a ring - she throws them, so nothing should fly out behind her.")]
     public float ringSpreadAngle = 120f;
@@ -246,6 +248,7 @@ public class BossAttack2D : MonoBehaviour
                     bool keepPathWarn = strikeField.dominoWarnsWholePath;
                     float keepPathTime = strikeField.dominoPathWarnDuration;
                     float keepSpan = strikeField.dominoSpan;
+                    bool keepClearance = strikeField.respectBossClearance;
                     if (phase2OverridesWave)
                     {
                         strikeField.dominoSpacing = phase2DominoSpacing;
@@ -254,6 +257,7 @@ public class BossAttack2D : MonoBehaviour
                         strikeField.dominoWarnsWholePath = phase2WarnsWholePath;
                         strikeField.dominoPathWarnDuration = phase2PathWarnDuration;
                         strikeField.dominoSpan = phase2DominoSpan;
+                        strikeField.respectBossClearance = !phase2IgnoresBossClearance;
                     }
 
                     yield return strikeField.RunPattern(shape, phase2TentacleCount);
@@ -264,6 +268,7 @@ public class BossAttack2D : MonoBehaviour
                     strikeField.dominoWarnsWholePath = keepPathWarn;
                     strikeField.dominoPathWarnDuration = keepPathTime;
                     strikeField.dominoSpan = keepSpan;
+                    strikeField.respectBossClearance = keepClearance;
                 }
 
                 yield return ClawFollowThrough();
