@@ -1,0 +1,574 @@
+[
+  {
+    "path": "01_maps/alternatives/a-stairway-stage-1.png",
+    "bytes": 2052332,
+    "sha256": "e6755c6dc473aefe66d706c748af788d222212ef0f897c73197b5103fae2d0ce",
+    "source": "output/baddream-map-alternatives/a-stairway-stage-1.png",
+    "width": 1600,
+    "height": 900,
+    "frames": 1,
+    "alpha_range": [
+      255,
+      255
+    ]
+  },
+  {
+    "path": "01_maps/alternatives/a-stairway-stage-2-5.png",
+    "bytes": 2087368,
+    "sha256": "2b5c401a8096dc1dd14b147cbded07b137ae27fc8f4d6d2c3a8c0a11b5ea6702",
+    "source": "output/baddream-map-alternatives/a-stairway-stage-2-5.png",
+    "width": 1600,
+    "height": 900,
+    "frames": 1,
+    "alpha_range": [
+      255,
+      255
+    ]
+  },
+  {
+    "path": "01_maps/alternatives/a-stairway-stage-2.png",
+    "bytes": 2221181,
+    "sha256": "c0d09d4aa6744673f2c987fe253025d896eb61bf0b12e9d19e1d08043cdebd4e",
+    "source": "output/baddream-map-alternatives/a-stairway-stage-2.png",
+    "width": 1600,
+    "height": 900,
+    "frames": 1,
+    "alpha_range": [
+      255,
+      255
+    ]
+  },
+  {
+    "path": "01_maps/alternatives/a-stairway-stage-3.png",
+    "bytes": 2289844,
+    "sha256": "d89f72cead671e416f9c6983c6a555c9921e946c7024c937b5f3f8c038507a61",
+    "source": "output/baddream-map-alternatives/a-stairway-stage-3.png",
+    "width": 1600,
+    "height": 900,
+    "frames": 1,
+    "alpha_range": [
+      255,
+      255
+    ]
+  },
+  {
+    "path": "01_maps/alternatives/b-corridor-stage-1.png",
+    "bytes": 2057123,
+    "sha256": "6accca6cf3996856023ab6ebfd9106844240f3227e106d68a35c4a4269a6bc44",
+    "source": "output/baddream-map-alternatives/b-corridor-stage-1.png",
+    "width": 1600,
+    "height": 900,
+    "frames": 1,
+    "alpha_range": [
+      255,
+      255
+    ]
+  },
+  {
+    "path": "01_maps/alternatives/b-corridor-stage-2-5.png",
+    "bytes": 2043706,
+    "sha256": "c86cc2003d07f32a3a12c80aad957f6d4897c57ecdba2dd34e4b4c5daf499246",
+    "source": "output/baddream-map-alternatives/b-corridor-stage-2-5.png",
+    "width": 1600,
+    "height": 900,
+    "frames": 1,
+    "alpha_range": [
+      255,
+      255
+    ]
+  },
+  {
+    "path": "01_maps/alternatives/b-corridor-stage-2.png",
+    "bytes": 2248482,
+    "sha256": "c663fdaa832df7f6e75cf3d302570d7e6def851456239a96613fd7fbdb6f0fb1",
+    "source": "output/baddream-map-alternatives/b-corridor-stage-2.png",
+    "width": 1600,
+    "height": 900,
+    "frames": 1,
+    "alpha_range": [
+      255,
+      255
+    ]
+  },
+  {
+    "path": "01_maps/alternatives/b-corridor-stage-3.png",
+    "bytes": 2338109,
+    "sha256": "74ca81dd20f1e89dc639393d537f908b8b285fb1571dc12514caac35a38844d9",
+    "source": "output/baddream-map-alternatives/b-corridor-stage-3.png",
+    "width": 1600,
+    "height": 900,
+    "frames": 1,
+    "alpha_range": [
+      255,
+      255
+    ]
+  },
+  {
+    "path": "01_maps/alternatives/c-basin-stage-1.png",
+    "bytes": 2000894,
+    "sha256": "1a0aeb5ea002217a4fc5a7c896d39845f38db6cd7bcbc58ede9ac9c741ede6d8",
+    "source": "output/baddream-map-alternatives/c-basin-stage-1.png",
+    "width": 1600,
+    "height": 900,
+    "frames": 1,
+    "alpha_range": [
+      255,
+      255
+    ]
+  },
+  {
+    "path": "01_maps/alternatives/c-basin-stage-2-5.png",
+    "bytes": 2054265,
+    "sha256": "53ea06a90116da65a41c7a08c3ea193c22c04c509901e1e00a93b55c1b702375",
+    "source": "output/baddream-map-alternatives/c-basin-stage-2-5.png",
+    "width": 1600,
+    "height": 900,
+    "frames": 1,
+    "alpha_range": [
+      255,
+      255
+    ]
+  },
+  {
+    "path": "01_maps/alternatives/c-basin-stage-2.png",
+    "bytes": 2158556,
+    "sha256": "2e53866d4a30d0c3b205b6065331ba7aab57464ba3dc44db96578ca96c285f60",
+    "source": "output/baddream-map-alternatives/c-basin-stage-2.png",
+    "width": 1600,
+    "height": 900,
+    "frames": 1,
+    "alpha_range": [
+      255,
+      255
+    ]
+  },
+  {
+    "path": "01_maps/alternatives/c-basin-stage-3.png",
+    "bytes": 2140058,
+    "sha256": "de209d3bb8639e76a67edf5b7b2a8063b568855be25a670c5b652bacaabb9ebd",
+    "source": "output/baddream-map-alternatives/c-basin-stage-3.png",
+    "width": 1600,
+    "height": 900,
+    "frames": 1,
+    "alpha_range": [
+      255,
+      255
+    ]
+  },
+  {
+    "path": "01_maps/previews/map-alternatives.html",
+    "bytes": 751056,
+    "sha256": "f90795e4c3f49338e28169282c4008803761613aba5ac298e76b9190c165501d",
+    "source": "Created for this delivery"
+  },
+  {
+    "path": "01_maps/previews/map-v3.html",
+    "bytes": 747826,
+    "sha256": "8292d936964013152c223e404e356c3243520c0f216314cb2c5c410974d7b524",
+    "source": "Created for this delivery"
+  },
+  {
+    "path": "01_maps/v3/stage-1-draft.png",
+    "bytes": 55548,
+    "sha256": "f6dae4df3efbe87b9f9bb3aa184a7f0649e440efbab70aeb3fdcdf16bc328457",
+    "source": "output/baddream-map-v1/stage-1-draft.png",
+    "width": 1600,
+    "height": 900,
+    "frames": 1,
+    "alpha_range": [
+      255,
+      255
+    ]
+  },
+  {
+    "path": "01_maps/v3/stage-1-final.png",
+    "bytes": 1993851,
+    "sha256": "735312d1482b1d370e92a1f13c46f5356ad240b7192de105b55f00522ac03d98",
+    "source": "output/baddream-map-v3/stage-1-final.png",
+    "width": 1600,
+    "height": 900,
+    "frames": 1,
+    "alpha_range": [
+      255,
+      255
+    ]
+  },
+  {
+    "path": "01_maps/v3/stage-1-layout.png",
+    "bytes": 1161379,
+    "sha256": "b381bd63c6d7707eb351e87c0a5bd246be799ec32e5441a3622b6ee81660ae58",
+    "source": "output/baddream-map-v3/stage-1-layout.png",
+    "width": 1600,
+    "height": 900,
+    "frames": 1,
+    "alpha_range": [
+      255,
+      255
+    ]
+  },
+  {
+    "path": "01_maps/v3/stage-2-5-draft.png",
+    "bytes": 67245,
+    "sha256": "30d60f80f0f3e957fd20ccae41fbb3825521707f08fcfbdb79f1e47d9b1f65fa",
+    "source": "output/baddream-map-v1/stage-2-5-draft.png",
+    "width": 1600,
+    "height": 900,
+    "frames": 1,
+    "alpha_range": [
+      255,
+      255
+    ]
+  },
+  {
+    "path": "01_maps/v3/stage-2-5-final.png",
+    "bytes": 2076514,
+    "sha256": "2f8ceb6e61c2934f9e74067e27fb68776590b44e0150cff98df649087994cf7d",
+    "source": "output/baddream-map-v3/stage-2-5-final.png",
+    "width": 1600,
+    "height": 900,
+    "frames": 1,
+    "alpha_range": [
+      255,
+      255
+    ]
+  },
+  {
+    "path": "01_maps/v3/stage-2-5-layout.png",
+    "bytes": 1220994,
+    "sha256": "5bb9c6cec34d209f3cacb8027cd1d6ae9f56b263d40a015232ec3017581d2c02",
+    "source": "output/baddream-map-v3/stage-2-5-layout.png",
+    "width": 1600,
+    "height": 900,
+    "frames": 1,
+    "alpha_range": [
+      255,
+      255
+    ]
+  },
+  {
+    "path": "01_maps/v3/stage-2-draft.png",
+    "bytes": 92196,
+    "sha256": "e2abf49b8e9bcce86d5c42b281ada2eba91ef429908a115d86a745f96bc5531a",
+    "source": "output/baddream-map-v1/stage-2-draft.png",
+    "width": 1600,
+    "height": 900,
+    "frames": 1,
+    "alpha_range": [
+      255,
+      255
+    ]
+  },
+  {
+    "path": "01_maps/v3/stage-2-final.png",
+    "bytes": 2251913,
+    "sha256": "26f4888505b999fc662cb5b79efc625909ce9185e5039cb5b4271f0ca5ed776f",
+    "source": "output/baddream-map-v3/stage-2-final.png",
+    "width": 1600,
+    "height": 900,
+    "frames": 1,
+    "alpha_range": [
+      255,
+      255
+    ]
+  },
+  {
+    "path": "01_maps/v3/stage-2-layout.png",
+    "bytes": 1462593,
+    "sha256": "2de9cde640fe6ea5815c59ecea0ee3308505a0ea5b0230c035751045e975e2f0",
+    "source": "output/baddream-map-v3/stage-2-layout.png",
+    "width": 1600,
+    "height": 900,
+    "frames": 1,
+    "alpha_range": [
+      255,
+      255
+    ]
+  },
+  {
+    "path": "01_maps/v3/stage-3-draft.png",
+    "bytes": 57700,
+    "sha256": "8d46c9dc85223a13dc66fe1408a6e8142a816e4d33440bd7847cba3bf79ecb50",
+    "source": "output/baddream-map-v1/stage-3-draft.png",
+    "width": 1600,
+    "height": 900,
+    "frames": 1,
+    "alpha_range": [
+      255,
+      255
+    ]
+  },
+  {
+    "path": "01_maps/v3/stage-3-final.png",
+    "bytes": 2257120,
+    "sha256": "328cd33a2c635e99d71c0528ee4f7b2dd45c3e6e620804612c637054b943f0b9",
+    "source": "output/baddream-map-v3/stage-3-final.png",
+    "width": 1600,
+    "height": 900,
+    "frames": 1,
+    "alpha_range": [
+      255,
+      255
+    ]
+  },
+  {
+    "path": "01_maps/v3/stage-3-layout.png",
+    "bytes": 1323715,
+    "sha256": "996942ae770a26e7f376b3b30074b3e34d285142c8f70a5ef7c7614f6f128508",
+    "source": "output/baddream-map-v3/stage-3-layout.png",
+    "width": 1600,
+    "height": 900,
+    "frames": 1,
+    "alpha_range": [
+      255,
+      255
+    ]
+  },
+  {
+    "path": "02_text/negative-phrases/01-only-me.png",
+    "bytes": 1699852,
+    "sha256": "870a15cf498dce599b5c18feb66acfd4d3f604942d5253722e77e3edeb4f5d15",
+    "source": "output/baddream-negative-text-v1/01-only-me.png",
+    "width": 1145,
+    "height": 1374,
+    "frames": 1,
+    "alpha_range": [
+      0,
+      255
+    ]
+  },
+  {
+    "path": "02_text/negative-phrases/02-go-away.png",
+    "bytes": 1500025,
+    "sha256": "28562086e29c5f842446ec4e465edb92115411c712d82adf43c817222222035f",
+    "source": "output/baddream-negative-text-v1/02-go-away.png",
+    "width": 1983,
+    "height": 793,
+    "frames": 1,
+    "alpha_range": [
+      0,
+      255
+    ]
+  },
+  {
+    "path": "02_text/negative-phrases/03-its-mine.png",
+    "bytes": 1443151,
+    "sha256": "2632d297b99dfaf536b6e35b51029bff79702de587890394a959aa6f36c38527",
+    "source": "output/baddream-negative-text-v1/03-its-mine.png",
+    "width": 1942,
+    "height": 809,
+    "frames": 1,
+    "alpha_range": [
+      0,
+      255
+    ]
+  },
+  {
+    "path": "02_text/negative-phrases/04-leave-me-alone.png",
+    "bytes": 1665382,
+    "sha256": "1309bd2bb943f0734b1cd324679b31624978d10e0ac777d2473ffa56b4172070",
+    "source": "output/baddream-negative-text-v1/04-leave-me-alone.png",
+    "width": 1145,
+    "height": 1374,
+    "frames": 1,
+    "alpha_range": [
+      0,
+      255
+    ]
+  },
+  {
+    "path": "02_text/negative-phrases/05-all-lies.png",
+    "bytes": 1366989,
+    "sha256": "ab396c751dbd39aa840ed863b7f19b3f9ece6e76c51a180b4630bfe7ea9b8a52",
+    "source": "output/baddream-negative-text-v1/05-all-lies.png",
+    "width": 1145,
+    "height": 1374,
+    "frames": 1,
+    "alpha_range": [
+      0,
+      255
+    ]
+  },
+  {
+    "path": "02_text/negative-phrases/prompts.txt",
+    "bytes": 4225,
+    "sha256": "608f491da7c4cab6053922b4395754f33f01dbf5de5c5ae5a513645940efbe9f",
+    "source": "output/baddream-negative-text-v1/prompts.txt"
+  },
+  {
+    "path": "02_text/scrawl-frame/prompt.txt",
+    "bytes": 1790,
+    "sha256": "239b0ea16d51749f795ae05a4c0af78dd5097d7f1961d226f443d914e010bbde",
+    "source": "output/baddream-text-assets-v5/prompt.txt"
+  },
+  {
+    "path": "02_text/scrawl-frame/sister-crayon-scrawl-frame.png",
+    "bytes": 2120444,
+    "sha256": "5c14c9349908ed43a5f617420f77587e7ef4b7082433bff6edb187e30874e4a5",
+    "source": "output/baddream-text-assets-v5/sister-crayon-scrawl-frame.png",
+    "width": 1145,
+    "height": 1374,
+    "frames": 1,
+    "alpha_range": [
+      0,
+      255
+    ]
+  },
+  {
+    "path": "02_text/sister-pack/01-text-only.png",
+    "bytes": 1923154,
+    "sha256": "03865a021bc29514f3f411032b13a218eb6b6366caadcfe4b23150f2b1617618",
+    "source": "output/baddream-text-assets-pack-v1/01-text-only.png",
+    "width": 1145,
+    "height": 1374,
+    "frames": 1,
+    "alpha_range": [
+      0,
+      255
+    ]
+  },
+  {
+    "path": "02_text/sister-pack/02-family-paper.png",
+    "bytes": 2737444,
+    "sha256": "435e1b510e2fd82e07c4e0c78109512e9e7d416bf01a0da13d2dc790e5b3ad0f",
+    "source": "output/baddream-text-assets-pack-v1/02-family-paper.png",
+    "width": 1229,
+    "height": 1280,
+    "frames": 1,
+    "alpha_range": [
+      0,
+      255
+    ]
+  },
+  {
+    "path": "02_text/sister-pack/03-portrait-paper.png",
+    "bytes": 2381384,
+    "sha256": "ff4e06375fa6350bc77183a5974730f6678946fc17be27b04eb3b3a348470c35",
+    "source": "output/baddream-text-assets-pack-v1/03-portrait-paper.png",
+    "width": 1144,
+    "height": 1375,
+    "frames": 1,
+    "alpha_range": [
+      0,
+      255
+    ]
+  },
+  {
+    "path": "02_text/sister-pack/04-portrait-frame.png",
+    "bytes": 2694536,
+    "sha256": "5858ff18070efb279c4c59a186493f95aa2506a089643b81d50dc86a2808c27c",
+    "source": "output/baddream-text-assets-pack-v1/04-portrait-frame.png",
+    "width": 1144,
+    "height": 1375,
+    "frames": 1,
+    "alpha_range": [
+      0,
+      255
+    ]
+  },
+  {
+    "path": "02_text/sister-pack/05-trophy-paper.png",
+    "bytes": 2525140,
+    "sha256": "42c95abde17cfbe0ee581b293a401ebd3a94715d60fa5a776b208b74086835ff",
+    "source": "output/baddream-text-assets-pack-v1/05-trophy-paper.png",
+    "width": 1077,
+    "height": 1461,
+    "frames": 1,
+    "alpha_range": [
+      0,
+      255
+    ]
+  },
+  {
+    "path": "02_text/sister-pack/06-tilted-family-frame.png",
+    "bytes": 2038760,
+    "sha256": "784429f41c8565f1aa29b5c74773210fab06b34aecf1c0ad5845f6d665319c3e",
+    "source": "output/baddream-text-assets-pack-v1/06-tilted-family-frame.png",
+    "width": 1145,
+    "height": 1374,
+    "frames": 1,
+    "alpha_range": [
+      0,
+      255
+    ]
+  },
+  {
+    "path": "02_text/sister-pack/prompts.txt",
+    "bytes": 6906,
+    "sha256": "88c7d49e6e39483e6420ca4c2b7fbe8657dbdbd9d5495cd3f8081cc838ccfc78",
+    "source": "output/baddream-text-assets-pack-v1/prompts.txt"
+  },
+  {
+    "path": "03_boss/boss-claw-8frames-v1-export.gif",
+    "bytes": 497870,
+    "sha256": "3634e651d69ad575e6733723f3532f5ec9e6cb65b95d3b5130f1e73c038f11be",
+    "source": "output/imagegen/boss-claw-8frames-v1-export.gif",
+    "width": 512,
+    "height": 512,
+    "frames": 8
+  },
+  {
+    "path": "03_boss/boss-claw-8frames-v1-prompt.txt",
+    "bytes": 2954,
+    "sha256": "b84c16858d0878b4d05f6601175d83c729f0faf7ee5fcda1f3abc3a9cebed38c",
+    "source": "output/imagegen/boss-claw-8frames-v1-prompt.txt"
+  },
+  {
+    "path": "03_boss/boss-claw-8frames-v1.json",
+    "bytes": 2549,
+    "sha256": "cd5f4fa864bc95ed1b700f21b6cb7e5ea8a11c43384ee8843327aea4edd7a418",
+    "source": "output/imagegen/boss-claw-8frames-v1.json"
+  },
+  {
+    "path": "03_boss/boss-claw-8frames-v1.png",
+    "bytes": 1136544,
+    "sha256": "f4bdee11f507f4166aba54f6d6b10063f30bd0ba3f0cb21f619a283d16307801",
+    "source": "output/imagegen/boss-claw-8frames-v1.png",
+    "width": 4096,
+    "height": 512,
+    "frames": 1,
+    "alpha_range": [
+      0,
+      255
+    ]
+  },
+  {
+    "path": "03_boss/boss-idle-8frames-v1-prompt.txt",
+    "bytes": 1481,
+    "sha256": "827f1ea81e9759355b118220bc0cafa7323eccfc219db40fa0ae017c9a272e81",
+    "source": "output/imagegen/boss-idle-8frames-v1-prompt.txt"
+  },
+  {
+    "path": "03_boss/boss-idle-8frames-v1.gif",
+    "bytes": 798526,
+    "sha256": "1dc499b9150f88432389e75f29afe4b3fc3125cbbedaa9670c178cdb3eb20f3d",
+    "source": "output/imagegen/boss-idle-8frames-v1.gif",
+    "width": 444,
+    "height": 444,
+    "frames": 8
+  },
+  {
+    "path": "03_boss/boss-idle-8frames-v1.png",
+    "bytes": 2034970,
+    "sha256": "9d66d0216658589871b392f234262b60f8cd686f89ba6d46d416806539ed88ff",
+    "source": "output/imagegen/boss-idle-8frames-v1.png",
+    "width": 1774,
+    "height": 887,
+    "frames": 1,
+    "alpha_range": [
+      0,
+      255
+    ]
+  },
+  {
+    "path": "PATCH-NOTES.md",
+    "bytes": 2555,
+    "sha256": "6567916cb1c009d90980616429bcbd9e910c3f17790eba88164b3a4c4d63e9ac",
+    "source": "Created for this delivery"
+  },
+  {
+    "path": "README.md",
+    "bytes": 1191,
+    "sha256": "4e6c0bc673713c21e87d538be5f70a815ede385f73c3736586bcc1a07a1da032",
+    "source": "Created for this delivery"
+  }
+]
