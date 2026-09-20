@@ -32,8 +32,10 @@ public class BossPhaseController2D : MonoBehaviour
     public Sprite[] phase2Frames;
     public float phase2FrameDuration = 0.13f;
 
-    [Tooltip("Plays before the floor drops. The collapse waits for it to finish.")]
+    [Tooltip("Plays before phase 2 starts. Everything below waits for it to finish.")]
     public Stage3Phase2Cutscene phase2Cutscene;
+    [Tooltip("The cutscene now lifts them both out of the arena itself, so the claw swing and the floor collapse are skipped.")]
+    public bool cutsceneHandlesArenaChange = true;
 
     public bool moveBossOnPhase2 = false;
     public Vector2 phase2BossPosition;
@@ -91,8 +93,9 @@ public class BossPhaseController2D : MonoBehaviour
 
         // Wind up, then break the floor ON the impact frame. Playing the whole
         // swing first and collapsing afterwards reads as two unrelated events.
+        bool ownArenaChange = !cutsceneHandlesArenaChange;
         Sprite[] claw = (attack != null) ? attack.clawFrames : null;
-        bool hasClaw = claw != null && claw.Length > 0 && attack.animator != null;
+        bool hasClaw = ownArenaChange && claw != null && claw.Length > 0 && attack.animator != null;
         int impact = hasClaw ? Mathf.Clamp(clawImpactFrame, 0, claw.Length - 1) : 0;
 
         if (hasClaw)
@@ -104,7 +107,7 @@ public class BossPhaseController2D : MonoBehaviour
             }
         }
 
-        if (cameraFollow != null) cameraFollow.Shake(shakeDuration, shakeMagnitude);
+        if (ownArenaChange && cameraFollow != null) cameraFollow.Shake(shakeDuration, shakeMagnitude);
 
         var player = PlayerMovement2D.Instance;
         if (player != null)
@@ -118,9 +121,12 @@ public class BossPhaseController2D : MonoBehaviour
 
         SetActiveAll(phase2Objects, true);
 
-        for (int i = 0; i < collapsingFloors.Length; i++)
+        if (ownArenaChange)
         {
-            StartCoroutine(CollapseRoutine(collapsingFloors[i], i * 0.08f));
+            for (int i = 0; i < collapsingFloors.Length; i++)
+            {
+                StartCoroutine(CollapseRoutine(collapsingFloors[i], i * 0.08f));
+            }
         }
 
         // the rest of the swing follows through while the floor is already falling

@@ -134,6 +134,28 @@ public class Stage3Phase2Cutscene : MonoBehaviour
     public float flashDuration = 0.22f;
     public float transformHoldTime = 0.9f;
 
+    [Header("Ascent to phase 2")]
+    // She does not smash the floor any more - her gravity simply takes hold and
+    // lifts them both out of the arena. The scene changes while the screen is
+    // dark, so the floating map reads as somewhere else rather than a reshuffle.
+    public GameObject phase2Arena;
+    [Tooltip("The phase 1 ground, switched off once they have left it.")]
+    public GameObject[] hideForPhase2;
+    public Transform phase2Anchor;
+    public float ascentHeight = 7f;
+    public float ascentDuration = 2.4f;
+    public float ascentSpin = 0f;
+    public float ascentBlackoutIn = 0.7f;
+    [Tooltip("How long the new map sits empty before she turns up.")]
+    public float arenaRevealHold = 1.3f;
+    [Tooltip("She comes back far bigger than she left.")]
+    public float bossBurstWidth = 11f;
+    [Tooltip("Where she bursts in, measured from the player's landing spot.")]
+    public Vector2 bossBurstOffset = new Vector2(9f, 3.5f);
+    public float bossBurstDuration = 0.22f;
+    public float bossBurstShake = 0.5f;
+    public float bossBurstHold = 0.8f;
+
     [Header("Kill line")]
     [Tooltip("The slow creep in - dread, not action.")]
     public float creepOrthoSize = 4.2f;
@@ -219,6 +241,10 @@ public class Stage3Phase2Cutscene : MonoBehaviour
                 yield return ShadowStage2();
                 yield return TransformToPhase2(bossShot);
             }
+            else if (line.beatAfter == 3)
+            {
+                yield return AscendToPhase2();
+            }
         }
 
         yield return new WaitForSeconds(holdAfterKillLine);
@@ -228,10 +254,6 @@ public class Stage3Phase2Cutscene : MonoBehaviour
         ClearProps();
 
         RestoreStage();
-
-        // rush back out to the gameplay framing - it doubles as the beat where
-        // the floor is about to give way
-        yield return PanTo(ShotOn(playerX, playerRenderer), gameplayOrthoSize, pullOutDuration);
 
         // control and the camera go back to BossPhaseController2D, which
         // drops the floor out from under him next
@@ -314,6 +336,15 @@ public class Stage3Phase2Cutscene : MonoBehaviour
             heldFlashlight.SetActive(aiming);
             SpriteRenderer heldRenderer = heldFlashlight.GetComponent<SpriteRenderer>();
             if (heldRenderer != null) heldRenderer.enabled = aiming;
+        }
+    }
+
+    private static void SetActiveAll(GameObject[] objects, bool active)
+    {
+        if (objects == null) return;
+        for (int i = 0; i < objects.Length; i++)
+        {
+            if (objects[i] != null) objects[i].SetActive(active);
         }
     }
 
@@ -732,6 +763,91 @@ public class Stage3Phase2Cutscene : MonoBehaviour
     }
 
     // ---------- "...죽어" ----------
+
+    // Both of them come off the floor, the screen goes dark, and what fades back
+    // in is the floating map with nobody else on it.
+    private IEnumerator AscendToPhase2()
+    {
+        Vector3 playerFrom = player.transform.position;
+        Vector3 bossFrom = boss.position;
+        Vector3 camFrom = cam.transform.position;
+
+        float t = 0f;
+        while (t < ascentDuration)
+        {
+            t += Time.deltaTime;
+            float k = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(t / ascentDuration));
+            float rise = ascentHeight * k;
+
+            Vector3 p = playerFrom + new Vector3(0f, rise, 0f);
+            player.transform.position = p;
+            if (playerBody != null) playerBody.position = p;
+
+            boss.position = bossFrom + new Vector3(0f, rise * 1.15f, 0f);
+            if (ascentSpin != 0f && stageRenderer != null)
+            {
+                player.transform.rotation = Quaternion.Euler(0f, 0f, ascentSpin * k);
+            }
+
+            cam.transform.position = camFrom + new Vector3(0f, rise * 0.9f, 0f);
+            yield return null;
+        }
+
+        yield return FadeBlackout(0f, 1f, ascentBlackoutIn);
+
+        // --- swap the world while nobody can see ---
+        player.transform.rotation = Quaternion.identity;
+        if (phase2Arena != null) phase2Arena.SetActive(true);
+        SetActiveAll(hideForPhase2, false);
+
+        Vector3 landing = phase2Anchor != null
+            ? phase2Anchor.position + Vector3.up * 1.2f
+            : new Vector3(playerStageX, playerStageY + 1.2f, 0f);
+        player.transform.position = landing;
+        if (playerBody != null)
+        {
+            playerBody.position = landing;
+            playerBody.linearVelocity = Vector2.zero;
+        }
+
+        // she is simply not there when the lights come up
+        if (bossRenderer != null) bossRenderer.enabled = false;
+
+        cam.transform.position = new Vector3(landing.x, landing.y + 1.5f, shotOffset.z);
+        cam.orthographicSize = gameplayOrthoSize;
+
+        yield return FadeBlackout(1f, 0f, blackoutOutDuration);
+        yield return new WaitForSeconds(arenaRevealHold);
+
+        // --- and then she is ---
+        Vector3 burst = new Vector3(landing.x + bossBurstOffset.x, landing.y + bossBurstOffset.y, 0f);
+        boss.position = burst;
+
+        if (bossRenderer != null)
+        {
+            float drawn = bossRenderer.sprite != null ? bossRenderer.sprite.bounds.size.x : 1f;
+            if (drawn > 0.001f)
+            {
+                float factor = bossBurstWidth / drawn;
+                boss.localScale = new Vector3(factor, factor, boss.localScale.z);
+            }
+            bossRenderer.enabled = true;
+        }
+
+        Vector3 full = boss.localScale;
+        float b = 0f;
+        while (b < bossBurstDuration)
+        {
+            b += Time.deltaTime;
+            float k = Mathf.Clamp01(b / bossBurstDuration);
+            boss.localScale = Vector3.Lerp(full * 1.35f, full, k);
+            yield return null;
+        }
+        boss.localScale = full;
+
+        if (camFollow != null) camFollow.Shake(0.6f, bossBurstShake);
+        yield return new WaitForSeconds(bossBurstHold);
+    }
 
     private IEnumerator ZoomForKillLine(Vector3 bossShot)
     {

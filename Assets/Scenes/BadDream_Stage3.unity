@@ -890,7 +890,7 @@ Transform:
   m_GameObject: {fileID: 465286316}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 33.3, y: 3.4833112, z: 0}
+  m_LocalPosition: {x: 33.3, y: 3.2678525, z: 0}
   m_LocalScale: {x: 1.2363707, y: 1.4479638, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1538,7 +1538,7 @@ MonoBehaviour:
     beatAfter: 0
   - isBoss: 1
     text: "\uC9C4\uC9DC \uAD34\uBB3C\uC774 \uC5B4\uB5A4\uAC74\uC9C0 \uBCF4\uC5EC\uC904\uAC8C..."
-    beatAfter: 0
+    beatAfter: 3
   dialogueTextArea:
     serializedVersion: 2
     x: 0.4
@@ -1619,6 +1619,22 @@ MonoBehaviour:
   transformShake: 0.3
   flashDuration: 0.22
   transformHoldTime: 0.9
+  phase2Arena: {fileID: 1335518755}
+  hideForPhase2:
+  - {fileID: 259253643}
+  - {fileID: 1030072447}
+  - {fileID: 465286316}
+  phase2Anchor: {fileID: 1258285220}
+  ascentHeight: 7
+  ascentDuration: 2.4
+  ascentSpin: 0
+  ascentBlackoutIn: 0.7
+  arenaRevealHold: 1.3
+  bossBurstWidth: 11
+  bossBurstOffset: {x: 9, y: 3.5}
+  bossBurstDuration: 0.22
+  bossBurstShake: 0.5
+  bossBurstHold: 0.8
   creepOrthoSize: 4.2
   creepDuration: 2.4
   snapOrthoSize: 2
@@ -2067,6 +2083,7 @@ MonoBehaviour:
   - {fileID: -3072476677740898470, guid: ab77cc86b3db42841bc2045173ece6a3, type: 3}
   phase2FrameDuration: 0.22
   phase2Cutscene: {fileID: 709877605}
+  cutsceneHandlesArenaChange: 1
   moveBossOnPhase2: 1
   phase2BossPosition: {x: 33, y: 5}
   bossMoveTime: 1
