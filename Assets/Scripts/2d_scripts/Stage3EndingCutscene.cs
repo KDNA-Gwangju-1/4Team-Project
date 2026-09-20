@@ -136,7 +136,11 @@ public class Stage3EndingCutscene : MonoBehaviour
         TentacleStrike2D[] live = FindObjectsOfType<TentacleStrike2D>();
         for (int i = 0; i < live.Length; i++)
         {
-            if (live[i] != null) Destroy(live[i].gameObject);
+            if (live[i] == null) continue;
+            // stop the strike routine first - Destroy only lands at the end of the
+            // frame, and the animation would keep writing to a dead renderer
+            live[i].StopAllCoroutines();
+            Destroy(live[i].gameObject);
         }
     }
 
@@ -325,7 +329,11 @@ public class Stage3EndingCutscene : MonoBehaviour
     // Anything still flying or crawling would undercut the moment.
     private void ClearBattlefield()
     {
-        foreach (TentacleStrike2D t in FindObjectsOfType<TentacleStrike2D>()) Destroy(t.gameObject);
+        foreach (TentacleStrike2D t in FindObjectsOfType<TentacleStrike2D>())
+        {
+            t.StopAllCoroutines();
+            Destroy(t.gameObject);
+        }
         foreach (BossBullet2D b in FindObjectsOfType<BossBullet2D>()) Destroy(b.gameObject);
         foreach (Bullet2D b in FindObjectsOfType<Bullet2D>()) Destroy(b.gameObject);
         GameObject warn = GameObject.Find("TentacleWaveWarning");

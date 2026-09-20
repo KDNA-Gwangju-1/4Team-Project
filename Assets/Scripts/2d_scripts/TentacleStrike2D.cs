@@ -129,6 +129,9 @@ public class TentacleStrike2D : MonoBehaviour
 
     private void SetFrame(int index)
     {
+        // a cutscene can tear the strike down mid-animation
+        if (sr == null || frames == null || frames.Length == 0) return;
+
         Sprite s = frames[Mathf.Clamp(index, 0, frames.Length - 1)];
         sr.sprite = s;
         silhouetteRenderer.sprite = s;

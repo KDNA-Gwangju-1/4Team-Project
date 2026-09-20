@@ -5293,7 +5293,7 @@ MonoBehaviour:
   panDuration: 1
   shotOffset: {x: 0, y: 0.6, z: -10}
   playerDialogueFrame: {fileID: 21300000, guid: 87a8a037d993e734793549bdadb8ace1, type: 3}
-  sisterDialogueFrame: {fileID: 0}
+  sisterDialogueFrame: {fileID: 21300000, guid: ad795a45396cf9342b8234fe02435b16, type: 3}
   lines:
   - isBoss: 1
     text: "\uD751\uD751..."
