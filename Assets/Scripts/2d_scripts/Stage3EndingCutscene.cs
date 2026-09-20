@@ -23,6 +23,8 @@ public class Stage3EndingCutscene : MonoBehaviour
     [Header("Dissolve")]
     [Tooltip("The boss coming apart. The last frame is what stays on screen - the sister.")]
     public Sprite[] dissolveFrames;
+    [Tooltip("Hold on the first frame before she starts coming apart, so the player sees what is dissolving.")]
+    public float dissolveFirstFrameHold = 1.2f;
     public float dissolveFrameDuration = 0.16f;
     [Tooltip("Drawn width of what is left. She is a child, not a boss.")]
     public float sisterWidth = 2.4f;
@@ -238,7 +240,12 @@ public class Stage3EndingCutscene : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < dissolveFrames.Length; i++)
+        // beat on the intact form first - dissolving straight away reads as a
+        // glitch rather than as something happening to her
+        sr.sprite = dissolveFrames[0];
+        yield return new WaitForSeconds(dissolveFirstFrameHold);
+
+        for (int i = 1; i < dissolveFrames.Length; i++)
         {
             sr.sprite = dissolveFrames[i];
             yield return new WaitForSeconds(dissolveFrameDuration);

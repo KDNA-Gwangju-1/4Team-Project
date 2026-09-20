@@ -5246,14 +5246,27 @@ MonoBehaviour:
   blackoutOutDuration: 0.8
   dissolveFrames:
   - {fileID: 21300000, guid: b326794d83915a54ea9fcc1943165bcf, type: 3}
+  - {fileID: 21300000, guid: fa3295ad45bd63645a42fb57ffcb3d1a, type: 3}
+  - {fileID: 21300000, guid: b1f03e55662277d498b1f6056e5198fb, type: 3}
   - {fileID: 21300000, guid: e604a2ec446c5a24b8e96b37a0db8118, type: 3}
+  - {fileID: 21300000, guid: d77c6e33542048041b71b387c9fff884, type: 3}
+  - {fileID: 21300000, guid: 1af80057eaecfbd4e85b3d36e416e4e0, type: 3}
   - {fileID: 21300000, guid: 49d8acdac6374b44d8cc510e52aa8b8e, type: 3}
+  - {fileID: 21300000, guid: e0abb609244353845a09b285a4c575a7, type: 3}
+  - {fileID: 21300000, guid: 55139074a90104144a6bf26f808985d1, type: 3}
   - {fileID: 21300000, guid: d0feaee035a66f841b7c1680c94cdc07, type: 3}
+  - {fileID: 21300000, guid: 5cbe4c199349e3a489bd1253a5cad2f0, type: 3}
+  - {fileID: 21300000, guid: 41e4afa30ada9034f8d01386eb57eed0, type: 3}
   - {fileID: 21300000, guid: 76b317aac027c7549ac675707e1fbdbb, type: 3}
+  - {fileID: 21300000, guid: d1e23aff332a6dd4ca481e04cb1ed8c6, type: 3}
+  - {fileID: 21300000, guid: cc46e764362afff4a9cdd059c54b4afd, type: 3}
   - {fileID: 21300000, guid: 3c22c6b7172bc814482c69f8cb5fccfd, type: 3}
+  - {fileID: 21300000, guid: b6865f66e6dd06f43a4b7158bb8d359d, type: 3}
   - {fileID: 21300000, guid: 7d17ba634656ca340a89690c6f026eed, type: 3}
+  - {fileID: 21300000, guid: b19bf063cf8c1f84688ea3d93d162c05, type: 3}
   - {fileID: 21300000, guid: ad0a0f915e79ff44c9106816e65bc03a, type: 3}
-  dissolveFrameDuration: 0.16
+  dissolveFirstFrameHold: 1.4
+  dissolveFrameDuration: 0.19
   sisterWidth: 2.4
   sortingLayer: Default
   sortingOrder: 1
@@ -5261,7 +5274,7 @@ MonoBehaviour:
   useAnchorScale: 1
   playerAnchor: {fileID: 1264703303}
   sisterGroundY: -2.63
-  holdAfterDissolve: 0.9
+  holdAfterDissolve: 1.2
   shotOrthoSize: 5
   panDuration: 1
   shotOffset: {x: 0, y: 0.6, z: -10}
