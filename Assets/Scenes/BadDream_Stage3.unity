@@ -781,7 +781,7 @@ Transform:
   m_GameObject: {fileID: 465286316}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 33.3, y: 6.769832, z: 0}
+  m_LocalPosition: {x: 33.3, y: 7.3673124, z: 0}
   m_LocalScale: {x: 1.2363707, y: 1.4479638, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5239,9 +5239,17 @@ MonoBehaviour:
   boss: {fileID: 900000034}
   bossRenderer: {fileID: 900000032}
   captionFont: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-  blackoutInDuration: 0.4
-  blackoutBlinks: 2
-  blackoutBlinkTime: 0.1
+  hideDuringCutscene:
+  - {fileID: 1918697673}
+  - {fileID: 1834502762}
+  - {fileID: 1234360751}
+  - {fileID: 1721486570}
+  - {fileID: 749689151}
+  flashlightCone: {fileID: 1842253844}
+  heldFlashlight: {fileID: 1550880050}
+  blackoutInDuration: 0.15
+  blackoutBlinks: 3
+  blackoutBlinkTime: 0.09
   blackoutHold: 0.5
   blackoutOutDuration: 0.8
   dissolveFrames:

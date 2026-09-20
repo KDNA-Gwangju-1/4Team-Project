@@ -13,6 +13,17 @@ public class Stage3EndingCutscene : MonoBehaviour
     public SpriteRenderer bossRenderer;
     public Font captionFont;
 
+    [Header("Staging")]
+    // The ending has to stop looking like the fight it interrupts: HUD off, beam
+    // off, animator off. Otherwise it reads as gameplay that happens to be
+    // playing a cutscene on top.
+    [Tooltip("Switched off for the whole scene - HUD, monsters, anything still on stage.")]
+    public GameObject[] hideDuringCutscene;
+    [Tooltip("The light cone. He is not searching any more.")]
+    public GameObject flashlightCone;
+    [Tooltip("The flashlight he carries. Hidden so the standing pose stays clean.")]
+    public GameObject heldFlashlight;
+
     [Header("Opening blackout")]
     public float blackoutInDuration = 0.4f;
     public int blackoutBlinks = 2;
@@ -149,6 +160,7 @@ public class Stage3EndingCutscene : MonoBehaviour
             player.transform.position = playerAnchor.position;
         }
 
+        StageScene();
         BuildOverlay();
         BuildWindow();
 
@@ -190,6 +202,46 @@ public class Stage3EndingCutscene : MonoBehaviour
         float remaining = Mathf.Max(0f, whiteFadeDuration - (Time.time - fadeStarted));
         if (remaining > 0f) yield return new WaitForSeconds(remaining);
         yield return new WaitForSeconds(whiteHold);
+    }
+
+    // Everything that says "this is a fight" comes off the screen.
+    private void StageScene()
+    {
+        // her own DieSequence is already playing; hide it so the blackout covers
+        // gameplay the instant her health hits zero, not after a death animation
+        if (bossRenderer != null) bossRenderer.enabled = false;
+
+        for (int i = 0; i < hideDuringCutscene.Length; i++)
+        {
+            if (hideDuringCutscene[i] != null) hideDuringCutscene[i].SetActive(false);
+        }
+
+        if (flashlightCone != null) flashlightCone.SetActive(false);
+
+        HeldFlashlightVisual2D heldVisual = heldFlashlight != null
+            ? heldFlashlight.GetComponent<HeldFlashlightVisual2D>() : null;
+        if (heldVisual != null) heldVisual.enabled = false;
+        if (heldFlashlight != null) heldFlashlight.SetActive(false);
+
+        Rigidbody2D body = player.GetComponent<Rigidbody2D>();
+        if (body != null)
+        {
+            body.linearVelocity = Vector2.zero;
+            body.bodyType = RigidbodyType2D.Kinematic;
+        }
+
+        PlayerSpriteAnimator2D anim = player.GetComponent<PlayerSpriteAnimator2D>();
+        SpriteRenderer sr = player.GetComponent<SpriteRenderer>();
+        if (anim != null)
+        {
+            anim.enabled = false;
+            if (sr != null)
+            {
+                Sprite pose = arrivedSprite;
+                if (pose == null && anim.idleFrames != null && anim.idleFrames.Length > 0) pose = anim.idleFrames[0];
+                if (pose != null) sr.sprite = pose;
+            }
+        }
     }
 
     // Anything still flying or crawling would undercut the moment.
