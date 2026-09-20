@@ -36,6 +36,10 @@ public class BossAttack2D : MonoBehaviour
     public TentacleWave2D[] phase1Waves;
 
     public float phase2Interval = 2.4f;
+    [Tooltip("The claw swing IS the firing motion in phase 2 - bullets leave on the impact frame.")]
+    public bool phase2FiresOnClaw = true;
+    public int phase2ClawImpactFrame = 5;
+    public float phase2ClawFrameStep = 0.07f;
     public float phase2Telegraph = 0.6f;
     public int aimedSpreadCount = 5;
     public float aimedSpreadAngle = 40f;
@@ -114,8 +118,12 @@ public class BossAttack2D : MonoBehaviour
             else
             {
                 phase2PatternIndex++;
+                yield return ClawWindUp();
+
                 if (phase2PatternIndex % 2 == 1) yield return AimedSpreadRoutine(player);
                 else yield return RingBurstRoutine();
+
+                yield return ClawFollowThrough();
             }
         }
     }
@@ -152,6 +160,33 @@ public class BossAttack2D : MonoBehaviour
             elapsed += blink * 2f;
         }
         sr.color = BaseColor;
+    }
+
+    // Rears back, and the shot leaves on the frame the claw lands. Splitting it
+    // this way keeps the swing and the bullets reading as one action.
+    private IEnumerator ClawWindUp()
+    {
+        if (!phase2FiresOnClaw || animator == null || clawFrames == null || clawFrames.Length == 0) yield break;
+
+        int impact = Mathf.Clamp(phase2ClawImpactFrame, 0, clawFrames.Length - 1);
+        for (int i = 0; i <= impact; i++)
+        {
+            animator.ShowFrame(clawFrames[i]);
+            yield return new WaitForSeconds(phase2ClawFrameStep);
+        }
+    }
+
+    private IEnumerator ClawFollowThrough()
+    {
+        if (!phase2FiresOnClaw || animator == null || clawFrames == null || clawFrames.Length == 0) yield break;
+
+        int impact = Mathf.Clamp(phase2ClawImpactFrame, 0, clawFrames.Length - 1);
+        for (int i = impact + 1; i < clawFrames.Length; i++)
+        {
+            animator.ShowFrame(clawFrames[i]);
+            yield return new WaitForSeconds(phase2ClawFrameStep);
+        }
+        animator.ReleaseFrame();
     }
 
     private IEnumerator ClawRoutine()
