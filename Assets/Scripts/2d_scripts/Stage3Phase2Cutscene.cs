@@ -261,6 +261,10 @@ public class Stage3Phase2Cutscene : MonoBehaviour
 
         RestoreStage();
 
+        // The transformation ends on a hard zoom. Without this the fight would
+        // start locked inside it - CameraFollow2D owns position but not zoom.
+        yield return PanTo(ShotOn(playerX, playerRenderer), gameplayOrthoSize, pullOutDuration);
+
         // The arena fits on one screen, so the camera stays put for the whole
         // fight - chasing him up and down the stack would swing the boss in and
         // out of frame.
