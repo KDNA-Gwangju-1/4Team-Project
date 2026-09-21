@@ -30,6 +30,7 @@ public static class HospitalRoomSceneBuilder
     private const string MaterialFolder = "Assets/Materials/Hospital";
     private const string PatientFolder  = "Assets/Data/Patients";
     private const string RoomFolder     = "Assets/Data/Rooms";
+    private const string HospitalBgmPath = "Assets/Resources/Audio/Hospital/WhispersOfNight.mp3";
 
     // 침대 옆에 세우는 사물함 모델 (다운로드받은 FBX).
     // 원본이 높이 1m 기준으로 만들어져 있고 피벗이 가운데에 있어서,
@@ -185,6 +186,8 @@ public static class HospitalRoomSceneBuilder
         controllerSerialized.FindProperty("logRosterOnStart").boolValue = true;
         controllerSerialized.ApplyModifiedPropertiesWithoutUndo();
 
+        BuildHospitalBgm();
+
         // ---------- UI + 플레이어 ----------
         var promptUI = HospitalPlayerBuilder.BuildPromptUI();
         HospitalPlayerBuilder.BuildPlayer(new Vector3(-1.2f, 0.10f, -2.40f), 0f, MaterialFolder, promptUI);
@@ -208,6 +211,20 @@ public static class HospitalRoomSceneBuilder
     // ============================================================
     // 머티리얼
     // ============================================================
+
+    private static void BuildHospitalBgm()
+    {
+        var clip = AssetDatabase.LoadAssetAtPath<AudioClip>(HospitalBgmPath);
+        if (clip == null)
+        {
+            Debug.LogWarning("[HospitalRoomSceneBuilder] 병실 BGM을 찾지 못했습니다: " + HospitalBgmPath);
+            return;
+        }
+
+        var musicObject = new GameObject("HospitalRoomBGM");
+        var music = musicObject.AddComponent<SceneBackgroundMusic>();
+        music.Configure(clip, 0.45f);
+    }
 
     private static void CreateMaterials()
     {
