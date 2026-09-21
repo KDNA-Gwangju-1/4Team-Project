@@ -45,6 +45,8 @@ namespace BrightDream
         [SerializeField] private int startWaypointIndex = 3;
         [SerializeField] private float moveSpeed = 4.5f;
         [SerializeField] private float turnSpeed = 6f;
+        [Tooltip("다리 위에서 이쪽을 보고 서 있다가 진행 방향으로 돌아설 때의 회전 속도(초당 각도).")]
+        [SerializeField] private float turnAroundSpeed = 180f;
 
         [Header("타이밍")]
         [Tooltip("마지막 대사가 끝난 뒤 조작을 잠그기까지의 여유 시간.")]
@@ -114,12 +116,13 @@ namespace BrightDream
                     combat.enabled = false;
                 }
 
-                // 다음 웨이포인트(다리 건너편) 쪽을 미리 바라보게 해서 "막 건너던 중" 처럼 자연스럽게 멈춰 서 있다.
+                // 진행 방향의 정반대(=이쪽)를 보고 서 있게 한다 - 다리 위에서 플레이어를 마주 본 채로 발견된다.
+                // 대사가 끝나면 그 자리에서 180도 돌아선 뒤 Stage2 쪽으로 건너간다.
                 if (startWaypointIndex + 1 < waypoints.Length)
                 {
                     Vector3 flatDir = waypoints[startWaypointIndex + 1].position - startPoint.position;
                     flatDir.y = 0f;
-                    if (flatDir.sqrMagnitude > 0.0001f) monster.transform.rotation = Quaternion.LookRotation(flatDir.normalized, Vector3.up);
+                    if (flatDir.sqrMagnitude > 0.0001f) monster.transform.rotation = Quaternion.LookRotation(-flatDir.normalized, Vector3.up);
                 }
 
                 monster.SetActive(true);
@@ -128,6 +131,10 @@ namespace BrightDream
                 // 다리 위에 이미 서 있는 몬스터를 두고 대사 두 줄이 이어서 나온다 - 끝나야 움직이기 시작한다.
                 if (dialogueUI != null)
                     yield return StartCoroutine(ShowSequenceAndWait(new[] { lineMonsterAppears, lineCorruptionNoticed }));
+
+                // 먼저 제자리에서 진행 방향으로 돌아선다. MoveAlongWaypoints의 Slerp는 정확히 180도일 때
+                // 회전 축이 불안정해지므로, 돌아서는 동작만 yaw 기준으로 따로 처리한다.
+                yield return StartCoroutine(TurnToFace(monster.transform, waypoints[startWaypointIndex + 1].position));
 
                 // BridgeCenter 다음부터 ArenaInside까지 실제로 이동.
                 yield return StartCoroutine(MoveAlongWaypoints(monster.transform, startWaypointIndex + 1, waypoints.Length - 1));
@@ -166,6 +173,23 @@ namespace BrightDream
             if (playerInteraction != null) playerInteraction.enabled = true;
 
             if (dialogueUI != null) dialogueUI.ShowSequence(new[] { lineReturnToPlayer }, null);
+        }
+
+        /// <summary>제자리에서 target 쪽을 향해 yaw만 일정 속도로 돌린다 (180도 반전도 안전하게 처리된다).</summary>
+        private IEnumerator TurnToFace(Transform mover, Vector3 target)
+        {
+            Vector3 flat = target - mover.position;
+            flat.y = 0f;
+            if (flat.sqrMagnitude <= 0.0001f) yield break;
+
+            float targetYaw = Quaternion.LookRotation(flat.normalized, Vector3.up).eulerAngles.y;
+            while (Mathf.Abs(Mathf.DeltaAngle(mover.eulerAngles.y, targetYaw)) > 1f)
+            {
+                float yaw = Mathf.MoveTowardsAngle(mover.eulerAngles.y, targetYaw, turnAroundSpeed * Time.deltaTime);
+                mover.rotation = Quaternion.Euler(0f, yaw, 0f);
+                yield return null;
+            }
+            mover.rotation = Quaternion.Euler(0f, targetYaw, 0f);
         }
 
         /// <summary>웨이포인트를 순서대로 지나가며, 이동 방향으로 부드럽게(Slerp) 회전한다.</summary>
