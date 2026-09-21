@@ -129,6 +129,10 @@ namespace BrightDream
                 if (bridgeCamera != null) bridgeCamera.LookAt = monster.transform;
 
                 // 다리 위에 이미 서 있는 몬스터를 두고 대사 두 줄이 이어서 나온다 - 끝나야 움직이기 시작한다.
+                // 이 네 줄(발견 대사 두 줄 + 항공뷰 대사 두 줄)은 Stage2가 어떤 곳인지 설명하는
+                // 나레이션 성격이라, 첫 줄이 뜨는 순간부터 마지막 줄이 끝날 때까지(중간의 몬스터 이동/
+                // 카메라 전환 구간 포함) 타임어택 시간이 흐르지 않는다.
+                TimeAttackTimer.Instance?.StopTimer();
                 if (dialogueUI != null)
                     yield return StartCoroutine(ShowSequenceAndWait(new[] { lineMonsterAppears, lineCorruptionNoticed }));
 
@@ -154,6 +158,9 @@ namespace BrightDream
 
             if (dialogueUI != null)
                 yield return StartCoroutine(ShowSequenceAndWait(new[] { lineArenaReveal1, lineArenaReveal2 }));
+
+            // 네 줄짜리 나레이션이 여기서 끝나므로 타임어택 시간을 다시 흐르게 한다.
+            TimeAttackTimer.Instance?.ResumeTimer();
 
             yield return new WaitForSeconds(arenaRevealHold);
 

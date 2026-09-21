@@ -87,6 +87,15 @@ namespace BrightDream
         /// <summary>남은 시간을 그대로 둔 채 카운트다운만 멈춘다 (클리어 연출 등에서 사용).</summary>
         public void StopTimer() => IsRunning = false;
 
+        /// <summary>StopTimer로 멈춰 둔 카운트다운을 남은 시간 그대로 다시 이어서 재생한다.
+        /// 이미 만료됐거나 애초에 시작된 적이 없으면(RemainingTime == timeLimit인 초기 상태와
+        /// 구분할 수 없어 hasExpired만 확인) 아무 일도 하지 않는다.</summary>
+        public void ResumeTimer()
+        {
+            if (hasExpired) return;
+            IsRunning = true;
+        }
+
         private void Update()
         {
             if (!IsRunning) return;
