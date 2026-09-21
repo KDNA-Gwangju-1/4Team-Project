@@ -17,6 +17,9 @@ namespace BrightDream
     {
         public static TimeAttackTimer Instance { get; private set; }
 
+        [Tooltip("보통 이 스크립트가 붙은 오브젝트 자신의 Text. 숨길 때 GameObject를 끄면 안 된다 " +
+                 "- 이 컴포넌트까지 같이 멈춰서 OnDisable로 구독이 풀리고 타이머가 영영 시작되지 않는다. " +
+                 "그래서 Text 컴포넌트의 enabled만 껐다 켠다.")]
         [SerializeField] private Text timerText;
         [Tooltip("제한 시간(초). 기본 3분.")]
         [SerializeField] private float timeLimit = 180f;
@@ -52,7 +55,7 @@ namespace BrightDream
         private void Start()
         {
             // 타이머가 시작되기 전에는 아예 보이지 않는다 (메인 메뉴 직후 화면에 숫자만 떠 있지 않도록).
-            if (timerText != null) timerText.gameObject.SetActive(false);
+            if (timerText != null) timerText.enabled = false;
             UpdateText();
         }
 
@@ -77,7 +80,7 @@ namespace BrightDream
 
             RemainingTime = timeLimit;
             IsRunning = true;
-            if (timerText != null) timerText.gameObject.SetActive(true);
+            if (timerText != null) timerText.enabled = true;
             UpdateText();
         }
 
