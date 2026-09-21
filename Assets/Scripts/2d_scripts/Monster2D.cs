@@ -233,9 +233,21 @@ public class Monster2D : MonoBehaviour
 
         float dir = Mathf.Sign(dx);
         float step = Mathf.Min(hopDistance, Mathf.Abs(dx));
+        float targetX = transform.position.x + dir * step;
+        float groundY;
+
+        // no floor under the next step - turn back onto solid ground instead of
+        // walking off the edge, then it'll try for the player again next hop
+        if (!TryGetGroundY(targetX, out groundY))
+        {
+            dir = -dir;
+            targetX = transform.position.x + dir * step;
+            if (!TryGetGroundY(targetX, out groundY)) return;
+        }
+
         hopStartX = transform.position.x;
-        hopTargetX = hopStartX + dir * step;
-        hopGroundY = GroundYAt(hopTargetX);
+        hopTargetX = targetX;
+        hopGroundY = groundY;
         hopElapsed = 0f;
         hopping = true;
 
@@ -244,11 +256,18 @@ public class Monster2D : MonoBehaviour
 
     private float GroundYAt(float x)
     {
-        if (groundLayer.value == 0) return transform.position.y;
+        TryGetGroundY(x, out float groundY);
+        return groundY;
+    }
+
+    private bool TryGetGroundY(float x, out float groundY)
+    {
+        groundY = transform.position.y;
+        if (groundLayer.value == 0) return true;
 
         Vector2 origin = new Vector2(x, transform.position.y + groundProbeUp);
         RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.down, groundProbeDistance, groundLayer);
-        if (hit.collider == null) return transform.position.y;
+        if (hit.collider == null) return false;
 
         // line up the DRAWN feet with the floor, not the collider box: the art
         // is taller than the collider, which is what sank the monster into the sand
@@ -261,7 +280,8 @@ public class Monster2D : MonoBehaviour
         {
             feetOffset = col.bounds.extents.y;
         }
-        return hit.point.y + feetOffset;
+        groundY = hit.point.y + feetOffset;
+        return true;
     }
 
     private void ChasePlayer(PlayerMovement2D player)
