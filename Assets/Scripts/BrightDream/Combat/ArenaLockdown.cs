@@ -18,11 +18,13 @@ namespace BrightDream.Combat
         private void OnEnable()
         {
             StageProgressManager.OnStageChanged += HandleStageChanged;
+            MonsterPurifyManager.OnStageCleared += HandleStageCleared;
         }
 
         private void OnDisable()
         {
             StageProgressManager.OnStageChanged -= HandleStageChanged;
+            MonsterPurifyManager.OnStageCleared -= HandleStageCleared;
         }
 
         private void HandleStageChanged(int currentStage)
@@ -31,6 +33,13 @@ namespace BrightDream.Combat
 
             foreach (Collider c in wallColliders) if (c != null) c.enabled = true;
             if (arenaFloorCollider != null) MonsterCombat.SetArenaBounds(arenaFloorCollider.bounds);
+        }
+
+        /// <summary>정화 목표를 다 채우면(Stage2 Clear) 벽을 다시 열어 아레나 밖으로 나갈 수 있게 한다.</summary>
+        private void HandleStageCleared()
+        {
+            foreach (Collider c in wallColliders) if (c != null) c.enabled = false;
+            MonsterCombat.ClearArenaBounds();
         }
     }
 }

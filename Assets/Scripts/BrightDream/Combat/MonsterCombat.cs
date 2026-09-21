@@ -50,6 +50,22 @@ namespace BrightDream.Combat
         private static bool arenaBoundsSet;
         private static float arenaMinX, arenaMaxX, arenaMinZ, arenaMaxZ;
 
+        /// <summary>Stage2 클리어 시점에 아직 살아 있는 몬스터를 모두 즉시 제거한다.
+        /// 방금 총에 맞아 붉게 변하는 연출 중인 개체(isDone)는 그 연출을 마치도록 건드리지 않는다.</summary>
+        public static void DespawnAll()
+        {
+            for (int i = activeInstances.Count - 1; i >= 0; i--)
+            {
+                MonsterCombat monster = activeInstances[i];
+                if (monster == null || monster.isDone) continue;
+                monster.isDone = true;
+                Destroy(monster.gameObject);
+            }
+        }
+
+        /// <summary>아레나 봉쇄가 풀릴 때 위치 고정도 함께 해제한다.</summary>
+        public static void ClearArenaBounds() => arenaBoundsSet = false;
+
         public static void SetArenaBounds(Bounds bounds)
         {
             arenaMinX = bounds.min.x;

@@ -18,6 +18,10 @@ namespace BrightDream.Combat
 
         public event Action<int> OnPurifyCountChanged;
 
+        /// <summary>정화 목표를 채워 Stage2가 클리어된 순간 1회 발생. ArenaLockdown이 구독해 벽을 다시 연다.
+        /// Instance 생성 순서에 의존하지 않도록 StageProgressManager.OnStageChanged와 같은 static 이벤트로 둔다.</summary>
+        public static event Action OnStageCleared;
+
         public int PurifiedCount { get; private set; }
 
         private bool hasCleared;
@@ -63,6 +67,9 @@ namespace BrightDream.Combat
             {
                 hasCleared = true;
                 StageMessageUI.Instance?.ShowMessage("Stage2 Clear");
+                // 남아 있던 몬스터를 모두 정리하고(방금 정화돼 연출 중인 개체는 제외) 아레나 봉쇄를 푼다.
+                MonsterCombat.DespawnAll();
+                OnStageCleared?.Invoke();
             }
         }
 
