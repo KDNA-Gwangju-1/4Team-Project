@@ -67,6 +67,8 @@ namespace BrightDream.Combat
             {
                 hasCleared = true;
                 StageMessageUI.Instance?.ShowMessage("Stage2 Clear");
+                // 정화 퀘스트가 끝났으므로 좌측 상단 진행도 UI도 끈다.
+                if (progressText != null) progressText.gameObject.SetActive(false);
                 // 남아 있던 몬스터를 모두 정리하고(방금 정화돼 연출 중인 개체는 제외) 아레나 봉쇄를 푼다.
                 MonsterCombat.DespawnAll();
                 OnStageCleared?.Invoke();
