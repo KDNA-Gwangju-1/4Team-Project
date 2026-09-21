@@ -81,6 +81,11 @@ namespace BrightDream.Combat
                 Vector3 spawnPos = FindSpawnPosition();
 
                 GameObject instance = Instantiate(template, spawnPos, Quaternion.identity);
+                // Target/Innocent 는 종에 고정되지 않는다 - 개체마다 스폰 시 1회, 50:50 으로 결정한다.
+                // MonsterCombat.NeedsPurification 이 유일한 source of truth이고, Awake 이후·Start 이전에
+                // 설정하므로 MonsterCorruptionVisual.Start()/판정 로직 모두 이 값을 그대로 읽는다.
+                var combat = instance.GetComponent<MonsterCombat>();
+                if (combat != null) combat.SetNeedsPurification(Random.value < 0.5f);
                 instance.SetActive(true);
                 activeMonsters.Add(instance.transform);
 

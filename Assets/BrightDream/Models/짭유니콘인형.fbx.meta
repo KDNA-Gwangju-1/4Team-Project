@@ -1,14 +1,9 @@
 fileFormatVersion: 2
-guid: fa352cf4812e5314fae73308d73ebadc
+guid: 8f619199cafe70d4aaaeca9df2de5ad8
 ModelImporter:
   serializedVersion: 24300
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: 29_photo_album_mat
-    second: {fileID: 2100000, guid: 9212d9a826e5c5c42b31340c8dc0fc47, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -36,7 +31,7 @@ ModelImporter:
     extraExposedTransformPaths: []
     extraUserProperties: []
     clipAnimations: []
-    isReadable: 1
+    isReadable: 0
   meshes:
     lODScreenPercentages: []
     globalScale: 1
