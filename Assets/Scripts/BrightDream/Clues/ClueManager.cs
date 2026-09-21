@@ -107,7 +107,7 @@ namespace BrightDream.Clues
         /// <summary>
         /// investigateText 안에 빈 줄("\n\n")이 있으면 그걸 기준으로 잘라 각 줄을 순서대로 보여준다
         /// (예: 편지 단서처럼 "...\n\n잠시 후...\n\n..." 형태로 대사를 두 번에 나눠 띄우고 싶을 때).
-        /// 플레이어는 멈추고, 좌클릭할 때마다 다음 줄로 넘어가며 마지막 줄에서는 게임플레이로 복귀한다.
+        /// 플레이어는 멈추고, 좌클릭/스페이스바를 누를 때마다 다음 줄로 넘어가며 마지막 줄에서는 게임플레이로 복귀한다.
         /// </summary>
         private void ShowInvestigateText(string text)
         {
@@ -126,7 +126,7 @@ namespace BrightDream.Clues
         private void Update()
         {
             if (investigateParts == null) return;
-            if (!Input.GetMouseButtonDown(0)) return;
+            if (!Input.GetMouseButtonDown(0) && !Input.GetKeyDown(KeyCode.Space)) return;
 
             investigatePartIndex++;
             if (investigatePartIndex >= investigateParts.Length) EndInvestigateText();
