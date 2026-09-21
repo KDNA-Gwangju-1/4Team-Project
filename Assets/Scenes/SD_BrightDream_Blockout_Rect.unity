@@ -5233,7 +5233,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StageEntryTrigger
   message: "Boss Stage\n\uBCF4\uC2A4\uC758 \uC57D\uC810\uC744 \uCC3E\uC544 \uC815\uD654\uC2DC\uCF1C\uB77C"
-  displayDuration: 4
+  displayDuration: 2.5
   triggerOnce: 1
   stageIndex: 3
   requireWeapon: 0
@@ -214440,7 +214440,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StageMessageUI
   messageText: {fileID: 667405475}
-  defaultDuration: 4
+  defaultDuration: 2.5
 --- !u!1 &1496141865
 GameObject:
   m_ObjectHideFlags: 0
@@ -248789,7 +248789,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StageEntryTrigger
   message: "Stage 1\n\uB2E8\uC11C\uB97C \uCC3E\uC544\uB77C"
-  displayDuration: 4
+  displayDuration: 2.5
   triggerOnce: 1
   stageIndex: 1
   requireWeapon: 0
@@ -251606,7 +251606,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StageEntryTrigger
   message: "Stage 2\n\uBAAC\uC2A4\uD130\uB97C \uC815\uD654\uC2DC\uCF1C\uB77C"
-  displayDuration: 4
+  displayDuration: 2.5
   triggerOnce: 1
   stageIndex: 2
   requireWeapon: 1
