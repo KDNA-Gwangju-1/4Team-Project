@@ -176,10 +176,21 @@ namespace BrightDream
                 playerCameraTransform.localRotation = cachedCamLocalRot;
             }
 
-            if (playerController != null) playerController.enabled = true;
-            if (playerInteraction != null) playerInteraction.enabled = true;
-
-            if (dialogueUI != null) dialogueUI.ShowSequence(new[] { lineReturnToPlayer }, null);
+            // "따라가 보자" 대사가 떠 있는 동안에도 플레이어가 돌아다닐 수 있으면 안 되므로,
+            // 조작은 이 마지막 한 줄이 끝난 뒤에야 풀어준다 (dialogueUI가 없으면 즉시 풀어준다).
+            if (dialogueUI != null)
+            {
+                dialogueUI.ShowSequence(new[] { lineReturnToPlayer }, () =>
+                {
+                    if (playerController != null) playerController.enabled = true;
+                    if (playerInteraction != null) playerInteraction.enabled = true;
+                });
+            }
+            else
+            {
+                if (playerController != null) playerController.enabled = true;
+                if (playerInteraction != null) playerInteraction.enabled = true;
+            }
         }
 
         /// <summary>제자리에서 target 쪽을 향해 yaw만 일정 속도로 돌린다 (180도 반전도 안전하게 처리된다).</summary>
