@@ -221,10 +221,15 @@ namespace BrightDream
             }
         }
 
+        /// <summary>
+        /// 컷신 대사는 좌클릭/스페이스바/E키 어느 것으로도 넘길 수 없다 (allowSkip: false).
+        /// 직전까지 단서 조사 텍스트를 좌클릭·스페이스바로 넘겨 오던 흐름이라,
+        /// 그대로 누르고 있으면 연출 대사가 통째로 날아가 버리기 때문이다.
+        /// </summary>
         private IEnumerator ShowSequenceAndWait(string[] lines)
         {
             bool done = false;
-            dialogueUI.ShowSequence(lines, () => done = true);
+            dialogueUI.ShowSequence(lines, () => done = true, allowSkip: false);
             while (!done) yield return null;
         }
     }

@@ -23,6 +23,7 @@ namespace BrightDream
         private string[] lines;
         private int lineIndex;
         private float lineTimer;
+        private bool allowSkipInput = true;
         private System.Action onFinished;
 
         private void Awake()
@@ -35,13 +36,18 @@ namespace BrightDream
             Instance = this;
         }
 
-        /// <summary>대사 목록을 순서대로 보여주기 시작한다. 다 보고 나면 onFinished가 호출된다.</summary>
-        public void ShowSequence(string[] sequenceLines, System.Action onFinishedCallback)
+        /// <summary>
+        /// 대사 목록을 순서대로 보여주기 시작한다. 다 보고 나면 onFinished가 호출된다.
+        /// allowSkip이 false면 어떤 키로도 넘길 수 없고 자동 넘김(2.5초)으로만 진행된다
+        /// - 연출 중 마구 누르다가 대사가 통째로 넘어가 버리는 걸 막기 위한 옵션이다.
+        /// </summary>
+        public void ShowSequence(string[] sequenceLines, System.Action onFinishedCallback, bool allowSkip = true)
         {
             if (sequenceLines == null || sequenceLines.Length == 0) return;
 
             lines = sequenceLines;
             lineIndex = 0;
+            allowSkipInput = allowSkip;
             onFinished = onFinishedCallback;
 
             if (panel != null) panel.SetActive(true);
@@ -53,8 +59,10 @@ namespace BrightDream
             if (lines == null) return;
 
             lineTimer += Time.unscaledDeltaTime;
-            bool advance = Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Space)
-                           || Input.GetMouseButtonDown(0) || lineTimer >= AutoAdvanceDelay;
+            bool skipPressed = allowSkipInput && (Input.GetKeyDown(KeyCode.E)
+                                                  || Input.GetKeyDown(KeyCode.Space)
+                                                  || Input.GetMouseButtonDown(0));
+            bool advance = skipPressed || lineTimer >= AutoAdvanceDelay;
             if (!advance) return;
 
             lineIndex++;
