@@ -78,6 +78,9 @@ public class DialogueWindow2D : MonoBehaviour
         GameObject lineGO = new GameObject("DialogueLine");
         lineGO.transform.SetParent(frameGO.transform, false);
 
+        // 폰트가 비면 Text는 아무것도 안 그린다 - 창만 뜨고 글자가 없는 채로 조용히 실패한다
+        if (font == null) font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+
         lineText = lineGO.AddComponent<Text>();
         lineText.font = font;
         lineText.text = "";
