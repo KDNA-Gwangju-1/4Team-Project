@@ -220,7 +220,8 @@ public class PlayerMovement2D : MonoBehaviour
         if (grounded)
         {
             usedWallCollider = null;
-            if (!respawnAnchorLocked && groundHit.collider.GetComponent<TimedRevealPlatform2D>() == null)
+            // 안 보이는 발판 위에서 되살아나면 어디 서 있는지 모른다 - 직전의 보이는 발판으로 보낸다
+            if (!respawnAnchorLocked && groundHit.collider.GetComponent<LightRevealPlatform2D>() == null)
             {
                 lastGroundedPosition = ComputeCheckpoint(groundHit.collider);
             }
@@ -384,19 +385,25 @@ public class PlayerMovement2D : MonoBehaviour
 
         if (hasLantern && mouse != null)
         {
-            lightDirection = GetMouseDirection(mouse);
-            float angle = Mathf.Atan2(lightDirection.y, lightDirection.x) * Mathf.Rad2Deg;
-            float facing = lightDirection.x >= 0f ? 1f : -1f;
-            // The cone and the drawn flashlight used to carry separate offsets, so
-            // the beam left from a point that was not the lamp. One number now.
-            Vector2 offset = grounded ? flashlightHandOffset : jumpFlashlightHandOffset;
-            if (beamFollowsHeldFlashlight && grounded && heldVisual != null)
-            {
-                offset = heldVisual.idleHandOffset;
-            }
-            flashlight.position = transform.position + new Vector3(offset.x * facing, offset.y, 0f);
-            flashlight.rotation = Quaternion.Euler(0f, 0f, angle);
+            PoseFlashlight(GetMouseDirection(mouse));
         }
+    }
+
+    // 빛줄기의 위치와 회전. 입력에서 오든 컷신에서 오든 같은 자리에서 같은 각도로 나가야 한다.
+    private void PoseFlashlight(Vector2 direction)
+    {
+        lightDirection = direction;
+        float angle = Mathf.Atan2(lightDirection.y, lightDirection.x) * Mathf.Rad2Deg;
+        float facing = lightDirection.x >= 0f ? 1f : -1f;
+        // The cone and the drawn flashlight used to carry separate offsets, so
+        // the beam left from a point that was not the lamp. One number now.
+        Vector2 offset = grounded ? flashlightHandOffset : jumpFlashlightHandOffset;
+        if (beamFollowsHeldFlashlight && grounded && heldVisual != null)
+        {
+            offset = heldVisual.idleHandOffset;
+        }
+        flashlight.position = transform.position + new Vector3(offset.x * facing, offset.y, 0f);
+        flashlight.rotation = Quaternion.Euler(0f, 0f, angle);
     }
 
     void UpdateShooting()
@@ -410,6 +417,21 @@ public class PlayerMovement2D : MonoBehaviour
             FireBullet(direction);
             lastFireTime = Time.time;
         }
+    }
+
+    // 컷신은 이 컴포넌트를 꺼두고 진행하므로 입력 경로를 거치지 않고 손전등과 발사를 직접 시킨다.
+    public void CutsceneSetLight(bool on, Vector2 direction)
+    {
+        if (flashlight != null && direction.sqrMagnitude > 0.0001f) PoseFlashlight(direction.normalized);
+        if (flashlightRenderer != null) flashlightRenderer.enabled = on && hasLantern;
+        if (flashlightMask != null) flashlightMask.enabled = on && hasLantern;
+    }
+
+    public Vector3 FlashlightOrigin => flashlight != null ? flashlight.position : transform.position;
+
+    public void CutsceneFire(Vector2 direction)
+    {
+        FireBullet(direction);
     }
 
     void FireBullet(Vector2 direction)

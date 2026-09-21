@@ -1,87 +1,46 @@
 using UnityEngine;
 
-public class TimedRevealPlatform2D : MonoBehaviour
+// 항상 밟을 수 있지만 손전등 빛이 닿는 동안만 보이는 발판.
+// 빛에 잡히는 판정은 몬스터와 같은 부채꼴 레이캐스트라, 손전등 범위·각도를 바꾸면 같이 바뀐다.
+// 레이어는 씬에 둔 그대로(Ground) 쓴다 - 보이든 안 보이든 충돌은 늘 살아 있어야 한다.
+public class LightRevealPlatform2D : MonoBehaviour
 {
     private const int RayCount = 15;
 
-    [Range(0f, 1f)]
-    public float silhouetteAlpha = 0.25f;
-    [Range(0f, 1f)]
-    public float revealedAlpha = 1f;
-    public float timeToReveal = 2.5f;
-    public float revealedDuration = 10f;
-    public string revealedLayerName = "Ground";
+    [Range(0f, 1f)] public float hiddenAlpha = 0f;
+    [Range(0f, 1f)] public float litAlpha = 1f;
+    public float fadeInTime = 0.5f;
+    [Tooltip("빛이 벗어난 뒤 완전히 사라지기까지. 0이면 즉시.")]
+    public float fadeOutTime = 0.6f;
 
     private SpriteRenderer sr;
     private Collider2D col;
-    private float litTimer;
-    private float revealedTimer;
-    private bool isSolid;
+    private float alpha;
 
     void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
         col = GetComponent<Collider2D>();
-        if (sr != null) sr.enabled = false;
-
-        int hiddenLayer = LayerMask.NameToLayer("Hidden");
-        int defaultLayer = LayerMask.NameToLayer("Default");
-        gameObject.layer = hiddenLayer;
-        Physics2D.IgnoreLayerCollision(hiddenLayer, defaultLayer, true);
+        alpha = hiddenAlpha;
+        Apply();
     }
 
     void Update()
     {
         if (sr == null || col == null) return;
 
-        if (isSolid)
-        {
-            revealedTimer -= Time.deltaTime;
-            if (revealedTimer <= 0f)
-            {
-                Hide();
-            }
-            return;
-        }
-
-        if (IsCurrentlyLit())
-        {
-            litTimer += Time.deltaTime;
-            sr.enabled = true;
-            SetAlpha(silhouetteAlpha);
-
-            if (litTimer >= timeToReveal)
-            {
-                Reveal();
-            }
-        }
-        else
-        {
-            litTimer = 0f;
-            sr.enabled = false;
-        }
+        float target = IsCurrentlyLit() ? litAlpha : hiddenAlpha;
+        float time = target > alpha ? fadeInTime : fadeOutTime;
+        float span = Mathf.Max(0.0001f, litAlpha - hiddenAlpha);
+        alpha = time <= 0f ? target : Mathf.MoveTowards(alpha, target, Time.deltaTime * span / time);
+        Apply();
     }
 
-    private void Reveal()
+    private void Apply()
     {
-        isSolid = true;
-        revealedTimer = revealedDuration;
-        gameObject.layer = LayerMask.NameToLayer(revealedLayerName);
-        SetAlpha(revealedAlpha);
-    }
-
-    private void Hide()
-    {
-        isSolid = false;
-        litTimer = 0f;
-        sr.enabled = false;
-        gameObject.layer = LayerMask.NameToLayer("Hidden");
-    }
-
-    private void SetAlpha(float a)
-    {
+        sr.enabled = alpha > 0.001f;
         Color c = sr.color;
-        c.a = a;
+        c.a = alpha;
         sr.color = c;
     }
 
