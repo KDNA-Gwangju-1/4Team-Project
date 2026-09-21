@@ -163,6 +163,7 @@ public static class MainMenuSceneBuilder
                     new Vector2(290f, -50f), new Vector2(140f, 40f), 28, TextAnchor.MiddleCenter);
 
         var backButton = CreateButton(optionPanel, "BackButton", "BACK", new Vector2(0f, -190f), res);
+        MainMenuVisualDesign.ApplyOption(optionPanel);
 
         // 슬라이더 기본 범위 (실행 시 GameSettings 의 저장값으로 다시 맞춰진다)
         sensitivitySlider.minValue = GameSettings.MouseSensitivityMin;

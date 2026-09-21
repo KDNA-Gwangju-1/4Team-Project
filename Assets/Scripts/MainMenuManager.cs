@@ -15,6 +15,8 @@ using UnityEngine.UI;
 /// </summary>
 public class MainMenuManager : MonoBehaviour
 {
+    private const string DefaultMenuMusicResourcePath = "Audio/MainMenu/WhispersOfTheNight";
+
     // ============================================================
     // 이동할 게임 Scene 이름
     // 여기 기본값을 바꾸거나, Inspector 에서 직접 바꿔도 된다.
@@ -43,6 +45,14 @@ public class MainMenuManager : MonoBehaviour
     [Tooltip("AudioMixer 에서 Expose 한 볼륨 파라미터 이름")]
     [SerializeField] private string masterVolumeParameter = "MasterVolume";
 
+    [Header("메인 메뉴 BGM")]
+    [Tooltip("비워 두면 Resources/Audio/MainMenu/WhispersOfTheNight 를 자동으로 불러온다.")]
+    [SerializeField] private AudioClip menuMusicClip;
+    [Tooltip("직접 지정하지 않으면 이 오브젝트에 AudioSource 를 자동으로 추가한다.")]
+    [SerializeField] private AudioSource menuMusicSource;
+    [Range(0f, 1f)]
+    [SerializeField] private float menuMusicVolume = 0.55f;
+
     // ============================================================
     // 시작할 때: 저장된 설정을 불러와 슬라이더와 실제 값에 반영한다.
     // ============================================================
@@ -64,6 +74,8 @@ public class MainMenuManager : MonoBehaviour
         // 한 번 직접 호출해 글자와 실제 볼륨을 확실히 맞춰 준다.
         OnMouseSensitivityChanged(mouseSensitivitySlider.value);
         OnMasterVolumeChanged(masterVolumeSlider.value);
+
+        InitializeMenuMusic();
 
         // 처음에는 메인 메뉴만 보이게 한다.
         ShowMainMenu();
@@ -98,13 +110,15 @@ public class MainMenuManager : MonoBehaviour
             Debug.LogError("[MainMenuManager] Loading scene is missing from Build Settings.");
             return;
         }
+
+        StopMenuMusic();
         startingGame = true;
         mainMenuPanel.SetActive(false);
         optionPanel.SetActive(false);
         var cinematic = gameObject.AddComponent<OpeningCinematicPlayer>();
         cinematic.Play(
             () => LoadingScreen.Go(gameSceneName),
-            () => { startingGame = false; ShowMainMenu(); },
+            () => { startingGame = false; PlayMenuMusic(); ShowMainMenu(); },
             audioMixer != null ? GameSettings.MasterVolume : 1f);
     }
 
@@ -170,6 +184,50 @@ public class MainMenuManager : MonoBehaviour
         optionPanel.SetActive(false);
     }
 
+    private void InitializeMenuMusic()
+    {
+        if (menuMusicClip == null)
+            menuMusicClip = Resources.Load<AudioClip>(DefaultMenuMusicResourcePath);
+
+        if (menuMusicClip == null)
+        {
+            Debug.LogWarning("[MainMenuManager] 메인 메뉴 BGM을 찾지 못했습니다: Resources/" +
+                             DefaultMenuMusicResourcePath);
+            return;
+        }
+
+        if (menuMusicSource == null)
+            menuMusicSource = gameObject.AddComponent<AudioSource>();
+
+        menuMusicSource.playOnAwake = false;
+        menuMusicSource.loop = true;
+        menuMusicSource.spatialBlend = 0f;
+        menuMusicSource.clip = menuMusicClip;
+        UpdateMenuMusicVolume(GameSettings.MasterVolume);
+        PlayMenuMusic();
+    }
+
+    private void PlayMenuMusic()
+    {
+        if (menuMusicSource != null && menuMusicSource.clip != null && !menuMusicSource.isPlaying)
+            menuMusicSource.Play();
+    }
+
+    private void StopMenuMusic()
+    {
+        if (menuMusicSource != null && menuMusicSource.isPlaying)
+            menuMusicSource.Stop();
+    }
+
+    private void UpdateMenuMusicVolume(float masterVolume)
+    {
+        if (menuMusicSource == null) return;
+
+        // Mixer가 없으면 AudioListener가 마스터 볼륨을 담당한다.
+        // Mixer가 있으면 메뉴 BGM이 중복 감쇠되지 않도록 소스에서만 보정한다.
+        menuMusicSource.volume = menuMusicVolume * (audioMixer != null ? masterVolume : 1f);
+    }
+
     /// <summary>0~1 볼륨 값을 실제 소리에 적용한다.</summary>
     private void ApplyVolume(float volume01)
     {
@@ -185,6 +243,8 @@ public class MainMenuManager : MonoBehaviour
             // AudioMixer 가 없을 때는 전체 볼륨을 직접 조절한다.
             AudioListener.volume = volume01;
         }
+
+        UpdateMenuMusicVolume(volume01);
     }
 
     /// <summary>게임이 꺼질 때도 한 번 저장해 둔다.</summary>
