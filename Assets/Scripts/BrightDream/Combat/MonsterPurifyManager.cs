@@ -59,6 +59,13 @@ namespace BrightDream.Combat
 
         public void RegisterPurify()
         {
+            // Stage2가 시작되기 전(CurrentStage < 2)에 정화가 필요한 몬스터가 총에 맞아도 진행도로 잡지 않는다.
+            // 아레나에 미리 서 있는 장식용 몬스터(MonsterCombat을 비활성화해 둔 개체)를 쏴도 카운트가
+            // 오르지 않아야 하는데, MonoBehaviour.enabled = false는 OnTriggerEnter 같은 물리 콜백까지
+            // 막아주지는 않는다 - Collider.enabled는 꺼져 있어야 안전하지만, 혹시 다른 경로로 호출되더라도
+            // 여기서 한 번 더 막아 Stage2 진행 중이 아니면 절대 카운트가 오르지 않게 한다.
+            if (StageProgressManager.Instance == null || StageProgressManager.Instance.CurrentStage < 2) return;
+
             PurifiedCount++;
             UpdateUI();
             OnPurifyCountChanged?.Invoke(PurifiedCount);
