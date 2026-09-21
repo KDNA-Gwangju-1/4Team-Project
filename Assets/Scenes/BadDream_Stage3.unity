@@ -4695,7 +4695,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82f65cfc907b55d499fc88c7cefec590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Monster2D
-  monsterId: stage3_rabbit_arena
+  monsterId:
   shimmer: {fileID: 0}
   shimmerScalePulse: 0.15
   shimmerAlphaBase: 0.25
