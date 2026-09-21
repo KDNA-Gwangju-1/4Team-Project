@@ -1,0 +1,207 @@
+using UnityEngine;
+
+/// <summary>
+/// 레벨 블록아웃을 직접 걸어 보기 위한 최소 기능 1인칭 컨트롤러.
+///
+/// 프로젝트에 아직 정식 Player / FPS Controller 가 없어서 테스트용으로 만든 것이다.
+/// 나중에 팀의 정식 컨트롤러가 나오면 이 스크립트는 걷어내면 된다.
+///
+/// 조작
+///   WASD  이동 / Shift 달리기 / Space 점프
+///   마우스  시점 (감도는 GameSettings.MouseSensitivity 를 그대로 쓴다)
+///   P     자동 걷기 on/off - 길을 따라 끝까지 걸으며 소요 시간을 Console 에 기록
+///   Esc   마우스 커서 잠금 해제
+/// </summary>
+[RequireComponent(typeof(CharacterController))]
+public class SimpleFirstPersonController : MonoBehaviour
+{
+    [Header("이동")]
+    [SerializeField] private float walkSpeed = 3.0f;
+    [SerializeField] private float sprintSpeed = 5.0f;
+    [SerializeField] private float jumpHeight = 1.1f;
+    [SerializeField] private float gravity = -18f;
+
+    [Header("시점")]
+    [SerializeField] private Transform cameraTransform;
+    [SerializeField] private float lookSpeed = 2.0f;
+    [SerializeField] private float pitchLimit = 85f;
+
+    [Header("자동 걷기 테스트")]
+    [SerializeField] private BrightDreamPath path;
+    [SerializeField] private bool autoWalkOnStart;
+
+    private CharacterController controller;
+    private float pitch;
+    private float verticalVelocity;
+
+    // ---- 자동 걷기 상태 ----
+    private bool autoWalking;
+    private int autoWaypointIndex;
+    private float autoElapsed;
+    private float autoDistance;
+    private Vector3 autoLastPosition;
+    private string autoCurrentArea = string.Empty;
+    private float autoAreaEnteredAt;
+    private float autoAreaEnteredDistance;
+
+    private void Awake()
+    {
+        controller = GetComponent<CharacterController>();
+        if (cameraTransform == null && Camera.main != null) cameraTransform = Camera.main.transform;
+
+        // 에디터 창이 뒤로 가면 Play Mode 가 멈춰서 자동 걷기 측정이 중단된다.
+        // 프로젝트 설정(모두가 공유)을 건드리지 않고 이 테스트 Scene 에서만 켠다.
+        Application.runInBackground = true;
+    }
+
+    private void Start()
+    {
+        LockCursor(true);
+        if (autoWalkOnStart) StartAutoWalk();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape)) LockCursor(false);
+        if (Input.GetMouseButtonDown(0) && Cursor.lockState != CursorLockMode.Locked) LockCursor(true);
+        if (Input.GetKeyDown(KeyCode.P)) ToggleAutoWalk();
+
+        if (autoWalking) UpdateAutoWalk();
+        else UpdateManual();
+    }
+
+    // ==========================================================
+    // 직접 조작
+    // ==========================================================
+    private void UpdateManual()
+    {
+        if (Cursor.lockState == CursorLockMode.Locked) ApplyLook();
+
+        float speed = Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed;
+        Vector3 wish = transform.right * Input.GetAxisRaw("Horizontal") + transform.forward * Input.GetAxisRaw("Vertical");
+        if (wish.sqrMagnitude > 1f) wish.Normalize();
+
+        if (controller.isGrounded)
+        {
+            verticalVelocity = -2f;
+            if (Input.GetKeyDown(KeyCode.Space)) verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * gravity);
+        }
+        verticalVelocity += gravity * Time.deltaTime;
+
+        controller.Move((wish * speed + Vector3.up * verticalVelocity) * Time.deltaTime);
+    }
+
+    private void ApplyLook()
+    {
+        float sensitivity = lookSpeed * GameSettings.MouseSensitivity;
+        transform.Rotate(Vector3.up, Input.GetAxis("Mouse X") * sensitivity, Space.World);
+
+        pitch = Mathf.Clamp(pitch - Input.GetAxis("Mouse Y") * sensitivity, -pitchLimit, pitchLimit);
+        if (cameraTransform != null) cameraTransform.localRotation = Quaternion.Euler(pitch, 0f, 0f);
+    }
+
+    // ==========================================================
+    // 자동 걷기 - 길 동선과 소요 시간 측정용
+    // ==========================================================
+    private void ToggleAutoWalk()
+    {
+        if (autoWalking) StopAutoWalk("사용자가 중단");
+        else StartAutoWalk();
+    }
+
+    private void StartAutoWalk()
+    {
+        if (path == null || path.waypoints == null || path.waypoints.Length < 2)
+        {
+            Debug.LogWarning("[AutoWalk] BrightDreamPath 가 없어서 자동 걷기를 시작할 수 없다.");
+            return;
+        }
+
+        // 첫 Waypoint 로 순간이동한 뒤 출발한다.
+        controller.enabled = false;
+        transform.position = path.waypoints[0] + Vector3.up * 0.1f;
+        controller.enabled = true;
+
+        autoWalking = true;
+        autoWaypointIndex = 1;
+        autoElapsed = 0f;
+        autoDistance = 0f;
+        autoLastPosition = transform.position;
+        autoAreaEnteredAt = 0f;
+        autoAreaEnteredDistance = 0f;
+        autoCurrentArea = path.AreaNameAtDistance(0f);
+
+        Debug.Log($"[AutoWalk] 시작 - waypoint {path.waypoints.Length}개 / 경로 길이 {path.TotalLength:F1}m / 걷기 속도 {walkSpeed:F1}m/s");
+    }
+
+    private void UpdateAutoWalk()
+    {
+        Vector3 target = path.waypoints[autoWaypointIndex];
+        Vector3 flatTarget = new Vector3(target.x, transform.position.y, target.z);
+        Vector3 toTarget = flatTarget - transform.position;
+
+        // 이동 방향을 바라보게 해서 1인칭 화면도 실제 플레이와 비슷하게 만든다.
+        if (toTarget.sqrMagnitude > 0.0001f)
+        {
+            Quaternion look = Quaternion.LookRotation(new Vector3(toTarget.x, 0f, toTarget.z));
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, look, 180f * Time.deltaTime);
+        }
+
+        verticalVelocity = controller.isGrounded ? -2f : verticalVelocity + gravity * Time.deltaTime;
+        controller.Move((transform.forward * walkSpeed + Vector3.up * verticalVelocity) * Time.deltaTime);
+
+        autoElapsed += Time.deltaTime;
+        Vector3 moved = transform.position - autoLastPosition;
+        autoDistance += new Vector3(moved.x, 0f, moved.z).magnitude;
+        autoLastPosition = transform.position;
+
+        ReportAreaChange();
+
+        if (toTarget.sqrMagnitude < 0.5f * 0.5f)
+        {
+            autoWaypointIndex++;
+            if (autoWaypointIndex >= path.waypoints.Length) StopAutoWalk("목적지 도착");
+        }
+
+        // 길이 막혀 제자리걸음일 때 무한 대기를 막는다.
+        if (autoElapsed > 300f) StopAutoWalk("시간 초과 - 길이 막혔을 가능성");
+    }
+
+    private void ReportAreaChange()
+    {
+        // 맵이 꺾이므로 구간 판정은 Z 좌표가 아니라 걸어온 거리로 한다.
+        string area = path.AreaNameAtDistance(autoDistance);
+        if (area == autoCurrentArea || string.IsNullOrEmpty(area)) return;
+
+        if (!string.IsNullOrEmpty(autoCurrentArea))
+        {
+            Debug.Log($"[AutoWalk] 구간 '{autoCurrentArea}' 통과 - " +
+                      $"{autoDistance - autoAreaEnteredDistance:F1}m / {autoElapsed - autoAreaEnteredAt:F1}초 " +
+                      $"(누적 {autoDistance:F1}m / {autoElapsed:F1}초)");
+        }
+
+        autoCurrentArea = area;
+        autoAreaEnteredAt = autoElapsed;
+        autoAreaEnteredDistance = autoDistance;
+    }
+
+    private void StopAutoWalk(string reason)
+    {
+        autoWalking = false;
+
+        if (!string.IsNullOrEmpty(autoCurrentArea))
+        {
+            Debug.Log($"[AutoWalk] 구간 '{autoCurrentArea}' 통과 - " +
+                      $"{autoDistance - autoAreaEnteredDistance:F1}m / {autoElapsed - autoAreaEnteredAt:F1}초");
+        }
+
+        Debug.Log($"[AutoWalk] 종료({reason}) - 총 이동 {autoDistance:F1}m / 총 소요 {autoElapsed:F1}초 " +
+                  $"({autoElapsed / 60f:F2}분)");
+    }
+
+    private static void LockCursor(bool locked)
+    {
+        Cursor.lockState = locked ? CursorLockMode.Locked : CursorLockMode.None;
+        Cursor.visible = !locked;
+    }
+}
