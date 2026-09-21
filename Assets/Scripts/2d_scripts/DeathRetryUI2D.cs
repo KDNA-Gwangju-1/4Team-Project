@@ -25,6 +25,7 @@ public class DeathRetryUI2D : MonoBehaviour
     private Text promptText;
     private bool shown;
     private bool acceptingInput;
+    private bool diedInPhase2;
 
     public bool IsShown => shown;
 
@@ -32,6 +33,10 @@ public class DeathRetryUI2D : MonoBehaviour
     {
         if (shown) return;
         shown = true;
+
+        // 씬을 다시 올리면 페이즈가 날아가므로 지금 읽어둔다
+        BossPhaseController2D phases = FindFirstObjectByType<BossPhaseController2D>();
+        diedInPhase2 = phases != null && phases.Phase == 2;
 
         Build();
         // 보스 코루틴과 플레이어를 한 번에 세운다. 아래 연출은 전부 unscaled로 돈다.
@@ -142,6 +147,7 @@ public class DeathRetryUI2D : MonoBehaviour
         // LoadScene은 timeScale을 되돌려주지 않는다. 여기서 안 풀면 다음 판이 멈춘 채로 시작한다.
         Time.timeScale = 1f;
         Stage3BossIntroCutscene.SkipIntroOnce = true;
+        BossPhaseController2D.ResumeAtPhase2 = diedInPhase2;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 

@@ -890,6 +890,66 @@ public class Stage3Phase2Cutscene : MonoBehaviour
         yield return new WaitForSeconds(holdBeforeKillLine);
     }
 
+    // 2페이즈에서 죽어 리트라이한 판. Play()가 암전 뒤에 하는 세계 교체와 보스 등장의
+    // 끝 상태만 그대로 놓는다. 대사·상승·암전·burst 연출은 전부 생략한다.
+    public void ApplyArenaInstantly()
+    {
+        if (player == null || cam == null || boss == null) return;
+
+        if (phase2Arena != null) phase2Arena.SetActive(true);
+        SetActiveAll(hideForPhase2, false);
+
+        Vector3 landing = phase2Anchor != null
+            ? phase2Anchor.position + Vector3.up * 1.2f
+            : new Vector3(playerStageX, playerStageY + 1.2f, 0f);
+        player.transform.position = landing;
+        player.transform.rotation = Quaternion.identity;
+        Rigidbody2D body = player.GetComponent<Rigidbody2D>();
+        if (body != null)
+        {
+            body.position = landing;
+            body.linearVelocity = Vector2.zero;
+        }
+
+        Sprite phase2Look = (phase2Frames != null && phase2Frames.Length > 0) ? phase2Frames[0] : null;
+        MonsterSpriteAnimator2D animator = boss.GetComponent<MonsterSpriteAnimator2D>();
+        if (phase2Look != null)
+        {
+            if (animator != null)
+            {
+                animator.activeFrameDuration = phase2FrameDuration;
+                animator.SetLoopFrames(phase2Frames);
+            }
+            else if (bossRenderer != null)
+            {
+                bossRenderer.sprite = phase2Look;
+            }
+        }
+
+        boss.position = new Vector3(landing.x + bossBurstOffset.x, landing.y + bossBurstOffset.y, 0f);
+        if (bossRenderer != null)
+        {
+            // 애니메이터는 다음 프레임에야 스프라이트를 바꾸므로 렌더러가 아니라 프레임에서 폭을 잰다
+            Sprite measure = phase2Look != null ? phase2Look : bossRenderer.sprite;
+            float drawn = measure != null ? measure.bounds.size.x : 1f;
+            if (drawn > 0.001f)
+            {
+                float factor = bossBurstWidth / drawn;
+                boss.localScale = new Vector3(factor, factor, boss.localScale.z);
+            }
+            bossRenderer.color = phase2Tint;
+            bossRenderer.enabled = true;
+        }
+
+        CameraFollow2D follow = cam.GetComponent<CameraFollow2D>();
+        if (lockCameraForPhase2)
+        {
+            cam.transform.position = new Vector3(phase2CameraCentre.x, phase2CameraCentre.y, shotOffset.z);
+            cam.orthographicSize = phase2CameraOrtho;
+        }
+        if (follow != null) follow.enabled = !lockCameraForPhase2;
+    }
+
     // ---------- helpers ----------
 
     private Vector3 ShotOn(float x, SpriteRenderer subject)

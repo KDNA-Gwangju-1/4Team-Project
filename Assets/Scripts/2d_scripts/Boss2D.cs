@@ -37,6 +37,13 @@ public class Boss2D : MonoBehaviour
     public bool IsWeakPointExposed => weakPointExposed;
     public int CurrentHealth => currentHealth;
     public int MaxHealth => maxHealth;
+
+    // 리트라이로 2페이즈부터 재개할 때 쓴다. 체력바는 CurrentHealth를 매 프레임 읽으므로
+    // OnDamaged를 쏘지 않는다 - 쐈다가는 페이즈 전환이 다시 걸린다.
+    public void SetHealth(int value)
+    {
+        currentHealth = Mathf.Clamp(value, 0, maxHealth);
+    }
     public Color BaseColor => weakPointExposed ? weakPointColor : baseTint;
     public bool CanBeShot => !isDying && !Invulnerable && acceptsDirectHits && (!requireLightToDamage || weakPointExposed);
 
