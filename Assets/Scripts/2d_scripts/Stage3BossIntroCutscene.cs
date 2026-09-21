@@ -156,9 +156,34 @@ public class Stage3BossIntroCutscene : MonoBehaviour
     }
     private PlacedProp firstProp;
 
+    // 죽어서 리트라이로 다시 들어온 판인지. DeathRetryUI2D가 씬을 다시 올리기 직전에 세운다.
+    public static bool SkipIntroOnce;
+
     void Start()
     {
+        if (SkipIntroOnce)
+        {
+            SkipIntroOnce = false;
+            SkipToFight();
+            return;
+        }
+
         StartCoroutine(PlayCutscene());
+    }
+
+    // 컷신이 한 번도 돌지 않았으므로 보스도 카메라도 씬에 저장된 전투 시작 포즈 그대로다.
+    // StageBossForward로 끌어냈다가 BossExitToLedge로 되돌리는 왕복이 통째로 생략된 셈이라,
+    // 컷신이 감췄을 오브젝트만 켜고 물러나면 된다.
+    private void SkipToFight()
+    {
+        if (player == null || cam == null || boss == null) return;
+
+        SetActiveAll(revealWithBoss, true);
+        SetActiveAll(revealAfterCutscene, true);
+        SetActiveAll(revealAfterDelay, true);
+        if (bossAttack != null) bossAttack.SetPhase(1);
+
+        Destroy(gameObject);
     }
 
     private IEnumerator PlayCutscene()

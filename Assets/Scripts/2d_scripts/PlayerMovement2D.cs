@@ -535,6 +535,14 @@ public class PlayerMovement2D : MonoBehaviour
 
     private void Die()
     {
+        // 죽음 화면이 있는 씬은 그쪽이 리트라이까지 책임진다. 없는 씬은 종전대로 sceneOnDeath로 넘어간다.
+        DeathRetryUI2D retry = FindFirstObjectByType<DeathRetryUI2D>();
+        if (retry != null)
+        {
+            retry.Show();
+            return;
+        }
+
         if (!string.IsNullOrEmpty(sceneOnDeath))
         {
             SceneManager.LoadScene(sceneOnDeath);
