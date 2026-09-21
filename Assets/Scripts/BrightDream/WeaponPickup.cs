@@ -57,10 +57,10 @@ public class WeaponPickup : MonoBehaviour
 
         PlayerHasWeapon = true;
         revealed = false;
-        SetVisualActive(false);
-        pickupCollider.enabled = false;
         if (equippedWeaponVisual != null) equippedWeaponVisual.SetActive(true);
         StageMessageUI.Instance?.ShowMessage(pickupMessage, messageDuration);
+        // 오브젝트 자체를 꺼서 시각/콜라이더를 한 번에 확실히 정리한다 (재상호작용 방지 포함).
+        gameObject.SetActive(false);
     }
 
     private void SetVisualActive(bool active)

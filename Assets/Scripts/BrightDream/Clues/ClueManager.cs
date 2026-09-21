@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -29,14 +28,19 @@ namespace BrightDream.Clues
         [Header("UI 참조")]
         [SerializeField] private Text progressText;
         [SerializeField] private Text investigateText;
-        [SerializeField] private float investigateTextDuration = 4f;
-        [SerializeField] private float pauseBetweenLines = 1f;
+        [Tooltip("investigateText를 감싸는 배경(대사ui02) 오브젝트 - 켜고 끄는 대상은 텍스트 자신이 아니라 이 패널이다. " +
+                 "비워두면 기존처럼 investigateText 자신의 GameObject를 켜고 끈다.")]
+        [SerializeField] private GameObject investigatePanel;
+        [Tooltip("단서 텍스트가 떠 있는 동안 꺼둘 컴포넌트 - 이동/시점 컨트롤러, 상호작용 스크립트 등.")]
+        [SerializeField] private MonoBehaviour[] disableWhileInvestigating;
 
         public event Action<string> OnClueCollected;
         public event Action OnAllCluesCollected;
 
         private readonly HashSet<string> collectedClueIds = new HashSet<string>();
-        private Coroutine hideTextRoutine;
+        private string[] investigateParts;
+        private int investigatePartIndex;
+        private bool pendingAllCluesCollected;
 
         public int CollectedCount => collectedClueIds.Count;
 
@@ -53,7 +57,7 @@ namespace BrightDream.Clues
         private void Start()
         {
             UpdateProgressUI();
-            if (investigateText != null) investigateText.gameObject.SetActive(false);
+            SetInvestigateTextActive(false);
             if (progressText != null) progressText.gameObject.SetActive(false);
         }
 
@@ -85,11 +89,7 @@ namespace BrightDream.Clues
             UpdateProgressUI();
 
             OnClueCollected?.Invoke(clue.ClueId);
-            if (collectedClueIds.Count >= TotalClueCount)
-            {
-                OnAllCluesCollected?.Invoke();
-                StageMessageUI.Instance?.ShowMessage("Stage1 Clear\n정화총 획득가능");
-            }
+            if (collectedClueIds.Count >= TotalClueCount) pendingAllCluesCollected = true;
         }
 
         private void UpdateProgressUI()
@@ -107,26 +107,57 @@ namespace BrightDream.Clues
         /// <summary>
         /// investigateText 안에 빈 줄("\n\n")이 있으면 그걸 기준으로 잘라 각 줄을 순서대로 보여준다
         /// (예: 편지 단서처럼 "...\n\n잠시 후...\n\n..." 형태로 대사를 두 번에 나눠 띄우고 싶을 때).
+        /// 플레이어는 멈추고, 좌클릭할 때마다 다음 줄로 넘어가며 마지막 줄에서는 게임플레이로 복귀한다.
         /// </summary>
         private void ShowInvestigateText(string text)
         {
             if (investigateText == null) return;
-            if (hideTextRoutine != null) StopCoroutine(hideTextRoutine);
-            string[] parts = text.Split(new[] { "\n\n" }, StringSplitOptions.RemoveEmptyEntries);
-            hideTextRoutine = StartCoroutine(ShowTextSequence(parts));
+
+            investigateParts = text.Split(new[] { "\n\n" }, StringSplitOptions.RemoveEmptyEntries);
+            investigatePartIndex = 0;
+
+            foreach (MonoBehaviour mb in disableWhileInvestigating) if (mb != null) mb.enabled = false;
+            Time.timeScale = 0f;
+
+            SetInvestigateTextActive(true);
+            ShowCurrentInvestigatePart();
         }
 
-        private IEnumerator ShowTextSequence(string[] parts)
+        private void Update()
         {
-            for (int i = 0; i < parts.Length; i++)
+            if (investigateParts == null) return;
+            if (!Input.GetMouseButtonDown(0)) return;
+
+            investigatePartIndex++;
+            if (investigatePartIndex >= investigateParts.Length) EndInvestigateText();
+            else ShowCurrentInvestigatePart();
+        }
+
+        private void ShowCurrentInvestigatePart()
+        {
+            investigateText.text = investigateParts[investigatePartIndex].Trim();
+        }
+
+        private void EndInvestigateText()
+        {
+            investigateParts = null;
+            SetInvestigateTextActive(false);
+
+            Time.timeScale = 1f;
+            foreach (MonoBehaviour mb in disableWhileInvestigating) if (mb != null) mb.enabled = true;
+
+            if (pendingAllCluesCollected)
             {
-                investigateText.text = parts[i].Trim();
-                investigateText.gameObject.SetActive(true);
-                yield return new WaitForSeconds(investigateTextDuration);
-                investigateText.gameObject.SetActive(false);
-                if (i < parts.Length - 1) yield return new WaitForSeconds(pauseBetweenLines);
+                pendingAllCluesCollected = false;
+                OnAllCluesCollected?.Invoke();
+                StageMessageUI.Instance?.ShowMessage("Stage1 Clear\n정화총 획득가능");
             }
-            hideTextRoutine = null;
+        }
+
+        private void SetInvestigateTextActive(bool active)
+        {
+            if (investigatePanel != null) investigatePanel.SetActive(active);
+            else if (investigateText != null) investigateText.gameObject.SetActive(active);
         }
     }
 }

@@ -45,6 +45,20 @@ namespace BrightDream.Combat
         private static readonly List<MonsterCombat> activeInstances = new List<MonsterCombat>();
         private static readonly Collider[] obstacleHitsBuffer = new Collider[16];
 
+        // 몬스터는 kinematic Rigidbody + trigger 콜라이더라 벽 콜라이더로는 절대 못 막는다 (플레이어와 달리).
+        // Stage2 아레나 컨테인먼트용으로 ArenaLockdown이 시작 시 1회 설정하면, 이 사각형 밖으로 못 나가도록 매 프레임 위치를 고정한다.
+        private static bool arenaBoundsSet;
+        private static float arenaMinX, arenaMaxX, arenaMinZ, arenaMaxZ;
+
+        public static void SetArenaBounds(Bounds bounds)
+        {
+            arenaMinX = bounds.min.x;
+            arenaMaxX = bounds.max.x;
+            arenaMinZ = bounds.min.z;
+            arenaMaxZ = bounds.max.z;
+            arenaBoundsSet = true;
+        }
+
         private Transform player;
         private bool isDone;
 
@@ -81,7 +95,13 @@ namespace BrightDream.Combat
             Vector3 obstacleAvoidance = ComputeObstacleAvoidance();
             Vector3 moveDir = (toPlayer + separation * separationStrength + obstacleAvoidance * obstacleAvoidStrength).normalized;
 
-            transform.position += moveDir * (moveSpeed * Time.deltaTime);
+            Vector3 nextPos = transform.position + moveDir * (moveSpeed * Time.deltaTime);
+            if (arenaBoundsSet)
+            {
+                nextPos.x = Mathf.Clamp(nextPos.x, arenaMinX, arenaMaxX);
+                nextPos.z = Mathf.Clamp(nextPos.z, arenaMinZ, arenaMaxZ);
+            }
+            transform.position = nextPos;
             transform.forward = toPlayer; // 밀어내기/회피와 무관하게 항상 플레이어를 바라본다.
         }
 
