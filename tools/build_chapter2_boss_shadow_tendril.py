@@ -6,7 +6,7 @@ from pathlib import Path
 
 from PIL import Image
 
-from build_chapter2_enemies_distinct_soft import export_animation, opaque, standardize
+from build_chapter2_final_delivery_v4 import export_animation, opaque, standardize
 
 
 ROOT = Path(__file__).resolve().parents[1]
