@@ -4,13 +4,13 @@ using UnityEngine.UI;
 namespace BrightDream
 {
     /// <summary>
-    /// 대사 한 줄씩 보여주는 UI. E키/스페이스바/좌클릭으로 넘기거나, 아무 입력 없어도 3초 뒤 자동으로 다음 줄로 넘어간다.
+    /// 대사 한 줄씩 보여주는 UI. E키/스페이스바/좌클릭으로 넘기거나, 아무 입력 없어도 2.5초 뒤 자동으로 다음 줄로 넘어간다.
     /// 마지막 줄에서 넘기면 패널을 닫고 onFinished 콜백을 호출한다.
     /// Time.timeScale이 0이어도(연출 중 게임 일시정지) Update의 실제 입력과 unscaledDeltaTime은 그대로 들어오므로 문제없다.
     /// </summary>
     public class DialogueUI : MonoBehaviour
     {
-        private const float AutoAdvanceDelay = 3f;
+        private const float AutoAdvanceDelay = 2.5f;
 
         public static DialogueUI Instance { get; private set; }
 
