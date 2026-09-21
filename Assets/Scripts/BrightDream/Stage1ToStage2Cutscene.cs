@@ -15,8 +15,10 @@ namespace BrightDream
     /// 몬스터가 아레나에 들어가면 높은 각도의 리빌 샷으로 전환되고, 그 시점이 완전히 전환된 뒤에
     /// 앞서와 같은 대사 두 줄이 다시 나온 뒤 게임플레이로 복귀한다.
     /// 여기 등장하는 몬스터는 연출 전용 - MonsterCombat 컴포넌트를 비활성 상태로 붙여 두어
-    /// (Awake만 돌고 Update/OnTriggerEnter는 안 돎, OnEnable도 안 불려 분리 로직에도 안 끼임)
-    /// 실제 정화 카운트/데미지 판정 및 MonsterSpawner에는 전혀 관여하지 않는다.
+    /// (Awake만 돌고 Update는 안 돎, OnEnable도 안 불려 분리 로직에도 안 끼임) 이동/밀어내기에는
+    /// 관여하지 않는다. 다만 OnTriggerEnter 같은 물리 콜백은 컴포넌트가 꺼져 있어도 Unity가 그대로
+    /// 호출하므로, 실제 정화 카운트/데미지 판정에서 완전히 배제하려면 Collider까지 꺼야 한다
+    /// (아래에서 combatCollider.enabled = false로 처리).
     /// MonsterCorruptionVisual은 그대로 살아있어 NeedsPurification=true를 읽어 기존 mesh-projection
     /// 오염 얼룩을 정상적으로 표시한다.
     /// </summary>
@@ -114,6 +116,12 @@ namespace BrightDream
                 {
                     combat.SetNeedsPurification(true);
                     combat.enabled = false;
+                    // MonoBehaviour.enabled = false는 Update만 멈출 뿐, OnTriggerEnter 같은 물리 콜백은
+                    // 막아주지 않는다(Unity가 컴포넌트 비활성 여부와 무관하게 호출한다) - 컷신 도중 플레이어가
+                    // 정화총을 쏘면 이 연출용 몬스터가 실제 정화 카운트에 잘못 반영될 수 있으므로
+                    // Collider 자체를 꺼서 아예 트리거 판정에 걸리지 않게 한다.
+                    Collider combatCollider = monster.GetComponent<Collider>();
+                    if (combatCollider != null) combatCollider.enabled = false;
                 }
 
                 // 진행 방향의 정반대(=이쪽)를 보고 서 있게 한다 - 다리 위에서 플레이어를 마주 본 채로 발견된다.
