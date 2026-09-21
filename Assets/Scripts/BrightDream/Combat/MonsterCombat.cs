@@ -27,10 +27,6 @@ namespace BrightDream.Combat
         [SerializeField] private float contactDamage = 20f;
         [SerializeField] private float wrongShotDamage = 20f;
         [SerializeField] private float purifyFlashDuration = 0.35f;
-        [Header("피격 화면 흔들림")]
-        [Tooltip("정화가 필요한 몬스터와 부딪혀 피해를 입었을 때의 흔들림 - 오발 피격(CameraShake 기본값)보다 조금 더 세게 준다.")]
-        [SerializeField] private float contactShakeDuration = 0.35f;
-        [SerializeField] private float contactShakeMagnitude = 0.22f;
         [SerializeField] private Renderer[] bodyRenderers;
 
         [Header("몬스터 간 겹침 방지")]
@@ -235,7 +231,8 @@ namespace BrightDream.Combat
 
                 isDone = true;
                 PlayerHealth.Instance?.TakeDamage(contactDamage, grantInvincibility: true);
-                CameraShake.Instance?.Shake(contactShakeDuration, contactShakeMagnitude);
+                // 오발 피격과 정확히 같은 세기로 흔든다 (CameraShake 기본값 공용).
+                CameraShake.Instance?.Shake();
                 Destroy(gameObject);
             }
             else

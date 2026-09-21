@@ -26745,8 +26745,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c67493e984226a42bd114ad6b393819, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BrightDream.Combat.CameraShake
-  defaultDuration: 0.25
-  defaultMagnitude: 0.12
+  defaultDuration: 0.35
+  defaultMagnitude: 0.25
 --- !u!114 &182342601
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93026,8 +93026,6 @@ MonoBehaviour:
   contactDamage: 20
   wrongShotDamage: 20
   purifyFlashDuration: 0.35
-  contactShakeDuration: 0.35
-  contactShakeMagnitude: 0.22
   bodyRenderers: []
   separationRadius: 0.9
   separationStrength: 1.6
@@ -117303,8 +117301,6 @@ MonoBehaviour:
   contactDamage: 20
   wrongShotDamage: 20
   purifyFlashDuration: 0.35
-  contactShakeDuration: 0.35
-  contactShakeMagnitude: 0.22
   bodyRenderers: []
   separationRadius: 0.9
   separationStrength: 1.6
@@ -172258,8 +172254,6 @@ MonoBehaviour:
   contactDamage: 20
   wrongShotDamage: 20
   purifyFlashDuration: 0.35
-  contactShakeDuration: 0.35
-  contactShakeMagnitude: 0.22
   bodyRenderers: []
   separationRadius: 0.9
   separationStrength: 1.6
@@ -264861,8 +264855,6 @@ MonoBehaviour:
   contactDamage: 20
   wrongShotDamage: 20
   purifyFlashDuration: 0.35
-  contactShakeDuration: 0.35
-  contactShakeMagnitude: 0.22
   bodyRenderers: []
   separationRadius: 0.9
   separationStrength: 1.6
@@ -265923,8 +265915,6 @@ MonoBehaviour:
   contactDamage: 20
   wrongShotDamage: 20
   purifyFlashDuration: 0.35
-  contactShakeDuration: 0.35
-  contactShakeMagnitude: 0.22
   bodyRenderers: []
   separationRadius: 0.9
   separationStrength: 1.6
