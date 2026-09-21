@@ -4,9 +4,10 @@ using UnityEngine.UI;
 namespace BrightDream.Combat
 {
     /// <summary>
-    /// 기존 Health Bar(Slider/Fill Image + Text)를 대신해 하트 5개로 HP를 표시한다.
-    /// 하트 1개 = 20 HP. PlayerHealth의 기존 OnHealthChanged(비율 0~1) 이벤트만 구독하고,
-    /// PlayerHealth 자체는 전혀 수정하지 않는다.
+    /// 기존 Health Bar(Slider/Fill Image + Text)를 대신해 하트로 HP를 표시한다.
+    /// 하트 1개 = 20 HP이고, 표시할 하트 개수는 PlayerHealth.MaxHealth에서 매 프레임 계산한다
+    /// - 보스 스테이지에서 최대 체력이 100 -> 200이 되면 하트도 5개 -> 10개로 자동으로 늘어난다.
+    /// 그래서 heartFills에는 최대 개수(10개)를 다 연결해 두고, 쓰이지 않는 하트는 꺼 둔다.
     /// 각 하트는 Shadow/Empty(배경) 위에 Fill(Image, Type=Filled, Horizontal), 그 위에 Outline을 겹쳐 놓고
     /// fillAmount 로 부분 채움을 표현한다 - heartFills 배열에는 Fill Image만 연결하면 된다.
     ///
@@ -16,8 +17,9 @@ namespace BrightDream.Combat
     /// </summary>
     public class HeartHealthUI : MonoBehaviour
     {
-        [Tooltip("왼쪽부터 순서대로 5개 - 각 하트의 'Fill' Image(Image Type=Filled, Fill Method=Horizontal).")]
-        [SerializeField] private Image[] heartFills = new Image[5];
+        [Tooltip("왼쪽부터 순서대로 최대 개수(10개) - 각 하트의 'Fill' Image(Image Type=Filled, Fill Method=Horizontal). " +
+                 "실제로 몇 개가 보일지는 PlayerHealth.MaxHealth에 따라 정해진다.")]
+        [SerializeField] private Image[] heartFills = new Image[10];
 
         [Header("연출")]
         [Tooltip("줄어든 하트가 실제 값까지 따라 내려오는 속도 (하트 칸/초).")]
@@ -30,8 +32,10 @@ namespace BrightDream.Combat
         [SerializeField] private float heartbeatScale = 1.12f;
         [SerializeField] private float heartbeatsPerSecond = 1.6f;
 
-        private const int HeartCount = 5;
         private const float HpPerHeart = 20f;
+
+        /// <summary>현재 표시 중인 하트 개수. PlayerHealth.MaxHealth가 바뀌면 따라 바뀐다.</summary>
+        private int heartCount;
 
         // PlayerHealth 의 OnHealthChanged 는 인스턴스 이벤트라 PlayerHealth.Instance 가
         // 아직 없을 때(스크립트 실행 순서 문제 - 이 프로젝트의 다른 스크립트들도 같은 이유로
@@ -39,7 +43,7 @@ namespace BrightDream.Combat
         // 나타나는 프레임에 한 번만 구독한다.
         private PlayerHealth subscribedTo;
 
-        /// <summary>실제 HP가 가리키는 하트 칸 수 (0~5).</summary>
+        /// <summary>실제 HP가 가리키는 하트 칸 수 (0 ~ heartCount).</summary>
         private float targetHearts;
         /// <summary>화면에 그려지는 하트 칸 수 - targetHearts를 따라 부드럽게 내려온다.</summary>
         private float displayedHearts;
@@ -75,6 +79,8 @@ namespace BrightDream.Combat
             TrySubscribe();
             if (!hasInitialValue) return;
 
+            RefreshHeartCount();
+
             float dt = Time.unscaledDeltaTime;
             displayedHearts = Mathf.MoveTowards(displayedHearts, targetHearts, drainSpeed * dt);
             ApplyFill(displayedHearts);
@@ -87,17 +93,39 @@ namespace BrightDream.Combat
 
             subscribedTo = PlayerHealth.Instance;
             subscribedTo.OnHealthChanged += HandleHealthChanged;
+            RefreshHeartCount();
             // 최초 구독 시점의 현재 HP로 즉시 동기화 (이벤트는 '변화'에만 발생하므로).
-            targetHearts = Mathf.Clamp01(subscribedTo.CurrentHealth / (HeartCount * HpPerHeart)) * HeartCount;
+            targetHearts = Mathf.Clamp01(subscribedTo.CurrentHealth / subscribedTo.MaxHealth) * heartCount;
             displayedHearts = targetHearts;
             hasInitialValue = true;
+            ApplyFill(displayedHearts);
+        }
+
+        /// <summary>
+        /// 최대 체력에 맞춰 보여줄 하트 개수를 다시 계산하고, 늘어난 만큼 하트 오브젝트를 켜 준다.
+        /// 보스 스테이지 진입처럼 최대 체력이 바뀌는 순간에만 실제로 뭔가가 바뀐다.
+        /// </summary>
+        private void RefreshHeartCount()
+        {
+            int wanted = Mathf.Clamp(Mathf.RoundToInt(subscribedTo.MaxHealth / HpPerHeart), 1, heartFills.Length);
+            if (wanted == heartCount) return;
+
+            heartCount = wanted;
+            for (int i = 0; i < heartFills.Length; i++)
+            {
+                if (heartRoots[i] == null) continue;
+                heartRoots[i].gameObject.SetActive(i < heartCount);
+            }
+            // 하트가 늘어난 직후에는 표시값도 곧바로 새 최대치에 맞춰 둔다 (흘러내리는 연출 없이).
+            targetHearts = Mathf.Clamp01(subscribedTo.CurrentHealth / subscribedTo.MaxHealth) * heartCount;
+            displayedHearts = targetHearts;
             ApplyFill(displayedHearts);
         }
 
         private void HandleHealthChanged(float ratio)
         {
             float previous = targetHearts;
-            targetHearts = Mathf.Clamp01(ratio) * HeartCount;
+            targetHearts = Mathf.Clamp01(ratio) * heartCount;
             if (!hasInitialValue)
             {
                 displayedHearts = targetHearts;
@@ -112,8 +140,8 @@ namespace BrightDream.Combat
         /// <summary>이번에 깎여 나간 구간에 걸친 하트들을 한 번 튀어오르게 한다.</summary>
         private void PunchRange(float from, float to)
         {
-            int first = Mathf.Clamp(Mathf.FloorToInt(from), 0, HeartCount - 1);
-            int last = Mathf.Clamp(Mathf.CeilToInt(to) - 1, 0, HeartCount - 1);
+            int first = Mathf.Clamp(Mathf.FloorToInt(from), 0, heartCount - 1);
+            int last = Mathf.Clamp(Mathf.CeilToInt(to) - 1, 0, heartCount - 1);
             for (int i = first; i <= last && i < punchTimers.Length; i++) punchTimers[i] = punchDuration;
         }
 
@@ -130,7 +158,7 @@ namespace BrightDream.Combat
         {
             // 마지막 남은 하트만 두근거린다 - 어느 칸인지는 표시값 기준으로 매 프레임 다시 고른다.
             int beatingIndex = targetHearts > 0f && targetHearts <= lowHealthHearts
-                ? Mathf.Clamp(Mathf.CeilToInt(displayedHearts) - 1, 0, HeartCount - 1)
+                ? Mathf.Clamp(Mathf.CeilToInt(displayedHearts) - 1, 0, heartCount - 1)
                 : -1;
             float beat = 1f + (heartbeatScale - 1f) *
                          Mathf.Abs(Mathf.Sin(Time.unscaledTime * Mathf.PI * heartbeatsPerSecond));

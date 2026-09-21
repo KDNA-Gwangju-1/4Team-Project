@@ -16,9 +16,16 @@ namespace BrightDream.Combat
         [SerializeField] private Image healthBarFill;
         [SerializeField] private Text healthText;
 
+        [Header("스테이지 진행에 따른 체력 변화")]
+        [Tooltip("이 스테이지에 진입하면 최대 체력이 bossStageMaxHealth로 늘어나고 가득 채워진다 (하트 5개 -> 10개).")]
+        [SerializeField] private int bossStageIndex = 3;
+        [SerializeField] private float bossStageMaxHealth = 200f;
+
         public event Action<float> OnHealthChanged;
 
         public float CurrentHealth { get; private set; }
+        /// <summary>하트 UI가 표시할 하트 개수를 여기서 계산한다 (하트 1개 = 20 HP).</summary>
+        public float MaxHealth => maxHealth;
         public bool IsInvincible => invincibleTimer > 0f;
 
         private float invincibleTimer;
@@ -37,6 +44,37 @@ namespace BrightDream.Combat
 
         private void Start()
         {
+            UpdateHealthBar();
+        }
+
+        private void OnEnable()
+        {
+            StageProgressManager.OnStageChanged += HandleStageChanged;
+            MonsterPurifyManager.OnStageCleared += RestoreFullHealth;
+        }
+
+        private void OnDisable()
+        {
+            StageProgressManager.OnStageChanged -= HandleStageChanged;
+            MonsterPurifyManager.OnStageCleared -= RestoreFullHealth;
+        }
+
+        /// <summary>보스 스테이지에 들어가면 최대 체력이 늘어나며 가득 찬 상태로 시작한다.</summary>
+        private void HandleStageChanged(int currentStage)
+        {
+            if (currentStage != bossStageIndex || isDead) return;
+
+            maxHealth = bossStageMaxHealth;
+            CurrentHealth = maxHealth;
+            UpdateHealthBar();
+        }
+
+        /// <summary>체력을 최대치까지 회복한다 (Stage2 Clear 보상).</summary>
+        public void RestoreFullHealth()
+        {
+            if (isDead) return;
+
+            CurrentHealth = maxHealth;
             UpdateHealthBar();
         }
 
