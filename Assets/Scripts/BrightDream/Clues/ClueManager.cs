@@ -151,6 +151,9 @@ namespace BrightDream.Clues
                 pendingAllCluesCollected = false;
                 OnAllCluesCollected?.Invoke();
                 StageMessageUI.Instance?.ShowMessage("Stage1 Clear\n정화총 획득가능");
+                // Stage1이 끝나면 단서 체크리스트는 더 볼 일이 없으므로 끈다
+                // (Stage2 정화 진행도 UI가 같은 자리를 이어서 쓴다).
+                if (progressText != null) progressText.gameObject.SetActive(false);
             }
         }
 
