@@ -223,6 +223,7 @@ GameObject:
   - component: {fileID: 14151891}
   - component: {fileID: 14151890}
   - component: {fileID: 14151894}
+  - component: {fileID: 14151895}
   m_Layer: 0
   m_Name: RangedMonster (7)
   m_TagString: Untagged
@@ -247,12 +248,20 @@ MonoBehaviour:
   bulletPrefab: {fileID: 100000001, guid: 90eed1d44a834ce5aa6e459370414d2e, type: 3}
   bulletSpeed: 3
   respawnDelay: 20
+  respawnClearRadius: 7
+  respawnGrace: 0.9
+  approachSpeed: 1.5
+  preferredDistance: 4
   shimmer: {fileID: 537504953}
   shimmerScalePulse: 0.15
   shimmerAlphaBase: 5
   shimmerAlphaPulse: 0.1
   shimmerJitter: 0.06
   shimmerSpeed: 2.5
+  useSilhouetteVisual: 0
+  silhouetteColor: {r: 0, g: 0, b: 0, a: 1}
+  silhouetteOutlineColor: {r: 0.55, g: 0.55, b: 0.55, a: 1}
+  silhouetteOutlineScale: 1.12
 --- !u!58 &14151891
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -396,6 +405,25 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 86a2ec98e014d524ea460856cc09be2f, type: 3}
   - {fileID: 21300000, guid: f3776e4a747922e478158c2d665d65f6, type: 3}
   dissolveFrameDuration: 0.13
+--- !u!114 &14151895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 14151889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d4244dcd79b3b4eac108d49b871c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterSounds2D
+  noticeClip: {fileID: 0}
+  noticeVolume: 0.8
+  moveClip: {fileID: 8300000, guid: 1bc0ac03486fd0340ab3800cdb515933, type: 3}
+  moveVolume: 0.5
+  moveEpsilon: 0.002
+  fullVolumeDistance: 4
+  silentDistance: 26
 --- !u!1 &19314389
 GameObject:
   m_ObjectHideFlags: 0
@@ -682,6 +710,7 @@ GameObject:
   - component: {fileID: 71258174}
   - component: {fileID: 71258173}
   - component: {fileID: 71258177}
+  - component: {fileID: 71258178}
   m_Layer: 0
   m_Name: Monster (6)
   m_TagString: Untagged
@@ -711,6 +740,23 @@ MonoBehaviour:
   detectionRange: 10
   chaseSpeed: 2
   respawnDelay: 20
+  respawnClearRadius: 7
+  respawnGrace: 0.9
+  groundHopper: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  hopInterval: 0.85
+  hopTime: 0.42
+  hopHeight: 1.5
+  hopDistance: 2.3
+  groundProbeUp: 3
+  spriteBottomPad: 0.0254
+  groundProbeDistance: 40
+  useSilhouetteVisual: 0
+  silhouetteColor: {r: 0, g: 0, b: 0, a: 1}
+  silhouetteOutlineColor: {r: 0.55, g: 0.55, b: 0.55, a: 1}
+  silhouetteOutlineScale: 1.12
 --- !u!58 &71258174
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -854,6 +900,25 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 19bcac414fbecfd4a86319f5ea9ec799, type: 3}
   - {fileID: 21300000, guid: ef61ec1cce79f044681fd7892b09d11a, type: 3}
   dissolveFrameDuration: 0.13
+--- !u!114 &71258178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 71258172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d4244dcd79b3b4eac108d49b871c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterSounds2D
+  noticeClip: {fileID: 8300000, guid: 16a14164b25d0604da0809c40450f312, type: 3}
+  noticeVolume: 0.6
+  moveClip: {fileID: 0}
+  moveVolume: 0.5
+  moveEpsilon: 0.002
+  fullVolumeDistance: 4
+  silentDistance: 26
 --- !u!1 &85759297
 GameObject:
   m_ObjectHideFlags: 0
@@ -867,6 +932,7 @@ GameObject:
   - component: {fileID: 85759299}
   - component: {fileID: 85759298}
   - component: {fileID: 85759302}
+  - component: {fileID: 85759303}
   m_Layer: 0
   m_Name: RangedMonster (2)
   m_TagString: Untagged
@@ -891,12 +957,20 @@ MonoBehaviour:
   bulletPrefab: {fileID: 100000001, guid: 90eed1d44a834ce5aa6e459370414d2e, type: 3}
   bulletSpeed: 3
   respawnDelay: 20
+  respawnClearRadius: 7
+  respawnGrace: 0.9
+  approachSpeed: 1.5
+  preferredDistance: 4
   shimmer: {fileID: 1016635159}
   shimmerScalePulse: 0.15
   shimmerAlphaBase: 5
   shimmerAlphaPulse: 0.1
   shimmerJitter: 0.06
   shimmerSpeed: 2.5
+  useSilhouetteVisual: 0
+  silhouetteColor: {r: 0, g: 0, b: 0, a: 1}
+  silhouetteOutlineColor: {r: 0.55, g: 0.55, b: 0.55, a: 1}
+  silhouetteOutlineScale: 1.12
 --- !u!58 &85759299
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1040,6 +1114,25 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 86a2ec98e014d524ea460856cc09be2f, type: 3}
   - {fileID: 21300000, guid: f3776e4a747922e478158c2d665d65f6, type: 3}
   dissolveFrameDuration: 0.13
+--- !u!114 &85759303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 85759297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d4244dcd79b3b4eac108d49b871c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterSounds2D
+  noticeClip: {fileID: 0}
+  noticeVolume: 0.8
+  moveClip: {fileID: 8300000, guid: 1bc0ac03486fd0340ab3800cdb515933, type: 3}
+  moveVolume: 0.5
+  moveEpsilon: 0.002
+  fullVolumeDistance: 4
+  silentDistance: 26
 --- !u!1 &88440233
 GameObject:
   m_ObjectHideFlags: 0
@@ -1235,6 +1328,7 @@ GameObject:
   - component: {fileID: 100898129}
   - component: {fileID: 100898128}
   - component: {fileID: 100898132}
+  - component: {fileID: 100898133}
   m_Layer: 0
   m_Name: RangedMonster (3)
   m_TagString: Untagged
@@ -1259,12 +1353,20 @@ MonoBehaviour:
   bulletPrefab: {fileID: 100000001, guid: 90eed1d44a834ce5aa6e459370414d2e, type: 3}
   bulletSpeed: 3
   respawnDelay: 20
+  respawnClearRadius: 7
+  respawnGrace: 0.9
+  approachSpeed: 1.5
+  preferredDistance: 4
   shimmer: {fileID: 1681360497}
   shimmerScalePulse: 0.15
   shimmerAlphaBase: 5
   shimmerAlphaPulse: 0.1
   shimmerJitter: 0.06
   shimmerSpeed: 2.5
+  useSilhouetteVisual: 0
+  silhouetteColor: {r: 0, g: 0, b: 0, a: 1}
+  silhouetteOutlineColor: {r: 0.55, g: 0.55, b: 0.55, a: 1}
+  silhouetteOutlineScale: 1.12
 --- !u!58 &100898129
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1408,6 +1510,25 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 86a2ec98e014d524ea460856cc09be2f, type: 3}
   - {fileID: 21300000, guid: f3776e4a747922e478158c2d665d65f6, type: 3}
   dissolveFrameDuration: 0.13
+--- !u!114 &100898133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100898127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d4244dcd79b3b4eac108d49b871c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterSounds2D
+  noticeClip: {fileID: 0}
+  noticeVolume: 0.8
+  moveClip: {fileID: 8300000, guid: 1bc0ac03486fd0340ab3800cdb515933, type: 3}
+  moveVolume: 0.5
+  moveEpsilon: 0.002
+  fullVolumeDistance: 4
+  silentDistance: 26
 --- !u!4 &104699979
 Transform:
   m_ObjectHideFlags: 0
@@ -2297,6 +2418,7 @@ GameObject:
   - component: {fileID: 258692237}
   - component: {fileID: 258692236}
   - component: {fileID: 258692240}
+  - component: {fileID: 258692241}
   m_Layer: 0
   m_Name: RangedMonster (6)
   m_TagString: Untagged
@@ -2321,12 +2443,20 @@ MonoBehaviour:
   bulletPrefab: {fileID: 100000001, guid: 90eed1d44a834ce5aa6e459370414d2e, type: 3}
   bulletSpeed: 3
   respawnDelay: 20
+  respawnClearRadius: 7
+  respawnGrace: 0.9
+  approachSpeed: 1.5
+  preferredDistance: 4
   shimmer: {fileID: 444479092}
   shimmerScalePulse: 0.15
   shimmerAlphaBase: 5
   shimmerAlphaPulse: 0.1
   shimmerJitter: 0.06
   shimmerSpeed: 2.5
+  useSilhouetteVisual: 0
+  silhouetteColor: {r: 0, g: 0, b: 0, a: 1}
+  silhouetteOutlineColor: {r: 0.55, g: 0.55, b: 0.55, a: 1}
+  silhouetteOutlineScale: 1.12
 --- !u!58 &258692237
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2470,6 +2600,25 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 86a2ec98e014d524ea460856cc09be2f, type: 3}
   - {fileID: 21300000, guid: f3776e4a747922e478158c2d665d65f6, type: 3}
   dissolveFrameDuration: 0.13
+--- !u!114 &258692241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 258692235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d4244dcd79b3b4eac108d49b871c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterSounds2D
+  noticeClip: {fileID: 0}
+  noticeVolume: 0.8
+  moveClip: {fileID: 8300000, guid: 1bc0ac03486fd0340ab3800cdb515933, type: 3}
+  moveVolume: 0.5
+  moveEpsilon: 0.002
+  fullVolumeDistance: 4
+  silentDistance: 26
 --- !u!1 &259253643
 GameObject:
   m_ObjectHideFlags: 0
@@ -2821,6 +2970,7 @@ GameObject:
   - component: {fileID: 276184311}
   - component: {fileID: 276184310}
   - component: {fileID: 276184314}
+  - component: {fileID: 276184315}
   m_Layer: 0
   m_Name: RangedMonster (10)
   m_TagString: Untagged
@@ -2845,12 +2995,20 @@ MonoBehaviour:
   bulletPrefab: {fileID: 100000001, guid: 90eed1d44a834ce5aa6e459370414d2e, type: 3}
   bulletSpeed: 3
   respawnDelay: 20
+  respawnClearRadius: 7
+  respawnGrace: 0.9
+  approachSpeed: 1.5
+  preferredDistance: 4
   shimmer: {fileID: 483385434}
   shimmerScalePulse: 0.15
   shimmerAlphaBase: 5
   shimmerAlphaPulse: 0.1
   shimmerJitter: 0.06
   shimmerSpeed: 2.5
+  useSilhouetteVisual: 0
+  silhouetteColor: {r: 0, g: 0, b: 0, a: 1}
+  silhouetteOutlineColor: {r: 0.55, g: 0.55, b: 0.55, a: 1}
+  silhouetteOutlineScale: 1.12
 --- !u!58 &276184311
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2994,6 +3152,25 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 86a2ec98e014d524ea460856cc09be2f, type: 3}
   - {fileID: 21300000, guid: f3776e4a747922e478158c2d665d65f6, type: 3}
   dissolveFrameDuration: 0.13
+--- !u!114 &276184315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 276184309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d4244dcd79b3b4eac108d49b871c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterSounds2D
+  noticeClip: {fileID: 0}
+  noticeVolume: 0.8
+  moveClip: {fileID: 8300000, guid: 1bc0ac03486fd0340ab3800cdb515933, type: 3}
+  moveVolume: 0.5
+  moveEpsilon: 0.002
+  fullVolumeDistance: 4
+  silentDistance: 26
 --- !u!4 &292087965
 Transform:
   m_ObjectHideFlags: 0
@@ -3622,6 +3799,7 @@ GameObject:
   - component: {fileID: 378483972}
   - component: {fileID: 378483971}
   - component: {fileID: 378483975}
+  - component: {fileID: 378483976}
   m_Layer: 0
   m_Name: RangedMonster (9)
   m_TagString: Untagged
@@ -3646,12 +3824,20 @@ MonoBehaviour:
   bulletPrefab: {fileID: 100000001, guid: 90eed1d44a834ce5aa6e459370414d2e, type: 3}
   bulletSpeed: 3
   respawnDelay: 20
+  respawnClearRadius: 7
+  respawnGrace: 0.9
+  approachSpeed: 1.5
+  preferredDistance: 4
   shimmer: {fileID: 1132025816}
   shimmerScalePulse: 0.15
   shimmerAlphaBase: 5
   shimmerAlphaPulse: 0.1
   shimmerJitter: 0.06
   shimmerSpeed: 2.5
+  useSilhouetteVisual: 0
+  silhouetteColor: {r: 0, g: 0, b: 0, a: 1}
+  silhouetteOutlineColor: {r: 0.55, g: 0.55, b: 0.55, a: 1}
+  silhouetteOutlineScale: 1.12
 --- !u!58 &378483972
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -3795,6 +3981,25 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 86a2ec98e014d524ea460856cc09be2f, type: 3}
   - {fileID: 21300000, guid: f3776e4a747922e478158c2d665d65f6, type: 3}
   dissolveFrameDuration: 0.13
+--- !u!114 &378483976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 378483970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d4244dcd79b3b4eac108d49b871c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterSounds2D
+  noticeClip: {fileID: 0}
+  noticeVolume: 0.8
+  moveClip: {fileID: 8300000, guid: 1bc0ac03486fd0340ab3800cdb515933, type: 3}
+  moveVolume: 0.5
+  moveEpsilon: 0.002
+  fullVolumeDistance: 4
+  silentDistance: 26
 --- !u!61 &382770086
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5054,6 +5259,23 @@ MonoBehaviour:
   detectionRange: 10
   chaseSpeed: 2
   respawnDelay: 20
+  respawnClearRadius: 7
+  respawnGrace: 0.9
+  groundHopper: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  hopInterval: 0.85
+  hopTime: 0.42
+  hopHeight: 1.5
+  hopDistance: 2.3
+  groundProbeUp: 3
+  spriteBottomPad: 0.0254
+  groundProbeDistance: 40
+  useSilhouetteVisual: 0
+  silhouetteColor: {r: 0, g: 0, b: 0, a: 1}
+  silhouetteOutlineColor: {r: 0.55, g: 0.55, b: 0.55, a: 1}
+  silhouetteOutlineScale: 1.12
 --- !u!58 &504571199
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -6151,6 +6373,7 @@ GameObject:
   - component: {fileID: 640408617}
   - component: {fileID: 640408616}
   - component: {fileID: 640408620}
+  - component: {fileID: 640408621}
   m_Layer: 0
   m_Name: RangedMonster (1)
   m_TagString: Untagged
@@ -6175,12 +6398,20 @@ MonoBehaviour:
   bulletPrefab: {fileID: 100000001, guid: 90eed1d44a834ce5aa6e459370414d2e, type: 3}
   bulletSpeed: 3
   respawnDelay: 20
+  respawnClearRadius: 7
+  respawnGrace: 0.9
+  approachSpeed: 1.5
+  preferredDistance: 4
   shimmer: {fileID: 2121783957}
   shimmerScalePulse: 0.15
   shimmerAlphaBase: 5
   shimmerAlphaPulse: 0.1
   shimmerJitter: 0.06
   shimmerSpeed: 2.5
+  useSilhouetteVisual: 0
+  silhouetteColor: {r: 0, g: 0, b: 0, a: 1}
+  silhouetteOutlineColor: {r: 0.55, g: 0.55, b: 0.55, a: 1}
+  silhouetteOutlineScale: 1.12
 --- !u!58 &640408617
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -6324,6 +6555,25 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 86a2ec98e014d524ea460856cc09be2f, type: 3}
   - {fileID: 21300000, guid: f3776e4a747922e478158c2d665d65f6, type: 3}
   dissolveFrameDuration: 0.13
+--- !u!114 &640408621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 640408615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d4244dcd79b3b4eac108d49b871c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterSounds2D
+  noticeClip: {fileID: 0}
+  noticeVolume: 0.8
+  moveClip: {fileID: 8300000, guid: 1bc0ac03486fd0340ab3800cdb515933, type: 3}
+  moveVolume: 0.5
+  moveEpsilon: 0.002
+  fullVolumeDistance: 4
+  silentDistance: 26
 --- !u!1 &644459359
 GameObject:
   m_ObjectHideFlags: 0
@@ -6355,6 +6605,7 @@ GameObject:
   - component: {fileID: 645962842}
   - component: {fileID: 645962841}
   - component: {fileID: 645962845}
+  - component: {fileID: 645962846}
   m_Layer: 0
   m_Name: RangedMonster (5)
   m_TagString: Untagged
@@ -6379,12 +6630,20 @@ MonoBehaviour:
   bulletPrefab: {fileID: 100000001, guid: 90eed1d44a834ce5aa6e459370414d2e, type: 3}
   bulletSpeed: 3
   respawnDelay: 20
+  respawnClearRadius: 7
+  respawnGrace: 0.9
+  approachSpeed: 1.5
+  preferredDistance: 4
   shimmer: {fileID: 444536123}
   shimmerScalePulse: 0.15
   shimmerAlphaBase: 5
   shimmerAlphaPulse: 0.1
   shimmerJitter: 0.06
   shimmerSpeed: 2.5
+  useSilhouetteVisual: 0
+  silhouetteColor: {r: 0, g: 0, b: 0, a: 1}
+  silhouetteOutlineColor: {r: 0.55, g: 0.55, b: 0.55, a: 1}
+  silhouetteOutlineScale: 1.12
 --- !u!58 &645962842
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -6528,6 +6787,25 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 86a2ec98e014d524ea460856cc09be2f, type: 3}
   - {fileID: 21300000, guid: f3776e4a747922e478158c2d665d65f6, type: 3}
   dissolveFrameDuration: 0.13
+--- !u!114 &645962846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 645962840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d4244dcd79b3b4eac108d49b871c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterSounds2D
+  noticeClip: {fileID: 0}
+  noticeVolume: 0.8
+  moveClip: {fileID: 8300000, guid: 1bc0ac03486fd0340ab3800cdb515933, type: 3}
+  moveVolume: 0.5
+  moveEpsilon: 0.002
+  fullVolumeDistance: 4
+  silentDistance: 26
 --- !u!1 &655749436
 GameObject:
   m_ObjectHideFlags: 0
@@ -6761,6 +7039,8 @@ MonoBehaviour:
   clampToBounds: 0
   minX: 0
   maxX: 0
+  lockY: 0
+  lockedY: 0
 --- !u!81 &688051109
 AudioListener:
   m_ObjectHideFlags: 0
@@ -8977,6 +9257,9 @@ MonoBehaviour:
   lockedMessage: "\uC548\uC774 \uC5B4\uB461\uB2E4. \uBE5B\uC774 \uB420\uB9CC\uD55C
     \uAC78 \uCC3E\uC544\uBCF4\uC790"
   lockedMessageDuration: 2.5
+  useRange: 2.8
+  useKey: 37
+  promptMessage: "W\uD0A4\uB97C \uB20C\uB7EC \uC774\uB3D9"
 --- !u!1 &900000030
 GameObject:
   m_ObjectHideFlags: 0
@@ -9136,6 +9419,9 @@ MonoBehaviour:
   lockedMessage: "\uC548\uC774 \uC5B4\uB461\uB2E4. \uBE5B\uC774 \uB420\uB9CC\uD55C
     \uAC78 \uCC3E\uC544\uBCF4\uC790"
   lockedMessageDuration: 2.5
+  useRange: 2.8
+  useKey: 37
+  promptMessage: "W\uD0A4\uB97C \uB20C\uB7EC \uC774\uB3D9"
 --- !u!1 &900000050
 GameObject:
   m_ObjectHideFlags: 0
@@ -9323,6 +9609,7 @@ GameObject:
   - component: {fileID: 900000063}
   - component: {fileID: 900000064}
   - component: {fileID: 900000068}
+  - component: {fileID: 900000069}
   m_Layer: 0
   m_Name: RangedMonster
   m_TagString: Untagged
@@ -9458,12 +9745,20 @@ MonoBehaviour:
   bulletPrefab: {fileID: 100000001, guid: 90eed1d44a834ce5aa6e459370414d2e, type: 3}
   bulletSpeed: 3
   respawnDelay: 20
+  respawnClearRadius: 7
+  respawnGrace: 0.9
+  approachSpeed: 1.5
+  preferredDistance: 4
   shimmer: {fileID: 900000066}
   shimmerScalePulse: 0.15
   shimmerAlphaBase: 5
   shimmerAlphaPulse: 0.1
   shimmerJitter: 0.06
   shimmerSpeed: 2.5
+  useSilhouetteVisual: 0
+  silhouetteColor: {r: 0, g: 0, b: 0, a: 1}
+  silhouetteOutlineColor: {r: 0.55, g: 0.55, b: 0.55, a: 1}
+  silhouetteOutlineScale: 1.12
 --- !u!1 &900000065
 GameObject:
   m_ObjectHideFlags: 0
@@ -9587,6 +9882,25 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 86a2ec98e014d524ea460856cc09be2f, type: 3}
   - {fileID: 21300000, guid: f3776e4a747922e478158c2d665d65f6, type: 3}
   dissolveFrameDuration: 0.13
+--- !u!114 &900000069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 900000060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d4244dcd79b3b4eac108d49b871c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterSounds2D
+  noticeClip: {fileID: 0}
+  noticeVolume: 0.8
+  moveClip: {fileID: 8300000, guid: 1bc0ac03486fd0340ab3800cdb515933, type: 3}
+  moveVolume: 0.5
+  moveEpsilon: 0.002
+  fullVolumeDistance: 4
+  silentDistance: 26
 --- !u!1 &900000070
 GameObject:
   m_ObjectHideFlags: 0
@@ -9738,6 +10052,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1cecca0865b41a28faa719d3069e704, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LanternPickup2D
+  pickupRange: 2.6
+  pickupKey: 40
+  promptText: "Z\uD0A4\uB97C \uB20C\uB7EC\uC11C \uC90D\uAE30"
+  font: {fileID: 0}
+  bobAmplitude: 0.12
+  bobPeriod: 2.2
 --- !u!114 &900000090
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9908,6 +10228,23 @@ MonoBehaviour:
   detectionRange: 10
   chaseSpeed: 2
   respawnDelay: 20
+  respawnClearRadius: 7
+  respawnGrace: 0.9
+  groundHopper: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  hopInterval: 0.85
+  hopTime: 0.42
+  hopHeight: 1.5
+  hopDistance: 2.3
+  groundProbeUp: 3
+  spriteBottomPad: 0.0254
+  groundProbeDistance: 40
+  useSilhouetteVisual: 0
+  silhouetteColor: {r: 0, g: 0, b: 0, a: 1}
+  silhouetteOutlineColor: {r: 0.55, g: 0.55, b: 0.55, a: 1}
+  silhouetteOutlineScale: 1.12
 --- !u!1 &900000105
 GameObject:
   m_ObjectHideFlags: 0
@@ -10694,6 +11031,7 @@ GameObject:
   - component: {fileID: 1037861022}
   - component: {fileID: 1037861021}
   - component: {fileID: 1037861025}
+  - component: {fileID: 1037861026}
   m_Layer: 0
   m_Name: Monster (1)
   m_TagString: Untagged
@@ -10723,6 +11061,23 @@ MonoBehaviour:
   detectionRange: 10
   chaseSpeed: 2
   respawnDelay: 20
+  respawnClearRadius: 7
+  respawnGrace: 0.9
+  groundHopper: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  hopInterval: 0.85
+  hopTime: 0.42
+  hopHeight: 1.5
+  hopDistance: 2.3
+  groundProbeUp: 3
+  spriteBottomPad: 0.0254
+  groundProbeDistance: 40
+  useSilhouetteVisual: 0
+  silhouetteColor: {r: 0, g: 0, b: 0, a: 1}
+  silhouetteOutlineColor: {r: 0.55, g: 0.55, b: 0.55, a: 1}
+  silhouetteOutlineScale: 1.12
 --- !u!58 &1037861022
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -10866,6 +11221,25 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 19bcac414fbecfd4a86319f5ea9ec799, type: 3}
   - {fileID: 21300000, guid: ef61ec1cce79f044681fd7892b09d11a, type: 3}
   dissolveFrameDuration: 0.13
+--- !u!114 &1037861026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1037861020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d4244dcd79b3b4eac108d49b871c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterSounds2D
+  noticeClip: {fileID: 8300000, guid: 16a14164b25d0604da0809c40450f312, type: 3}
+  noticeVolume: 0.6
+  moveClip: {fileID: 0}
+  moveVolume: 0.5
+  moveEpsilon: 0.002
+  fullVolumeDistance: 4
+  silentDistance: 26
 --- !u!1 &1052325868
 GameObject:
   m_ObjectHideFlags: 0
@@ -11090,6 +11464,23 @@ MonoBehaviour:
   detectionRange: 10
   chaseSpeed: 2
   respawnDelay: 20
+  respawnClearRadius: 7
+  respawnGrace: 0.9
+  groundHopper: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  hopInterval: 0.85
+  hopTime: 0.42
+  hopHeight: 1.5
+  hopDistance: 2.3
+  groundProbeUp: 3
+  spriteBottomPad: 0.0254
+  groundProbeDistance: 40
+  useSilhouetteVisual: 0
+  silhouetteColor: {r: 0, g: 0, b: 0, a: 1}
+  silhouetteOutlineColor: {r: 0.55, g: 0.55, b: 0.55, a: 1}
+  silhouetteOutlineScale: 1.12
 --- !u!58 &1073752429
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -11821,6 +12212,23 @@ MonoBehaviour:
   detectionRange: 10
   chaseSpeed: 2
   respawnDelay: 20
+  respawnClearRadius: 7
+  respawnGrace: 0.9
+  groundHopper: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  hopInterval: 0.85
+  hopTime: 0.42
+  hopHeight: 1.5
+  hopDistance: 2.3
+  groundProbeUp: 3
+  spriteBottomPad: 0.0254
+  groundProbeDistance: 40
+  useSilhouetteVisual: 0
+  silhouetteColor: {r: 0, g: 0, b: 0, a: 1}
+  silhouetteOutlineColor: {r: 0.55, g: 0.55, b: 0.55, a: 1}
+  silhouetteOutlineScale: 1.12
 --- !u!58 &1339426226
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -11977,6 +12385,7 @@ GameObject:
   - component: {fileID: 1340462580}
   - component: {fileID: 1340462579}
   - component: {fileID: 1340462583}
+  - component: {fileID: 1340462584}
   m_Layer: 0
   m_Name: RangedMonster (4)
   m_TagString: Untagged
@@ -12001,12 +12410,20 @@ MonoBehaviour:
   bulletPrefab: {fileID: 100000001, guid: 90eed1d44a834ce5aa6e459370414d2e, type: 3}
   bulletSpeed: 3
   respawnDelay: 20
+  respawnClearRadius: 7
+  respawnGrace: 0.9
+  approachSpeed: 1.5
+  preferredDistance: 4
   shimmer: {fileID: 616808404}
   shimmerScalePulse: 0.15
   shimmerAlphaBase: 5
   shimmerAlphaPulse: 0.1
   shimmerJitter: 0.06
   shimmerSpeed: 2.5
+  useSilhouetteVisual: 0
+  silhouetteColor: {r: 0, g: 0, b: 0, a: 1}
+  silhouetteOutlineColor: {r: 0.55, g: 0.55, b: 0.55, a: 1}
+  silhouetteOutlineScale: 1.12
 --- !u!58 &1340462580
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -12150,6 +12567,25 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 86a2ec98e014d524ea460856cc09be2f, type: 3}
   - {fileID: 21300000, guid: f3776e4a747922e478158c2d665d65f6, type: 3}
   dissolveFrameDuration: 0.13
+--- !u!114 &1340462584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1340462578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d4244dcd79b3b4eac108d49b871c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterSounds2D
+  noticeClip: {fileID: 0}
+  noticeVolume: 0.8
+  moveClip: {fileID: 8300000, guid: 1bc0ac03486fd0340ab3800cdb515933, type: 3}
+  moveVolume: 0.5
+  moveEpsilon: 0.002
+  fullVolumeDistance: 4
+  silentDistance: 26
 --- !u!1 &1454704050
 GameObject:
   m_ObjectHideFlags: 0
@@ -12346,6 +12782,7 @@ GameObject:
   - component: {fileID: 1550880037}
   - component: {fileID: 1550880036}
   - component: {fileID: 1550880041}
+  - component: {fileID: 1550880042}
   m_Layer: 0
   m_Name: Player2D
   m_TagString: Player
@@ -12368,6 +12805,7 @@ MonoBehaviour:
   moveSpeed: 5
   jumpForce: 9
   groundCheckDistance: 1.1
+  dropThroughNudge: 2
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
@@ -12383,9 +12821,20 @@ MonoBehaviour:
   dashSpeed: 14
   dashDuration: 0.15
   dashCooldown: 0.6
+  postDashInvincibility: 0.25
+  dashGravityScale: 0.15
+  dashStaminaMax: 3
+  dashStaminaRegenTime: 2.8
+  allowAirDash: 0
   flashlight: {fileID: 1842253845}
   lightRange: 11.1
+  lightMaxSeconds: 10
+  lightLockoutSeconds: 7
   lightHalfAngle: 18.67
+  beamFollowsHeldFlashlight: 1
+  flashlightHandOffset: {x: 0.4, y: 0.1}
+  jumpFlashlightHandOffset: {x: 0.75, y: 0.15}
+  muzzleForward: 0.45
   bulletPrefab: {fileID: 372116472560046534, guid: 5baa211d11cbf7b45ac66619e4fda022, type: 3}
   bulletSpeed: 20
   bulletMaxDistance: 16
@@ -12594,6 +13043,33 @@ MonoBehaviour:
   - 0.605
   - 0.605
   - 0.1
+  dashFrames: []
+  dashWalkFrameIndex: 4
+  velocityDrivenJump: 1
+  jumpRiseFrameEnd: 2
+  jumpApexFrame: 3
+  jumpFallFrame: 4
+  jumpApexBand: 2.5
+  singleJumpPoseWithLight: 1
+  jumpLightFrame: 3
+--- !u!114 &1550880042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1550880035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d233a45b41d0174c8ba79081594ef4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerSounds2D
+  footsteps: {fileID: 8300000, guid: 74311ad247af49d43b7194ffcce44f06, type: 3}
+  footstepsVolume: 0.6
+  walkSpeedThreshold: 0.5
+  flashlightOn: {fileID: 8300000, guid: 17d46562520500340a826598108c3af6, type: 3}
+  flashlightOff: {fileID: 8300000, guid: 2bae2e6df9d358648b4205437025d4e5, type: 3}
+  flashlightVolume: 0.5
 --- !u!1 &1550880050
 GameObject:
   m_ObjectHideFlags: 0
@@ -12701,6 +13177,11 @@ MonoBehaviour:
   offSprite: {fileID: 21300000, guid: c3444efbb7664e8b977bc19f78335059, type: 3}
   onSprite: {fileID: 21300000, guid: f0520e23aebb4f48aab95ba9ab2b650a, type: 3}
   handOffset: {x: 0.4, y: 0.1}
+  idleHandOffset: {x: 0.12, y: -0.05}
+  targetLength: 0.9
+  idleSpeedThreshold: 0.1
+  idleSortingOrder: -1
+  gripToCenter01: 0.5
 --- !u!1 &1552275311
 GameObject:
   m_ObjectHideFlags: 0
@@ -12883,6 +13364,135 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1 &1603505446
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1603505448}
+  - component: {fileID: 1603505447}
+  m_Layer: 0
+  m_Name: BGM
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!82 &1603505447
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1603505446}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: c5dbb88170bebfd4788491204bb37f4b, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 0.4
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!4 &1603505448
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1603505446}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1617876092
 GameObject:
   m_ObjectHideFlags: 0
@@ -12987,6 +13597,7 @@ GameObject:
   - component: {fileID: 1622609107}
   - component: {fileID: 1622609106}
   - component: {fileID: 1622609110}
+  - component: {fileID: 1622609111}
   m_Layer: 0
   m_Name: Monster
   m_TagString: Untagged
@@ -13016,6 +13627,23 @@ MonoBehaviour:
   detectionRange: 10
   chaseSpeed: 2
   respawnDelay: 20
+  respawnClearRadius: 7
+  respawnGrace: 0.9
+  groundHopper: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  hopInterval: 0.85
+  hopTime: 0.42
+  hopHeight: 1.5
+  hopDistance: 2.3
+  groundProbeUp: 3
+  spriteBottomPad: 0.0254
+  groundProbeDistance: 40
+  useSilhouetteVisual: 0
+  silhouetteColor: {r: 0, g: 0, b: 0, a: 1}
+  silhouetteOutlineColor: {r: 0.55, g: 0.55, b: 0.55, a: 1}
+  silhouetteOutlineScale: 1.12
 --- !u!58 &1622609107
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -13159,6 +13787,25 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 19bcac414fbecfd4a86319f5ea9ec799, type: 3}
   - {fileID: 21300000, guid: ef61ec1cce79f044681fd7892b09d11a, type: 3}
   dissolveFrameDuration: 0.13
+--- !u!114 &1622609111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1622609105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d4244dcd79b3b4eac108d49b871c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterSounds2D
+  noticeClip: {fileID: 8300000, guid: 16a14164b25d0604da0809c40450f312, type: 3}
+  noticeVolume: 0.6
+  moveClip: {fileID: 0}
+  moveVolume: 0.5
+  moveEpsilon: 0.002
+  fullVolumeDistance: 4
+  silentDistance: 26
 --- !u!1 &1623986524
 GameObject:
   m_ObjectHideFlags: 0
@@ -13354,6 +14001,7 @@ GameObject:
   - component: {fileID: 1648970459}
   - component: {fileID: 1648970458}
   - component: {fileID: 1648970462}
+  - component: {fileID: 1648970463}
   m_Layer: 0
   m_Name: RangedMonster (8)
   m_TagString: Untagged
@@ -13378,12 +14026,20 @@ MonoBehaviour:
   bulletPrefab: {fileID: 100000001, guid: 90eed1d44a834ce5aa6e459370414d2e, type: 3}
   bulletSpeed: 3
   respawnDelay: 20
+  respawnClearRadius: 7
+  respawnGrace: 0.9
+  approachSpeed: 1.5
+  preferredDistance: 4
   shimmer: {fileID: 23569378}
   shimmerScalePulse: 0.15
   shimmerAlphaBase: 5
   shimmerAlphaPulse: 0.1
   shimmerJitter: 0.06
   shimmerSpeed: 2.5
+  useSilhouetteVisual: 0
+  silhouetteColor: {r: 0, g: 0, b: 0, a: 1}
+  silhouetteOutlineColor: {r: 0.55, g: 0.55, b: 0.55, a: 1}
+  silhouetteOutlineScale: 1.12
 --- !u!58 &1648970459
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -13527,6 +14183,25 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 86a2ec98e014d524ea460856cc09be2f, type: 3}
   - {fileID: 21300000, guid: f3776e4a747922e478158c2d665d65f6, type: 3}
   dissolveFrameDuration: 0.13
+--- !u!114 &1648970463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1648970457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d4244dcd79b3b4eac108d49b871c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterSounds2D
+  noticeClip: {fileID: 0}
+  noticeVolume: 0.8
+  moveClip: {fileID: 8300000, guid: 1bc0ac03486fd0340ab3800cdb515933, type: 3}
+  moveVolume: 0.5
+  moveEpsilon: 0.002
+  fullVolumeDistance: 4
+  silentDistance: 26
 --- !u!1 &1669332947
 GameObject:
   m_ObjectHideFlags: 0
@@ -14253,6 +14928,23 @@ MonoBehaviour:
   detectionRange: 10
   chaseSpeed: 2
   respawnDelay: 20
+  respawnClearRadius: 7
+  respawnGrace: 0.9
+  groundHopper: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  hopInterval: 0.85
+  hopTime: 0.42
+  hopHeight: 1.5
+  hopDistance: 2.3
+  groundProbeUp: 3
+  spriteBottomPad: 0.0254
+  groundProbeDistance: 40
+  useSilhouetteVisual: 0
+  silhouetteColor: {r: 0, g: 0, b: 0, a: 1}
+  silhouetteOutlineColor: {r: 0.55, g: 0.55, b: 0.55, a: 1}
+  silhouetteOutlineScale: 1.12
 --- !u!58 &1848619500
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -15231,6 +15923,23 @@ MonoBehaviour:
   detectionRange: 10
   chaseSpeed: 2
   respawnDelay: 20
+  respawnClearRadius: 7
+  respawnGrace: 0.9
+  groundHopper: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  hopInterval: 0.85
+  hopTime: 0.42
+  hopHeight: 1.5
+  hopDistance: 2.3
+  groundProbeUp: 3
+  spriteBottomPad: 0.0254
+  groundProbeDistance: 40
+  useSilhouetteVisual: 0
+  silhouetteColor: {r: 0, g: 0, b: 0, a: 1}
+  silhouetteOutlineColor: {r: 0.55, g: 0.55, b: 0.55, a: 1}
+  silhouetteOutlineScale: 1.12
 --- !u!58 &2046570103
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -15822,3 +16531,4 @@ SceneRoots:
   - {fileID: 1623986526}
   - {fileID: 1205137198}
   - {fileID: 873187882}
+  - {fileID: 1603505448}

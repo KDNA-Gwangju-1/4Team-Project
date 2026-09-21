@@ -1692,6 +1692,7 @@ GameObject:
   - component: {fileID: 749689154}
   - component: {fileID: 749689153}
   - component: {fileID: 749689152}
+  - component: {fileID: 749689157}
   m_Layer: 0
   m_Name: Crow_Arena
   m_TagString: Untagged
@@ -1873,6 +1874,25 @@ Transform:
   - {fileID: 599760454}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &749689157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 749689151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d4244dcd79b3b4eac108d49b871c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterSounds2D
+  noticeClip: {fileID: 8300000, guid: 16a14164b25d0604da0809c40450f312, type: 3}
+  noticeVolume: 0.6
+  moveClip: {fileID: 0}
+  moveVolume: 0.5
+  moveEpsilon: 0.002
+  fullVolumeDistance: 4
+  silentDistance: 26
 --- !u!1 &759426632
 GameObject:
   m_ObjectHideFlags: 0
@@ -2403,6 +2423,13 @@ MonoBehaviour:
   hitboxWidthFraction: 0.4
   sortingOrder: 6
   sortingLayer: Default
+  tentacleRiseClip: {fileID: 8300000, guid: dab28388129d9964c810c8f14eca00d6, type: 3}
+  tentacleHitClips:
+  - {fileID: 8300000, guid: 46fda07500b587446a0074c1ad707b1c, type: 3}
+  - {fileID: 8300000, guid: ceeb7a8329e4f7e4bb62e38c42af3779, type: 3}
+  - {fileID: 8300000, guid: d2effca57c37fc6408501dfc0fe6cc46, type: 3}
+  riseVolume: 0.7
+  hitVolume: 0.7
   warnColorA: {r: 0.05, g: 0.05, b: 0.05, a: 0.85}
   warnColorB: {r: 1, g: 0.15, b: 0.15, a: 0.95}
   warnBlink: 0.18
@@ -2892,6 +2919,7 @@ GameObject:
   - component: {fileID: 1234360754}
   - component: {fileID: 1234360753}
   - component: {fileID: 1234360752}
+  - component: {fileID: 1234360757}
   m_Layer: 0
   m_Name: HiddenFlyer_Approach
   m_TagString: Untagged
@@ -3073,6 +3101,25 @@ Transform:
   - {fileID: 2137450740}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1234360757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1234360751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d4244dcd79b3b4eac108d49b871c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterSounds2D
+  noticeClip: {fileID: 0}
+  noticeVolume: 0.8
+  moveClip: {fileID: 8300000, guid: 1bc0ac03486fd0340ab3800cdb515933, type: 3}
+  moveVolume: 0.5
+  moveEpsilon: 0.002
+  fullVolumeDistance: 4
+  silentDistance: 26
 --- !u!1 &1258285219
 GameObject:
   m_ObjectHideFlags: 0
@@ -3686,6 +3733,7 @@ GameObject:
   - component: {fileID: 1550880036}
   - component: {fileID: 1550880041}
   - component: {fileID: 1550880042}
+  - component: {fileID: 1550880043}
   m_Layer: 0
   m_Name: Player2D
   m_TagString: Player
@@ -3981,6 +4029,24 @@ MonoBehaviour:
   dustColor: {r: 0.85, g: 0.8, b: 0.7, a: 0.7}
   cameraKick: 0.14
   cameraKickTime: 0.16
+--- !u!114 &1550880043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1550880035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d233a45b41d0174c8ba79081594ef4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerSounds2D
+  footsteps: {fileID: 8300000, guid: 74311ad247af49d43b7194ffcce44f06, type: 3}
+  footstepsVolume: 0.6
+  walkSpeedThreshold: 0.5
+  flashlightOn: {fileID: 8300000, guid: 17d46562520500340a826598108c3af6, type: 3}
+  flashlightOff: {fileID: 8300000, guid: 2bae2e6df9d358648b4205437025d4e5, type: 3}
+  flashlightVolume: 0.5
 --- !u!1 &1550880050
 GameObject:
   m_ObjectHideFlags: 0

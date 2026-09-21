@@ -42,6 +42,30 @@ public class TentacleStrikeField2D : MonoBehaviour
     public int sortingOrder = 6;
     public string sortingLayer = "Default";
 
+    [Header("Sound")]
+    public AudioClip tentacleRiseClip;
+    [Tooltip("탄에 맞을 때마다 이 중 하나를 무작위로. 여러 개 넣으면 연타가 덜 단조롭다.")]
+    public AudioClip[] tentacleHitClips;
+    [Range(0f, 1f)] public float riseVolume = 0.7f;
+    [Range(0f, 1f)] public float hitVolume = 0.7f;
+
+    // 촉수마다 소스를 만들면 촉수가 Destroy될 때 소리도 같이 끊긴다. 아레나가 한 화면이라 2D로 충분하다.
+    private AudioSource sfx;
+
+    private AudioSource Sfx
+    {
+        get
+        {
+            if (sfx == null)
+            {
+                sfx = gameObject.AddComponent<AudioSource>();
+                sfx.playOnAwake = false;
+                sfx.spatialBlend = 0f;
+            }
+            return sfx;
+        }
+    }
+
     public Color warnColorA = new Color(0.05f, 0.05f, 0.05f, 0.85f);
     public Color warnColorB = new Color(1f, 0.15f, 0.15f, 0.95f);
     public float warnBlink = 0.18f;
@@ -386,6 +410,11 @@ public class TentacleStrikeField2D : MonoBehaviour
         strike.warnDuration = warn;
         strike.exposedTime = exposedTime;
         if (hold >= 0f) strike.holdTime = hold;
+        strike.sfx = Sfx;
+        strike.riseClip = tentacleRiseClip;
+        strike.hitClips = tentacleHitClips;
+        strike.riseVolume = riseVolume;
+        strike.hitVolume = hitVolume;
         strike.Build(tentacleFrames, warningSprite, tentacleSize, bottomPad, sortingOrder, sortingLayer);
 
         live.Add(strike);

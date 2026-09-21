@@ -25,6 +25,14 @@ public class TentacleStrike2D : MonoBehaviour
     public float hitboxWidthFraction = 0.5f;
     public float hitboxHeightFraction = 0.8f;
 
+    // 촉수는 가라앉으면 Destroy되므로 자기 오디오소스로 틀면 소리가 같이 잘린다.
+    // TentacleStrikeField2D가 자기 소스를 넘겨주고, 여기서는 그 소스에 원샷만 얹는다.
+    public AudioSource sfx;
+    public AudioClip riseClip;
+    public AudioClip[] hitClips;
+    public float riseVolume = 0.7f;
+    public float hitVolume = 0.7f;
+
     public float warnDuration = 1f;
     public float eruptFrameDuration = 0.07f;
     public float holdTime = 0.2f;
@@ -176,6 +184,7 @@ public class TentacleStrike2D : MonoBehaviour
         SetFrame(eruptFrameStart);
         dangerous = true;
         hitCol.enabled = true;
+        PlaySfx(riseClip, riseVolume);
         yield return PlayFrames(eruptFrameStart, eruptFrameEnd, eruptFrameDuration);
         yield return new WaitForSeconds(holdTime);
 
@@ -291,9 +300,18 @@ public class TentacleStrike2D : MonoBehaviour
         return false;
     }
 
+    private void PlaySfx(AudioClip clip, float volume)
+    {
+        if (sfx == null || clip == null) return;
+        sfx.PlayOneShot(clip, volume);
+    }
+
     public void Kill()
     {
         if (killed || !vulnerable) return;
+
+        if (hitClips != null && hitClips.Length > 0)
+            PlaySfx(hitClips[Random.Range(0, hitClips.Length)], hitVolume);
 
         hitsTaken++;
         if (hitsTaken < Mathf.Max(1, hitsToKill))
