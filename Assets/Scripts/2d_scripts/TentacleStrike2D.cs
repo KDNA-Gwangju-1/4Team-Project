@@ -13,6 +13,8 @@ public class TentacleStrike2D : MonoBehaviour
 
     public Boss2D boss;
     public int damageToBoss = 1;
+    [Tooltip("Shots needed to bring one down. At 1 it goes on the first hit; above that the earlier hits only flinch and the last is what writhes and sinks.")]
+    public int hitsToKill = 1;
     public int damageToPlayer = 1;
 
     // wave tentacles are pure boss attack: they erupt, threaten, and sink again
@@ -22,6 +24,14 @@ public class TentacleStrike2D : MonoBehaviour
     [Tooltip("Hit box width as a fraction of the drawn width - lets the art grow without making the attack undodgeable.")]
     public float hitboxWidthFraction = 0.5f;
     public float hitboxHeightFraction = 0.8f;
+
+    // 촉수는 가라앉으면 Destroy되므로 자기 오디오소스로 틀면 소리가 같이 잘린다.
+    // TentacleStrikeField2D가 자기 소스를 넘겨주고, 여기서는 그 소스에 원샷만 얹는다.
+    public AudioSource sfx;
+    public AudioClip riseClip;
+    public AudioClip[] hitClips;
+    public float riseVolume = 0.7f;
+    public float hitVolume = 0.7f;
 
     public float warnDuration = 1f;
     public float eruptFrameDuration = 0.07f;
@@ -61,6 +71,8 @@ public class TentacleStrike2D : MonoBehaviour
     private bool killed;
     private bool lit;
     private bool bodyShown;
+    private int hitsTaken;
+    private Coroutine flinchRoutine;
 
     // the mask decides what is DRAWN; this decides what can be SHOT
     public bool IsRevealed => lit;
@@ -129,6 +141,9 @@ public class TentacleStrike2D : MonoBehaviour
 
     private void SetFrame(int index)
     {
+        // a cutscene can tear the strike down mid-animation
+        if (sr == null || frames == null || frames.Length == 0) return;
+
         Sprite s = frames[Mathf.Clamp(index, 0, frames.Length - 1)];
         sr.sprite = s;
         silhouetteRenderer.sprite = s;
@@ -169,6 +184,7 @@ public class TentacleStrike2D : MonoBehaviour
         SetFrame(eruptFrameStart);
         dangerous = true;
         hitCol.enabled = true;
+        PlaySfx(riseClip, riseVolume);
         yield return PlayFrames(eruptFrameStart, eruptFrameEnd, eruptFrameDuration);
         yield return new WaitForSeconds(holdTime);
 
@@ -284,11 +300,62 @@ public class TentacleStrike2D : MonoBehaviour
         return false;
     }
 
+    private void PlaySfx(AudioClip clip, float volume)
+    {
+        if (sfx == null || clip == null) return;
+        sfx.PlayOneShot(clip, volume);
+    }
+
     public void Kill()
     {
         if (killed || !vulnerable) return;
+
+        if (hitClips != null && hitClips.Length > 0)
+            PlaySfx(hitClips[Random.Range(0, hitClips.Length)], hitVolume);
+
+        hitsTaken++;
+        if (hitsTaken < Mathf.Max(1, hitsToKill))
+        {
+            // not down yet - enough of a reaction that the shot clearly landed,
+            // but it keeps its window open
+            if (flinchRoutine != null) StopCoroutine(flinchRoutine);
+            flinchRoutine = StartCoroutine(FlinchRoutine());
+            return;
+        }
+
+        if (flinchRoutine != null) { StopCoroutine(flinchRoutine); flinchRoutine = null; }
         killed = true;
         if (boss != null) boss.TakeDamage(damageToBoss);
+    }
+
+    // A short jolt for a hit that is not the last one. Unlike HurtRoutine this
+    // leaves the mask alone, so an unlit tentacle stays a silhouette.
+    private IEnumerator FlinchRoutine()
+    {
+        float duration = hurtDuration * 0.4f;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            float decay = 1f - elapsed / duration;
+            if (spriteTransform != null)
+            {
+                spriteTransform.localPosition = spriteBaseLocalPos
+                    + new Vector3(Random.Range(-1f, 1f) * hurtShake * 0.55f * decay, 0f, 0f);
+            }
+
+            bool hot = Mathf.Repeat(elapsed / duration * 4f, 2f) < 1f;
+            if (sr != null) sr.color = hot ? hurtFlashColor : Color.white;
+            if (silhouetteRenderer != null) silhouetteRenderer.color = hot ? hurtFlashColor : silhouetteColor;
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        if (spriteTransform != null) spriteTransform.localPosition = spriteBaseLocalPos;
+        if (sr != null) sr.color = Color.white;
+        if (silhouetteRenderer != null) silhouetteRenderer.color = silhouetteColor;
+        flinchRoutine = null;
     }
 
     void OnTriggerEnter2D(Collider2D other) { TryHurt(other); }

@@ -22,6 +22,26 @@ public class PlayerSpriteAnimator2D : MonoBehaviour
     [Tooltip("Which walk frame to hold while dashing - the widest, most forward-leaning stride.")]
     public int dashWalkFrameIndex = 4;
 
+    [Header("Airborne")]
+    // The jump sheet is a closed cycle: windup, rise, apex, descent, landing crouch.
+    // Playing it straight through leaves the player floating in the LANDING pose,
+    // which is wrong the moment a jump lasts longer than the clip - and in the
+    // low-gravity phase that is every jump. So past the launch burst the frame is
+    // chosen from vertical speed instead of from a timer.
+    [Tooltip("Pick the airborne frame from vertical speed instead of playing once and freezing.")]
+    public bool velocityDrivenJump = true;
+    [Tooltip("Last frame of the launch burst; also held while still rising.")]
+    public int jumpRiseFrameEnd = 2;
+    [Tooltip("Held while vertical speed sits inside the apex band.")]
+    public int jumpApexFrame = 3;
+    [Tooltip("Held while falling. Must not be the landing crouch.")]
+    public int jumpFallFrame = 4;
+    [Tooltip("Vertical speed under this magnitude counts as the apex.")]
+    public float jumpApexBand = 2.5f;
+    [Tooltip("With the light up, hold one jump pose instead of running the arc. The raised arm makes the cycle read as flailing.")]
+    public bool singleJumpPoseWithLight = true;
+    public int jumpLightFrame = 3;
+
     private SpriteRenderer sr;
     private Rigidbody2D rb;
     private PlayerMovement2D player;
@@ -71,8 +91,12 @@ public class PlayerSpriteAnimator2D : MonoBehaviour
         bool nextUsingFlashlightWalk = next == AnimState.Walk && player != null
             && player.HasLantern && walkFlashlightFrames != null && walkFlashlightFrames.Length > 0;
 
-        bool nextUsingFlashlightIdle = next == AnimState.Idle && player != null
-            && player.IsLightOn && walkFlashlightFrames != null && walkFlashlightFrames.Length > 0;
+        // Standing still used to borrow walkFlashlightFrames[0] purely because that
+        // art has the flashlight in hand - and that frame has his legs further apart
+        // than any other in the cycle, so holding a light while standing read as a
+        // frozen walk. Idle now uses the idle cycle and HeldFlashlightVisual2D draws
+        // the flashlight on top.
+        bool nextUsingFlashlightIdle = false;
 
         if (next != currentState || nextUsingFlashlightWalk != usingFlashlightWalk || nextUsingFlashlightIdle != usingFlashlightIdle)
         {
@@ -94,17 +118,17 @@ public class PlayerSpriteAnimator2D : MonoBehaviour
         Sprite[] frames = CurrentFrames();
         if (frames == null || frames.Length == 0 || sr == null) return;
 
-        if (usingFlashlightIdle)
-        {
-            sr.sprite = frames[0];
-            return;
-        }
-
         if (currentState == AnimState.Dash)
         {
             // one held pose reads as a dash; a walk cycle at 20 u/s reads as sliding
             int index = (dashFrames != null && dashFrames.Length > 0) ? 0 : dashWalkFrameIndex;
             sr.sprite = frames[Mathf.Clamp(index, 0, frames.Length - 1)];
+            return;
+        }
+
+        if (currentState == AnimState.Jump && velocityDrivenJump && rb != null)
+        {
+            UpdateAirborneFrame(frames);
             return;
         }
 
@@ -117,6 +141,50 @@ public class PlayerSpriteAnimator2D : MonoBehaviour
             frameIndex = loops ? (frameIndex + 1) % frames.Length : Mathf.Min(frameIndex + 1, frames.Length - 1);
         }
 
+        sr.sprite = frames[frameIndex];
+    }
+
+    // Launch burst runs on the timer so the takeoff still reads as a push-off;
+    // after that the pose tracks the arc, so a long float never goes stale.
+    private void UpdateAirborneFrame(Sprite[] frames)
+    {
+        int last = frames.Length - 1;
+
+        // one steady pose while the beam is up
+        if (singleJumpPoseWithLight && player != null && player.IsLightOn)
+        {
+            frameIndex = Mathf.Clamp(jumpLightFrame, 0, last);
+            sr.sprite = frames[frameIndex];
+            return;
+        }
+
+        float verticalSpeed = rb.linearVelocity.y;
+        bool rising = verticalSpeed > jumpApexBand;
+
+        if (rising && frameIndex < jumpRiseFrameEnd)
+        {
+            float duration = CurrentFrameDuration(frameIndex);
+            frameTimer += Time.deltaTime;
+            if (frameTimer >= duration)
+            {
+                frameTimer -= duration;
+                frameIndex = Mathf.Min(frameIndex + 1, jumpRiseFrameEnd);
+            }
+        }
+        else if (rising)
+        {
+            frameIndex = jumpRiseFrameEnd;
+        }
+        else if (verticalSpeed < -jumpApexBand)
+        {
+            frameIndex = jumpFallFrame;
+        }
+        else
+        {
+            frameIndex = jumpApexFrame;
+        }
+
+        frameIndex = Mathf.Clamp(frameIndex, 0, last);
         sr.sprite = frames[frameIndex];
     }
 
@@ -143,7 +211,7 @@ public class PlayerSpriteAnimator2D : MonoBehaviour
             case AnimState.Dash:
                 if (dashFrames != null && dashFrames.Length > 0) return dashFrames;
                 return walkFrames;
-            default: return usingFlashlightIdle ? walkFlashlightFrames : idleFrames;
+            default: return idleFrames;
         }
     }
 

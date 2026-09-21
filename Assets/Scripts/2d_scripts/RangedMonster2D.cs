@@ -44,6 +44,7 @@ public class RangedMonster2D : MonoBehaviour
     private bool isDead;
 
     public bool IsRevealed => sr != null && sr.enabled;
+    public bool IsDead => isDead;
 
     public void Kill()
     {

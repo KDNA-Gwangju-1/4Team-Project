@@ -127,3 +127,7 @@ InitTestScene*.unity*
 # Extracted delivery zip contents (source zips already tracked under output/*.zip)
 /output/chapter2-final-delivery-v1/
 /output/chapter2-enemies-distinct-soft-v1/
+
+# MCP 확인용 스크린샷 (에디터에서 자동 생성)
+/Assets/Screenshots/
+/Assets/Screenshots.meta

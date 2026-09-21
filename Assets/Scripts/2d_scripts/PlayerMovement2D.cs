@@ -10,6 +10,8 @@ public class PlayerMovement2D : MonoBehaviour
     public float moveSpeed = 5f;
     public float jumpForce = 7f;
     public float groundCheckDistance = 1.1f;
+    [Tooltip("Downward kick when dropping through a platform, so he clears it even from a standstill.")]
+    public float dropThroughNudge = 2f;
     public LayerMask groundLayer;
 
     public float wallCheckDistance = 0.6f;
@@ -23,6 +25,8 @@ public class PlayerMovement2D : MonoBehaviour
     public float dashSpeed = 20f;
     public float dashDuration = 0.2f;
     public float dashCooldown = 0.55f;
+    [Tooltip("Invulnerable for this long after the dash ends, so finishing next to something is not a free hit.")]
+    public float postDashInvincibility = 0.25f;
     [Tooltip("Air dashes keep a little gravity so they do not float.")]
     public float dashGravityScale = 0.15f;
 
@@ -37,6 +41,8 @@ public class PlayerMovement2D : MonoBehaviour
     public float lightMaxSeconds = 10f;
     public float lightLockoutSeconds = 7f;
     public float lightHalfAngle = 15f;
+    [Tooltip("Left on, the beam starts from wherever HeldFlashlightVisual2D puts the flashlight, so the cone and the prop can never drift apart.")]
+    public bool beamFollowsHeldFlashlight = true;
     public Vector2 flashlightHandOffset = new Vector2(0.4f, 0.1f);
     public Vector2 jumpFlashlightHandOffset = new Vector2(0.75f, 0.15f);
     [Tooltip("How far past the lamp head the shot appears, so it reads as coming out of the flashlight.")]
@@ -77,6 +83,7 @@ public class PlayerMovement2D : MonoBehaviour
     private Collider2D usedWallCollider;
     private bool dashRequested;
     private bool isDashing;
+    private float dashGraceTimer;
     private float dashTimer;
     private float dashCooldownTimer;
     private float dashDirection;
@@ -84,6 +91,7 @@ public class PlayerMovement2D : MonoBehaviour
     private int facingDirection = 1;
     private bool grounded;
     private SpriteRenderer flashlightRenderer;
+    private HeldFlashlightVisual2D heldVisual;
     private SpriteMask flashlightMask;
     private Vector2 lightDirection = Vector2.right;
     private float lastFireTime = -999f;
@@ -103,6 +111,10 @@ public class PlayerMovement2D : MonoBehaviour
     public int CurrentHealth => currentHealth;
     public bool IsGrounded => grounded;
     public bool IsDashing => isDashing;
+    public bool DashGraceActive => dashGraceTimer > 0f;
+    // Cutscenes take control away, so anything still in flight would land as a
+    // free hit the player had no way to avoid.
+    public bool CutsceneInvulnerable { get; set; }
     public float DashStamina => dashStamina;
     public int DashChargesReady => Mathf.FloorToInt(dashStamina);
     public bool CanDash => dashStamina >= 1f && dashCooldownTimer <= 0f && !isDashing;
@@ -132,6 +144,7 @@ public class PlayerMovement2D : MonoBehaviour
         dashStamina = dashStaminaMax;
         if (flashlight != null)
         {
+            heldVisual = GetComponentInChildren<HeldFlashlightVisual2D>(true);
             flashlightRenderer = flashlight.GetComponent<SpriteRenderer>();
             if (flashlightRenderer != null) flashlightRenderer.enabled = false;
             flashlightMask = flashlight.GetComponent<SpriteMask>();
@@ -145,6 +158,8 @@ public class PlayerMovement2D : MonoBehaviour
         {
             dashCooldownTimer -= Time.deltaTime;
         }
+
+        if (dashGraceTimer > 0f) dashGraceTimer -= Time.deltaTime;
 
         if (!isDashing && dashStamina < dashStaminaMax)
         {
@@ -174,7 +189,16 @@ public class PlayerMovement2D : MonoBehaviour
 
             if (keyboard.spaceKey.wasPressedThisFrame)
             {
-                if (grounded)
+                bool holdingDown = keyboard.sKey.isPressed || keyboard.downArrowKey.isPressed;
+                DropThroughPlatform2D dropper = (grounded && holdingDown && groundHit.collider != null)
+                    ? groundHit.collider.GetComponent<DropThroughPlatform2D>() : null;
+
+                if (dropper != null)
+                {
+                    // down + jump falls to the platform below instead of jumping
+                    StartCoroutine(DropThroughRoutine(groundHit.collider, dropper.passThroughTime));
+                }
+                else if (grounded)
                 {
                     jumpRequested = true;
                 }
@@ -230,6 +254,27 @@ public class PlayerMovement2D : MonoBehaviour
     }
 
     private static readonly float[] WallProbeHeights = { 0.8f, 0.4f, 0f, -0.4f, -0.8f };
+
+    // Turns off collision with just that one platform for a moment. Disabling the
+    // platform's collider outright would drop anything else standing on it too.
+    private System.Collections.IEnumerator DropThroughRoutine(Collider2D platform, float duration)
+    {
+        Collider2D self = GetComponent<Collider2D>();
+        if (self == null || platform == null) yield break;
+
+        Physics2D.IgnoreCollision(self, platform, true);
+        grounded = false;
+
+        // a nudge down so he leaves the surface even when standing perfectly still
+        if (rb != null && rb.linearVelocity.y > -0.1f)
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, -dropThroughNudge);
+        }
+
+        yield return new WaitForSeconds(duration);
+
+        if (self != null && platform != null) Physics2D.IgnoreCollision(self, platform, false);
+    }
 
     private RaycastHit2D CastForWall(Vector2 direction)
     {
@@ -342,7 +387,13 @@ public class PlayerMovement2D : MonoBehaviour
             lightDirection = GetMouseDirection(mouse);
             float angle = Mathf.Atan2(lightDirection.y, lightDirection.x) * Mathf.Rad2Deg;
             float facing = lightDirection.x >= 0f ? 1f : -1f;
+            // The cone and the drawn flashlight used to carry separate offsets, so
+            // the beam left from a point that was not the lamp. One number now.
             Vector2 offset = grounded ? flashlightHandOffset : jumpFlashlightHandOffset;
+            if (beamFollowsHeldFlashlight && grounded && heldVisual != null)
+            {
+                offset = heldVisual.idleHandOffset;
+            }
             flashlight.position = transform.position + new Vector3(offset.x * facing, offset.y, 0f);
             flashlight.rotation = Quaternion.Euler(0f, 0f, angle);
         }
@@ -407,7 +458,14 @@ public class PlayerMovement2D : MonoBehaviour
             // player does not hang in the air mid-dash
             velocity.y = grounded ? 0f : velocity.y * dashGravityScale;
             dashTimer -= Time.fixedDeltaTime;
-            if (dashTimer <= 0f) isDashing = false;
+            if (dashTimer <= 0f)
+            {
+                isDashing = false;
+                // Contact damage is re-checked by OnTriggerStay the instant the dash
+                // ends, so stopping inside something you just dashed through counted
+                // as a hit. A short grace makes the dash actually get you out.
+                dashGraceTimer = postDashInvincibility;
+            }
         }
         else if (wallJumpLockTimer > 0f)
         {
@@ -462,7 +520,7 @@ public class PlayerMovement2D : MonoBehaviour
 
     public void TakeDamage(int amount)
     {
-        if (isInvincible || isDashing) return;
+        if (isInvincible || isDashing || dashGraceTimer > 0f || CutsceneInvulnerable) return;
 
         currentHealth = Mathf.Max(0, currentHealth - amount);
 
@@ -477,6 +535,14 @@ public class PlayerMovement2D : MonoBehaviour
 
     private void Die()
     {
+        // 죽음 화면이 있는 씬은 그쪽이 리트라이까지 책임진다. 없는 씬은 종전대로 sceneOnDeath로 넘어간다.
+        DeathRetryUI2D retry = FindFirstObjectByType<DeathRetryUI2D>();
+        if (retry != null)
+        {
+            retry.Show();
+            return;
+        }
+
         if (!string.IsNullOrEmpty(sceneOnDeath))
         {
             SceneManager.LoadScene(sceneOnDeath);

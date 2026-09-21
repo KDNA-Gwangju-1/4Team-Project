@@ -65,6 +65,7 @@ public class Monster2D : MonoBehaviour
     // with the flashlight mask the body renderer is always on, so what can be
     // shot is tracked separately from what is drawn
     public bool IsRevealed => useSilhouetteVisual ? lit : (sr != null && sr.enabled);
+    public bool IsDead => isDead;
 
     public void Kill()
     {
