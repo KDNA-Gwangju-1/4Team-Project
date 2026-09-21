@@ -12,7 +12,7 @@ namespace BrightDream.Combat
     {
         public static MonsterPurifyManager Instance { get; private set; }
 
-        public const int TargetCount = 15;
+        public const int TargetCount = 10;
 
         [SerializeField] private Text progressText;
 
