@@ -281,7 +281,7 @@ public class PlayerMovement2D : MonoBehaviour
         rb.linearVelocity = velocity;
     }
 
-    private void Respawn()
+    public void Respawn()
     {
         transform.position = lastGroundedPosition;
         rb.linearVelocity = Vector2.zero;
