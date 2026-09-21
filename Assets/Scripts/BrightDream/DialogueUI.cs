@@ -14,6 +14,14 @@ namespace BrightDream
 
         public static DialogueUI Instance { get; private set; }
 
+        /// <summary>
+        /// 패널이 떠서 대사가 진행 중인 동안 true. TimeAttackTimer가 이걸 보고 시간을 멈춘다.
+        /// IntroDialogueTrigger처럼 Time.timeScale을 0으로 만드는 호출자는 그것만으로도 이미
+        /// 멈추지만, Stage1ToStage2Cutscene은 몬스터가 실시간으로 계속 움직여야 해서 timeScale을
+        /// 건드리지 않는다 - 그런 경우까지 포함해 항상 안전하게 멈추도록 별도 플래그로 알린다.
+        /// </summary>
+        public static bool IsShowing { get; private set; }
+
         [Tooltip("보통 이 스크립트가 붙은 오브젝트 자신 - 씬에서 처음부터 비활성 상태로 둔다. " +
                  "Awake에서 다시 꺼버리면 안 된다: panel이 비활성이면 Awake 자체가 ShowSequence의 " +
                  "SetActive(true) 호출 도중에야 처음 실행되는데, 그 안에서 다시 꺼버리면 방금 켠 걸 즉시 되돌리게 된다.")]
@@ -34,6 +42,9 @@ namespace BrightDream
                 return;
             }
             Instance = this;
+            // 씬 재시작(Game Over -> 재시작) 시에도 이전 판에서 대사가 떠 있던 채로 멈췄을 수 있는
+            // static 플래그를 깨끗하게 되돌린다.
+            IsShowing = false;
         }
 
         /// <summary>
@@ -49,6 +60,7 @@ namespace BrightDream
             lineIndex = 0;
             allowSkipInput = allowSkip;
             onFinished = onFinishedCallback;
+            IsShowing = true;
 
             if (panel != null) panel.SetActive(true);
             ShowCurrentLine();
@@ -79,6 +91,7 @@ namespace BrightDream
         private void EndSequence()
         {
             lines = null;
+            IsShowing = false;
             if (panel != null) panel.SetActive(false);
 
             System.Action callback = onFinished;

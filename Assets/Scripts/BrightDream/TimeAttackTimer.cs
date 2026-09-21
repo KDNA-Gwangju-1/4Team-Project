@@ -90,6 +90,11 @@ namespace BrightDream
         private void Update()
         {
             if (!IsRunning) return;
+            // 단서 조사 텍스트(ClueManager)와 인트로 대사(IntroDialogueTrigger)는 Time.timeScale을
+            // 0으로 만들어 Time.deltaTime 자체가 0이 되므로 아래 감산이 저절로 멈춘다.
+            // 반면 Stage1ToStage2Cutscene의 대사는 몬스터를 실시간으로 계속 움직여야 해서
+            // timeScale을 건드리지 않으므로, DialogueUI.IsShowing을 직접 확인해 함께 막는다.
+            if (DialogueUI.IsShowing) return;
 
             RemainingTime = Mathf.Max(0f, RemainingTime - Time.deltaTime);
             UpdateText();
