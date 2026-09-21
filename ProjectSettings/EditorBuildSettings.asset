@@ -17,5 +17,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/HospitalRoom.unity
     guid: 0ada2c2dcd3dae34d8ddfac0dd43eea9
+  - enabled: 1
+    path: Assets/Scenes/SD_BrightDream_Blockout_Rect.unity
+    guid: 6654379096adaf74d84e723bc080e27e
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

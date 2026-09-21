@@ -6461,7 +6461,7 @@ MonoBehaviour:
   twitchDuration: 0.85
   logChartOnTouch: 1
   enterDreamOnTouch: 1
-  dreamScene: 
+  dreamScene: SD_BrightDream_Blockout_Rect
   dreamLoadingBackground: {fileID: 0}
   dreamBackgroundResource: DreamLoadingBackground
   afterDialogueDelay: 0.4

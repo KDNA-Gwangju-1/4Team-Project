@@ -31,6 +31,8 @@ public static class HospitalRoomSceneBuilder
     private const string PatientFolder  = "Assets/Data/Patients";
     private const string RoomFolder     = "Assets/Data/Rooms";
     private const string HospitalBgmPath = "Assets/Resources/Audio/Hospital/WhispersOfNight.mp3";
+    private const string Dream1ScenePath = "Assets/Scenes/SD_BrightDream_Blockout_Rect.unity";
+    private const string Dream1SceneName = "SD_BrightDream_Blockout_Rect";
 
     // 침대 옆에 세우는 사물함 모델 (다운로드받은 FBX).
     // 원본이 높이 1m 기준으로 만들어져 있고 피벗이 가운데에 있어서,
@@ -876,6 +878,8 @@ public static class HospitalRoomSceneBuilder
         serialized.FindProperty("twitchAngle").floatValue    = 2.5f;   // 모델 전체가 도니까 아주 조금만
         serialized.FindProperty("twitchDuration").floatValue = 0.85f;
         serialized.FindProperty("logChartOnTouch").boolValue = true;
+        serialized.FindProperty("enterDreamOnTouch").boolValue = true;
+        serialized.FindProperty("dreamScene").stringValue = Dream1SceneName;
         serialized.ApplyModifiedPropertiesWithoutUndo();
     }
 
@@ -940,11 +944,17 @@ public static class HospitalRoomSceneBuilder
     {
         var scenes = new List<EditorBuildSettingsScene>(EditorBuildSettings.scenes);
 
-        bool alreadyThere = scenes.Exists(s => s.path == ScenePath);
-        if (!alreadyThere)
+        string[] requiredScenes = { ScenePath, Dream1ScenePath };
+        bool changed = false;
+        foreach (string requiredScene in requiredScenes)
         {
-            scenes.Add(new EditorBuildSettingsScene(ScenePath, true));
-            EditorBuildSettings.scenes = scenes.ToArray();
+            if (scenes.Exists(s => s.path == requiredScene)) continue;
+
+            scenes.Add(new EditorBuildSettingsScene(requiredScene, true));
+            changed = true;
         }
+
+        if (changed)
+            EditorBuildSettings.scenes = scenes.ToArray();
     }
 }
