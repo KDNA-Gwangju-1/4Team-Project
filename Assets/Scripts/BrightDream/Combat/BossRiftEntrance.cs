@@ -1,0 +1,236 @@
+﻿using System;
+using System.Collections;
+using UnityEngine;
+
+namespace BrightDream.Combat
+{
+    /// <summary>
+    /// 보스 아레나에 진입하면 균열이 열리고 그 안에서 유니콘 보스가 튀어나온 뒤
+    /// 전투가 시작되게 한다.
+    ///
+    /// 진행 순서
+    ///   1. 대기       보스를 숨기고 BossAI 를 꺼 둔다. 균열은 _Progress 0 (안 보임)
+    ///   2. 균열 생성   _Progress 0 에서 1 로. 중심에서 바깥으로 번진다
+    ///   3. 등장       보스가 균열 안에서 작게 나타나 아레나 착지 지점까지 날아온다
+    ///   4. 착지       카메라 흔들림. 그 뒤 BossAI 를 켜서 전투 시작
+    ///
+    /// BossAI 를 컴포넌트째 꺼 두면 Unity 가 Start() 를 켜질 때까지 미룬다. 켜는 순간
+    /// BossAI 가 스스로 StageProgressManager.CurrentStage 를 보고 활성화하므로
+    /// BossAI 쪽 코드는 손대지 않아도 된다.
+    ///
+    /// 시간은 전부 unscaled 로 돈다. 단서 조사나 인트로 대사가 뜨면 Time.timeScale 이 0 이
+    /// 되는데, WaitForSeconds 를 쓰면 그 사이 연출이 멈춰 버리고 최악의 경우 보스가
+    /// 영영 활성화되지 않는다. HeartHealthUI 등 기존 연출과 같은 규칙이다.
+    ///
+    /// 균열 _Progress 는 MaterialPropertyBlock 으로 넣는다. sharedMaterial 을 직접 쓰면
+    /// 에디터에서 플레이할 때 머티리얼 에셋 파일이 실제로 변경되어 버린다.
+    /// </summary>
+    public class BossRiftEntrance : MonoBehaviour
+    {
+        [Header("연결")]
+        [Tooltip("BossClear_Rift3D 루트. 자식 렌더러 전체의 _Progress 를 제어한다.")]
+        [SerializeField] private Transform rift;
+        [SerializeField] private BossAI boss;
+        [Tooltip("보스가 착지할 지점. 비우면 보스의 시작 위치를 그대로 쓴다.")]
+        [SerializeField] private Transform landingPoint;
+
+        [Header("진행 조건")]
+        [Tooltip("이 스테이지에 도달하면 연출이 시작된다. BossAI 의 Activate At Stage 와 같은 값.")]
+        [SerializeField] private int triggerAtStage = 3;
+
+        [Header("타이밍")]
+        [Tooltip("진입 후 균열이 열리기까지의 뜸.")]
+        [SerializeField] private float preDelay = 0.6f;
+        [Tooltip("균열이 번지는 시간.")]
+        [SerializeField] private float riftGrowDuration = 1.6f;
+        [Tooltip("균열이 다 열린 뒤 보스가 나오기까지의 뜸.")]
+        [SerializeField] private float holdAfterRift = 0.35f;
+        [Tooltip("보스가 균열에서 착지 지점까지 날아오는 시간.")]
+        [SerializeField] private float emergeDuration = 0.9f;
+        [Tooltip("착지 후 전투가 시작되기까지의 뜸.")]
+        [SerializeField] private float postDelay = 0.5f;
+
+        [Header("등장 연출")]
+        [Tooltip("균열에서 나올 때의 시작 크기 배율.")]
+        [SerializeField] private float emergeStartScale = 0.25f;
+        [Tooltip("날아오는 궤적을 위로 띄우는 높이.")]
+        [SerializeField] private float emergeArcHeight = 2.5f;
+        [SerializeField] private float landingShakeDuration = 0.45f;
+        [SerializeField] private float landingShakeMagnitude = 0.35f;
+
+        [Header("메시지")]
+        [SerializeField] private string message = "";
+        [SerializeField] private float messageDuration = 2.5f;
+
+        /// <summary>연출이 끝나 전투가 시작되는 순간 발생.</summary>
+        public static event Action OnBossEntranceFinished;
+
+        public bool IsPlaying { get; private set; }
+
+        private Renderer[] riftRenderers;
+        private MaterialPropertyBlock mpb;
+        private static readonly int ProgressId = Shader.PropertyToID("_Progress");
+
+        private Renderer[] bossRenderers;
+        private Collider[] bossColliders;
+        private Vector3 landPos;
+        private Vector3 baseScale;
+        private bool done;
+
+        private void Awake()
+        {
+            if (rift != null)
+            {
+                riftRenderers = rift.GetComponentsInChildren<Renderer>(true);
+                mpb = new MaterialPropertyBlock();
+            }
+
+            if (boss != null)
+            {
+                bossRenderers = boss.GetComponentsInChildren<Renderer>(true);
+                bossColliders = boss.GetComponentsInChildren<Collider>(true);
+                baseScale = boss.transform.localScale;
+                landPos = landingPoint != null ? landingPoint.position : boss.transform.position;
+
+                // 연출이 끝날 때까지 전투 로직을 재운다.
+                boss.enabled = false;
+            }
+
+            SetRiftProgress(0f);
+            SetBossVisible(false);
+        }
+
+        private void OnEnable()
+        {
+            StageProgressManager.OnStageChanged += HandleStageChanged;
+        }
+
+        private void OnDisable()
+        {
+            StageProgressManager.OnStageChanged -= HandleStageChanged;
+        }
+
+        private void Start()
+        {
+            // 이미 해당 스테이지를 지난 상태로 시작했다면 연출 없이 바로 전투로.
+            if (StageProgressManager.Instance != null &&
+                StageProgressManager.Instance.CurrentStage >= triggerAtStage)
+            {
+                SkipToCombat();
+            }
+        }
+
+        private void HandleStageChanged(int currentStage)
+        {
+            if (done || IsPlaying) return;
+            if (currentStage < triggerAtStage) return;
+            StartCoroutine(PlaySequence());
+        }
+
+        private IEnumerator PlaySequence()
+        {
+            IsPlaying = true;
+
+            if (!string.IsNullOrEmpty(message))
+            {
+                var ui = StageMessageUI.Instance;
+                if (ui != null) ui.ShowMessage(message, messageDuration);
+            }
+
+            if (preDelay > 0f) yield return new WaitForSecondsRealtime(preDelay);
+
+            // 1) 균열이 중심에서 바깥으로 번진다
+            float t = 0f;
+            while (t < riftGrowDuration)
+            {
+                t += Time.unscaledDeltaTime;
+                float p = Mathf.Clamp01(t / Mathf.Max(riftGrowDuration, 0.0001f));
+                SetRiftProgress(p * p * (3f - 2f * p));   // smoothstep
+                yield return null;
+            }
+            SetRiftProgress(1f);
+
+            if (holdAfterRift > 0f) yield return new WaitForSecondsRealtime(holdAfterRift);
+
+            // 2) 보스가 균열에서 나와 착지 지점으로
+            Vector3 from = rift != null ? rift.position : landPos + Vector3.up * 5f;
+            if (boss != null)
+            {
+                boss.transform.position = from;
+                boss.transform.localScale = baseScale * emergeStartScale;
+                SetBossVisible(true);
+
+                t = 0f;
+                while (t < emergeDuration)
+                {
+                    t += Time.unscaledDeltaTime;
+                    float p = Mathf.Clamp01(t / Mathf.Max(emergeDuration, 0.0001f));
+                    float e = 1f - (1f - p) * (1f - p);                 // ease out
+                    Vector3 pos = Vector3.Lerp(from, landPos, e);
+                    pos.y += Mathf.Sin(p * Mathf.PI) * emergeArcHeight; // 포물선
+                    boss.transform.position = pos;
+                    boss.transform.localScale = Vector3.Lerp(baseScale * emergeStartScale, baseScale, e);
+                    yield return null;
+                }
+                boss.transform.position = landPos;
+                boss.transform.localScale = baseScale;
+            }
+
+            // 3) 착지 충격
+            var shake = CameraShake.Instance;
+            if (shake != null) shake.Shake(landingShakeDuration, landingShakeMagnitude);
+
+            if (postDelay > 0f) yield return new WaitForSecondsRealtime(postDelay);
+
+            // 4) 전투 시작
+            EnableCombat();
+            IsPlaying = false;
+            done = true;
+            if (OnBossEntranceFinished != null) OnBossEntranceFinished();
+        }
+
+        /// <summary>연출을 건너뛰고 즉시 전투 상태로 만든다 (세이브 로드나 디버그 진입용).</summary>
+        public void SkipToCombat()
+        {
+            if (done) return;
+            StopAllCoroutines();
+            SetRiftProgress(1f);
+            if (boss != null)
+            {
+                boss.transform.position = landPos;
+                boss.transform.localScale = baseScale;
+            }
+            SetBossVisible(true);
+            EnableCombat();
+            IsPlaying = false;
+            done = true;
+            if (OnBossEntranceFinished != null) OnBossEntranceFinished();
+        }
+
+        private void EnableCombat()
+        {
+            // 컴포넌트를 켜는 순간 BossAI.Start() 가 돌면서 스스로 활성화한다.
+            if (boss != null) boss.enabled = true;
+        }
+
+        private void SetRiftProgress(float value)
+        {
+            if (riftRenderers == null || mpb == null) return;
+            foreach (var r in riftRenderers)
+            {
+                if (r == null) continue;
+                r.GetPropertyBlock(mpb);
+                mpb.SetFloat(ProgressId, value);
+                r.SetPropertyBlock(mpb);
+            }
+        }
+
+        private void SetBossVisible(bool visible)
+        {
+            if (bossRenderers != null)
+                foreach (var r in bossRenderers) if (r != null) r.enabled = visible;
+            if (bossColliders != null)
+                foreach (var c in bossColliders) if (c != null) c.enabled = visible;
+        }
+    }
+}

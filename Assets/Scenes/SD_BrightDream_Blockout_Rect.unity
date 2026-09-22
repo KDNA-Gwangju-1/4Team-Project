@@ -19031,6 +19031,7 @@ Transform:
   - {fileID: 1086137985}
   - {fileID: 808495060}
   - {fileID: 1102485619}
+  - {fileID: 809911757}
   m_Father: {fileID: 178961172}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &136892861
@@ -115425,6 +115426,65 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 809900571}
   m_Mesh: {fileID: 4355141807875845559, guid: cd398b0fb0510d14c868690a3bb2e72e, type: 3}
+--- !u!1 &809911756
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 809911757}
+  - component: {fileID: 809911758}
+  m_Layer: 0
+  m_Name: BossRiftEntrance
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &809911757
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 809911756}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 136820914}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &809911758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 809911756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52fec270eeec6bf418f7ab7947794e7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BrightDream.Combat.BossRiftEntrance
+  rift: {fileID: 1102485619}
+  boss: {fileID: 1387729627}
+  landingPoint: {fileID: 0}
+  triggerAtStage: 3
+  preDelay: 0.6
+  riftGrowDuration: 1.6
+  holdAfterRift: 0.35
+  emergeDuration: 0.9
+  postDelay: 0.5
+  emergeStartScale: 0.25
+  emergeArcHeight: 2.5
+  landingShakeDuration: 0.45
+  landingShakeMagnitude: 0.35
+  message: 
+  messageDuration: 2.5
 --- !u!1 &811202537
 GameObject:
   m_ObjectHideFlags: 0
