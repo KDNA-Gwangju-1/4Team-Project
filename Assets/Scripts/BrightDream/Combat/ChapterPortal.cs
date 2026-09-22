@@ -29,7 +29,7 @@ namespace BrightDream.Combat
 
         [Header("들어가는 연출")]
         [Tooltip("화면이 일렁이며 빨려 드는 시간. 이만큼 지난 뒤 로딩 화면으로 넘어간다.")]
-        [SerializeField] private float enterDuration = 2.5f;
+        [SerializeField] private float enterDuration = 1.5f;
         [Tooltip("화면 일렁임. 비우면 Main Camera 에서 찾아본다. 없으면 일렁임 없이 기다렸다 넘어간다.")]
         [SerializeField] private ScreenWarpTransition screenWarp;
         [Tooltip("연출 중에 플레이어가 걸어 나가지 못하게 조작을 잠근다.")]

@@ -240814,7 +240814,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BrightDream.Combat.ChapterPortal
   nextScene: BadDream_Stage1
   loadingBackground: {fileID: 21300000, guid: 1975921ba791a864397252dbf58477e4, type: 3}
-  enterDuration: 2.5
+  enterDuration: 1.5
   screenWarp: {fileID: 182342602}
   lockPlayerDuringEnter: 1
   interactRange: 3.5
