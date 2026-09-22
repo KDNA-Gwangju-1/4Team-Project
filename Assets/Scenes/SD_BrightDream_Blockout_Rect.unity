@@ -115436,6 +115436,7 @@ GameObject:
   m_Component:
   - component: {fileID: 809911757}
   - component: {fileID: 809911758}
+  - component: {fileID: 809911759}
   m_Layer: 0
   m_Name: BossRiftEntrance
   m_TagString: Untagged
@@ -115485,6 +115486,33 @@ MonoBehaviour:
   landingShakeMagnitude: 0.35
   message: 
   messageDuration: 2.5
+--- !u!114 &809911759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 809911756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f25d87efb9183bc44aa5891d28236138, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BrightDream.Combat.BossRiftExit
+  rift: {fileID: 1102485619}
+  boss: {fileID: 1387729626}
+  handPrefab: {fileID: 5575786011489648533, guid: cf681f00fa424084bbf2126dadce3341, type: 3}
+  preDelay: 1
+  reachDuration: 1.1
+  grabHold: 0.45
+  dragDuration: 1.3
+  closeDuration: 1.2
+  grabOffset: 2
+  struggleAmount: 0.35
+  shrinkTo: 0.12
+  grabShakeDuration: 0.5
+  grabShakeMagnitude: 0.4
+  message: 
+  messageDuration: 3
 --- !u!1 &811202537
 GameObject:
   m_ObjectHideFlags: 0
