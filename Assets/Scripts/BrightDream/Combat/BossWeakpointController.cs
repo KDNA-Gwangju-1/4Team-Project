@@ -178,6 +178,18 @@ namespace BrightDream.Combat
             if (HitProgress >= hitsToDefeat) Defeat();
         }
 
+        /// <summary>
+        /// 테스트용 즉시 처치. 명중 진행도를 채운 것과 같은 경로(Defeat)를 그대로 타므로
+        /// 아레나 개방·클리어 메시지·균열 연출이 실제 플레이와 똑같이 이어진다.
+        /// </summary>
+        public void DebugDefeat()
+        {
+            if (isDefeated) return;
+            HitProgress = hitsToDefeat;
+            UpdateProgressUI();
+            Defeat();
+        }
+
         private void Defeat()
         {
             isDefeated = true;
