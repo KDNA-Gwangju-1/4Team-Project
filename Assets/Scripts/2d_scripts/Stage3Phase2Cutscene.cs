@@ -20,6 +20,8 @@ public class Stage3Phase2Cutscene : MonoBehaviour
     [Header("Dialogue")]
     public Sprite bossDialogueFrame;
     public Sprite playerDialogueFrame;
+    [Tooltip("보스 프레임에는 이름칸이 그려져 있지 않아 글자로 얹는다. 꿈탐정 프레임은 이름이 그림에 박혀 있어 비워둔다.")]
+    public string bossSpeakerName = "???";
     [Tooltip("The shadowed portrait. Shown from the moment the shadow takes her.")]
     public Sprite bossShadowDialogueFrame;
     // beatAfter: 1 = the shadow takes her, then the creep-and-snap zoom.
@@ -237,7 +239,7 @@ public class Stage3Phase2Cutscene : MonoBehaviour
             DialogueLine2D line = lines[i];
             if (line == null || string.IsNullOrEmpty(line.text)) continue;
 
-            yield return Say(line.isBoss ? bossDialogueFrame : playerDialogueFrame, line.text);
+            yield return Say(line.isBoss ? bossDialogueFrame : playerDialogueFrame, line.text, (line.isBoss && bossDialogueFrame != bossShadowDialogueFrame) ? bossSpeakerName : "");
 
             if (line.beatAfter == 1)
             {
@@ -463,10 +465,10 @@ public class Stage3Phase2Cutscene : MonoBehaviour
         blackout = null;
     }
 
-    private IEnumerator Say(Sprite frame, string line)
+    private IEnumerator Say(Sprite frame, string line, string speaker = "")
     {
         if (window == null || !window.Ready) yield break;
-        yield return window.Show(frame, line);
+        yield return window.Show(frame, line, speaker);
     }
 
     // ---------- the tentacle he kills ----------

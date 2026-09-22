@@ -18,6 +18,13 @@ public class PlayerSounds2D : MonoBehaviour
     public AudioClip flashlightOff;
     [Range(0f, 1f)] public float flashlightVolume = 0.5f;
 
+    [Tooltip("광탄을 쏠 때마다 이 중 하나를 무작위로.")]
+    public AudioClip[] shotClips;
+    [Range(0f, 1f)] public float shotVolume = 0.6f;
+
+    public AudioClip dashClip;
+    [Range(0f, 1f)] public float dashVolume = 0.6f;
+
     private PlayerMovement2D player;
     private Rigidbody2D body;
     private AudioSource footstepsSource;
@@ -30,6 +37,31 @@ public class PlayerSounds2D : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
         footstepsSource = MakeSource(footsteps, footstepsVolume, true);
         flashlightSource = MakeSource(null, flashlightVolume, false);
+    }
+
+    void OnEnable()
+    {
+        if (player == null) return;
+        player.OnBulletFired += HandleShot;
+        player.OnDashStarted += HandleDash;
+    }
+
+    private void HandleShot()
+    {
+        if (shotClips == null || shotClips.Length == 0) return;
+        OneShot(shotClips[Random.Range(0, shotClips.Length)], shotVolume);
+    }
+
+    private void HandleDash()
+    {
+        OneShot(dashClip, dashVolume);
+    }
+
+    // 원샷들은 손전등 소스를 같이 쓴다. PlayOneShot은 소스 볼륨에 곱해지므로 나눠서 원하는 크기로 맞춘다.
+    private void OneShot(AudioClip clip, float volume)
+    {
+        if (clip == null || flashlightSource == null) return;
+        flashlightSource.PlayOneShot(clip, volume / Mathf.Max(0.01f, flashlightVolume));
     }
 
     private AudioSource MakeSource(AudioClip clip, float volume, bool loop)
@@ -77,6 +109,7 @@ public class PlayerSounds2D : MonoBehaviour
 
     void OnDisable()
     {
+        if (player != null) { player.OnBulletFired -= HandleShot; player.OnDashStarted -= HandleDash; }
         Toggle(footstepsSource, false);
     }
 }

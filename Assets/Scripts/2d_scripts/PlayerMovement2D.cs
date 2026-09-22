@@ -120,6 +120,7 @@ public class PlayerMovement2D : MonoBehaviour
     public bool CanDash => dashStamina >= 1f && dashCooldownTimer <= 0f && !isDashing;
     public float DashDirection => dashDirection;
     public event System.Action OnDashStarted;
+    public event System.Action OnBulletFired;
     public int FacingDirection => facingDirection;
 
     void Awake()
@@ -127,7 +128,8 @@ public class PlayerMovement2D : MonoBehaviour
         Instance = this;
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
-        currentHealth = CarriedHealth ?? maxHealth;
+        // 앞 스테이지 최대 체력이 더 크면 하트 개수보다 많은 체력을 들고 와서, 몇 대는 맞아도 하트가 안 줄어든다
+        currentHealth = Mathf.Min(CarriedHealth ?? maxHealth, maxHealth);
         CarriedHealth = null;
         hasLantern = LanternObtained;
 
@@ -448,6 +450,7 @@ public class PlayerMovement2D : MonoBehaviour
         {
             bullet.Init(direction, bulletSpeed, bulletMaxDistance);
         }
+        if (OnBulletFired != null) OnBulletFired();
     }
 
     void FixedUpdate()

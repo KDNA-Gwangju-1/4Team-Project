@@ -11,6 +11,8 @@ public class Portal2D : MonoBehaviour
     public string targetSceneName;
     public bool overrideSpawnX = false;
     public float spawnX = 0f;
+    [Tooltip("끄면 다음 씬에서 체력이 가득 찬 채로 시작한다. 보스전 입구처럼 앞 구간의 피해를 끌고 가지 않을 때.")]
+    public bool carryHealth = true;
 
     public bool requireLantern = false;
     public Text lockedMessageText;
@@ -53,7 +55,7 @@ public class Portal2D : MonoBehaviour
         if (prompt != null) prompt.SetVisible(false, promptMessage);
 
         if (overrideSpawnX) PlayerMovement2D.PendingSpawnX = spawnX;
-        PlayerMovement2D.CarriedHealth = player.CurrentHealth;
+        PlayerMovement2D.CarriedHealth = carryHealth ? player.CurrentHealth : (int?)null;
         SceneManager.LoadScene(targetSceneName);
     }
 

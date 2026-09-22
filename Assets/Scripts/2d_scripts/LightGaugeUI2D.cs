@@ -10,10 +10,17 @@ public class LightGaugeUI2D : MonoBehaviour
     public float lowThreshold = 0.3f;
     public float lockedBlinkSpeed = 6f;
 
+    private CanvasGroup group;
+
     void Update()
     {
         var player = PlayerMovement2D.Instance;
         if (player == null || fill == null) return;
+
+        // 손전등을 아직 안 주운 스테이지(1스테이지 초반)에서는 게이지 자체를 숨긴다
+        if (group == null) { group = GetComponent<CanvasGroup>(); if (group == null) group = gameObject.AddComponent<CanvasGroup>(); }
+        group.alpha = player.HasLantern ? 1f : 0f;
+        if (!player.HasLantern) return;
 
         float charge = player.LightCharge01;
         fill.fillAmount = charge;

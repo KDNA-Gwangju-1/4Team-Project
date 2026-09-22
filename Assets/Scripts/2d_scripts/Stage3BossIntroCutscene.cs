@@ -783,7 +783,8 @@ public class Stage3BossIntroCutscene : MonoBehaviour
             yield break;
         }
 
-        yield return window.Show(frame, line);
+        // 꿈탐정 프레임은 이름이 그림에 박혀 있고, 보스 프레임은 이름칸이 비어 있어 글자로 얹는다
+        yield return window.Show(frame, line, isBoss ? speaker : "");
     }
 
     private void CreateCaption()

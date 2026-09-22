@@ -43,11 +43,23 @@ public class Stage2IntroCutscene : MonoBehaviour
     private float rabbitDetectionRange;
     private float rabbitRespawnDelay;
 
+    // 죽어서 리트라이로 다시 들어온 판인지. DeathRetryUI2D가 씬을 다시 올리기 직전에 세운다.
+    public static bool SkipIntroOnce;
+
     void Start()
     {
         if (player == null || cam == null || rabbit == null) return;
 
         if (!player.HasLantern) player.PickUpLantern();
+
+        if (SkipIntroOnce)
+        {
+            // 시범용 토끼까지 통째로 건너뛴다 - 이미 본 장면이고, 토끼는 규칙을 가르치는 소품이다
+            SkipIntroOnce = false;
+            Destroy(rabbit.gameObject);
+            Destroy(this);
+            return;
+        }
         player.enabled = false;
         player.CutsceneInvulnerable = true;
 

@@ -355,6 +355,57 @@ MonoBehaviour:
   edgeInset: 0.6
   matchWidth: 1
   runInEditMode: 1
+--- !u!1 &281020847
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 281020849}
+  - component: {fileID: 281020848}
+  m_Layer: 0
+  m_Name: BossMusic
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &281020848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 281020847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c1e27f0fd61ed46a987c1f9272077f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossMusic2D
+  attack: {fileID: 900000037}
+  phase1Clip: {fileID: 8300000, guid: 91d31102b7e15ec4a8af55416129dbeb, type: 3}
+  phase2Clip: {fileID: 8300000, guid: ab1fad0dba9960d41ae67cfcbe28a021, type: 3}
+  volume: 0.4
+  fadeInTime: 1.2
+  fadeOutTime: 1.5
+  phaseSettleTime: 0.2
+--- !u!4 &281020849
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 281020847}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &320876496
 GameObject:
   m_ObjectHideFlags: 0
@@ -1284,7 +1335,7 @@ MonoBehaviour:
     text: "\uC790 \uC598\uB4E4\uC544 \uC624\uBE60\uB791 \uC0AC\uC774\uC88B\uAC8C
       \uB180\uC544\uC918~"
     beatAfter: 0
-  bossSpeakerName: ???
+  bossSpeakerName: 
   playerSpeakerName: "\uAFC8\uD0D0\uC815"
   lineDisplayDuration: 6
   lineGap: 0.3
@@ -1500,6 +1551,7 @@ MonoBehaviour:
   flashlight: {fileID: 1842253845}
   bossDialogueFrame: {fileID: 21300000, guid: 58906ac033375a44dbd39c8c55c26b20, type: 3}
   playerDialogueFrame: {fileID: 21300000, guid: 87a8a037d993e734793549bdadb8ace1, type: 3}
+  bossSpeakerName: 
   bossShadowDialogueFrame: {fileID: 21300000, guid: 364c998e501145c40aca4d0e96b3f4cb, type: 3}
   lines:
   - isBoss: 1
@@ -2004,6 +2056,7 @@ GameObject:
   - component: {fileID: 900000040}
   - component: {fileID: 900000041}
   - component: {fileID: 900000042}
+  - component: {fileID: 900000043}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Untagged
@@ -2524,6 +2577,23 @@ MonoBehaviour:
   bobAmplitude: 0.35
   bobPeriod: 1.8
   faceTravelDirection: 1
+--- !u!114 &900000043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 900000030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6df2e8c42d2a444da7f359a16ef5a54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossSounds2D
+  shotClips:
+  - {fileID: 8300000, guid: 9f44ced7b3e862f478e21fcce4cf0f25, type: 3}
+  - {fileID: 8300000, guid: 7f6b542dfd5c7a041bd7e97c1b9ed25a, type: 3}
+  shotVolume: 0.6
+  shotMergeWindow: 0.08
 --- !u!1 &927161764
 GameObject:
   m_ObjectHideFlags: 0
@@ -2560,8 +2630,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 30, y: -62}
-  m_SizeDelta: {x: 300, y: 18}
+  m_AnchoredPosition: {x: 30, y: -84}
+  m_SizeDelta: {x: 375, y: 22}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &927161766
 MonoBehaviour:
@@ -3790,7 +3860,7 @@ MonoBehaviour:
   bulletSpeed: 20
   bulletMaxDistance: 16
   fireCooldown: 0.8333333
-  maxHealth: 10
+  maxHealth: 8
   invincibilityDuration: 1.5
   invincibilityBlinkInterval: 0.1
   sceneOnDeath: 
@@ -4047,6 +4117,13 @@ MonoBehaviour:
   flashlightOn: {fileID: 8300000, guid: 17d46562520500340a826598108c3af6, type: 3}
   flashlightOff: {fileID: 8300000, guid: 2bae2e6df9d358648b4205437025d4e5, type: 3}
   flashlightVolume: 0.5
+  shotClips:
+  - {fileID: 8300000, guid: 1dbbc0ace2376a04688d3c955ee140dc, type: 3}
+  - {fileID: 8300000, guid: 80f93c38f77f53f49aefb563842e5e3f, type: 3}
+  - {fileID: 8300000, guid: 03898cd7de2d6104498d5fc700d96464, type: 3}
+  shotVolume: 0.6
+  dashClip: {fileID: 8300000, guid: 0cdd220383f144643b81749e814b4cc1, type: 3}
+  dashVolume: 0.6
 --- !u!1 &1550880050
 GameObject:
   m_ObjectHideFlags: 0
@@ -4658,8 +4735,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHeartsUI2D
   fullHeart: {fileID: 21300000, guid: fc7b536b0bbef734594f66c17e93240f, type: 3}
   emptyHeart: {fileID: 21300000, guid: fb7a7ec2fb0bd364fa88188a7e6381bc, type: 3}
-  heartSize: 28
-  spacing: 3
+  heartSize: 48
+  spacing: 5
   heartsPerRow: 10
   shakeOnDamage: 6
   shakeDuration: 0.35
@@ -4695,7 +4772,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82f65cfc907b55d499fc88c7cefec590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Monster2D
-  monsterId:
+  monsterId: 
   shimmer: {fileID: 0}
   shimmerScalePulse: 0.15
   shimmerAlphaBase: 0.25
@@ -5089,8 +5166,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 30, y: -86}
-  m_SizeDelta: {x: 200, y: 16}
+  m_AnchoredPosition: {x: 30, y: -116}
+  m_SizeDelta: {x: 260, y: 20}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1884707494
 MonoBehaviour:
@@ -5105,9 +5182,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DashStaminaUI2D
   pipSprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  pipWidth: 62
-  pipHeight: 14
-  spacing: 5
+  pipWidth: 78
+  pipHeight: 18
+  spacing: 6
   readyColor: {r: 0.55, g: 0.95, b: 1, a: 1}
   chargingColor: {r: 0.25, g: 0.45, b: 0.6, a: 1}
   emptyColor: {r: 0.16, g: 0.17, b: 0.22, a: 1}
@@ -5904,3 +5981,4 @@ SceneRoots:
   - {fileID: 749689156}
   - {fileID: 1928006271}
   - {fileID: 1283646432}
+  - {fileID: 281020849}

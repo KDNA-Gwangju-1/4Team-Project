@@ -659,6 +659,9 @@ public class BossAttack2D : MonoBehaviour
         return Mathf.LerpAngle(fanBaseAngle, aimed, blend);
     }
 
+    // 탄 하나마다 불린다. 한 패턴에 여러 발이 같은 프레임에 나가므로 듣는 쪽에서 묶어야 한다.
+    public event System.Action OnBulletSpawned;
+
     private void SpawnBullet(float angleDegrees, float speed)
     {
         if (bulletPrefab == null) return;
@@ -668,5 +671,6 @@ public class BossAttack2D : MonoBehaviour
         GameObject obj = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
         BossBullet2D bullet = obj.GetComponent<BossBullet2D>();
         if (bullet != null) bullet.Init(dir, speed);
+        if (OnBulletSpawned != null) OnBulletSpawned();
     }
 }

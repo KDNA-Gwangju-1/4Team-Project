@@ -146,9 +146,13 @@ public class DeathRetryUI2D : MonoBehaviour
     {
         // LoadScene은 timeScale을 되돌려주지 않는다. 여기서 안 풀면 다음 판이 멈춘 채로 시작한다.
         Time.timeScale = 1f;
-        Stage3BossIntroCutscene.SkipIntroOnce = true;
+        // 이 씬의 인트로만 건너뛴다. 인트로 컷신은 재생이 끝나면 스스로 사라지므로 컴포넌트 존재로는
+        // 판정할 수 없고, 정적 플래그가 다른 스테이지로 새면 처음 입장에서도 컷신이 빠진다.
+        var scene = SceneManager.GetActiveScene();
+        if (scene.name == "BadDream_Stage3") Stage3BossIntroCutscene.SkipIntroOnce = true;
+        if (scene.name == "BadDream_stage2") Stage2IntroCutscene.SkipIntroOnce = true;
         BossPhaseController2D.ResumeAtPhase2 = diedInPhase2;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene(scene.buildIndex);
     }
 
     private static void SetAlpha(Graphic g, float a)

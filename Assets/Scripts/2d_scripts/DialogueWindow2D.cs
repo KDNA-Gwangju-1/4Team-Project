@@ -15,6 +15,10 @@ public class DialogueWindow2D : MonoBehaviour
     public Color textColor = Color.white;
     public float fadeDuration = 0.18f;
 
+    [Tooltip("Speaker name spot, normalized frame coordinates. Matches where the player frame has its name plate drawn in.")]
+    public Rect speakerArea = new Rect(0.11f, 0.30f, 0.18f, 0.06f);
+    public int speakerFontSize = 32;
+
     [Tooltip("Panel width as a fraction of the screen.")]
     [Range(0.3f, 1f)] public float frameWidth01 = 0.88f;
     [Tooltip("Gap from the bottom of the screen, in 1080p reference pixels.")]
@@ -33,6 +37,7 @@ public class DialogueWindow2D : MonoBehaviour
     private Image frameImage;
     private CanvasGroup group;
     private Text lineText;
+    private Text speakerText;
     private Text advancePrompt;
 
     public bool Ready { get { return frameImage != null; } }
@@ -97,6 +102,20 @@ public class DialogueWindow2D : MonoBehaviour
         lineText.resizeTextMaxSize = fontSize;
         StretchTo(lineText.rectTransform, textArea.xMin, textArea.yMin, textArea.xMax, textArea.yMax);
 
+        // 화자 이름. 이름칸이 그림에 박힌 프레임(꿈탐정)은 빈 문자열을 넘겨 안 그린다.
+        GameObject nameGO = new GameObject("SpeakerName");
+        nameGO.transform.SetParent(frameGO.transform, false);
+        speakerText = nameGO.AddComponent<Text>();
+        speakerText.font = font;
+        speakerText.text = "";
+        speakerText.fontSize = speakerFontSize;
+        speakerText.fontStyle = FontStyle.Bold;
+        speakerText.color = textColor;
+        speakerText.alignment = TextAnchor.MiddleCenter;
+        speakerText.horizontalOverflow = HorizontalWrapMode.Overflow;
+        speakerText.raycastTarget = false;
+        StretchTo(speakerText.rectTransform, speakerArea.xMin, speakerArea.yMin, speakerArea.xMax, speakerArea.yMax);
+
         GameObject promptGO = new GameObject("AdvancePrompt");
         promptGO.transform.SetParent(frameGO.transform, false);
 
@@ -124,10 +143,16 @@ public class DialogueWindow2D : MonoBehaviour
 
     public IEnumerator Show(Sprite frame, string line)
     {
+        yield return Show(frame, line, "");
+    }
+
+    public IEnumerator Show(Sprite frame, string line, string speaker)
+    {
         if (frameImage == null || frame == null) yield break;
 
         frameImage.sprite = frame;
         lineText.text = line;
+        if (speakerText != null) speakerText.text = speaker ?? "";
 
         frameGO.SetActive(true);
         yield return Fade(0f, 1f);
