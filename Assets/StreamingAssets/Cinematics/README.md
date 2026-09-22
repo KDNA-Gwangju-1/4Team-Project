@@ -10,6 +10,7 @@ MainMenuManager.OnStartButton plays OpeningAndHospital.mp4, then opens Loading w
 - Runtime overlay uses a 16:9 aspect-fit image on black, preserving the full picture at other display aspect ratios.
 - Audio uses AudioSource and the existing master-volume preference.
 - Duplicate start clicks are ignored; menu panels are hidden while playing.
+- During playback, hold ESC for 2 seconds to skip only the cinematic. The supplied ReDream skip icon at the lower right fills clockwise in white. Releasing ESC or losing focus resets progress; an ESC key held before playback must be released first. Completion follows the same Loading -> HospitalRoom path as the end of the video.
 - Preparation has a 20-second realtime timeout. Video errors restore the menu instead of leaving a black screen.
 - Loading and HospitalRoom must remain enabled in Build Settings. End-of-video calls LoadingScreen.Go once. LoadingBackground.png and the existing moon animation are retained; the existing minimum display time is 9 seconds, longer if loading requires it.
 - The menu scene and scene-builder button bindings still call the existing OnStartButton method, so no scene regeneration is needed.

@@ -7,21 +7,33 @@ using UnityEngine.Video;
 /// <summary>Plays the approved opening and hospital sequence before normal scene loading.</summary>
 public sealed class OpeningCinematicPlayer : MonoBehaviour
 {
+    private const float SkipHoldSeconds = 2f;
+    private const string SkipSpritePath = "UI/ReDreamSkip";
+
     private VideoPlayer player;
     private GameObject overlay;
     private RenderTexture texture;
     private Action completed, failed;
     private bool finished;
     private bool blackout;
+    private GameObject skipPrompt;
+    private Image skipFill;
+    private float skipHeldSeconds;
+    private bool skipReady;
+    private bool skipArmed;
 
     public void Play(Action onComplete, Action onFailure, float volume)
     {
         completed = onComplete;
         failed = onFailure;
-        overlay = new GameObject("Opening Cinematic", typeof(Canvas), typeof(GraphicRaycaster));
+        overlay = new GameObject("Opening Cinematic", typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
         var canvas = overlay.GetComponent<Canvas>();
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
         canvas.sortingOrder = 32767;
+        var scaler = overlay.GetComponent<CanvasScaler>();
+        scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        scaler.referenceResolution = new Vector2(1920f, 1080f);
+        scaler.matchWidthOrHeight = .5f;
         var backdrop = new GameObject("Black Background", typeof(RectTransform), typeof(Image));
         backdrop.transform.SetParent(overlay.transform, false);
         Stretch(backdrop.GetComponent<RectTransform>());
@@ -37,6 +49,7 @@ public sealed class OpeningCinematicPlayer : MonoBehaviour
         var raw = picture.GetComponent<RawImage>();
         raw.texture = texture;
         raw.color = Color.clear;
+        CreateSkipPrompt();
         player = overlay.AddComponent<VideoPlayer>();
         player.playOnAwake = false;
         player.isLooping = false;
@@ -61,6 +74,102 @@ public sealed class OpeningCinematicPlayer : MonoBehaviour
         StartCoroutine(PreparationTimeout());
     }
 
+    private void CreateSkipPrompt()
+    {
+        var sprite = Resources.Load<Sprite>(SkipSpritePath);
+        skipPrompt = new GameObject("Hold ESC to Skip", typeof(RectTransform));
+        var root = skipPrompt.GetComponent<RectTransform>();
+        root.SetParent(overlay.transform, false);
+        root.anchorMin = root.anchorMax = new Vector2(1f, 0f);
+        root.pivot = new Vector2(1f, 0f);
+        root.anchoredPosition = new Vector2(-40f, 40f);
+        root.sizeDelta = new Vector2(180f, 180f);
+
+        var baseImage = CreateSkipImage(root, "Skip Icon", sprite);
+        baseImage.color = new Color(.65f, .65f, .65f, .65f);
+        var shadow = baseImage.gameObject.AddComponent<Shadow>();
+        shadow.effectColor = new Color(0f, 0f, 0f, .8f);
+        shadow.effectDistance = new Vector2(2f, -2f);
+        skipFill = CreateSkipImage(root, "White Hold Progress", sprite);
+        skipFill.color = Color.white;
+        skipFill.type = Image.Type.Filled;
+        skipFill.fillMethod = Image.FillMethod.Radial360;
+        skipFill.fillOrigin = (int)Image.Origin360.Top;
+        skipFill.fillClockwise = true;
+        skipFill.fillAmount = 0f;
+
+        var labelObject = new GameObject("Hold Hint", typeof(RectTransform), typeof(Text), typeof(Outline));
+        var labelRect = labelObject.GetComponent<RectTransform>();
+        labelRect.SetParent(root, false);
+        labelRect.anchorMin = labelRect.anchorMax = new Vector2(.5f, 0f);
+        labelRect.pivot = new Vector2(.5f, 0f);
+        labelRect.sizeDelta = new Vector2(180f, 34f);
+        var label = labelObject.GetComponent<Text>();
+        label.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        label.text = "HOLD ESC";
+        label.fontSize = 22;
+        label.alignment = TextAnchor.MiddleCenter;
+        label.color = Color.white;
+        label.raycastTarget = false;
+        var outline = labelObject.GetComponent<Outline>();
+        outline.effectColor = new Color(0f, 0f, 0f, .85f);
+        outline.effectDistance = new Vector2(1f, -1f);
+        skipPrompt.SetActive(false);
+    }
+
+    private static Image CreateSkipImage(RectTransform parent, string name, Sprite sprite)
+    {
+        var go = new GameObject(name, typeof(RectTransform), typeof(Image));
+        var rect = go.GetComponent<RectTransform>();
+        rect.SetParent(parent, false);
+        rect.anchorMin = rect.anchorMax = new Vector2(.5f, 1f);
+        rect.pivot = new Vector2(.5f, 1f);
+        rect.sizeDelta = new Vector2(136f, 136f);
+        var image = go.GetComponent<Image>();
+        image.sprite = sprite;
+        image.preserveAspect = true;
+        image.raycastTarget = false;
+        return image;
+    }
+
+    private void Update()
+    {
+        if (!skipReady || finished) return;
+        UpdateSkipHold(Application.isFocused && Input.GetKey(KeyCode.Escape), Time.unscaledDeltaTime);
+    }
+
+    private void UpdateSkipHold(bool held, float deltaTime)
+    {
+        if (!skipReady || finished) return;
+        if (!held)
+        {
+            skipArmed = true;
+            ResetSkipHold();
+            return;
+        }
+        if (!skipArmed) return;
+
+        skipHeldSeconds = Mathf.Min(SkipHoldSeconds, skipHeldSeconds + Mathf.Max(0f, deltaTime));
+        skipFill.fillAmount = skipHeldSeconds / SkipHoldSeconds;
+        if (skipHeldSeconds >= SkipHoldSeconds)
+        {
+            Debug.Log("[OpeningCinematicPlayer] Skipped with ESC; continuing to game scene.");
+            Finish(true);
+        }
+    }
+
+    private void ResetSkipHold()
+    {
+        skipHeldSeconds = 0f;
+        if (skipFill != null) skipFill.fillAmount = 0f;
+    }
+
+    private void OnApplicationFocus(bool hasFocus)
+    {
+        ResetSkipHold();
+        skipArmed = false;
+    }
+
     private static void Stretch(RectTransform rt)
     {
         rt.anchorMin = Vector2.zero; rt.anchorMax = Vector2.one;
@@ -76,6 +185,10 @@ public sealed class OpeningCinematicPlayer : MonoBehaviour
         if (finished) return;
         overlay.GetComponentInChildren<RawImage>().color = Color.white;
         source.Play();
+        skipReady = true;
+        // An ESC key already held before playback must be released first.
+        skipArmed = !Input.GetKey(KeyCode.Escape);
+        skipPrompt.SetActive(true);
     }
     private void Ended(VideoPlayer source)
     {
@@ -126,6 +239,9 @@ public sealed class OpeningCinematicPlayer : MonoBehaviour
     }
     private void Cleanup()
     {
+        skipReady = false;
+        ResetSkipHold();
+        if (skipPrompt != null) skipPrompt.SetActive(false);
         if (player != null)
         {
             player.prepareCompleted -= Prepared;

@@ -117,6 +117,8 @@ public static class MainMenuVisualDesign
         }
 
         var box = Rect(panel, "GameTitleBox", new Vector2(0, 260), new Vector2(650, 218));
+        var background = panel.parent.Find("Background")?.GetComponent<Image>();
+        box.gameObject.SetActive(!MainMenuLobbyArt.HasReDreamArtwork(background));
         Fill(box, new Color(.10f, .085f, .065f, .88f));
         Border(box, new Vector2(650, 218), 10);
         Label(box, "Eyebrow", "D E T E C T I V E   A R C H I V E", new Vector2(0, 64), new Vector2(580, 35), 17, font, Brass);

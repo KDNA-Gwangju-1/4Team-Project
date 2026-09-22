@@ -92,7 +92,7 @@ public static class MainMenuSceneBuilder
         var openingFrames = LoadOpeningFrames();
         if (MainMenuLobbyArt.Apply(bgImage))
         {
-            // Approved static lobby artwork takes priority over the old loop.
+            // ReDream animation (or the fallback lobby artwork) is configured here.
         }
         else if (openingFrames.Length > 0)
         {
@@ -126,7 +126,7 @@ public static class MainMenuSceneBuilder
         // ---------- Scrim (배경 위를 살짝 덮어 버튼 글씨를 읽기 쉽게) ----------
         var scrim = CreateStretchedObject("Scrim", canvasRT);
         var scrimImage = scrim.gameObject.AddComponent<Image>();
-        scrimImage.color = new Color(0f, 0f, 0f, 0.18f);
+        scrimImage.color = new Color(0f, 0f, 0f, MainMenuLobbyArt.HasReDreamArtwork(bgImage) ? .06f : .18f);
         scrimImage.raycastTarget = false;
 
         // ---------- 관리 스크립트를 붙일 오브젝트 ----------
