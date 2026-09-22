@@ -25,6 +25,6 @@ public class StageEntryTrigger : MonoBehaviour
         if (StageProgressManager.Instance != null && !StageProgressManager.Instance.TryCompleteStage(stageIndex)) return;
 
         hasTriggered = true;
-        StageMessageUI.Instance?.ShowMessage(message, displayDuration);
+        if (!string.IsNullOrEmpty(message)) StageMessageUI.Instance?.ShowMessage(message, displayDuration);
     }
 }

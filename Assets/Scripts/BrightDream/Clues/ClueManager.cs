@@ -79,17 +79,42 @@ namespace BrightDream.Clues
 
         public bool IsCollected(string clueId) => collectedClueIds.Contains(clueId);
 
+        /// <summary>디버그 스테이지 스킵 등, 단서를 실제로 모으지 않고 건너뛸 때 체크리스트 UI를 정리한다.</summary>
+        public void DebugHideProgressUI()
+        {
+            if (progressText != null) progressText.gameObject.SetActive(false);
+        }
+
         /// <summary>단서 조사 완료 처리. 이미 조사된 단서면 아무 것도 하지 않는다 (재조사 시 카운트 증가 방지).</summary>
         public void CollectClue(ClueInteractable clue)
         {
             if (clue == null || collectedClueIds.Contains(clue.ClueId)) return;
 
             collectedClueIds.Add(clue.ClueId);
-            ShowInvestigateText(clue.InvestigateText);
             UpdateProgressUI();
-
             OnClueCollected?.Invoke(clue.ClueId);
-            if (collectedClueIds.Count >= TotalClueCount) pendingAllCluesCollected = true;
+            bool allCollected = collectedClueIds.Count >= TotalClueCount;
+
+            // 자동 걷기 중에는 E키를 누를 사람이 없어 대사 UI(멈춤 + 클릭 대기)를 못 넘기니,
+            // 조사 대사 없이 조용히 수집 처리만 한다 - 안 그러면 여기서 영원히 멈춘다.
+            if (SimpleFirstPersonController.IsAutoWalking)
+            {
+                if (allCollected) FinishAllClueCollection();
+                return;
+            }
+
+            ShowInvestigateText(clue.InvestigateText);
+            if (allCollected) pendingAllCluesCollected = true;
+        }
+
+        /// <summary>단서 4개를 다 모았을 때의 효과 - 정상 흐름(대사 마지막)과 자동 걷기(조용히) 양쪽에서 공유한다.</summary>
+        private void FinishAllClueCollection()
+        {
+            OnAllCluesCollected?.Invoke();
+            StageMessageUI.Instance?.ShowMessage("Stage1 Clear\n정화총 획득가능");
+            // Stage1이 끝나면 단서 체크리스트는 더 볼 일이 없으므로 끈다
+            // (Stage2 정화 진행도 UI가 같은 자리를 이어서 쓴다).
+            if (progressText != null) progressText.gameObject.SetActive(false);
         }
 
         private void UpdateProgressUI()
@@ -149,11 +174,7 @@ namespace BrightDream.Clues
             if (pendingAllCluesCollected)
             {
                 pendingAllCluesCollected = false;
-                OnAllCluesCollected?.Invoke();
-                StageMessageUI.Instance?.ShowMessage("Stage1 Clear\n정화총 획득가능");
-                // Stage1이 끝나면 단서 체크리스트는 더 볼 일이 없으므로 끈다
-                // (Stage2 정화 진행도 UI가 같은 자리를 이어서 쓴다).
-                if (progressText != null) progressText.gameObject.SetActive(false);
+                FinishAllClueCollection();
             }
         }
 
