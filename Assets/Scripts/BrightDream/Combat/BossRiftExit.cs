@@ -14,7 +14,8 @@ namespace BrightDream.Combat
     ///   2. 손 등장     균열에서 팔이 뻗어 나온다. 손아귀가 유니콘을 향한다
     ///   3. 붙잡기      손이 유니콘에 닿는 순간 카메라 흔들림
     ///   4. 끌고 감     손과 유니콘이 함께 균열로 빨려 들어가며 작아진다
-    ///   5. 닫힘       손이 사라지고 균열이 서서히 닫힌다
+    ///   5. 잦아듦     손이 사라지고 균열이 잦아든다. 완전히 닫지 않고 찢어진 흔적을
+    ///                 남겨 둔다 - 여기가 다음 챕터로 넘어가는 포탈이 된다
     ///
     /// BossWeakpointController.OnBossDefeated 를 구독해 시작한다. 같은 이벤트를
     /// BossArenaLockdown 도 듣고 있어서 벽은 그쪽이 알아서 연다.
@@ -41,7 +42,7 @@ namespace BrightDream.Combat
         [SerializeField] private float grabHold = 0.45f;
         [Tooltip("유니콘이 균열로 끌려 들어가는 시간.")]
         [SerializeField] private float dragDuration = 1.3f;
-        [Tooltip("균열이 닫히는 시간.")]
+        [Tooltip("균열이 잦아드는 시간.")]
         [SerializeField] private float closeDuration = 1.2f;
 
         [Header("연출")]
@@ -53,6 +54,14 @@ namespace BrightDream.Combat
         [SerializeField] private float shrinkTo = 0.12f;
         [SerializeField] private float grabShakeDuration = 0.5f;
         [SerializeField] private float grabShakeMagnitude = 0.4f;
+
+        [Header("남는 흔적")]
+        [Tooltip("연출이 끝난 뒤 남길 균열의 양. 0 이면 완전히 닫히고, 1 이면 그대로 남는다.")]
+        [Range(0f, 1f)]
+        [SerializeField] private float residualProgress = 0.55f;
+        [Tooltip("남은 균열의 밝기 배율. 원래 밝기를 1 로 본 값이다.")]
+        [Range(0f, 2f)]
+        [SerializeField] private float residualIntensity = 0.45f;
 
         [Header("메시지")]
         [SerializeField] private string message = "";
@@ -223,18 +232,20 @@ namespace BrightDream.Combat
             if (boss != null) boss.gameObject.SetActive(false);
             if (hand != null) Destroy(hand);
 
-            // ── 5) 균열이 닫힌다 ──
+            // ── 5) 균열이 잦아든다 ──
+            // 완전히 닫지 않는다. 찢어진 자국이 남아 다음 챕터로 넘어가는 포탈이 된다.
             t = 0f;
             while (t < closeDuration)
             {
                 t += Time.unscaledDeltaTime;
                 float p = Mathf.Clamp01(t / Mathf.Max(closeDuration, 0.0001f));
                 float e = p * p * (3f - 2f * p);
-                SetRiftFloat(ProgressId, 1f - e);
-                SetRiftIntensityScale(Mathf.Lerp(1.7f, 0f, e));
+                SetRiftFloat(ProgressId, Mathf.Lerp(1f, residualProgress, e));
+                SetRiftIntensityScale(Mathf.Lerp(1.7f, residualIntensity, e));
                 yield return null;
             }
-            SetRiftFloat(ProgressId, 0f);
+            SetRiftFloat(ProgressId, residualProgress);
+            SetRiftIntensityScale(residualIntensity);
 
             IsPlaying = false;
             done = true;
