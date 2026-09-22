@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,8 +24,14 @@ namespace BrightDream.Combat
 
         /// <summary>스폰 직후(Awake 이후, Start 이전) MonsterSpawner가 1회만 호출해서 이 개체의 Target/Innocent를 확정한다.</summary>
         public void SetNeedsPurification(bool value) => needsPurification = value;
+
+        /// <summary>정화됐을 때(총에 맞아 사라지기 직전) 1회 발생. BossArenaMonsterSpawner가 보스 약점 카운트에 연결할 때 쓴다.</summary>
+        public event Action OnPurified;
+
         [SerializeField] private float moveSpeed = 2.2f;
         [SerializeField] private float contactDamage = 20f;
+        /// <summary>스폰 직후 접촉 피해량을 덮어쓴다 (보스 아레나 몬스터는 하트 반개로 낮춰서 스폰한다).</summary>
+        public void SetContactDamage(float value) => contactDamage = value;
         [SerializeField] private float wrongShotDamage = 20f;
         [SerializeField] private float purifyFlashDuration = 0.35f;
         [SerializeField] private Renderer[] bodyRenderers;
@@ -34,6 +41,22 @@ namespace BrightDream.Combat
         [SerializeField] private float separationRadius = 0.9f;
         [Tooltip("밀어내는 힘의 세기 - toPlayer 방향과 합산되는 가중치.")]
         [SerializeField] private float separationStrength = 1.6f;
+
+        [Header("보스와 겹침 방지")]
+        [Tooltip("보스 스테이지에서 이 반경 안에 보스가 있으면 밀려난다 - BossAI.Instance가 없으면(보스 스테이지가 아니면) 아무 효과 없다.")]
+        [SerializeField] private float bossAvoidRadius = 3f;
+        [SerializeField] private float bossAvoidStrength = 2.2f;
+
+        [Header("바닥 높이 추적 (굴곡진 바닥용)")]
+        [Tooltip("설정하면 매 프레임 이 콜라이더 위로 레이캐스트해 바닥 높이에 맞춰 Y를 보정한다. " +
+                 "05_boss_platform처럼 평평하지 않은 바닥에서, 스폰 시점 높이만 갖고 계속 이동하면 " +
+                 "움직이는 동안 지형 굴곡에 따라 조금씩 파묻히거나 뜨는 문제를 막는다. " +
+                 "Stage2처럼 평평한 바닥에서는 비워두면 기존과 동일하게 동작한다.")]
+        [SerializeField] private Collider groundSnapCollider;
+        [SerializeField] private float groundSnapOffset = 0.06f;
+
+        /// <summary>보스 아레나처럼 굴곡진 바닥에 스폰될 때 BossArenaMonsterSpawner가 1회 호출해서 연결한다.</summary>
+        public void SetGroundSnapCollider(Collider floor) => groundSnapCollider = floor;
 
         [Header("환경 장애물 회피")]
         [Tooltip("이름에 \"Crate\"가 들어간 오브젝트만 장애물로 보고 이 반경 안에서 피해 옆으로 돈다. " +
@@ -109,7 +132,9 @@ namespace BrightDream.Combat
 
             Vector3 separation = ComputeSeparation();
             Vector3 obstacleAvoidance = ComputeObstacleAvoidance();
-            Vector3 moveDir = (toPlayer + separation * separationStrength + obstacleAvoidance * obstacleAvoidStrength).normalized;
+            Vector3 bossAvoidance = ComputeBossAvoidance();
+            Vector3 moveDir = (toPlayer + separation * separationStrength + obstacleAvoidance * obstacleAvoidStrength
+                + bossAvoidance * bossAvoidStrength).normalized;
 
             Vector3 nextPos = transform.position + moveDir * (moveSpeed * Time.deltaTime);
             if (arenaBoundsSet)
@@ -117,6 +142,7 @@ namespace BrightDream.Combat
                 nextPos.x = Mathf.Clamp(nextPos.x, arenaMinX, arenaMaxX);
                 nextPos.z = Mathf.Clamp(nextPos.z, arenaMinZ, arenaMaxZ);
             }
+            if (groundSnapCollider != null) nextPos.y = SampleGroundHeight(nextPos);
             transform.position = nextPos;
             transform.forward = toPlayer; // 밀어내기/회피와 무관하게 항상 플레이어를 바라본다.
         }
@@ -138,6 +164,20 @@ namespace BrightDream.Combat
                 push += (away / dist) * (1f - dist / separationRadius);
             }
             return push;
+        }
+
+        /// <summary>보스 본체로부터 밀려나는 방향(정규화 안 됨) - 보스 스테이지가 아니면(Instance 없음) 항상 0.</summary>
+        private Vector3 ComputeBossAvoidance()
+        {
+            BossAI boss = BossAI.Instance;
+            if (boss == null) return Vector3.zero;
+
+            Vector3 away = transform.position - boss.transform.position;
+            away.y = 0f;
+            float dist = away.magnitude;
+            if (dist <= 0.0001f || dist >= bossAvoidRadius) return Vector3.zero;
+
+            return (away / dist) * (1f - dist / bossAvoidRadius);
         }
 
         /// <summary>
@@ -177,6 +217,32 @@ namespace BrightDream.Combat
             return push;
         }
 
+        /// <summary>
+        /// 그 XZ 위치의 실제 바닥 높이를 groundSnapCollider(05_boss_platform 등)에만 직접 레이캐스트해서 찾는다.
+        /// NavMesh를 잠깐 써봤지만, 나무·장식품처럼 바닥과 무관한 다른 표면까지 같이 구워져 있어서
+        /// 몬스터가 그런 엉뚱한 높은 지점을 바닥으로 잘못 인식해 공중에 뜨는 문제가 있었다 - 그래서
+        /// groundSnapCollider 하나만 정확히 겨냥하는 레이캐스트로 되돌린다.
+        /// 유기적인 형태의 MeshCollider는 삼각형 틈에서 정중앙 레이가 가끔 빗나갈 수 있어
+        /// 중심과 그 주변 몇 지점을 같이 쏴서 보완한다.
+        /// </summary>
+        private static readonly Vector2[] SampleOffsets =
+        {
+            Vector2.zero, new Vector2(0.15f, 0f), new Vector2(-0.15f, 0f), new Vector2(0f, 0.15f), new Vector2(0f, -0.15f)
+        };
+
+        private float SampleGroundHeight(Vector3 point)
+        {
+            Bounds b = groundSnapCollider.bounds;
+            float rayLength = b.size.y + 10f;
+            foreach (Vector2 offset in SampleOffsets)
+            {
+                Vector3 origin = new Vector3(point.x + offset.x, b.max.y + 5f, point.z + offset.y);
+                if (groundSnapCollider.Raycast(new Ray(origin, Vector3.down), out RaycastHit hit, rayLength))
+                    return hit.point.y + groundSnapOffset;
+            }
+            return point.y; // 전부 빗나가면(경계 바깥 등) 현재 높이를 그대로 유지한다.
+        }
+
         /// <summary>이 콜라이더 또는 그 조상 중 이름에 "Crate"가 포함된 것이 있는지 확인한다.</summary>
         private static bool IsCrateObstacle(Transform t)
         {
@@ -195,7 +261,7 @@ namespace BrightDream.Combat
             PurifierProjectile bullet = other.GetComponentInParent<PurifierProjectile>();
             if (bullet != null)
             {
-                bullet.OnHitMonster();
+                if (!bullet.TryConsume()) return; // 이미 다른 대상을 맞힌 총알 - 이 몬스터는 못 맞는다.
                 HandleShot();
                 return;
             }
@@ -212,6 +278,7 @@ namespace BrightDream.Combat
             if (needsPurification)
             {
                 MonsterPurifyManager.Instance?.RegisterPurify();
+                OnPurified?.Invoke();
                 StartCoroutine(FlashRedThenDestroy());
             }
             else
