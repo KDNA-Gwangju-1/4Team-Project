@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -29,14 +28,19 @@ namespace BrightDream.Clues
         [Header("UI 참조")]
         [SerializeField] private Text progressText;
         [SerializeField] private Text investigateText;
-        [SerializeField] private float investigateTextDuration = 4f;
-        [SerializeField] private float pauseBetweenLines = 1f;
+        [Tooltip("investigateText를 감싸는 배경(대사ui02) 오브젝트 - 켜고 끄는 대상은 텍스트 자신이 아니라 이 패널이다. " +
+                 "비워두면 기존처럼 investigateText 자신의 GameObject를 켜고 끈다.")]
+        [SerializeField] private GameObject investigatePanel;
+        [Tooltip("단서 텍스트가 떠 있는 동안 꺼둘 컴포넌트 - 이동/시점 컨트롤러, 상호작용 스크립트 등.")]
+        [SerializeField] private MonoBehaviour[] disableWhileInvestigating;
 
         public event Action<string> OnClueCollected;
         public event Action OnAllCluesCollected;
 
         private readonly HashSet<string> collectedClueIds = new HashSet<string>();
-        private Coroutine hideTextRoutine;
+        private string[] investigateParts;
+        private int investigatePartIndex;
+        private bool pendingAllCluesCollected;
 
         public int CollectedCount => collectedClueIds.Count;
 
@@ -53,7 +57,7 @@ namespace BrightDream.Clues
         private void Start()
         {
             UpdateProgressUI();
-            if (investigateText != null) investigateText.gameObject.SetActive(false);
+            SetInvestigateTextActive(false);
             if (progressText != null) progressText.gameObject.SetActive(false);
         }
 
@@ -75,21 +79,42 @@ namespace BrightDream.Clues
 
         public bool IsCollected(string clueId) => collectedClueIds.Contains(clueId);
 
+        /// <summary>디버그 스테이지 스킵 등, 단서를 실제로 모으지 않고 건너뛸 때 체크리스트 UI를 정리한다.</summary>
+        public void DebugHideProgressUI()
+        {
+            if (progressText != null) progressText.gameObject.SetActive(false);
+        }
+
         /// <summary>단서 조사 완료 처리. 이미 조사된 단서면 아무 것도 하지 않는다 (재조사 시 카운트 증가 방지).</summary>
         public void CollectClue(ClueInteractable clue)
         {
             if (clue == null || collectedClueIds.Contains(clue.ClueId)) return;
 
             collectedClueIds.Add(clue.ClueId);
-            ShowInvestigateText(clue.InvestigateText);
             UpdateProgressUI();
-
             OnClueCollected?.Invoke(clue.ClueId);
-            if (collectedClueIds.Count >= TotalClueCount)
+            bool allCollected = collectedClueIds.Count >= TotalClueCount;
+
+            // 자동 걷기 중에는 E키를 누를 사람이 없어 대사 UI(멈춤 + 클릭 대기)를 못 넘기니,
+            // 조사 대사 없이 조용히 수집 처리만 한다 - 안 그러면 여기서 영원히 멈춘다.
+            if (SimpleFirstPersonController.IsAutoWalking)
             {
-                OnAllCluesCollected?.Invoke();
-                StageMessageUI.Instance?.ShowMessage("Stage1 Clear\n정화총 획득가능");
+                if (allCollected) FinishAllClueCollection();
+                return;
             }
+
+            ShowInvestigateText(clue.InvestigateText);
+            if (allCollected) pendingAllCluesCollected = true;
+        }
+
+        /// <summary>단서 4개를 다 모았을 때의 효과 - 정상 흐름(대사 마지막)과 자동 걷기(조용히) 양쪽에서 공유한다.</summary>
+        private void FinishAllClueCollection()
+        {
+            OnAllCluesCollected?.Invoke();
+            StageMessageUI.Instance?.ShowMessage("Stage1 Clear\n정화총 획득가능");
+            // Stage1이 끝나면 단서 체크리스트는 더 볼 일이 없으므로 끈다
+            // (Stage2 정화 진행도 UI가 같은 자리를 이어서 쓴다).
+            if (progressText != null) progressText.gameObject.SetActive(false);
         }
 
         private void UpdateProgressUI()
@@ -107,26 +132,56 @@ namespace BrightDream.Clues
         /// <summary>
         /// investigateText 안에 빈 줄("\n\n")이 있으면 그걸 기준으로 잘라 각 줄을 순서대로 보여준다
         /// (예: 편지 단서처럼 "...\n\n잠시 후...\n\n..." 형태로 대사를 두 번에 나눠 띄우고 싶을 때).
+        /// 플레이어는 멈추고, 좌클릭/스페이스바를 누를 때마다 다음 줄로 넘어가며 마지막 줄에서는 게임플레이로 복귀한다.
         /// </summary>
         private void ShowInvestigateText(string text)
         {
             if (investigateText == null) return;
-            if (hideTextRoutine != null) StopCoroutine(hideTextRoutine);
-            string[] parts = text.Split(new[] { "\n\n" }, StringSplitOptions.RemoveEmptyEntries);
-            hideTextRoutine = StartCoroutine(ShowTextSequence(parts));
+
+            investigateParts = text.Split(new[] { "\n\n" }, StringSplitOptions.RemoveEmptyEntries);
+            investigatePartIndex = 0;
+
+            foreach (MonoBehaviour mb in disableWhileInvestigating) if (mb != null) mb.enabled = false;
+            Time.timeScale = 0f;
+
+            SetInvestigateTextActive(true);
+            ShowCurrentInvestigatePart();
         }
 
-        private IEnumerator ShowTextSequence(string[] parts)
+        private void Update()
         {
-            for (int i = 0; i < parts.Length; i++)
+            if (investigateParts == null) return;
+            if (!Input.GetMouseButtonDown(0) && !Input.GetKeyDown(KeyCode.Space)) return;
+
+            investigatePartIndex++;
+            if (investigatePartIndex >= investigateParts.Length) EndInvestigateText();
+            else ShowCurrentInvestigatePart();
+        }
+
+        private void ShowCurrentInvestigatePart()
+        {
+            investigateText.text = investigateParts[investigatePartIndex].Trim();
+        }
+
+        private void EndInvestigateText()
+        {
+            investigateParts = null;
+            SetInvestigateTextActive(false);
+
+            Time.timeScale = 1f;
+            foreach (MonoBehaviour mb in disableWhileInvestigating) if (mb != null) mb.enabled = true;
+
+            if (pendingAllCluesCollected)
             {
-                investigateText.text = parts[i].Trim();
-                investigateText.gameObject.SetActive(true);
-                yield return new WaitForSeconds(investigateTextDuration);
-                investigateText.gameObject.SetActive(false);
-                if (i < parts.Length - 1) yield return new WaitForSeconds(pauseBetweenLines);
+                pendingAllCluesCollected = false;
+                FinishAllClueCollection();
             }
-            hideTextRoutine = null;
+        }
+
+        private void SetInvestigateTextActive(bool active)
+        {
+            if (investigatePanel != null) investigatePanel.SetActive(active);
+            else if (investigateText != null) investigateText.gameObject.SetActive(active);
         }
     }
 }

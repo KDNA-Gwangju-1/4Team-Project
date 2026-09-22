@@ -29,6 +29,11 @@ namespace BrightDream.Clues
         [Header("Outline (선택)")]
         [SerializeField] private ClueOutlineController outline;
 
+        [Tooltip("자동 걷기 테스트 중 이 거리 안으로 플레이어가 지나가면 자동으로 조사 처리한다 - " +
+                 "실제 상호작용(E키)은 카메라 레이캐스트라 경로에서 좀 떨어져 있어도 되는데, " +
+                 "자동 걷기는 그 레이캐스트를 쏠 수 없어서 대신 거리로 판정한다.")]
+        [SerializeField] private float autoWalkDetectRadius = 3f;
+
         public string ClueId => clueId;
         public string DisplayName => displayName;
         public string InvestigateText => investigateText;
@@ -70,6 +75,28 @@ namespace BrightDream.Clues
             if (IsCollected) return;
             ApplyGlow(highlighted ? highlightIntensity : idleIntensity);
             if (outline != null) outline.SetHovering(highlighted);
+        }
+
+        private Transform autoWalkPlayer;
+
+        /// <summary>
+        /// 자동 걷기 테스트 중에는 E키를 누를 사람이 없으니 대신 거리로 자동 조사한다.
+        /// 실제 상호작용은 카메라 레이캐스트(최대 3.5m)라 물리적으로 겹치지 않아도 되는데,
+        /// OnTriggerEnter로 시도해보니 경로가 단서 콜라이더와 실제로 겹치지 않는 경우가 많아
+        /// 매 프레임 거리 체크로 바꿨다 - 4개뿐이라 비용은 무시할 수 있다.
+        /// </summary>
+        private void Update()
+        {
+            if (IsCollected || !SimpleFirstPersonController.IsAutoWalking) return;
+
+            if (autoWalkPlayer == null)
+            {
+                var player = BrightDream.Combat.PlayerHealth.Instance;
+                if (player == null) return;
+                autoWalkPlayer = player.transform;
+            }
+
+            if (Vector3.Distance(transform.position, autoWalkPlayer.position) <= autoWalkDetectRadius) Investigate();
         }
 
         public void Investigate()

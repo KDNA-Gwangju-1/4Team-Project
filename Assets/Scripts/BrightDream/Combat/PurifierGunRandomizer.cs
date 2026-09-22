@@ -5,19 +5,28 @@ namespace BrightDream.Combat
     /// <summary>
     /// 씬이 로드될 때(=한 판 시작 시) 정화총 디자인 후보 중 하나를 랜덤으로 골라
     /// 픽업 오브젝트와 장착 오브젝트 양쪽에 동일하게 적용한다.
-    /// 두 대상 모두 이미 MeshFilter/MeshRenderer를 직접 들고 있는 구조라 메시·머티리얼만 교체하고,
-    /// Transform(위치/부모/스케일 배율)은 각자 기존 값을 그대로 둔다.
+    /// 두 대상 모두 이미 MeshFilter/MeshRenderer를 직접 들고 있는 구조라 메시·머티리얼만 교체한다.
+    /// 원본 모델마다 forward/up 축이 제각각이라, FPS 손모델(equippedTarget)에는 디자인별
+    /// view 위치/회전 보정을 추가로 적용해 총구가 크로스헤어 쪽을 향하도록 맞춘다.
+    /// 월드 픽업(pickupTarget)의 위치/회전은 건드리지 않는다 - view 보정은 손모델 전용.
+    /// 발사 판정(Raycast)은 이 스크립트와 무관하게 항상 카메라/크로스헤어 기준으로 이뤄진다 -
+    /// 여기서 바꾸는 것은 시각적인 총 모델 배치일 뿐이다.
     /// </summary>
     public class PurifierGunRandomizer : MonoBehaviour
     {
         [System.Serializable]
         public class GunDesign
         {
-            [Tooltip("디자인 원본 프리팹(글TF/FBX). 루트에 MeshFilter/MeshRenderer가 있어야 한다.")]
+            [Tooltip("디자인 원본 프리팹(glTF/FBX). 루트 또는 자식에 MeshFilter/MeshRenderer가 있어야 한다.")]
             public GameObject sourcePrefab;
             [Tooltip("이 디자인을 적용할 때 pickupTarget/equippedTarget에 그대로 설정할 localScale(각 축 동일). " +
                      "원본 메시 크기가 디자인마다 달라서 절대값으로 둔다 - 상대 배율이 아니다.")]
             public float uniformScale = 1f;
+            [Tooltip("FPS 손모델(equippedTarget) 전용 localPosition - 총 몸체가 화면 오른쪽 아래에 오도록 맞춘다.")]
+            public Vector3 viewPositionOffset = new Vector3(0.28f, -0.28f, 0.55f);
+            [Tooltip("FPS 손모델(equippedTarget) 전용 localRotation(Euler) - 원본 모델마다 forward/up 축이 달라서, " +
+                     "총구가 카메라 forward(크로스헤어) 쪽을 향하도록 디자인별로 보정한다.")]
+            public Vector3 viewRotationOffset;
         }
 
         [SerializeField] private GunDesign[] designs;
@@ -35,11 +44,17 @@ namespace BrightDream.Combat
             MeshRenderer sourceMr = chosen.sourcePrefab.GetComponentInChildren<MeshRenderer>(true);
             if (sourceMf == null || sourceMr == null) return;
 
-            Apply(pickupTarget, sourceMf, sourceMr, chosen.uniformScale);
-            Apply(equippedTarget, sourceMf, sourceMr, chosen.uniformScale);
+            ApplyMesh(pickupTarget, sourceMf, sourceMr, chosen.uniformScale);
+            ApplyMesh(equippedTarget, sourceMf, sourceMr, chosen.uniformScale);
+
+            if (equippedTarget != null)
+            {
+                equippedTarget.transform.localPosition = chosen.viewPositionOffset;
+                equippedTarget.transform.localRotation = Quaternion.Euler(chosen.viewRotationOffset);
+            }
         }
 
-        private static void Apply(MeshFilter target, MeshFilter sourceMf, MeshRenderer sourceMr, float uniformScale)
+        private static void ApplyMesh(MeshFilter target, MeshFilter sourceMf, MeshRenderer sourceMr, float uniformScale)
         {
             if (target == null) return;
 

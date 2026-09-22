@@ -11,8 +11,8 @@ namespace BrightDream.Combat
     {
         public static CameraShake Instance { get; private set; }
 
-        [SerializeField] private float defaultDuration = 0.25f;
-        [SerializeField] private float defaultMagnitude = 0.12f;
+        [SerializeField] private float defaultDuration = 0.35f;
+        [SerializeField] private float defaultMagnitude = 0.25f;
 
         private Vector3 basePosition;
         private Coroutine shakeRoutine;
