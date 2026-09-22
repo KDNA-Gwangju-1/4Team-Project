@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,6 +26,14 @@ namespace BrightDream.Combat
         [SerializeField] private string nextScene = "BadDream_Stage1";
         [Tooltip("로딩 화면에 깔 그림. 비우면 로딩 씬에 원래 깔린 그림을 쓴다.")]
         [SerializeField] private Sprite loadingBackground;
+
+        [Header("들어가는 연출")]
+        [Tooltip("화면이 일렁이며 빨려 드는 시간. 이만큼 지난 뒤 로딩 화면으로 넘어간다.")]
+        [SerializeField] private float enterDuration = 2.5f;
+        [Tooltip("화면 일렁임. 비우면 Main Camera 에서 찾아본다. 없으면 일렁임 없이 기다렸다 넘어간다.")]
+        [SerializeField] private ScreenWarpTransition screenWarp;
+        [Tooltip("연출 중에 플레이어가 걸어 나가지 못하게 조작을 잠근다.")]
+        [SerializeField] private bool lockPlayerDuringEnter = true;
 
         [Header("상호작용")]
         [Tooltip("이 거리 안까지 다가와야 E 가 뜬다 (m). 균열 표면 기준이다.")]
@@ -142,8 +151,23 @@ namespace BrightDream.Combat
 
         private void Enter()
         {
-            entered = true;              // 로딩 중에 또 눌리지 않게 잠근다.
+            entered = true;              // 연출 중에 또 눌리지 않게 잠근다.
             SetHovering(false);
+            StartCoroutine(EnterRoutine());
+        }
+
+        /// <summary>화면이 일렁이며 빨려 드는 동안 기다렸다가 로딩 화면으로 넘긴다.</summary>
+        private IEnumerator EnterRoutine()
+        {
+            if (lockPlayerDuringEnter) LockPlayer();
+
+            var warp = screenWarp;
+            if (warp == null && playerCamera != null)
+                warp = playerCamera.GetComponent<ScreenWarpTransition>();
+            if (warp != null) warp.Play(enterDuration);
+
+            // timeScale 이 0 이어도 연출이 멈추지 않도록 unscaled 로 기다린다.
+            if (enterDuration > 0f) yield return new WaitForSecondsRealtime(enterDuration);
 
             // 목적지 씬이 아직 Build Settings 에 없으면(어두운 꿈 브랜치 병합 전) 로딩 화면만
             // 띄우고 머문다. LoadingScreen.Go 는 빈 이름을 그 용도로 받아 준다.
@@ -156,6 +180,13 @@ namespace BrightDream.Combat
             }
 
             LoadingScreen.Go(canLoad ? nextScene : "", loadingBackground);
+        }
+
+        /// <summary>연출이 시작되면 이동과 시점 조작을 멈춘다. 곧 씬을 떠나므로 되돌리지 않는다.</summary>
+        private void LockPlayer()
+        {
+            var controller = FindObjectOfType<SimpleFirstPersonController>();
+            if (controller != null) controller.enabled = false;
         }
     }
 }

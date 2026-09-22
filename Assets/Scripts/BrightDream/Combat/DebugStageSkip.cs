@@ -22,6 +22,8 @@ namespace BrightDream.Combat
         [SerializeField] private WeaponPickup weaponPickup;
         [Tooltip("F9를 누르면 이 위치·각도로 플레이어를 순간이동시킨다 (매번 걸어가지 않아도 되게).")]
         [SerializeField] private Transform teleportTarget;
+        [Tooltip("F10을 누르면 이 위치·각도로 옮긴다. 균열(포탈) 앞을 보게 둔다. 비우면 F9 지점을 쓴다.")]
+        [SerializeField] private Transform bossClearTeleportTarget;
 
         private SimpleFirstPersonController playerController;
 
@@ -68,8 +70,13 @@ namespace BrightDream.Combat
             StageProgressManager progress = StageProgressManager.Instance;
             if (progress == null) return;
 
-            // 아직 보스 스테이지 전이라면 거기까지 밀어 올린다. TryCompleteStage 는 바로 다음
-            // 순서만 인정하므로 한 칸씩 올려야 한다.
+            // 먼저 F9 와 같은 처리를 거친다. 스테이지만 밀어 올리면 Stage2 몬스터 스포너가
+            // 살아난 채로 남아, 플레이어가 Stage2 아레나 밖에 있다는 이유로 즉시 게임오버가 난다
+            // (MonsterSpawner 의 leash 검사). 정화 목표를 채워 두면 그 검사가 통째로 꺼진다.
+            if (progress.CurrentStage < 2) SkipToStage2Cleared();
+
+            // 보스 스테이지까지 밀어 올린다. TryCompleteStage 는 바로 다음 순서만 인정하므로
+            // 한 칸씩 올려야 한다.
             while (progress.CurrentStage < bossStageIndex)
             {
                 if (!progress.TryCompleteStage(progress.CurrentStage + 1)) break;
@@ -82,6 +89,11 @@ namespace BrightDream.Combat
 
             if (BossWeakpointController.Instance != null)
                 BossWeakpointController.Instance.DebugDefeat();
+
+            // 클리어 연출과 포탈을 바로 볼 수 있는 자리로 옮긴다.
+            Transform target = bossClearTeleportTarget != null ? bossClearTeleportTarget : teleportTarget;
+            if (playerController != null && target != null)
+                playerController.Teleport(target.position, target.eulerAngles.y);
         }
     }
 }
