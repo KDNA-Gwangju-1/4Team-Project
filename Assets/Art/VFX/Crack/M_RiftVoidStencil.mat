@@ -25,10 +25,24 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
+    - _DustAmount: 4.5
+    - _DustSpeed: 1.6
+    - _NebulaAmount: 2.6
+    - _NebulaScale: 3
+    - _Parallax: 1
+    - _RimAmount: 3
+    - _RimWidth: 0.34
+    - _StarAmount: 5
+    - _StarDensity: 18
     - _Swirl: 0.35
+    - _Twist: 1.2
     m_Colors:
+    - _DustTint: {r: 0.9, g: 0.75, b: 1, a: 1}
     - _FarColor: {r: 0.01, g: 0, b: 0.03, a: 1}
-    - _NearColor: {r: 0.16, g: 0.1, b: 0.3, a: 1}
+    - _NearColor: {r: 0.3, g: 0.18, b: 0.52, a: 1}
+    - _NebulaTint: {r: 0.55, g: 0.3, b: 0.95, a: 1}
+    - _RimColor: {r: 0.7, g: 0.45, b: 1, a: 1}
+    - _StarTint: {r: 1, g: 0.95, b: 1, a: 1}
     - _SwirlTint: {r: 0.55, g: 0.3, b: 0.95, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
