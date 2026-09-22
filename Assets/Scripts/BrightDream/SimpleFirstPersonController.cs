@@ -11,6 +11,10 @@ using UnityEngine;
 ///   마우스  시점 (감도는 GameSettings.MouseSensitivity 를 그대로 쓴다)
 ///   P     자동 걷기 on/off - 길을 따라 끝까지 걸으며 소요 시간을 Console 에 기록
 ///   Esc   마우스 커서 잠금 해제
+///
+/// 자동 걷기 중에는 E 상호작용 키를 누를 수 없어서, 단서 조사(ClueInteractable)가
+/// IsAutoWalking을 보고 자동으로 조사 처리한다 - 안 그러면 단서를 하나도 못 모아서
+/// 단서 4개를 요구하는 게이트(Gate_CombatArena)에 막혀 끝까지 못 걷는다.
 /// </summary>
 [RequireComponent(typeof(CharacterController))]
 public class SimpleFirstPersonController : MonoBehaviour
@@ -33,6 +37,23 @@ public class SimpleFirstPersonController : MonoBehaviour
     private CharacterController controller;
     private float pitch;
     private float verticalVelocity;
+
+    /// <summary>지금 이 프레임에 바닥을 딛고 있는지 - 보스 점프 착지 공격의 회피 판정 등 외부에서 참조한다.</summary>
+    public bool IsGrounded => controller.isGrounded;
+
+    /// <summary>자동 걷기 중인지 - E키 상호작용(단서 조사)이 안 눌리는 자동 걷기 중에는
+    /// ClueInteractable/ClueManager가 조사 UI로 멈추지 않고 조용히 자동 수집하도록 참조한다.</summary>
+    public static bool IsAutoWalking { get; private set; }
+
+    /// <summary>디버그 스테이지 스킵 등 외부에서 즉시 순간이동시킬 때 쓴다.
+    /// CharacterController는 transform.position을 직접 바꾸는 걸 막으므로 잠깐 꺼야 한다.</summary>
+    public void Teleport(Vector3 position, float yaw)
+    {
+        controller.enabled = false;
+        transform.position = position;
+        transform.rotation = Quaternion.Euler(0f, yaw, 0f);
+        controller.enabled = true;
+    }
 
     // ---- 자동 걷기 상태 ----
     private bool autoWalking;
@@ -64,7 +85,9 @@ public class SimpleFirstPersonController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape)) LockCursor(false);
         if (Input.GetMouseButtonDown(0) && Cursor.lockState != CursorLockMode.Locked) LockCursor(true);
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
         if (Input.GetKeyDown(KeyCode.P)) ToggleAutoWalk();
+#endif
 
         if (autoWalking) UpdateAutoWalk();
         else UpdateManual();
@@ -123,6 +146,7 @@ public class SimpleFirstPersonController : MonoBehaviour
         controller.enabled = true;
 
         autoWalking = true;
+        IsAutoWalking = true;
         autoWaypointIndex = 1;
         autoElapsed = 0f;
         autoDistance = 0f;
@@ -188,6 +212,7 @@ public class SimpleFirstPersonController : MonoBehaviour
     private void StopAutoWalk(string reason)
     {
         autoWalking = false;
+        IsAutoWalking = false;
 
         if (!string.IsNullOrEmpty(autoCurrentArea))
         {
