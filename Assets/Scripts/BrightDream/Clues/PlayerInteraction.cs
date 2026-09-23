@@ -19,6 +19,7 @@ namespace BrightDream.Clues
 
         private void Awake()
         {
+            ChapterNoticeStyle.Apply(promptText, ChapterDialogueSkin.Theme.BrightDream);
             if (playerCamera == null) playerCamera = Camera.main;
             if (promptText != null) promptText.gameObject.SetActive(false);
         }

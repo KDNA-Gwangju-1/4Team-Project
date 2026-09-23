@@ -141,7 +141,7 @@ public class DialogueWindow2D : MonoBehaviour
             {
                 // Center the wider skin; retain serialized legacy framing when the skin is disabled.
                 frt.anchoredPosition = new Vector2(0f, frameBottomMargin);
-                ChapterDialogueSkin.Place(speakerText.rectTransform, art, 0.11f, 0.31f, 0.27f, 0.37f);
+                ChapterDialogueSkin.Place(speakerText.rectTransform, art, 0.115f, 0.308f, 0.255f, 0.355f);
                 ChapterDialogueSkin.StyleName(speakerText, ChapterDialogueSkin.Theme.BadDream);
                 skinSession = new DialogueSkinSession(art, ChapterDialogueSkin.Theme.BadDream, speakerText);
                 skinApplied = true;

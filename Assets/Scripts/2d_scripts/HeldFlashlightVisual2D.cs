@@ -25,10 +25,33 @@ public class HeldFlashlightVisual2D : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         player = GetComponentInParent<PlayerMovement2D>();
         if (player != null) body = player.GetComponent<Rigidbody2D>();
-        if (sr != null) airborneSortingOrder = sr.sortingOrder;
+        if (sr != null)
+        {
+            airborneSortingOrder = sr.sortingOrder;
+            sr.enabled = false;
+        }
     }
 
-    void Update()
+    private void LateUpdate()
+    {
+        // Before pickup PoseFlashlight is not called at all. Keep visibility in
+        // sync independently, but let cutscenes own the pose while input is disabled.
+        if (player != null && player.enabled) RefreshPose();
+    }
+
+    // Refresh immediately for the beam; LateUpdate also covers no-input/no-lantern frames.
+    public bool TryGetEmitter(out Vector3 position)
+    {
+        RefreshPose();
+        position = transform.position;
+        if (sr == null || !sr.enabled || sr.sprite == null) return false;
+        // The supplied art includes decorative rays beyond the actual lens (77% of width).
+        Bounds bounds = sr.sprite.bounds;
+        position = transform.TransformPoint(new Vector3(bounds.min.x + bounds.size.x * 0.77f, bounds.center.y, 0f));
+        return true;
+    }
+
+    private void RefreshPose()
     {
         if (sr == null || player == null) return;
 

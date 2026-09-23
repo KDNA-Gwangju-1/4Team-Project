@@ -58,6 +58,18 @@ namespace BrightDream.Clues
 
         private void Start()
         {
+            HangulFont.Apply(progressText);
+            HangulFont.Apply(investigateText);
+            if (progressText != null) progressText.lineSpacing = 1.25f;
+            if (progressText != null)
+            {
+                var rect = progressText.rectTransform;
+                rect.anchorMin = rect.anchorMax = new Vector2(0,1);
+                rect.anchoredPosition = new Vector2(164,-222);
+                ChapterNoticeStyle.Apply(progressText,ChapterDialogueSkin.Theme.BrightDream,280,208,24);
+                progressText.alignment = TextAnchor.MiddleLeft;
+                progressText.lineSpacing = 1.35f;
+            }
             if (useChapterSkin && investigatePanel != null)
             {
                 var art = ChapterDialogueSkin.Apply(investigatePanel.transform as RectTransform,
@@ -131,10 +143,10 @@ namespace BrightDream.Clues
         {
             if (progressText == null) return;
 
-            string text = $"단서 {collectedClueIds.Count} / {TotalClueCount}";
+            string text = $"기억의 단서  {collectedClueIds.Count} / {TotalClueCount}";
             foreach ((string id, string label) in ClueChecklist)
             {
-                text += "\n[" + (collectedClueIds.Contains(id) ? "○" : " ") + "] " + label;
+                text += "\n" + (collectedClueIds.Contains(id) ? "●  " : "○  ") + label;
             }
             progressText.text = text;
         }

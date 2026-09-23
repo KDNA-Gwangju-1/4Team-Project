@@ -159,6 +159,7 @@ public class NoteReader2D : MonoBehaviour
         Text body = textGO.AddComponent<Text>();
         body.font = font != null ? font : Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
         body.fontSize = fontSize;
+        HangulFont.Apply(body);
         body.color = inkColor;
         body.alignment = TextAnchor.MiddleCenter;
         body.lineSpacing = 1.25f;
@@ -190,6 +191,7 @@ public class NoteReader2D : MonoBehaviour
         hr.pivot = new Vector2(0.5f, 0.5f);
         hr.sizeDelta = new Vector2(0f, 40f);
         hr.anchoredPosition = Vector2.zero;
+        ChapterNoticeStyle.Apply(hint, ChapterDialogueSkin.Theme.BadDream, 600f, 60f, 24);
     }
 
     // the numbers live on the player, so the note cannot drift out of date

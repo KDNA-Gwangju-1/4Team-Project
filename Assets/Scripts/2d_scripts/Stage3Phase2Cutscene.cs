@@ -640,7 +640,10 @@ public class Stage3Phase2Cutscene : MonoBehaviour
         // she crosses into his plane the moment she leaves the ledge behind
         if (bossRenderer != null) bossRenderer.sortingOrder = bossForegroundSortingOrder;
 
-        yield return MoveBoss(apex, approach, ledgeScale, foregroundScale, bossTravelDuration, true);
+        // Remove only the distance tint as she returns to the conversation.
+        // The later ShadowStage beats still own the transformation colours.
+        Color foregroundTint = new Color(1f, 1f, 1f, bossRenderer != null ? bossRenderer.color.a : 1f);
+        yield return MoveBoss(apex, approach, ledgeScale, foregroundScale, bossTravelDuration, true, foregroundTint);
         yield return MoveBoss(approach, land, foregroundScale, foregroundScale, bossSettleDuration, false);
 
         boss.position = land;
@@ -648,8 +651,9 @@ public class Stage3Phase2Cutscene : MonoBehaviour
         if (bossRenderer != null) bossRenderer.flipX = true;
     }
 
-    private IEnumerator MoveBoss(Vector3 from, Vector3 to, Vector3 scaleFrom, Vector3 scaleTo, float duration, bool hover)
+    private IEnumerator MoveBoss(Vector3 from, Vector3 to, Vector3 scaleFrom, Vector3 scaleTo, float duration, bool hover, Color? targetTint = null)
     {
+        Color startingTint = bossRenderer != null ? bossRenderer.color : Color.white;
         float t = 0f;
         while (t < duration)
         {
@@ -659,10 +663,13 @@ public class Stage3Phase2Cutscene : MonoBehaviour
             if (hover) pos.y += Mathf.Sin(t * 6f) * bossHoverAmplitude;
             boss.position = pos;
             boss.localScale = Vector3.Lerp(scaleFrom, scaleTo, k);
+            if (targetTint.HasValue && bossRenderer != null)
+                bossRenderer.color = Color.Lerp(startingTint, targetTint.Value, k);
             yield return null;
         }
         boss.position = to;
         boss.localScale = scaleTo;
+        if (targetTint.HasValue && bossRenderer != null) bossRenderer.color = targetTint.Value;
     }
 
     // ---------- the shadow takes her ----------

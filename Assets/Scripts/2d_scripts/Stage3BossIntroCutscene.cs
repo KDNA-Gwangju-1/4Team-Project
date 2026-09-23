@@ -150,6 +150,7 @@ public class Stage3BossIntroCutscene : MonoBehaviour
     private Vector3 ledgePosition;
     private Vector3 ledgeScale;
     private int ledgeSortingOrder;
+    private Color ledgeTint = Color.white;
     private Parallax2D bossParallax;
     private BossAttack2D bossAttack;
     private readonly List<GameObject> summonProps = new List<GameObject>();
@@ -242,10 +243,14 @@ public class Stage3BossIntroCutscene : MonoBehaviour
 
         // she appears as the camera swings over - that is the reveal
         SetActiveAll(revealWithBoss, true);
+        if (bossRenderer != null) bossRenderer.color = new Color(1f, 1f, 1f, ledgeTint.a);
         // her phase controller's Start() runs at the end of this frame and opens
         // fire, so the shutdown has to land after it
         yield return null;
         if (bossAttack != null) bossAttack.SetPhase(0);
+        // Awake on the revealed boss applies its authored background tint first.
+        // The foreground conversation must show the un-tinted artwork instead.
+        if (bossRenderer != null) bossRenderer.color = new Color(1f, 1f, 1f, ledgeTint.a);
 
         // Frame each of them on the middle of their DRAWING, not on their transform.
         // The player's pivot sits at his waist and hers sits at her feet, so aiming
@@ -350,6 +355,8 @@ public class Stage3BossIntroCutscene : MonoBehaviour
         if (bossRenderer != null)
         {
             ledgeSortingOrder = bossRenderer.sortingOrder;
+            Boss2D bossHealth = boss.GetComponent<Boss2D>();
+            ledgeTint = bossHealth != null ? bossHealth.baseTint : bossRenderer.color;
             bossRenderer.sortingOrder = bossCutsceneSortingOrder;
 
             // scale by the drawn width so the art can change without retuning this
@@ -624,7 +631,7 @@ public class Stage3BossIntroCutscene : MonoBehaviour
         yield return StartCoroutine(MoveBoss(from, apex, forwardScale, forwardScale, bossExitRiseDuration, false));
 
         Vector3 travelApex = new Vector3(ledgePosition.x, ledgePosition.y + bossExitRiseHeight * 0.7f, ledgePosition.z);
-        yield return StartCoroutine(MoveBoss(apex, travelApex, forwardScale, ledgeScale, bossExitTravelDuration, true));
+        yield return StartCoroutine(MoveBoss(apex, travelApex, forwardScale, ledgeScale, bossExitTravelDuration, true, ledgeTint));
 
         // she crosses into the background layer only once she is over the ledge
         if (bossRenderer != null) bossRenderer.sortingOrder = ledgeSortingOrder;
@@ -652,8 +659,9 @@ public class Stage3BossIntroCutscene : MonoBehaviour
         ClearSummonProps();
     }
 
-    private IEnumerator MoveBoss(Vector3 from, Vector3 to, Vector3 scaleFrom, Vector3 scaleTo, float duration, bool hover)
+    private IEnumerator MoveBoss(Vector3 from, Vector3 to, Vector3 scaleFrom, Vector3 scaleTo, float duration, bool hover, Color? targetTint = null)
     {
+        Color startingTint = bossRenderer != null ? bossRenderer.color : Color.white;
         float t = 0f;
         while (t < duration)
         {
@@ -663,10 +671,13 @@ public class Stage3BossIntroCutscene : MonoBehaviour
             if (hover) pos.y += Mathf.Sin(t * 6f) * bossExitHoverAmplitude;
             boss.position = pos;
             boss.localScale = Vector3.Lerp(scaleFrom, scaleTo, k);
+            if (targetTint.HasValue && bossRenderer != null)
+                bossRenderer.color = Color.Lerp(startingTint, targetTint.Value, k);
             yield return null;
         }
         boss.position = to;
         boss.localScale = scaleTo;
+        if (targetTint.HasValue && bossRenderer != null) bossRenderer.color = targetTint.Value;
     }
 
     private Vector3 ShotOn(float x, SpriteRenderer subject)
@@ -847,6 +858,7 @@ public class Stage3BossIntroCutscene : MonoBehaviour
         speakerText.font = captionFont;
         speakerText.fontSize = 28;
         speakerText.fontStyle = FontStyle.Bold;
+        HangulFont.Apply(speakerText);
         speakerText.alignment = TextAnchor.MiddleCenter;
         speakerText.color = new Color(1f, 0.85f, 0.5f);
         RectTransform srt = speakerText.rectTransform;
@@ -861,6 +873,8 @@ public class Stage3BossIntroCutscene : MonoBehaviour
         captionText = textGO.AddComponent<Text>();
         captionText.font = captionFont;
         captionText.fontSize = 36;
+        HangulFont.Apply(captionText);
+        captionText.lineSpacing = 1.25f;
         captionText.alignment = TextAnchor.MiddleCenter;
         captionText.color = Color.white;
         RectTransform rt = captionText.rectTransform;

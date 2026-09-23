@@ -59,6 +59,8 @@ public class ScreenHint2D : MonoBehaviour
         rt.anchoredPosition = Vector2.zero;
 
         label.text = "";
+        ChapterNoticeStyle.Apply(label, ChapterDialogueSkin.Theme.BadDream, 800f, 100f, 30);
+        textColor = ChapterDialogueSkin.Ink(ChapterDialogueSkin.Theme.BadDream);
     }
 
     public void Show(string message, float duration)

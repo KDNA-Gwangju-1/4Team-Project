@@ -68,6 +68,7 @@ public class DeathRetryUI2D : MonoBehaviour
 
         messageText = NewText("DeathMessage", deathMessage, 72, messageColor, 0.56f);
         promptText = NewText("RetryPrompt", retryPrompt, 34, promptColor, 0.40f);
+        ChapterNoticeStyle.Apply(promptText, ChapterDialogueSkin.Theme.BadDream, 580f, 72f, 28);
     }
 
     private GameObject NewChild(string name)
@@ -83,6 +84,8 @@ public class DeathRetryUI2D : MonoBehaviour
         t.font = font != null ? font : Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
         t.fontSize = size;
         t.fontStyle = FontStyle.Bold;
+        HangulFont.Apply(t);
+        t.lineSpacing = 1.25f;
         t.alignment = TextAnchor.MiddleCenter;
         t.color = new Color(color.r, color.g, color.b, 0f);
         t.raycastTarget = false;

@@ -41,6 +41,7 @@ public class ControlGuideUI : MonoBehaviour
 
     private void Awake()
     {
+        HangulFont.ApplyAll(gameObject);
         Blocking = false;   // 플레이 모드를 껐다 켜도 남지 않게
 
         _group = GetComponent<CanvasGroup>();

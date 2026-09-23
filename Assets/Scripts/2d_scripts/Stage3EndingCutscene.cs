@@ -466,6 +466,19 @@ public class Stage3EndingCutscene : MonoBehaviour
             sisterRenderer.sprite = dissolveFrames[i];
             yield return new WaitForSeconds(dissolveFrameDuration);
         }
+        // Keep the dissolve animation intact, then resolve to clean dialogue artwork.
+        Sprite[] resolvedFrames = Resources.LoadAll<Sprite>("UI/ChapterSkins/SisterResolved");
+        Sprite resolved = resolvedFrames.Length > 0 ? resolvedFrames[0] : null;
+        if (resolved != null)
+        {
+            sisterRenderer.sprite = resolved;
+            float scale = sisterWidth / Mathf.Max(.001f, resolved.bounds.size.x);
+            sister.localScale = new Vector3(scale, scale, 1f);
+            // Bottom-centre pivot: place the clean feet on the authored ending ground.
+            Vector3 position = sister.position;
+            position.y = sisterGroundY;
+            sister.position = position;
+        }
     }
 
     private void SnapTo(Vector3 target, float ortho)

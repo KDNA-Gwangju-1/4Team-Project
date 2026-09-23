@@ -410,11 +410,9 @@ public class PlayerMovement2D : MonoBehaviour
         // The cone and the drawn flashlight used to carry separate offsets, so
         // the beam left from a point that was not the lamp. One number now.
         Vector2 offset = grounded ? flashlightHandOffset : jumpFlashlightHandOffset;
-        if (beamFollowsHeldFlashlight && grounded && heldVisual != null)
-        {
-            offset = heldVisual.idleHandOffset;
-        }
         flashlight.position = transform.position + new Vector3(offset.x * facing, offset.y, 0f);
+        if (beamFollowsHeldFlashlight && heldVisual != null && heldVisual.TryGetEmitter(out Vector3 emitter))
+            flashlight.position = emitter;
         flashlight.rotation = Quaternion.Euler(0f, 0f, angle);
     }
 
@@ -434,9 +432,9 @@ public class PlayerMovement2D : MonoBehaviour
     // 컷신은 이 컴포넌트를 꺼두고 진행하므로 입력 경로를 거치지 않고 손전등과 발사를 직접 시킨다.
     public void CutsceneSetLight(bool on, Vector2 direction)
     {
-        if (flashlight != null && direction.sqrMagnitude > 0.0001f) PoseFlashlight(direction.normalized);
         if (flashlightRenderer != null) flashlightRenderer.enabled = on && hasLantern;
         if (flashlightMask != null) flashlightMask.enabled = on && hasLantern;
+        if (flashlight != null && direction.sqrMagnitude > 0.0001f) PoseFlashlight(direction.normalized);
     }
 
     public Vector3 FlashlightOrigin => flashlight != null ? flashlight.position : transform.position;

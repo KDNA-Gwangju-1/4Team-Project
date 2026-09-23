@@ -54,6 +54,15 @@ namespace BrightDream
 
         private void Start()
         {
+            if (timerText != null)
+            {
+                var rect = timerText.rectTransform;
+                rect.anchorMin = rect.anchorMax = new Vector2(.5f,1f);
+                rect.anchoredPosition = new Vector2(0,-54);
+                ChapterNoticeStyle.Apply(timerText,ChapterDialogueSkin.Theme.BrightDream,160,60,30);
+                normalColor = ChapterDialogueSkin.Ink(ChapterDialogueSkin.Theme.BrightDream);
+                warningColor = new Color(.75f,.16f,.22f);
+            }
             // 타이머가 시작되기 전에는 아예 보이지 않는다 (메인 메뉴 직후 화면에 숫자만 떠 있지 않도록).
             if (timerText != null) timerText.enabled = false;
             UpdateText();

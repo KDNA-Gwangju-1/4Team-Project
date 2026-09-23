@@ -54,6 +54,7 @@ namespace BrightDream.Combat
 
         private void Awake()
         {
+            ChapterHudStyle.TopLeft(transform as RectTransform,24);
             heartRoots = new Transform[heartFills.Length];
             punchTimers = new float[heartFills.Length];
             for (int i = 0; i < heartFills.Length; i++)
@@ -62,6 +63,20 @@ namespace BrightDream.Combat
                 // Fill 만 키우면 테두리/그림자와 따로 놀아서, 하트 묶음(부모)을 통째로 키운다.
                 Transform fill = heartFills[i].transform;
                 heartRoots[i] = fill.parent != null ? fill.parent : fill;
+                if (heartRoots[i] is RectTransform heart)
+                {
+                    heart.anchorMin = heart.anchorMax = new Vector2(0,1);
+                    heart.pivot = new Vector2(.5f,.5f);
+                    heart.sizeDelta = new Vector2(34,34);
+                    heart.anchoredPosition = new Vector2(29 + i*40,-49);
+                    foreach (var image in heart.GetComponentsInChildren<Image>(true))
+                    {
+                        if (image.transform == heart) continue;
+                        image.rectTransform.anchorMin = Vector2.zero;
+                        image.rectTransform.anchorMax = Vector2.one;
+                        image.rectTransform.offsetMin = image.rectTransform.offsetMax = Vector2.zero;
+                    }
+                }
             }
         }
 
@@ -111,6 +126,7 @@ namespace BrightDream.Combat
             if (wanted == heartCount) return;
 
             heartCount = wanted;
+            ChapterHudStyle.Frame(transform as RectTransform, true, heartCount*40f+24f, 80f, "체력");
             for (int i = 0; i < heartFills.Length; i++)
             {
                 if (heartRoots[i] == null) continue;

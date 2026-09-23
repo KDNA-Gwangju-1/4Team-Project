@@ -22,6 +22,7 @@ public class StageMessageUI : MonoBehaviour
             return;
         }
         Instance = this;
+        ChapterNoticeStyle.Apply(messageText, ChapterDialogueSkin.Theme.BrightDream, 760f, 100f, 28);
         if (messageText != null) messageText.gameObject.SetActive(false);
     }
 

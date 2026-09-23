@@ -69,7 +69,7 @@ namespace BrightDream.Combat
             // 오르지 않아야 하는데, MonoBehaviour.enabled = false는 OnTriggerEnter 같은 물리 콜백까지
             // 막아주지는 않는다 - Collider.enabled는 꺼져 있어야 안전하지만, 혹시 다른 경로로 호출되더라도
             // 여기서 한 번 더 막아 Stage2 진행 중이 아니면 절대 카운트가 오르지 않게 한다.
-            if (StageProgressManager.Instance == null || StageProgressManager.Instance.CurrentStage != 2) return;
+            if (hasCleared || StageProgressManager.Instance == null || StageProgressManager.Instance.CurrentStage != 2) return;
 
             PurifiedCount++;
             UpdateUI();
@@ -78,15 +78,24 @@ namespace BrightDream.Combat
             if (!hasCleared && PurifiedCount >= TargetCount)
             {
                 hasCleared = true;
-                StageMessageUI.Instance?.ShowMessage("Stage2 Clear");
-                dialogueUI?.ShowSequence(
-                    new[] { "인형들은 제 모습을 되찾았군. 이제 이들을 물들인 게 무엇인지 알아볼 차례야." }, null);
+                // Give the completion notice its own reading time after the dialogue,
+                // instead of expiring alongside it on the same 2.5-second timer.
+                if (dialogueUI != null)
+                    dialogueUI.ShowSequence(
+                        new[] { "인형들은 제 모습을 되찾았군. 이제 이들을 물들인 게 무엇인지 알아볼 차례야." }, ShowClearMessage);
+                else
+                    ShowClearMessage();
                 // 정화 퀘스트가 끝났으므로 좌측 상단 진행도 UI도 끈다.
                 if (progressText != null) progressText.gameObject.SetActive(false);
                 // 남아 있던 몬스터를 모두 정리하고(방금 정화돼 연출 중인 개체는 제외) 아레나 봉쇄를 푼다.
                 MonsterCombat.DespawnAll();
                 OnStageCleared?.Invoke();
             }
+        }
+
+        private void ShowClearMessage()
+        {
+            StageMessageUI.Instance?.ShowMessage("스테이지 2 클리어\n인형 정화 완료", 4f);
         }
 
         private void UpdateUI()

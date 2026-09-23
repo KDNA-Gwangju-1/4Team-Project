@@ -23,6 +23,8 @@ public class PlayerHeartsUI2D : MonoBehaviour
     void Awake()
     {
         rect = GetComponent<RectTransform>();
+        ChapterHudStyle.TopLeft(rect,24);
+        heartSize = 32f; spacing = 6f; heartsPerRow = 10;
         basePosition = rect.anchoredPosition;
     }
 
@@ -60,6 +62,8 @@ public class PlayerHeartsUI2D : MonoBehaviour
 
     private void Rebuild(int count)
     {
+        ChapterHudStyle.Frame(rect, false, Mathf.Max(300f, Mathf.Min(count,heartsPerRow)*38f+24f),
+            40f + Mathf.Ceil(count/(float)heartsPerRow)*38f, "체력");
         for (int i = 0; i < hearts.Count; i++)
         {
             if (hearts[i] != null) Destroy(hearts[i].gameObject);
@@ -80,8 +84,8 @@ public class PlayerHeartsUI2D : MonoBehaviour
             int column = i % heartsPerRow;
             int row = i / heartsPerRow;
             r.anchoredPosition = new Vector2(
-                column * (heartSize + spacing),
-                -row * (heartSize + spacing));
+                12f + column * (heartSize + spacing),
+                -32f - row * (heartSize + spacing));
 
             Image img = go.AddComponent<Image>();
             img.sprite = fullHeart;

@@ -90,7 +90,7 @@ public static class ChapterDialogueSkin
     {
         var text = new GameObject("ChapterSpeaker", typeof(RectTransform), typeof(CanvasRenderer), typeof(Text))
             .GetComponent<Text>();
-        Place(text.rectTransform, art, 0.105f, 0.306f, 0.25f, 0.363f);
+        Place(text.rectTransform, art, 0.115f, 0.308f, 0.255f, 0.355f);
         text.text = value;
         StyleName(text, theme);
         return text;
@@ -98,17 +98,32 @@ public static class ChapterDialogueSkin
 
     public static void StyleName(Text text, Theme theme)
     {
+        if (text.GetComponent<ChapterSpeakerNameFit>() == null) text.gameObject.AddComponent<ChapterSpeakerNameFit>();
         text.font = HangulFont.GetEmphasis();
         text.fontStyle = FontStyle.Normal;
-        text.fontSize = 26;
-        text.resizeTextForBestFit = true;
-        text.resizeTextMinSize = 22;
-        text.resizeTextMaxSize = 26;
+        text.fontSize = 24;
+        text.resizeTextForBestFit = false;
         text.lineSpacing = 1f;
-        text.horizontalOverflow = HorizontalWrapMode.Wrap;
+        text.horizontalOverflow = HorizontalWrapMode.Overflow;
+        text.verticalOverflow = VerticalWrapMode.Truncate;
         text.alignment = TextAnchor.MiddleCenter;
         text.color = Ink(theme);
         text.raycastTarget = false;
+    }
+
+    public static void FitSpeakerName(Text text)
+    {
+        if (text == null || text.font == null) return;
+        float available = Mathf.Max(1f, text.rectTransform.rect.width - 12f);
+        var settings = text.GetGenerationSettings(Vector2.zero);
+        settings.resizeTextForBestFit = false;
+        for (int size = 24; size >= 12; size--)
+        {
+            settings.fontSize = size;
+            float width = text.cachedTextGeneratorForLayout.GetPreferredWidth(text.text, settings) / text.pixelsPerUnit;
+            text.fontSize = size;
+            if (width <= available) break;
+        }
     }
 
     public static Image PreservePortrait(RectTransform art, Sprite original)
@@ -210,6 +225,7 @@ public sealed class DialogueSkinSession
         // Named player artwork already contains its label; other artwork gets a real speaker label.
         name.enabled = daily || !isPlayer || playerFrame == null;
         name.text = isPlayer ? "꿈탐정" : (speaker ?? "");
+        ChapterDialogueSkin.FitSpeakerName(name);
         Sprite portraitSource = originalPortrait != null ? originalPortrait : (isPlayer ? protagonist : null);
         portrait.sprite = portraitSource;
         portrait.gameObject.SetActive(firstLine && portraitSource != null);

@@ -19,6 +19,14 @@ public class DashStaminaUI2D : MonoBehaviour
     private readonly List<Image> pips = new List<Image>();
     private readonly List<Image> fills = new List<Image>();
 
+    void Awake()
+    {
+        var root = GetComponent<RectTransform>();
+        ChapterHudStyle.TopLeft(root,182);
+        ChapterHudStyle.Frame(root,false,300,56,"대시  ·  SHIFT");
+        pipWidth = 84f; pipHeight = 12f; spacing = 8f;
+    }
+
     void Update()
     {
         var player = PlayerMovement2D.Instance;
@@ -54,7 +62,7 @@ public class DashStaminaUI2D : MonoBehaviour
             r.anchorMax = new Vector2(0f, 1f);
             r.pivot = new Vector2(0f, 1f);
             r.sizeDelta = new Vector2(pipWidth, pipHeight);
-            r.anchoredPosition = new Vector2(i * (pipWidth + spacing), 0f);
+            r.anchoredPosition = new Vector2(12f + i * (pipWidth + spacing), -32f);
 
             Image bg = slot.AddComponent<Image>();
             bg.sprite = pipSprite;

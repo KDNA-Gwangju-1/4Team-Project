@@ -58,6 +58,8 @@ public class MainMenuManager : MonoBehaviour
     // ============================================================
     private void Start()
     {
+        HangulFont.ApplyAll(mainMenuPanel);
+        HangulFont.ApplyAll(optionPanel);
         // 슬라이더의 최소/최대값을 GameSettings 의 범위로 맞춘다.
         mouseSensitivitySlider.minValue = GameSettings.MouseSensitivityMin;
         mouseSensitivitySlider.maxValue = GameSettings.MouseSensitivityMax;

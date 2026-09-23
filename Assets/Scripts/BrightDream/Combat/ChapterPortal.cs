@@ -64,6 +64,7 @@ namespace BrightDream.Combat
 
         private void Awake()
         {
+            ChapterNoticeStyle.Apply(promptText, ChapterDialogueSkin.Theme.BrightDream);
             if (playerCamera == null) playerCamera = Camera.main;
             isOpen = !requireBossCleared;
             CacheBounds();

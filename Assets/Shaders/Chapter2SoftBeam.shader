@@ -27,9 +27,14 @@ Shader "ReDream/Chapter2SoftBeam"
             float _FadeStart, _Intensity;
             fixed4 BeamFragment(v2f input) : SV_Target
             {
-                fixed4 color=SampleSpriteTexture(input.texcoord)*input.color;
+                // The source cutout has transparent leading pixels; do not leave a gap at the lens.
+                float2 beamUV=input.texcoord;
+                beamUV.x=lerp(0.02,1.0,beamUV.x);
+                fixed4 color=SampleSpriteTexture(beamUV)*input.color;
                 float distanceFade=1.0-smoothstep(_FadeStart,1.0,input.texcoord.x);
-                float edgeFade=1.0-smoothstep(0.66,1.0,abs(input.texcoord.y-0.5)*2.0);
+                // A narrow aperture at the lens opens gradually, rather than a glowing rectangle.
+                float coneWidth=lerp(0.035,1.0,input.texcoord.x);
+                float edgeFade=1.0-smoothstep(0.60,1.0,abs(input.texcoord.y-0.5)*2.0/coneWidth);
                 color.a*=distanceFade*edgeFade*_Intensity;
                 color.rgb*=color.a;
                 return color;
