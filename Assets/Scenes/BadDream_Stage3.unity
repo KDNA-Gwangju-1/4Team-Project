@@ -1418,6 +1418,10 @@ MonoBehaviour:
   - {fileID: 21300000, guid: de018c7bff3b5034bbba82a9350018a3, type: 3}
   - {fileID: 21300000, guid: 180ea46a2c87bb84982dcc49e54d2a65, type: 3}
   - {fileID: 21300000, guid: e1ecdeeea86fcf14291248ecd6a4b963, type: 3}
+  tentacleRiseClip: {fileID: 8300000, guid: dab28388129d9964c810c8f14eca00d6, type: 3}
+  tentacleRiseVolume: 0.7
+  monsterSummonClip: {fileID: 8300000, guid: d2c2ce4500c5ee64ca9fa70e72c94d8b, type: 3}
+  monsterSummonVolume: 0.6
   tendrilDissolveFrames:
   - {fileID: 21300000, guid: c843c5423ed20404b8a3b76778355393, type: 3}
   - {fileID: 21300000, guid: c291973f16bf4494da3c501241fac861, type: 3}
@@ -4124,6 +4128,8 @@ MonoBehaviour:
   shotVolume: 0.6
   dashClip: {fileID: 8300000, guid: 0cdd220383f144643b81749e814b4cc1, type: 3}
   dashVolume: 0.6
+  hurtClip: {fileID: 8300000, guid: 89bf375dd7c1cf740afc790a9c72e3ab, type: 3}
+  hurtVolume: 0.7
 --- !u!1 &1550880050
 GameObject:
   m_ObjectHideFlags: 0

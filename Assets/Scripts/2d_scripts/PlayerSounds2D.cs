@@ -25,6 +25,9 @@ public class PlayerSounds2D : MonoBehaviour
     public AudioClip dashClip;
     [Range(0f, 1f)] public float dashVolume = 0.6f;
 
+    public AudioClip hurtClip;
+    [Range(0f, 1f)] public float hurtVolume = 0.7f;
+
     private PlayerMovement2D player;
     private Rigidbody2D body;
     private AudioSource footstepsSource;
@@ -44,6 +47,12 @@ public class PlayerSounds2D : MonoBehaviour
         if (player == null) return;
         player.OnBulletFired += HandleShot;
         player.OnDashStarted += HandleDash;
+        player.OnHurt += HandleHurt;
+    }
+
+    private void HandleHurt()
+    {
+        OneShot(hurtClip, hurtVolume);
     }
 
     private void HandleShot()
@@ -109,7 +118,7 @@ public class PlayerSounds2D : MonoBehaviour
 
     void OnDisable()
     {
-        if (player != null) { player.OnBulletFired -= HandleShot; player.OnDashStarted -= HandleDash; }
+        if (player != null) { player.OnBulletFired -= HandleShot; player.OnDashStarted -= HandleDash; player.OnHurt -= HandleHurt; }
         Toggle(footstepsSource, false);
     }
 }

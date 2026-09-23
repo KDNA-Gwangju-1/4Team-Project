@@ -3105,6 +3105,7 @@ MonoBehaviour:
   targetSceneName: BadDream_stage2
   overrideSpawnX: 0
   spawnX: 0
+  carryHealth: 1
   requireLantern: 1
   lockedMessageText: {fileID: 900000048}
   lockedMessage: "\uC548\uC774 \uC5B4\uB461\uB2E4. \uBE5B\uC774 \uB420\uB9CC\uD55C
@@ -6446,6 +6447,8 @@ MonoBehaviour:
   shotVolume: 0.6
   dashClip: {fileID: 8300000, guid: 0cdd220383f144643b81749e814b4cc1, type: 3}
   dashVolume: 0.6
+  hurtClip: {fileID: 8300000, guid: 89bf375dd7c1cf740afc790a9c72e3ab, type: 3}
+  hurtVolume: 0.7
 --- !u!1 &1550880050
 GameObject:
   m_ObjectHideFlags: 0

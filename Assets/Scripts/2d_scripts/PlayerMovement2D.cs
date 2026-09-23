@@ -121,7 +121,17 @@ public class PlayerMovement2D : MonoBehaviour
     public float DashDirection => dashDirection;
     public event System.Action OnDashStarted;
     public event System.Action OnBulletFired;
+    public event System.Action OnHurt;
     public int FacingDirection => facingDirection;
+
+    // 입력은 Update에서 예약하고 FixedUpdate에서 실행한다. 컷신이 이 컴포넌트를 끄면 예약만 남아
+    // 있다가 다시 켜질 때 터진다 - 카메라가 훑는 동안 누른 점프가 컷신이 끝나자마자 실행됐다.
+    void OnDisable()
+    {
+        jumpRequested = false;
+        wallJumpRequested = false;
+        dashRequested = false;
+    }
 
     void Awake()
     {
@@ -548,6 +558,7 @@ public class PlayerMovement2D : MonoBehaviour
         if (isInvincible || isDashing || dashGraceTimer > 0f || CutsceneInvulnerable) return;
 
         currentHealth = Mathf.Max(0, currentHealth - amount);
+        if (OnHurt != null) OnHurt();
 
         if (currentHealth <= 0)
         {

@@ -125,6 +125,12 @@ public class Stage3BossIntroCutscene : MonoBehaviour
     public float bossExitHoverAmplitude = 0.18f;
 
     public Sprite[] tendrilAttackFrames;
+    [Tooltip("촉수가 솟을 때. 게임플레이의 TentacleStrikeField2D와 같은 클립을 넣는다.")]
+    public AudioClip tentacleRiseClip;
+    [Range(0f, 1f)] public float tentacleRiseVolume = 0.7f;
+    [Tooltip("먼지 덩어리 같은 몬스터가 튀어나올 때.")]
+    public AudioClip monsterSummonClip;
+    [Range(0f, 1f)] public float monsterSummonVolume = 0.6f;
     public Sprite[] tendrilDissolveFrames;
     public float tendrilFrameDuration = 0.08f;
     public float tendrilXOffsetFromBoss = 2.5f;
@@ -457,9 +463,26 @@ public class Stage3BossIntroCutscene : MonoBehaviour
         return sr;
     }
 
+    // 컷신은 끝나면 자기 오브젝트를 지우므로, 소리는 카메라에 얹어 잘리지 않게 한다.
+    private void PlayOneShot(AudioClip clip, float volume)
+    {
+        if (clip == null || cam == null) return;
+        if (cutsceneAudio == null)
+        {
+            cutsceneAudio = cam.gameObject.AddComponent<AudioSource>();
+            cutsceneAudio.playOnAwake = false;
+            cutsceneAudio.spatialBlend = 0f;
+        }
+        cutsceneAudio.PlayOneShot(clip, volume);
+    }
+
+    private AudioSource cutsceneAudio;
+
     private IEnumerator RaiseTentacleProp(float x)
     {
         if (tendrilAttackFrames == null || tendrilAttackFrames.Length == 0) yield break;
+
+        PlayOneShot(tentacleRiseClip, tentacleRiseVolume);
 
         SpriteRenderer sr = NewProp("SummonTentacle", x, bossCutsceneGroundY - summonTentacleSink);
         sr.sprite = tendrilAttackFrames[0];
@@ -521,6 +544,8 @@ public class Stage3BossIntroCutscene : MonoBehaviour
         {
             frames = sourceAnim.activeFrames;
         }
+
+        PlayOneShot(monsterSummonClip, monsterSummonVolume);
 
         SpriteRenderer sr = NewProp("SummonMonster", x, y);
         sr.sprite = frames != null ? frames[0] : from.sprite;

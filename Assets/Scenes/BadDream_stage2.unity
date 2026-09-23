@@ -11404,6 +11404,8 @@ MonoBehaviour:
   shotVolume: 0.6
   dashClip: {fileID: 8300000, guid: 0cdd220383f144643b81749e814b4cc1, type: 3}
   dashVolume: 0.6
+  hurtClip: {fileID: 8300000, guid: 89bf375dd7c1cf740afc790a9c72e3ab, type: 3}
+  hurtVolume: 0.7
 --- !u!114 &1550880043
 MonoBehaviour:
   m_ObjectHideFlags: 0
