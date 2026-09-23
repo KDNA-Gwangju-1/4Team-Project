@@ -239,7 +239,8 @@ public class Stage3Phase2Cutscene : MonoBehaviour
             DialogueLine2D line = lines[i];
             if (line == null || string.IsNullOrEmpty(line.text)) continue;
 
-            yield return Say(line.isBoss ? bossDialogueFrame : playerDialogueFrame, line.text, (line.isBoss && bossDialogueFrame != bossShadowDialogueFrame) ? bossSpeakerName : "");
+            yield return Say(line.isBoss ? bossDialogueFrame : playerDialogueFrame, line.text,
+                line.isBoss ? (string.IsNullOrWhiteSpace(bossSpeakerName) ? "???" : bossSpeakerName) : "");
 
             if (line.beatAfter == 1)
             {

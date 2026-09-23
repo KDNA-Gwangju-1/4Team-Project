@@ -794,6 +794,7 @@ public class Stage3BossIntroCutscene : MonoBehaviour
 
     private IEnumerator ShowLine(bool isBoss, string speaker, string line)
     {
+        if (isBoss && string.IsNullOrWhiteSpace(speaker)) speaker = "???";
         Sprite frame = isBoss ? bossDialogueFrame : playerDialogueFrame;
 
         // no window art wired up yet - fall back to the plain caption
