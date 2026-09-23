@@ -6,6 +6,7 @@ namespace BrightDream.Combat
 {
     /// <summary>
     /// 보스 스테이지 동안 보스 기준 뒤쪽 180도 범위에 Stage2와 같은 5종 몬스터를 랜덤 스폰한다.
+    /// 동시 마릿수는 maxActiveMonsters 로 묶고, 그 안에서 어둠 몹과 일반 몹의 비율을 유지한다.
     /// 정화 필요/불필요 판정과 피격·접촉 처리는 MonsterCombat을 그대로 재사용하고,
     /// 정화 성공 시 MonsterCombat.OnPurified를 구독해 보스 약점 카운트(BossWeakpointController)에 연결한다.
     /// "뒤쪽" 기준 방향은 보스가 전투 중 회전해도 흔들리지 않도록 스테이지 진입 시점에 한 번만 고정한다.
@@ -28,7 +29,18 @@ namespace BrightDream.Combat
         [Tooltip("일반 몬스터 접촉 피해 - 하트 반개.")]
         [SerializeField] private float contactDamage = 10f;
         [Tooltip("동시에 존재할 수 있는 최대 마릿수 - 이 이상이면 기존 개체가 죽을 때까지 새로 스폰하지 않는다.")]
-        [SerializeField] private int maxActiveMonsters = 20;
+        [SerializeField] private int maxActiveMonsters = 10;
+
+        [Header("어둠 몹 / 일반 몹 비율")]
+        [Tooltip("어둠 몹(정화가 필요한 개체) 최소 마릿수. 이만큼은 항상 먼저 채운다 - " +
+                 "약점 전환이 이 개체들을 정화해야 열리기 때문에 모자라면 전투가 막힌다.")]
+        [SerializeField] private int minDarkMonsters = 3;
+        [Tooltip("어둠 몹 최대 마릿수.")]
+        [SerializeField] private int maxDarkMonsters = 4;
+        [Tooltip("일반 몹 최소 마릿수.")]
+        [SerializeField] private int minNormalMonsters = 6;
+        [Tooltip("일반 몹 최대 마릿수.")]
+        [SerializeField] private int maxNormalMonsters = 7;
         [SerializeField] private int stageIndex = 3;
 
         private readonly List<Transform> activeMonsters = new List<Transform>();
@@ -77,11 +89,13 @@ namespace BrightDream.Combat
                 GameObject template = monsterTemplates[Random.Range(0, monsterTemplates.Length)];
                 Vector3 spawnPos = FindSpawnPosition();
 
+                bool spawnDark = ShouldSpawnDark();
+
                 GameObject instance = Instantiate(template, spawnPos, Quaternion.identity);
                 var combat = instance.GetComponent<MonsterCombat>();
                 if (combat != null)
                 {
-                    combat.SetNeedsPurification(Random.value < 0.5f);
+                    combat.SetNeedsPurification(spawnDark);
                     combat.SetContactDamage(contactDamage);
                     combat.SetGroundSnapCollider(arenaFloorCollider);
                     combat.OnPurified += HandleMonsterPurified;
@@ -91,6 +105,31 @@ namespace BrightDream.Combat
 
                 yield return new WaitForSeconds(spawnInterval);
             }
+        }
+
+        /// <summary>
+        /// 다음에 낼 몹이 어둠 몹인지 정한다.
+        ///
+        /// 예전에는 50% 동전던지기였는데, 그러면 어둠 몹이 한 마리도 없는 구간이 생겨
+        /// 약점 전환이 열리지 않고 전투가 멈춰 버린다. 최소치를 먼저 채우고 그 다음에
+        /// 최대치를 넘지 않는 선에서 섞는다.
+        /// </summary>
+        private bool ShouldSpawnDark()
+        {
+            int dark = 0, normal = 0;
+            foreach (Transform t in activeMonsters)
+            {
+                if (t == null) continue;
+                var c = t.GetComponent<MonsterCombat>();
+                if (c == null) continue;
+                if (c.NeedsPurification) dark++; else normal++;
+            }
+
+            if (dark < minDarkMonsters) return true;        // 약점 전환에 필요한 몫을 먼저 확보한다
+            if (normal < minNormalMonsters) return false;
+            if (dark >= maxDarkMonsters) return false;
+            if (normal >= maxNormalMonsters) return true;
+            return Random.value < 0.35f;
         }
 
         private void HandleMonsterPurified()

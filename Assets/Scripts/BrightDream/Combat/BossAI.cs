@@ -10,8 +10,10 @@ namespace BrightDream.Combat
     /// 부딪히기만 해도(OnTriggerEnter) 하트 반개의 접촉 피해를 준다.
     ///
     /// 몸통 박치기는 보스 자신의 몸 반경(bodyContactRadius) 안에 있을 때만 맞고 벗어나면 회피된다.
-    /// 점프 착지는 05_boss_platform 전체가 판정 범위이며, 착지하는 그 순간 플레이어가 바닥에
-    /// 붙어 있지 않으면(점프해서 공중에 있으면) 피해를 받지 않는다 - 유예 시간 없이 그 프레임만 본다.
+    /// 점프 착지는 뛰어오르기 전에 자세를 낮추고 바닥에 피격 반경을 그리는 차지 구간이 있다.
+    /// 판정은 그 반경 안이면서 05_boss_platform 위일 때만 들어가고, 착지하는 그 순간 플레이어가
+    /// 바닥에 붙어 있지 않으면(점프해서 공중에 있으면) 피해를 받지 않는다 - 유예 시간 없이 그 프레임만 본다.
+    /// 즉 회피 수단이 점프와 반경 밖으로 빠지기 두 가지다.
     ///
     /// 06_unicorn_boss.glb에는 아직 애니메이션이 없어서, 이동/공격 모션은 전부 코드로 만든
     /// 임시 연출(Transform 직접 이동)이다. 나중에 실제 애니메이션이 들어오면 이 코루틴들의
@@ -39,6 +41,14 @@ namespace BrightDream.Combat
         [Header("점프 착지")]
         [SerializeField] private float jumpHeight = 3f;
         [SerializeField] private float jumpDuration = 0.8f;
+        [Tooltip("뛰어오르기 전에 자세를 낮추고 바닥에 반경을 그리는 시간. 이 동안 피해 판정은 없다.")]
+        [SerializeField] private float slamChargeDuration = 1.1f;
+        [Tooltip("내려찍기 피해 반경(m). 이 밖으로 걸어 나가면 맞지 않는다.")]
+        [SerializeField] private float slamRadius = 9f;
+        [Tooltip("차지 동안 몸을 눌러 주는 정도. 0 이면 자세 변화 없음.")]
+        [SerializeField] private float slamCrouch = 0.25f;
+        [Tooltip("바닥 반경 표시. 비우면 같은 오브젝트에서 찾고, 없으면 표시 없이 진행한다.")]
+        [SerializeField] private BossSlamIndicator slamIndicator;
 
         /// <summary>일반 몬스터(MonsterCombat)가 보스와 겹치지 않게 피해 다닐 때 참조하는 보스 위치.</summary>
         public static BossAI Instance { get; private set; }
@@ -159,6 +169,26 @@ namespace BrightDream.Combat
             BeginManualMove();
             Vector3 groundPos = transform.position;
 
+            // 차지 - 자세를 낮추고 바닥에 피격 반경을 그린다. 이 동안은 피해가 없어서
+            // 플레이어가 반경 밖으로 걸어 나가거나 점프 타이밍을 잡을 수 있다.
+            if (slamIndicator != null) slamIndicator.Show(groundPos, slamRadius);
+
+            Vector3 baseScale = transform.localScale;
+            float charge = 0f;
+            while (charge < slamChargeDuration)
+            {
+                charge += Time.deltaTime;
+                float p = Mathf.Clamp01(charge / Mathf.Max(slamChargeDuration, 0.0001f));
+                if (slamIndicator != null) slamIndicator.SetFill(p);
+                // 끝으로 갈수록 더 눌린다 - 튀어오르기 직전이 제일 낮다.
+                transform.localScale = new Vector3(
+                    baseScale.x * (1f + slamCrouch * 0.35f * p),
+                    baseScale.y * (1f - slamCrouch * p),
+                    baseScale.z * (1f + slamCrouch * 0.35f * p));
+                yield return null;
+            }
+            transform.localScale = baseScale;
+
             // 위로 뛰어오른다.
             float upDuration = jumpDuration * 0.5f;
             float elapsed = 0f;
@@ -183,7 +213,10 @@ namespace BrightDream.Combat
             transform.position = groundPos;
 
             // 착지한 이 프레임이 유일한 판정 순간이다 - 유예 시간 없음.
-            TryDamagePlayerOnLanding();
+            TryDamagePlayerOnLanding(groundPos);
+
+            if (slamIndicator != null) slamIndicator.Hide();
+            CameraShake.Instance?.Shake();
 
             EndManualMove();
             isAttacking = false;
@@ -215,10 +248,22 @@ namespace BrightDream.Combat
             ApplyDamage(contactDamage);
         }
 
-        /// <summary>점프 착지 - 05_boss_platform 범위 안에 있고, 그 순간 바닥에 붙어 있을 때만(공중 회피 실패) 피해를 준다.</summary>
-        private void TryDamagePlayerOnLanding()
+        /// <summary>
+        /// 점프 착지 판정. 세 가지를 모두 만족해야 맞는다.
+        ///   1. 05_boss_platform 범위 안에 있을 것
+        ///   2. 차지 때 그려 준 반경(slamRadius) 안에 있을 것
+        ///   3. 그 순간 바닥에 붙어 있을 것 (점프해 있으면 회피)
+        ///
+        /// 예전에는 플랫폼 전체가 판정이라 피할 방법이 점프뿐이었다. 차지 중에 반경을
+        /// 보여 주기로 한 이상 그 원 밖으로 걸어 나가는 것도 회피가 되어야 표시가 거짓말이
+        /// 되지 않는다.
+        /// </summary>
+        private void TryDamagePlayerOnLanding(Vector3 slamCenter)
         {
             if (player == null) return;
+
+            Vector3 flatCenter = new Vector3(slamCenter.x, player.position.y, slamCenter.z);
+            if (Vector3.Distance(flatCenter, player.position) > slamRadius) return; // 반경 밖 - 회피 성공
 
             if (arenaFloorCollider != null)
             {

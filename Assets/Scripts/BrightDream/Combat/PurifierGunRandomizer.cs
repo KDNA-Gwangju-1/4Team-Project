@@ -27,11 +27,18 @@ namespace BrightDream.Combat
             [Tooltip("FPS 손모델(equippedTarget) 전용 localRotation(Euler) - 원본 모델마다 forward/up 축이 달라서, " +
                      "총구가 카메라 forward(크로스헤어) 쪽을 향하도록 디자인별로 보정한다.")]
             public Vector3 viewRotationOffset;
+            [Tooltip("총구 끝의 위치 - 원본 메시 좌표 기준이다. 회전·스케일은 부모(장착 오브젝트)를 " +
+                     "따라가므로 여기에는 보정 전 좌표를 그대로 넣는다. 손잡이를 기준으로 총열이 " +
+                     "어느 쪽으로 뻗었는지 재서 구한 값이다.")]
+            public Vector3 muzzleLocalOffset;
         }
 
         [SerializeField] private GunDesign[] designs;
         [SerializeField] private MeshFilter pickupTarget;
         [SerializeField] private MeshFilter equippedTarget;
+        [Tooltip("총알이 나가는 자리. 고른 디자인의 총구 끝으로 옮겨 준다. " +
+                 "PurifierGunController 의 Muzzle Point 와 같은 오브젝트를 연결한다.")]
+        [SerializeField] private Transform muzzlePoint;
 
         private void Awake()
         {
@@ -51,6 +58,15 @@ namespace BrightDream.Combat
             {
                 equippedTarget.transform.localPosition = chosen.viewPositionOffset;
                 equippedTarget.transform.localRotation = Quaternion.Euler(chosen.viewRotationOffset);
+            }
+
+            // 총구를 고른 디자인의 총열 끝으로 옮긴다. 장착 오브젝트의 자식이라
+            // 회전과 스케일은 부모를 그대로 따라간다.
+            if (muzzlePoint != null && equippedTarget != null)
+            {
+                muzzlePoint.SetParent(equippedTarget.transform, false);
+                muzzlePoint.localPosition = chosen.muzzleLocalOffset;
+                muzzlePoint.localRotation = Quaternion.identity;
             }
         }
 

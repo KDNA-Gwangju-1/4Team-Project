@@ -21,7 +21,8 @@ namespace BrightDream.Combat
         public static event Action OnBossDefeated;
 
         [SerializeField] private int purifyCountToOpen = 3;
-        [SerializeField] private float windowDuration = 1.3f;
+        [Tooltip("약점이 열려 있는 시간. 너무 짧으면 조준할 틈이 없다.")]
+        [SerializeField] private float windowDuration = 3.5f;
         [SerializeField] private int hitsToDefeat = 6;
         [Tooltip("약점 노출 시 켜줄 오브젝트(뿔 주변 검은 반점 등 전용 비주얼이 생기면 연결). 비워두면 아래 색 변화만으로 표시한다.")]
         [SerializeField] private GameObject weakpointVisual;
