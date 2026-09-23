@@ -12,7 +12,7 @@ namespace BrightDream.Combat
     ///   1. 대기       보스와 균열을 숨기고 BossAI 를 꺼 둔다
     ///   2. 금이 감     균열은 처음부터 제 크기 자리에 있고, _Progress 가 0 에서 1 로 오르며
     ///                 금이 중심에서 바깥으로 갈라져 나간다. 유리가 깨지듯 퍼진다
-    ///   3. 구멍 뚫림   금이 다 간 뒤에 안쪽이 터져 구멍(터널)이 열린다
+    ///   3. 구멍 뚫림   금이 다 간 뒤에 가운데가 무너지며 구멍(터널)이 열린다
     ///   3. 등장       보스가 균열 안에서 작게 나타나 아레나 착지 지점까지 날아온다
     ///   4. 착지       카메라 흔들림. 그 뒤 BossAI 를 켜서 전투 시작
     ///
@@ -32,10 +32,15 @@ namespace BrightDream.Combat
     /// 없어서 0 으로 둬도 보라색 구멍이 그대로 보인다. 예전에는 그래서 게임 시작부터
     /// 아레나에 구멍이 떠 있었다.
     ///
-    /// 그래서 렌더러를 두 갈래로 나눠 다룬다. 금(CrackReveal) 쪽은 _Progress 로 갈라지는
+    /// 그래서 렌더러를 세 갈래로 나눠 다룬다. 금(CrackReveal) 쪽은 _Progress 로 갈라지는
     /// 연출이 이미 되어 있으니 제 크기 그대로 두고 값만 올리고, 구멍(홀마스크·터널) 쪽은
     /// 그런 값이 없으니 금이 다 간 뒤에 크기를 키워 뚫는다. 균열 전체를 점에서 키우면
     /// 금이 갈라지는 게 아니라 그림이 확대되는 것처럼 보인다.
+    ///
+    /// 세 번째가 가운데 캡(Rift_CenterCrack)이다. Rift_Shell 은 도넛이라 안쪽 30% 에
+    /// 지오메트리가 없어서, 포탈이 열릴 자리에는 금이 가지 않았다. 홀마스크와 같은 메시에
+    /// 균열 머티리얼을 입힌 캡을 덮어 가운데에도 금이 가게 하고, 구멍이 열릴 때 이 캡을
+    /// 반대로 줄여 가운데가 무너지며 포탈이 드러나게 한다.
     /// </summary>
     public class BossRiftEntrance : MonoBehaviour
     {
@@ -84,6 +89,8 @@ namespace BrightDream.Combat
         private Renderer[] riftRenderers;
         private Renderer[] holeRenderers;        // 홀마스크 + 터널. _Progress 가 없어 따로 다룬다
         private Vector3[] holeBaseScales;
+        private Transform centerCap;             // 가운데 금. 구멍이 열리는 만큼 반대로 줄어든다
+        private Vector3 centerCapBaseScale = Vector3.one;
         private MaterialPropertyBlock mpb;
         private static readonly int ProgressId = Shader.PropertyToID("_Progress");
 
@@ -274,15 +281,29 @@ namespace BrightDream.Combat
             holeBaseScales = new Vector3[holeRenderers.Length];
             for (int i = 0; i < holeRenderers.Length; i++)
                 holeBaseScales[i] = holeRenderers[i].transform.localScale;
+
+            centerCap = rift.Find("Rift_CenterCrack");
+            if (centerCap != null) centerCapBaseScale = centerCap.localScale;
         }
 
-        /// <summary>구멍이 뚫린 정도. 0 이면 닫혀 있고 1 이면 제 크기로 열린다.</summary>
+        /// <summary>
+        /// 구멍이 뚫린 정도. 0 이면 닫혀 있고 1 이면 제 크기로 열린다.
+        /// 가운데 금은 그만큼 반대로 줄어 무너지듯 사라진다.
+        /// </summary>
         private void SetHoleScale(float k)
         {
-            if (holeRenderers == null || holeBaseScales == null) return;
-            for (int i = 0; i < holeRenderers.Length; i++)
-                if (holeRenderers[i] != null)
-                    holeRenderers[i].transform.localScale = holeBaseScales[i] * k;
+            if (holeRenderers != null && holeBaseScales != null)
+            {
+                for (int i = 0; i < holeRenderers.Length; i++)
+                    if (holeRenderers[i] != null)
+                        holeRenderers[i].transform.localScale = holeBaseScales[i] * k;
+            }
+
+            if (centerCap != null)
+            {
+                centerCap.localScale = centerCapBaseScale * (1f - k);
+                centerCap.gameObject.SetActive(k < 0.999f);
+            }
         }
 
         /// <summary>
