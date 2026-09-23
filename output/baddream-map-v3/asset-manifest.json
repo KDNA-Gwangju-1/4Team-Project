@@ -1,0 +1,20 @@
+{
+  "bg": "D:\\Ondukong\\4Team-Project\\output\\chapter2-final-delivery-v1\\chapter2-final-delivery-v1\\04_backgrounds\\background-02-existing-calm.png",
+  "platform": "D:\\Ondukong\\4Team-Project\\output\\chapter2-final-delivery-v1\\chapter2-final-delivery-v1\\99_source_archive\\chapter2-game-assets-separated-v3\\02_all_generated_cutouts\\platforms\\platforms-eaeb1728-03.png",
+  "player": "D:\\Ondukong\\4Team-Project\\output\\chapter2-final-delivery-v1\\chapter2-final-delivery-v1\\01_player\\idle\\transparent\\frames\\player-idle-frame-01.png",
+  "rabbit": "D:\\Ondukong\\4Team-Project\\output\\chapter2-enemies-distinct-soft-v1\\chapter2-enemies-distinct-soft-v1\\02_enemies\\patch_rabbit\\design\\patch-rabbit-transparent.png",
+  "crow": "D:\\Ondukong\\4Team-Project\\output\\chapter2-enemies-distinct-soft-v1\\chapter2-enemies-distinct-soft-v1\\02_enemies\\folded_crow\\design\\folded-crow-transparent.png",
+  "lamp": "D:\\Ondukong\\4Team-Project\\output\\chapter2-enemies-distinct-soft-v1\\chapter2-enemies-distinct-soft-v1\\02_enemies\\night_light\\design\\night-light-transparent.png",
+  "memory": "D:\\Ondukong\\4Team-Project\\output\\chapter2-final-delivery-v1\\chapter2-final-delivery-v1\\99_source_archive\\chapter2-game-assets-separated-v3\\02_all_generated_cutouts\\memory_frames\\memory-frames-7e52af49-01.png",
+  "boss": "D:\\Ondukong\\4Team-Project\\output\\imagegen\\boss-idle-8frames-v1.gif",
+  "tendril": "D:\\Ondukong\\4Team-Project\\output\\chapter2-boss-shadow-tendril-v1\\design\\boss-shadow-tendril-transparent.png",
+  "bgMemory": "D:\\Ondukong\\4Team-Project\\output\\chapter2-final-delivery-v1\\chapter2-final-delivery-v1\\04_backgrounds\\background-04-memory-frames-far.png",
+  "bgBoss": "D:\\Ondukong\\4Team-Project\\output\\chapter2-final-delivery-v1\\chapter2-final-delivery-v1\\04_backgrounds\\background-01-existing-vortex.png",
+  "frame1": "D:\\Ondukong\\4Team-Project\\output\\chapter2-final-delivery-v1\\chapter2-final-delivery-v1\\99_source_archive\\chapter2-game-assets-separated-v3\\02_all_generated_cutouts\\frames\\frames-284bd788-01.png",
+  "frame2": "D:\\Ondukong\\4Team-Project\\output\\chapter2-final-delivery-v1\\chapter2-final-delivery-v1\\99_source_archive\\chapter2-game-assets-separated-v3\\02_all_generated_cutouts\\frames\\frames-284bd788-02.png",
+  "frame3": "D:\\Ondukong\\4Team-Project\\output\\chapter2-final-delivery-v1\\chapter2-final-delivery-v1\\99_source_archive\\chapter2-game-assets-separated-v3\\02_all_generated_cutouts\\frames\\frames-284bd788-03.png",
+  "frame4": "D:\\Ondukong\\4Team-Project\\output\\chapter2-final-delivery-v1\\chapter2-final-delivery-v1\\99_source_archive\\chapter2-game-assets-separated-v3\\02_all_generated_cutouts\\frames\\frames-284bd788-04.png",
+  "picture1": "D:\\Ondukong\\4Team-Project\\output\\chapter2-final-delivery-v1\\chapter2-final-delivery-v1\\99_source_archive\\chapter2-game-assets-separated-v3\\02_all_generated_cutouts\\memory_frames\\memory-frames-7e52af49-01.png",
+  "picture2": "D:\\Ondukong\\4Team-Project\\output\\chapter2-final-delivery-v1\\chapter2-final-delivery-v1\\99_source_archive\\chapter2-game-assets-separated-v3\\02_all_generated_cutouts\\memory_frames\\memory-frames-7e52af49-02.png",
+  "picture3": "D:\\Ondukong\\4Team-Project\\output\\chapter2-final-delivery-v1\\chapter2-final-delivery-v1\\99_source_archive\\chapter2-game-assets-separated-v3\\02_all_generated_cutouts\\memory_frames\\memory-frames-7e52af49-03.png"
+}

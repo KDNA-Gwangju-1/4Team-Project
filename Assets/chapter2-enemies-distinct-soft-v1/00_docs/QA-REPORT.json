@@ -1,0 +1,40 @@
+{
+  "status": "PASS",
+  "package": "C:\\Ondukong\\4Team-Project\\output\\chapter2-enemies-distinct-soft-v1",
+  "enemy_count": 3,
+  "animation_count": 6,
+  "checked": [
+    {
+      "enemy": "patch_rabbit",
+      "motion": "attack_8f",
+      "frames_per_variant": 8
+    },
+    {
+      "enemy": "patch_rabbit",
+      "motion": "dissolve_8f",
+      "frames_per_variant": 8
+    },
+    {
+      "enemy": "folded_crow",
+      "motion": "attack_8f",
+      "frames_per_variant": 8
+    },
+    {
+      "enemy": "folded_crow",
+      "motion": "dissolve_8f",
+      "frames_per_variant": 8
+    },
+    {
+      "enemy": "night_light",
+      "motion": "attack_8f",
+      "frames_per_variant": 8
+    },
+    {
+      "enemy": "night_light",
+      "motion": "dissolve_8f",
+      "frames_per_variant": 8
+    }
+  ],
+  "total_png_count": 124,
+  "errors": []
+}
