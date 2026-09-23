@@ -32,6 +32,9 @@ namespace BrightDream.Combat
         [SerializeField] private Transform boss;
         [Tooltip("BossHand 프리팹. 비우면 손 없이 보스만 빨려 들어간다.")]
         [SerializeField] private GameObject handPrefab;
+        [Tooltip("손이 붙잡을 지점 - 유니콘 몸통 가운데 뼈(Spine). 지정하면 손목이 이 지점 앞에 정확히 멈추고, " +
+                 "끌려가는 동안 유니콘이 손에 매달려 따라온다. 비우면 렌더러 중심을 겨누고 손과 따로 움직인다.")]
+        [SerializeField] private Transform grabPoint;
 
         [Header("타이밍")]
         [Tooltip("정화 완료 후 연출이 시작되기까지의 뜸.")]
@@ -46,7 +49,7 @@ namespace BrightDream.Combat
         [SerializeField] private float closeDuration = 1.2f;
 
         [Header("연출")]
-        [Tooltip("손이 유니콘 앞 어디에서 멈출지. 유니콘 반경 배수.")]
+        [Tooltip("손목이 붙잡을 지점 앞 몇 m 에서 멈출지. 손가락 길이(약 2.4m)보다 짧으면 손가락이 몸통을 감싼다.")]
         [SerializeField] private float grabOffset = 1.2f;
         [Tooltip("끌려갈 때 흔들리는 폭.")]
         [SerializeField] private float struggleAmount = 0.35f;
@@ -189,6 +192,17 @@ namespace BrightDream.Combat
                     float armLen = MeasureArmLength(hand.transform, arm);
                     if (armLen > 0.001f) stretch = reachDist / armLen;
                 }
+
+                // 붙잡을 지점이 있으면 손목이 정확히 그 앞 grabOffset 에 멈추도록 늘림 배수를 맞춘다.
+                // 손목 위치는 늘림 배수에 정비례하므로 0배/1배 두 번만 재면 필요한 배수가 나온다.
+                if (grabPoint != null && grip != null)
+                {
+                    SetHandExtension(arm, armBase, grip, gripBase, 0f);
+                    float d0 = Vector3.Dot(grip.position - riftPos, dir);
+                    SetHandExtension(arm, armBase, grip, gripBase, 1f);
+                    float d1 = Vector3.Dot(grip.position - riftPos, dir);
+                    if (Mathf.Abs(d1 - d0) > 0.0001f) stretch = (reachDist - d0) / (d1 - d0);
+                }
                 SetHandExtension(arm, armBase, grip, gripBase, 0f);
             }
 
@@ -209,6 +223,12 @@ namespace BrightDream.Combat
 
             // ── 4) 끌고 들어간다 ──
             // 팔은 다시 줄어들고 유니콘은 그 끝에 매달려 균열로 딸려 온다.
+            // 붙잡을 지점이 있으면 붙잡은 순간의 손목-몸통 간격을 유지해 유니콘을 손에 고정하고,
+            // 흔들림도 유니콘만이 아니라 팔 전체를 좌우로 휘둘러 준다 - 따로 움직이면 손이 놓친 것처럼 보인다.
+            bool holdInHand = grabPoint != null && grip != null && boss != null && hand != null;
+            Vector3 holdOffset = holdInHand ? grabPoint.position - grip.position : Vector3.zero;
+            Quaternion handRotation = hand != null ? hand.transform.rotation : Quaternion.identity;
+
             t = 0f;
             while (t < dragDuration)
             {
@@ -220,12 +240,27 @@ namespace BrightDream.Combat
                 float wob = Mathf.Sin(p * Mathf.PI * 7f) * struggleAmount * (1f - p);
                 Vector3 side = Vector3.Cross(dir, Vector3.up).normalized;
 
-                if (boss != null)
+                if (holdInHand)
                 {
-                    boss.position = Vector3.Lerp(bossPos, riftPos, e) + side * wob;
+                    float swayDeg = Mathf.Rad2Deg * wob / Mathf.Max(reachDist, 0.5f);
+                    hand.transform.rotation = Quaternion.AngleAxis(swayDeg, Vector3.up) * handRotation;
+                    SetHandExtension(arm, armBase, grip, gripBase, stretch * (1f - e));
+
                     boss.localScale = Vector3.Lerp(bossScale, bossScale * shrinkTo, e);
+                    // 몸이 줄어드는 만큼 손목-몸통 간격도 줄여야 손가락이 계속 몸통에 걸쳐 있다.
+                    float shrink = bossScale.x > 0.0001f ? boss.localScale.x / bossScale.x : 1f;
+                    Vector3 wanted = grip.position + Quaternion.AngleAxis(swayDeg, Vector3.up) * holdOffset * shrink;
+                    boss.position += wanted - grabPoint.position;
                 }
-                SetHandExtension(arm, armBase, grip, gripBase, stretch * (1f - e));
+                else
+                {
+                    if (boss != null)
+                    {
+                        boss.position = Vector3.Lerp(bossPos, riftPos, e) + side * wob;
+                        boss.localScale = Vector3.Lerp(bossScale, bossScale * shrinkTo, e);
+                    }
+                    SetHandExtension(arm, armBase, grip, gripBase, stretch * (1f - e));
+                }
                 yield return null;
             }
 
@@ -294,6 +329,7 @@ namespace BrightDream.Combat
         private Vector3 BossAimPoint()
         {
             if (boss == null) return transform.position;
+            if (grabPoint != null) return grabPoint.position;
             var rs = boss.GetComponentsInChildren<Renderer>(true);
             bool any = false;
             Bounds b = new Bounds();

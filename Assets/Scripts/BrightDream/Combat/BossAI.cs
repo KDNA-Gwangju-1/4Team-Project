@@ -37,6 +37,10 @@ namespace BrightDream.Combat
         [Tooltip("돌진 시 실제로 앞으로 이동하는 거리 - 클수록 더 멀리서부터 돌진해 온다.")]
         [SerializeField] private float headbuttLungeDistance = 4f;
         [SerializeField] private float headbuttLungeDuration = 0.35f;
+        [Tooltip("돌진하기 전에 방향을 정하고 바닥에 경로를 그리는 시간. 이 동안 피해 판정은 없다.")]
+        [SerializeField] private float headbuttChargeDuration = 0.8f;
+        [Tooltip("바닥 돌진 경로 표시. 비우면 같은 오브젝트에서 찾고, 없으면 표시 없이 진행한다.")]
+        [SerializeField] private BossChargeIndicator chargeIndicator;
 
         [Header("점프 착지")]
         [SerializeField] private float jumpHeight = 3f;
@@ -65,6 +69,7 @@ namespace BrightDream.Combat
             Instance = this;
             agent = GetComponent<NavMeshAgent>();
             agent.isStopped = true; // Boss Stage가 뜨기 전까지는 가만히 있는다.
+            if (chargeIndicator == null) chargeIndicator = GetComponent<BossChargeIndicator>();
         }
 
         private void OnDestroy()
@@ -140,6 +145,17 @@ namespace BrightDream.Combat
             transform.forward = dir;
             Vector3 target = start + dir * headbuttLungeDistance;
 
+            // 차지 - 방향을 이 시점에 고정하고, 실제 판정 영역(몸 반경 원이 돌진 경로를 쓸고 가는 모양)을
+            // 바닥에 그린다. 이 동안은 피해가 없어서 플레이어가 경로 밖으로 비켜설 수 있다.
+            if (chargeIndicator != null) chargeIndicator.Show(start, dir, headbuttLungeDistance, bodyContactRadius);
+            float charge = 0f;
+            while (charge < headbuttChargeDuration)
+            {
+                charge += Time.deltaTime;
+                if (chargeIndicator != null) chargeIndicator.SetFill(charge / Mathf.Max(headbuttChargeDuration, 0.0001f));
+                yield return null;
+            }
+
             float elapsed = 0f;
             while (elapsed < headbuttLungeDuration)
             {
@@ -149,6 +165,7 @@ namespace BrightDream.Combat
                 TryDamagePlayerInBodyRange();
                 yield return null;
             }
+            if (chargeIndicator != null) chargeIndicator.Hide();
 
             elapsed = 0f;
             while (elapsed < headbuttLungeDuration)
@@ -299,6 +316,9 @@ namespace BrightDream.Combat
             isDefeated = true;
             StopAllCoroutines();
             agent.isStopped = true;
+            // 공격 도중에 처치되면 코루틴이 끊겨 바닥 표시가 남으므로 여기서 직접 끈다.
+            if (chargeIndicator != null) chargeIndicator.Hide();
+            if (slamIndicator != null) slamIndicator.Hide();
         }
     }
 }
