@@ -9,8 +9,8 @@ namespace BrightDream.Combat
     /// 전투가 시작되게 한다.
     ///
     /// 진행 순서
-    ///   1. 대기       보스를 숨기고 BossAI 를 꺼 둔다. 균열은 _Progress 0 (안 보임)
-    ///   2. 균열 생성   _Progress 0 에서 1 로. 중심에서 바깥으로 번진다
+    ///   1. 대기       보스와 균열을 숨기고 BossAI 를 꺼 둔다
+    ///   2. 균열 생성   작은 점에서 제 크기까지 벌어지며 _Progress 0 에서 1 로 번진다
     ///   3. 등장       보스가 균열 안에서 작게 나타나 아레나 착지 지점까지 날아온다
     ///   4. 착지       카메라 흔들림. 그 뒤 BossAI 를 켜서 전투 시작
     ///
@@ -24,6 +24,11 @@ namespace BrightDream.Combat
     ///
     /// 균열 _Progress 는 MaterialPropertyBlock 으로 넣는다. sharedMaterial 을 직접 쓰면
     /// 에디터에서 플레이할 때 머티리얼 에셋 파일이 실제로 변경되어 버린다.
+    ///
+    /// 숨길 때는 _Progress 0 만으로는 부족해서 렌더러를 통째로 끈다. _Progress 는 균열 무늬
+    /// (CrackReveal) 에만 있는 값이고, 터널 안쪽(RiftVoidStencil) 과 홀마스크에는 그런 값이
+    /// 없어서 0 으로 둬도 보라색 구멍이 그대로 보인다. 예전에는 그래서 게임 시작부터
+    /// 아레나에 구멍이 떠 있었다.
     /// </summary>
     public class BossRiftEntrance : MonoBehaviour
     {
@@ -43,6 +48,8 @@ namespace BrightDream.Combat
         [SerializeField] private float preDelay = 0.6f;
         [Tooltip("균열이 번지는 시간.")]
         [SerializeField] private float riftGrowDuration = 1.6f;
+        [Tooltip("균열이 벌어지기 시작할 때의 크기 배율. 0 에 가까울수록 점에서 시작한다.")]
+        [SerializeField] private float riftGrowFromScale = 0.04f;
         [Tooltip("균열이 다 열린 뒤 보스가 나오기까지의 뜸.")]
         [SerializeField] private float holdAfterRift = 0.35f;
         [Tooltip("보스가 균열에서 착지 지점까지 날아오는 시간.")]
@@ -68,6 +75,7 @@ namespace BrightDream.Combat
         public bool IsPlaying { get; private set; }
 
         private Renderer[] riftRenderers;
+        private Vector3 riftBaseScale = Vector3.one;
         private MaterialPropertyBlock mpb;
         private static readonly int ProgressId = Shader.PropertyToID("_Progress");
 
@@ -82,6 +90,7 @@ namespace BrightDream.Combat
             if (rift != null)
             {
                 riftRenderers = rift.GetComponentsInChildren<Renderer>(true);
+                riftBaseScale = rift.localScale;
                 mpb = new MaterialPropertyBlock();
             }
 
@@ -97,6 +106,7 @@ namespace BrightDream.Combat
             }
 
             SetRiftProgress(0f);
+            SetRiftVisible(false);
             SetBossVisible(false);
         }
 
@@ -139,16 +149,20 @@ namespace BrightDream.Combat
 
             if (preDelay > 0f) yield return new WaitForSecondsRealtime(preDelay);
 
-            // 1) 균열이 중심에서 바깥으로 번진다
+            // 1) 균열이 점에서 벌어지며 중심에서 바깥으로 번진다
+            SetRiftVisible(true);
             float t = 0f;
             while (t < riftGrowDuration)
             {
                 t += Time.unscaledDeltaTime;
                 float p = Mathf.Clamp01(t / Mathf.Max(riftGrowDuration, 0.0001f));
-                SetRiftProgress(p * p * (3f - 2f * p));   // smoothstep
+                float e = p * p * (3f - 2f * p);          // smoothstep
+                SetRiftProgress(e);
+                if (rift != null) rift.localScale = riftBaseScale * Mathf.Lerp(riftGrowFromScale, 1f, e);
                 yield return null;
             }
             SetRiftProgress(1f);
+            if (rift != null) rift.localScale = riftBaseScale;
 
             if (holdAfterRift > 0f) yield return new WaitForSecondsRealtime(holdAfterRift);
 
@@ -195,6 +209,8 @@ namespace BrightDream.Combat
             if (done) return;
             StopAllCoroutines();
             SetRiftProgress(1f);
+            SetRiftVisible(true);
+            if (rift != null) rift.localScale = riftBaseScale;
             if (boss != null)
             {
                 boss.transform.position = landPos;
@@ -223,6 +239,15 @@ namespace BrightDream.Combat
                 mpb.SetFloat(ProgressId, value);
                 r.SetPropertyBlock(mpb);
             }
+        }
+
+        /// <summary>
+        /// 균열을 통째로 보이거나 감춘다. _Progress 만으로는 터널 안쪽이 남아서 안 된다.
+        /// </summary>
+        private void SetRiftVisible(bool visible)
+        {
+            if (riftRenderers == null) return;
+            foreach (var r in riftRenderers) if (r != null) r.enabled = visible;
         }
 
         private void SetBossVisible(bool visible)
