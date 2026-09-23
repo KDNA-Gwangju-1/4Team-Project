@@ -6561,6 +6561,43 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 48378063}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &49137630 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 5c016b55f04f1f04288cf764e5270548, type: 3}
+  m_PrefabInstance: {fileID: 1565199460}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &49137633 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5c016b55f04f1f04288cf764e5270548, type: 3}
+  m_PrefabInstance: {fileID: 1565199460}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &49137635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 49137630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f920c9f33eb555445a084479ff2ae103, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BrightDream.Combat.BossAnimationDriver
+  walkingParameter: IsWalking
+  headbuttTrigger: Headbutt
+  groundSlamTrigger: GroundSlam
+  emergeTrigger: Emerge
+  defeatedParameter: Defeated
+  grabbedParameter: Grabbed
+  staggerLayerName: Stagger
+  hitLayerName: Hit
+  hitStateName: Hit
+  startWalkSpeed: 0.25
+  stopWalkSpeed: 0.1
+  layerFadeTime: 0.15
+  hitDuration: 0.4
+  grabDelayFallback: 4.1
+  riftWidenDuration: 0.5
 --- !u!1 &49249556
 GameObject:
   m_ObjectHideFlags: 0
@@ -115499,7 +115536,7 @@ MonoBehaviour:
   riftGrowDuration: 1.6
   holdAfterRift: 0.35
   emergeDuration: 0.9
-  postDelay: 0.5
+  postDelay: 2.1
   emergeStartScale: 0.25
   emergeArcHeight: 2.5
   landingShakeDuration: 0.45
@@ -115521,7 +115558,7 @@ MonoBehaviour:
   rift: {fileID: 1102485619}
   boss: {fileID: 1387729626}
   handPrefab: {fileID: 5575786011489648533, guid: cf681f00fa424084bbf2126dadce3341, type: 3}
-  preDelay: 1
+  preDelay: 2.5
   reachDuration: 1.1
   grabHold: 0.45
   dragDuration: 1.3
@@ -199670,9 +199707,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: 06_unicorn_boss_Craft
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -8819622739115965078, guid: 063dc70ed0dbc5241acbc61c140ed140, type: 3}
+    - {fileID: 3411201243972687516, guid: 063dc70ed0dbc5241acbc61c140ed140, type: 3}
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -6694670734909833233, guid: 063dc70ed0dbc5241acbc61c140ed140, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 49137633}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 6938873399242510728, guid: 063dc70ed0dbc5241acbc61c140ed140, type: 3}
       insertIndex: -1
@@ -225681,6 +225723,82 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 865dec0116cf34742a782023d01f44a6, type: 3}
   m_PrefabInstance: {fileID: 1565027094}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1565199460
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1387729626}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 5c016b55f04f1f04288cf764e5270548, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.78125
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5c016b55f04f1f04288cf764e5270548, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.78125
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5c016b55f04f1f04288cf764e5270548, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.78125
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5c016b55f04f1f04288cf764e5270548, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5c016b55f04f1f04288cf764e5270548, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5c016b55f04f1f04288cf764e5270548, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5c016b55f04f1f04288cf764e5270548, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5c016b55f04f1f04288cf764e5270548, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5c016b55f04f1f04288cf764e5270548, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5c016b55f04f1f04288cf764e5270548, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5c016b55f04f1f04288cf764e5270548, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5c016b55f04f1f04288cf764e5270548, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5c016b55f04f1f04288cf764e5270548, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5c016b55f04f1f04288cf764e5270548, type: 3}
+      propertyPath: m_Name
+      value: BD_UnicornBoss_Test
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 5c016b55f04f1f04288cf764e5270548, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: ebfc0a8d227ce1f4b8a30306e6ba9d11, type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 5c016b55f04f1f04288cf764e5270548, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 49137635}
+  m_SourcePrefab: {fileID: 100100000, guid: 5c016b55f04f1f04288cf764e5270548, type: 3}
 --- !u!1 &1565525586
 GameObject:
   m_ObjectHideFlags: 0
