@@ -17,14 +17,13 @@ namespace BrightDream.Combat
         [SerializeField] private Text healthText;
 
         [Header("스테이지 진행에 따른 체력 변화")]
-        [Tooltip("이 스테이지에 진입하면 최대 체력이 bossStageMaxHealth로 늘어나고 가득 채워진다 (하트 5개 -> 10개).")]
+        [Tooltip("이 스테이지에 진입하면 체력이 최대치(하트 5개)까지 가득 회복된다. 최대 체력은 늘어나지 않는다.")]
         [SerializeField] private int bossStageIndex = 3;
-        [SerializeField] private float bossStageMaxHealth = 200f;
 
         public event Action<float> OnHealthChanged;
 
         public float CurrentHealth { get; private set; }
-        /// <summary>하트 UI가 표시할 하트 개수를 여기서 계산한다 (하트 1개 = 20 HP).</summary>
+        /// <summary>하트 UI가 표시할 하트 개수를 여기서 계산한다 (하트 1개 = 20 HP, 100 = 하트 5개).</summary>
         public float MaxHealth => maxHealth;
         public bool IsInvincible => invincibleTimer > 0f;
 
@@ -59,17 +58,14 @@ namespace BrightDream.Combat
             MonsterPurifyManager.OnStageCleared -= RestoreFullHealth;
         }
 
-        /// <summary>보스 스테이지에 들어가면 최대 체력이 늘어나며 가득 찬 상태로 시작한다.</summary>
+        /// <summary>보스 스테이지에 들어가면 가득 찬 체력으로 시작한다.</summary>
         private void HandleStageChanged(int currentStage)
         {
-            if (currentStage != bossStageIndex || isDead) return;
-
-            maxHealth = bossStageMaxHealth;
-            CurrentHealth = maxHealth;
-            UpdateHealthBar();
+            if (currentStage != bossStageIndex) return;
+            RestoreFullHealth();
         }
 
-        /// <summary>체력을 최대치까지 회복한다 (Stage2 Clear 보상).</summary>
+        /// <summary>체력을 최대치까지 회복한다 (Stage2 Clear 보상, 보스 스테이지 진입).</summary>
         public void RestoreFullHealth()
         {
             if (isDead) return;
