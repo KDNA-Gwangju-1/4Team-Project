@@ -27,6 +27,20 @@ namespace BrightDream
                  "SetActive(true) 호출 도중에야 처음 실행되는데, 그 안에서 다시 꺼버리면 방금 켠 걸 즉시 되돌리게 된다.")]
         [SerializeField] private GameObject panel;
         [SerializeField] private Text lineText;
+        [SerializeField] private bool useChapterSkin = true;
+        private bool skinApplied;
+        private DialogueSkinSession skinSession;
+        private string currentSpeaker = "꿈탐정";
+
+        private void ApplySkin()
+        {
+            if (skinApplied || !useChapterSkin || panel == null) return;
+            var art = ChapterDialogueSkin.Apply(panel.transform as RectTransform, lineText,
+                panel.GetComponent<Graphic>(), null, ChapterDialogueSkin.Theme.BrightDream);
+            if (art == null) return;
+            skinSession = new DialogueSkinSession(art, ChapterDialogueSkin.Theme.BrightDream);
+            skinApplied = true;
+        }
 
         private string[] lines;
         private int lineIndex;
@@ -42,6 +56,7 @@ namespace BrightDream
                 return;
             }
             Instance = this;
+            ApplySkin();
             // 씬 재시작(Game Over -> 재시작) 시에도 이전 판에서 대사가 떠 있던 채로 멈췄을 수 있는
             // static 플래그를 깨끗하게 되돌린다.
             IsShowing = false;
@@ -52,7 +67,7 @@ namespace BrightDream
         /// allowSkip이 false면 어떤 키로도 넘길 수 없고 자동 넘김(2.5초)으로만 진행된다
         /// - 연출 중 마구 누르다가 대사가 통째로 넘어가 버리는 걸 막기 위한 옵션이다.
         /// </summary>
-        public void ShowSequence(string[] sequenceLines, System.Action onFinishedCallback, bool allowSkip = true)
+        public void ShowSequence(string[] sequenceLines, System.Action onFinishedCallback, bool allowSkip = true, string speaker = "꿈탐정")
         {
             if (sequenceLines == null || sequenceLines.Length == 0) return;
 
@@ -60,9 +75,12 @@ namespace BrightDream
             lineIndex = 0;
             allowSkipInput = allowSkip;
             onFinished = onFinishedCallback;
-            IsShowing = true;
+            currentSpeaker = speaker;
 
             if (panel != null) panel.SetActive(true);
+            ApplySkin();
+            skinSession?.Begin();
+            IsShowing = true;
             ShowCurrentLine();
         }
 
@@ -85,6 +103,7 @@ namespace BrightDream
         private void ShowCurrentLine()
         {
             lineTimer = 0f;
+            skinSession?.ShowLine(currentSpeaker == "꿈탐정", currentSpeaker);
             if (lineText != null) lineText.text = lines[lineIndex];
         }
 

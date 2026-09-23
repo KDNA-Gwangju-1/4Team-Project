@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// 씬을 바꾸지 않고 로딩 화면만 잠깐 덮어 주는 연출.
@@ -29,6 +30,9 @@ public class LoadingOverlay : MonoBehaviour
 
     private void Awake()
     {
+        // Fit the artwork without changing the full-screen fade/input area.
+        var background = transform.Find("Background");
+        if (background != null) LoadingScreen.FitBackground(background.GetComponent<Image>());
         _group = GetComponent<CanvasGroup>();
         _group.alpha = 0f;
         _group.blocksRaycasts = false;

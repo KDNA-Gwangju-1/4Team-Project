@@ -35,6 +35,7 @@ public class InteractionPromptUI : MonoBehaviour
     {
         // 한글이 깨지지 않도록 폰트를 갈아 끼운다.
         HangulFont.ApplyAll(gameObject);
+        ChapterDialogueSkin.StylePrompt(nameText, actionText, keyText);
 
         if (group == null) group = GetComponent<CanvasGroup>();
         if (group != null) group.alpha = 0f;

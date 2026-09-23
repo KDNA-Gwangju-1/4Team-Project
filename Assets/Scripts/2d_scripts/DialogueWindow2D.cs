@@ -8,6 +8,9 @@ using UnityEngine.UI;
 public class DialogueWindow2D : MonoBehaviour
 {
     public Font font;
+    public bool useChapterSkin = true;
+    private DialogueSkinSession skinSession;
+    private bool skinApplied;
 
     [Tooltip("Where the line sits inside the frame, in normalized frame coordinates.")]
     public Rect textArea = new Rect(0.40f, 0.10f, 0.54f, 0.19f);
@@ -130,6 +133,21 @@ public class DialogueWindow2D : MonoBehaviour
             textArea.xMax - 0.06f, textArea.yMin - 0.03f, textArea.xMax, textArea.yMin + 0.04f);
         advancePrompt.enabled = false;
 
+        if (useChapterSkin)
+        {
+            var art = ChapterDialogueSkin.Apply(frt, lineText, frameImage, advancePrompt,
+                ChapterDialogueSkin.Theme.BadDream, false);
+            if (art != null)
+            {
+                // Center the wider skin; retain serialized legacy framing when the skin is disabled.
+                frt.anchoredPosition = new Vector2(0f, frameBottomMargin);
+                ChapterDialogueSkin.Place(speakerText.rectTransform, art, 0.11f, 0.31f, 0.27f, 0.37f);
+                ChapterDialogueSkin.StyleName(speakerText, ChapterDialogueSkin.Theme.BadDream);
+                skinSession = new DialogueSkinSession(art, ChapterDialogueSkin.Theme.BadDream, speakerText);
+                skinApplied = true;
+            }
+        }
+
         frameGO.SetActive(false);
     }
 
@@ -148,11 +166,20 @@ public class DialogueWindow2D : MonoBehaviour
 
     public IEnumerator Show(Sprite frame, string line, string speaker)
     {
-        if (frameImage == null || frame == null) yield break;
+        if (frameImage == null || frame == null || string.IsNullOrWhiteSpace(line)) yield break;
 
         frameImage.sprite = frame;
         lineText.text = line;
         if (speakerText != null) speakerText.text = speaker ?? "";
+        if (skinApplied && speakerText != null && string.IsNullOrEmpty(speaker)
+            && frame.name.IndexOf("player", System.StringComparison.OrdinalIgnoreCase) >= 0)
+            speakerText.text = "꿈탐정";
+        else if (skinApplied && speakerText != null && string.IsNullOrEmpty(speaker)
+            && frame.name.IndexOf("sister", System.StringComparison.OrdinalIgnoreCase) >= 0)
+            speakerText.text = "쌍둥이 동생의 의식";
+
+        bool isPlayer = frame.name.IndexOf("player", System.StringComparison.OrdinalIgnoreCase) >= 0;
+        skinSession?.ShowLine(isPlayer, speakerText != null ? speakerText.text : speaker, frame);
 
         frameGO.SetActive(true);
         yield return Fade(0f, 1f);
@@ -219,5 +246,9 @@ public class DialogueWindow2D : MonoBehaviour
         if (canvasGO != null) Destroy(canvasGO);
         canvasGO = null;
         frameImage = null;
+        skinSession = null;
+        skinApplied = false;
     }
+
+    private void OnDestroy() { Dispose(); }
 }

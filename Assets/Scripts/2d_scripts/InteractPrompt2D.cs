@@ -10,6 +10,8 @@ public class InteractPrompt2D : MonoBehaviour
     public int fontSize = 34;
     [Tooltip("Read against a dark purple arena, so it is a strong gold rather than a pale cream.")]
     public Color textColor = new Color(1f, 0.84f, 0.24f);
+    public bool useChapterSkin = true;
+    private Image skinBacking;
     [Tooltip("Hard outline. Without it the text disappears wherever the background happens to be light.")]
     public Color outlineColor = new Color(0.04f, 0.02f, 0.06f, 1f);
     public float outlineThickness = 2.2f;
@@ -59,6 +61,12 @@ public class InteractPrompt2D : MonoBehaviour
         c.a = shown;
         label.color = c;
         label.enabled = shown > 0.01f;
+        if (skinBacking != null)
+        {
+            Color backingColor = skinBacking.color;
+            backingColor.a = shown * 0.92f;
+            skinBacking.color = backingColor;
+        }
     }
 
     private void Build(string message)
@@ -109,5 +117,27 @@ public class InteractPrompt2D : MonoBehaviour
         Color c = textColor;
         c.a = 0f;
         label.color = c;
+        if (useChapterSkin)
+        {
+            HangulFont.Apply(label);
+            label.lineSpacing = 1.15f;
+            textColor = new Color(0.91f, 0.87f, 1f);
+            var backingGO = new GameObject("ChapterPromptBacking", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+            backingGO.transform.SetParent(canvasGO.transform, false);
+            backingGO.transform.SetAsFirstSibling();
+            skinBacking = backingGO.GetComponent<Image>();
+            skinBacking.raycastTarget = false;
+            skinBacking.color = new Color(0.045f, 0.025f, 0.09f, 0f);
+            RectTransform backingRect = skinBacking.rectTransform;
+            backingRect.anchorMin = backingRect.anchorMax = new Vector2(0.5f, screenHeight01);
+            backingRect.sizeDelta = new Vector2(680f, 64f);
+            backingRect.anchoredPosition = Vector2.zero;
+            rt.anchorMin = rt.anchorMax = new Vector2(0.5f, screenHeight01);
+            rt.sizeDelta = new Vector2(632f, 56f);
+            label.resizeTextForBestFit = true;
+            label.resizeTextMinSize = 24;
+            label.resizeTextMaxSize = Mathf.Clamp(fontSize, 24, 28);
+            label.horizontalOverflow = HorizontalWrapMode.Wrap;
+        }
     }
 }

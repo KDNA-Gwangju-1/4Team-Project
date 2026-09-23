@@ -19,6 +19,7 @@ public class SubtitleUI : MonoBehaviour
     [Header("참조")]
     [SerializeField] private CanvasGroup group;
     [SerializeField] private Text lineText;
+    [SerializeField] private bool useChapterSkin = true;
 
     // ============================================================
     // 넘기기
@@ -79,6 +80,8 @@ public class SubtitleUI : MonoBehaviour
     [SerializeField] private Text speakerText;
     // ------------------------------------------------------------
     private Coroutine _routine;
+    private DialogueSkinSession skinSession;
+    private string currentSpeaker;
 
     /// <summary>지금 대사가 나오는 중인지</summary>
     public bool IsPlaying => _routine != null;
@@ -98,6 +101,13 @@ public class SubtitleUI : MonoBehaviour
 
         // 한글이 깨지지 않도록 폰트를 갈아 끼운다.
         HangulFont.ApplyAll(gameObject);
+
+        if (useChapterSkin)
+        {
+            var art = ChapterDialogueSkin.Apply(transform as RectTransform, lineText, panel,
+                continueIndicator, ChapterDialogueSkin.Theme.Daily);
+            if (art != null) skinSession = new DialogueSkinSession(art, ChapterDialogueSkin.Theme.Daily);
+        }
 
         if (group == null) group = GetComponent<CanvasGroup>();
         if (group != null)
@@ -132,6 +142,8 @@ public class SubtitleUI : MonoBehaviour
         if (lines == null || lines.Count == 0) return;
 
         SetSpeaker(speaker);
+        currentSpeaker = speaker;
+        skinSession?.Begin();
 
         // 재생 중이던 게 있으면 끊고 새로 시작한다.
         if (_routine != null) StopCoroutine(_routine);
@@ -184,6 +196,7 @@ public class SubtitleUI : MonoBehaviour
         {
             string line = lines[i];
             if (string.IsNullOrWhiteSpace(line)) continue;
+            skinSession?.ShowLine(string.IsNullOrWhiteSpace(currentSpeaker) || currentSpeaker == "꿈탐정", currentSpeaker);
 
             if (lineText != null) lineText.text = "";
             SetIndicatorAlpha(0f);

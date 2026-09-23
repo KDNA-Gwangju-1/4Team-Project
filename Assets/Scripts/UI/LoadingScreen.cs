@@ -116,8 +116,6 @@ public class LoadingScreen : MonoBehaviour
         var art = NextBackground;
         NextBackground = null;          // 다음 전환에 흘러가지 않도록 항상 비운다.
 
-        if (art == null) return;
-
         var image = background;
         if (image == null)
         {
@@ -126,9 +124,50 @@ public class LoadingScreen : MonoBehaviour
             if (found != null) image = found.GetComponent<Image>();
         }
 
-        if (image != null) image.sprite = art;
+        if (image != null)
+        {
+            if (art != null) image.sprite = art;
+            FitBackground(image);
+        }
         else Debug.LogWarning("[LoadingScreen] 배경 Image 를 못 찾아서 그림을 못 바꿨습니다. " +
                               "Background 칸에 연결해 주세요.", this);
+    }
+
+    /// <summary>Keep the complete artwork and its baked-in text visible without stretching.</summary>
+    internal static void FitBackground(Image image)
+    {
+        if (image == null || image.sprite == null) return;
+        // An opaque sibling covers the unused area, including during hospital overlay fades.
+        // Keep it outside the fitted rect so it always covers the full viewport.
+        var parent = image.transform.parent;
+        if (parent == null) return;
+        string backdropName = image.name + "Backdrop";
+        var backdrop = parent.Find(backdropName);
+        if (backdrop == null)
+        {
+            var fill = new GameObject(backdropName, typeof(RectTransform), typeof(Image)).GetComponent<Image>();
+            fill.transform.SetParent(parent, false);
+            fill.rectTransform.anchorMin = Vector2.zero;
+            fill.rectTransform.anchorMax = Vector2.one;
+            fill.rectTransform.offsetMin = fill.rectTransform.offsetMax = Vector2.zero;
+            fill.color = new Color(0.02f, 0.02f, 0.05f, 1f);
+            fill.raycastTarget = false;
+            fill.transform.SetSiblingIndex(image.transform.GetSiblingIndex());
+        }
+        image.preserveAspect = true;
+        image.rectTransform.pivot = new Vector2(0.5f, 0.5f);
+        var fitter = image.GetComponent<AspectRatioFitter>();
+        if (fitter == null) fitter = image.gameObject.AddComponent<AspectRatioFitter>();
+        fitter.aspectMode = AspectRatioFitter.AspectMode.FitInParent;
+        fitter.aspectRatio = image.sprite.rect.width / image.sprite.rect.height;
+        // Keep the animated moon beside the baked-in loading label when letterboxing.
+        var icon = parent.Find("LoadingIcon") as RectTransform;
+        if (icon != null)
+        {
+            Vector2 position = icon.anchoredPosition;
+            icon.SetParent(image.transform, false);
+            icon.anchoredPosition = position;
+        }
     }
 
     private IEnumerator LoadRoutine(string target)

@@ -31,6 +31,7 @@ namespace BrightDream.Clues
         [Tooltip("investigateText를 감싸는 배경(대사ui02) 오브젝트 - 켜고 끄는 대상은 텍스트 자신이 아니라 이 패널이다. " +
                  "비워두면 기존처럼 investigateText 자신의 GameObject를 켜고 끈다.")]
         [SerializeField] private GameObject investigatePanel;
+        [SerializeField] private bool useChapterSkin = true;
         [Tooltip("단서 텍스트가 떠 있는 동안 꺼둘 컴포넌트 - 이동/시점 컨트롤러, 상호작용 스크립트 등.")]
         [SerializeField] private MonoBehaviour[] disableWhileInvestigating;
 
@@ -41,6 +42,7 @@ namespace BrightDream.Clues
         private string[] investigateParts;
         private int investigatePartIndex;
         private bool pendingAllCluesCollected;
+        private DialogueSkinSession skinSession;
 
         public int CollectedCount => collectedClueIds.Count;
 
@@ -56,6 +58,14 @@ namespace BrightDream.Clues
 
         private void Start()
         {
+            if (useChapterSkin && investigatePanel != null)
+            {
+                var art = ChapterDialogueSkin.Apply(investigatePanel.transform as RectTransform,
+                    investigateText, investigatePanel.GetComponent<Graphic>(), null,
+                    ChapterDialogueSkin.Theme.BrightDream);
+                if (art != null)
+                    skinSession = new DialogueSkinSession(art, ChapterDialogueSkin.Theme.BrightDream);
+            }
             UpdateProgressUI();
             SetInvestigateTextActive(false);
             if (progressText != null) progressText.gameObject.SetActive(false);
@@ -140,6 +150,7 @@ namespace BrightDream.Clues
 
             investigateParts = text.Split(new[] { "\n\n" }, StringSplitOptions.RemoveEmptyEntries);
             investigatePartIndex = 0;
+            skinSession?.Begin();
 
             foreach (MonoBehaviour mb in disableWhileInvestigating) if (mb != null) mb.enabled = false;
             Time.timeScale = 0f;
@@ -160,6 +171,7 @@ namespace BrightDream.Clues
 
         private void ShowCurrentInvestigatePart()
         {
+            skinSession?.ShowLine(true, "꿈탐정");
             investigateText.text = investigateParts[investigatePartIndex].Trim();
         }
 
