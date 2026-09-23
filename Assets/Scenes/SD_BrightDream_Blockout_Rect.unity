@@ -18115,10 +18115,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BrightDream.Combat.BossArenaLockdown
   sealAtStage: 3
   wallColliders:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1283350455}
+  - {fileID: 1621769469}
+  - {fileID: 213145812}
+  - {fileID: 1945430646}
   arenaFloorCollider: {fileID: 1915347790}
   clearStageIndex: 4
 --- !u!1001 &128078313
