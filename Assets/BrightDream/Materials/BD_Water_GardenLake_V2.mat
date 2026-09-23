@@ -8,21 +8,17 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: BD_Water_GardenLake_V2
-  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 4800000, guid: 629d2880fe6be8f45813df394654c159, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - _ALPHAPREMULTIPLY_ON
-  - _DETAIL_MULX2
-  - _GLOSSYREFLECTIONS_OFF
-  - _NORMALMAP
+  m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
+  m_CustomRenderQueue: -1
   stringTagMap:
-    RenderType: Transparent
+    RenderType: Opaque
   disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
@@ -64,6 +60,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _ShoreMask:
+        m_Texture: {fileID: 2800000, guid: eedf38dcb30869e4c975c9f21faa4681, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
     - _BumpScale: 0.15
@@ -81,9 +81,16 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
+    - _WaveSpeed: 0.2
+    - _WaveStrength: 0.16
     - _ZWrite: 0
     m_Colors:
     - _Color: {r: 0.68, g: 0.83, b: 0.82, a: 0.85}
+    - _DeepColor: {r: 0.065, g: 0.32, b: 0.36, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _LakeCenter: {r: 17.993473, g: 20.313265, b: 0, a: 0}
+    - _LakeExtent: {r: 5.243719, g: 7.11038, b: 0, a: 0}
+    - _RippleColor: {r: 0.65, g: 0.89, b: 0.82, a: 1}
+    - _ShallowColor: {r: 0.31, g: 0.68, b: 0.62, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
