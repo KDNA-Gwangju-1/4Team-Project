@@ -26,6 +26,8 @@ namespace BrightDream.Clues
 
         private void Update()
         {
+            // ESC 일시정지 중에는 입력을 받지 않는다.
+            if (PauseMenu.IsPaused) return;
             DetectTarget();
 
             if (currentTarget != null && Input.GetKeyDown(KeyCode.E))

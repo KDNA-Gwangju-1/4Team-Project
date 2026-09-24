@@ -1,0 +1,47 @@
+[
+  {
+    "id": "clue_01_ribbon",
+    "part": 1,
+    "text": "이 리본... 아직도 안 풀었네. 그냥 한번쯤 새로 묶어줄걸.",
+    "file": "ArtSource\\Chapter1ClueVoice\\Preview\\clue_01_ribbon_01.mp3",
+    "voice": "ko-KR-SunHiNeural",
+    "rate": "-12%",
+    "pitch": "-2Hz"
+  },
+  {
+    "id": "clue_02_photoalbum",
+    "part": 1,
+    "text": "이 뒷부분은... 괜찮아, 아무 일도 없었어. 그냥 넘기자.",
+    "file": "ArtSource\\Chapter1ClueVoice\\Preview\\clue_02_photoalbum_01.mp3",
+    "voice": "ko-KR-SunHiNeural",
+    "rate": "-12%",
+    "pitch": "-2Hz"
+  },
+  {
+    "id": "clue_03_tree_carving",
+    "part": 1,
+    "text": "내가 그랬나... 기억이 잘 안 나. 아니, 사실은 안 보려고 했던 것 같아.",
+    "file": "ArtSource\\Chapter1ClueVoice\\Preview\\clue_03_tree_carving_01.mp3",
+    "voice": "ko-KR-SunHiNeural",
+    "rate": "-12%",
+    "pitch": "-2Hz"
+  },
+  {
+    "id": "clue_04_unsent_letter",
+    "part": 1,
+    "text": "미안해. 그때 내가 그렇게 말하지 않았더라면...",
+    "file": "ArtSource\\Chapter1ClueVoice\\Preview\\clue_04_unsent_letter_01.mp3",
+    "voice": "ko-KR-SunHiNeural",
+    "rate": "-12%",
+    "pitch": "-2Hz"
+  },
+  {
+    "id": "clue_04_unsent_letter",
+    "part": 2,
+    "text": "보낼 용기가 없었어. 근데 이제는... 해야 할 것 같아.",
+    "file": "ArtSource\\Chapter1ClueVoice\\Preview\\clue_04_unsent_letter_02.mp3",
+    "voice": "ko-KR-SunHiNeural",
+    "rate": "-12%",
+    "pitch": "-2Hz"
+  }
+]

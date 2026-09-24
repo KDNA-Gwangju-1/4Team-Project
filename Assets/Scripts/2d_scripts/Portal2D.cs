@@ -31,6 +31,8 @@ public class Portal2D : MonoBehaviour
 
     void Update()
     {
+        // ESC 일시정지 중에는 입력을 받지 않는다.
+        if (PauseMenu.IsPaused) return;
         if (leaving || string.IsNullOrEmpty(targetSceneName)) return;
 
         PlayerMovement2D player = PlayerMovement2D.Instance;

@@ -1,0 +1,14 @@
+{
+  "scene": "Assets/Scenes/HospitalRoom.unity",
+  "blender_version": "5.2.2 LTS",
+  "blender_mcp": "connected; scene queried and authoring code executed",
+  "architecture_assemblies": 20,
+  "architecture_triangles_including_badges": 41920,
+  "preserved_imported_models_checked": 22,
+  "preserved_model_transform_or_visibility_issues": 0,
+  "missing_scene_scripts": 0,
+  "unity_compile_errors": 0,
+  "play_mode": "Architecture, three depth-tested bed labels, and control guide loaded; no console errors.",
+  "visual_review": ["Preview-Interior.png", "Preview-Corridor.png"],
+  "validation_limits": "Full player walkthrough and performance profiling were not performed. Original colliders and interaction callbacks were retained."
+}

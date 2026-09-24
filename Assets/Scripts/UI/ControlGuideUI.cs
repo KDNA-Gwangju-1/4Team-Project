@@ -38,9 +38,11 @@ public class ControlGuideUI : MonoBehaviour
     public static bool Blocking { get; private set; }
 
     private CanvasGroup _group;
+    private Sprite _guideFrame;
 
     private void Awake()
     {
+        _guideFrame = ControlGuideSkin.Apply(transform as RectTransform);
         HangulFont.ApplyAll(gameObject);
         Blocking = false;   // 플레이 모드를 껐다 켜도 남지 않게
 
@@ -53,6 +55,11 @@ public class ControlGuideUI : MonoBehaviour
     private void OnDisable()
     {
         Blocking = false;
+    }
+
+    private void OnDestroy()
+    {
+        if (_guideFrame != null) Destroy(_guideFrame);
     }
 
     private void Start()

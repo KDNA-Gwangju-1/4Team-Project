@@ -50,6 +50,8 @@ public class PlayerInteractor : MonoBehaviour
 
     private void Update()
     {
+        // ESC 일시정지 중에는 입력을 받지 않는다.
+        if (PauseMenu.IsPaused) return;
         // 대사가 나오는 동안에는 쉰다.
         // 대사를 넘기려고 누른 E 가 상호작용까지 같이 눌러 버리면 안 되기 때문이다.
         if (SubtitleUI.Blocking || ControlGuideUI.Blocking)

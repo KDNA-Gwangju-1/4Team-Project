@@ -216,8 +216,8 @@ public class DialogueWindow2D : MonoBehaviour
 
     public static bool AdvancePressed()
     {
-        // dialogue advances on Space only, in every chapter
-        return Input.GetKeyDown(KeyCode.Space);
+        // dialogue advances on Space only, in every chapter (and never while the pause menu is up)
+        return !PauseMenu.IsPaused && Input.GetKeyDown(KeyCode.Space);
     }
 
     private IEnumerator Fade(float from, float to)

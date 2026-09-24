@@ -90,13 +90,12 @@ public class LoadingScreen : MonoBehaviour
         Cursor.visible = true;
         Time.timeScale = 1f;
 
-        ApplyBackground();
-
         bool viaGo = requested;
         requested = false;
 
         string target = viaGo ? NextScene : fallbackScene;
         NextScene = null;
+        ApplyBackground(target);
 
         if (string.IsNullOrWhiteSpace(target))
         {
@@ -117,10 +116,17 @@ public class LoadingScreen : MonoBehaviour
     }
 
     /// <summary>이번 전환에 넘어온 배경 그림이 있으면 갈아 끼운다.</summary>
-    private void ApplyBackground()
+    private void ApplyBackground(string target)
     {
         var art = NextBackground;
         NextBackground = null;          // 다음 전환에 흘러가지 않도록 항상 비운다.
+        if (art == null)
+        {
+            string resource = target == "HospitalRoom" || target == "MainMenu" ? "HospitalDayLoadingBackground"
+                : !string.IsNullOrEmpty(target) && target.Contains("BrightDream") ? "DreamLoadingBackground"
+                : !string.IsNullOrEmpty(target) && target.Contains("BadDream") ? "BadDreamLoadingBackground" : null;
+            if (resource != null) art = Resources.Load<Sprite>(resource);
+        }
 
         var image = background;
         if (image == null)
@@ -134,6 +140,7 @@ public class LoadingScreen : MonoBehaviour
         {
             if (art != null) image.sprite = art;
             FitBackground(image);
+            ShowTip(image, target);
         }
         else Debug.LogWarning("[LoadingScreen] 배경 Image 를 못 찾아서 그림을 못 바꿨습니다. " +
                               "Background 칸에 연결해 주세요.", this);
@@ -199,7 +206,7 @@ public class LoadingScreen : MonoBehaviour
     private static int lastTip = -1;
 
     /// <summary>배경 그림 위 빈칸에 팁 하나를 무작위로 띄운다. 바로 앞에 나온 팁은 피한다.</summary>
-    internal static void ShowTip(Image image)
+    internal static void ShowTip(Image image, string destination = null)
     {
         if (image == null || image.sprite == null) return;
 
@@ -214,7 +221,7 @@ public class LoadingScreen : MonoBehaviour
         }
 
         // 두 가로줄 사이 칸 (그림 기준 비율). 병원 그림과 꿈 그림은 칸 높이가 다르다.
-        bool hospital = image.sprite.name == "LoadingBackground";
+        bool hospital = image.sprite.name == "LoadingBackground" || image.sprite.name == "HospitalDayLoadingBackground";
         float bottom = hospital ? 0.240f : 0.158f;
         float top = hospital ? 0.386f : 0.368f;
         var rt = tip.rectTransform;
@@ -237,7 +244,15 @@ public class LoadingScreen : MonoBehaviour
         int pick = Random.Range(0, Tips.Length);
         if (Tips.Length > 1 && pick == lastTip) pick = (pick + 1 + Random.Range(0, Tips.Length - 1)) % Tips.Length;
         lastTip = pick;
-        tip.text = Tips[pick];
+        if (destination == "MainMenu")
+            tip.text = "메인 메뉴로 돌아갑니다.\n설정한 음량과 마우스 감도는 다음 플레이에도 유지됩니다.";
+        else if (destination == "HospitalRoom")
+            tip.text = "병원으로 들어갑니다.\n주변을 살펴보고, 안내가 나타나면 E 키로 상호작용하세요.";
+        else if (!string.IsNullOrEmpty(destination) && destination.Contains("BrightDream"))
+            tip.text = "밝은 꿈으로 들어갑니다.\n주변의 단서를 살펴보며 잠든 아이의 기억을 찾아보세요.";
+        else if (!string.IsNullOrEmpty(destination) && destination.Contains("BadDream"))
+            tip.text = "악몽으로 들어갑니다.\n손전등으로 그림자를 드러내고, 착지할 발판을 확인하세요.";
+        else tip.text = Tips[pick];
     }
 
     private IEnumerator LoadRoutine(string target)

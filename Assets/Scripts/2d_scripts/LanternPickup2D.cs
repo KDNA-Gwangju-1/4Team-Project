@@ -37,6 +37,8 @@ public class LanternPickup2D : MonoBehaviour
 
     void Update()
     {
+        // ESC 일시정지 중에는 입력을 받지 않는다.
+        if (PauseMenu.IsPaused) return;
         if (taken) return;
 
         // it drifts a little so the eye finds it on a dark floor

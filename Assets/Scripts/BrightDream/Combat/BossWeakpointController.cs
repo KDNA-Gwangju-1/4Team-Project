@@ -44,6 +44,7 @@ namespace BrightDream.Combat
         private bool isDefeated;
         private Coroutine autoCloseRoutine;
         private Color[] originalColors;
+        private BossWeakpointVisual feedback;
 
         private void Awake()
         {
@@ -67,6 +68,12 @@ namespace BrightDream.Combat
             originalColors = new Color[bodyRenderers.Length];
             for (int i = 0; i < bodyRenderers.Length; i++)
                 if (bodyRenderers[i] != null) originalColors[i] = ReadColor(bodyRenderers[i].material);
+
+            if (weakpointVisual == null)
+            {
+                feedback = gameObject.AddComponent<BossWeakpointVisual>();
+                feedback.Initialize(GetComponent<Collider>());
+            }
 
             ChapterObjectiveStyle.Apply(progressText, ChapterDialogueSkin.Theme.BrightDream, 2);
             ChapterObjectiveStyle.Apply(weakpointGaugeText, ChapterDialogueSkin.Theme.BrightDream, 3);
@@ -122,7 +129,9 @@ namespace BrightDream.Combat
             IsExposed = true;
             hitRegisteredThisWindow = false;
             if (weakpointVisual != null) weakpointVisual.SetActive(true);
-            SetTint(exposedTint);
+            if (feedback != null) feedback.Show();
+            else SetTint(exposedTint);
+            if (weakpointGaugeText != null) weakpointGaugeText.text = "<b>약점 노출</b>   <color=#258B80>지금 보스 본체를 정화하세요</color>";
             autoCloseRoutine = StartCoroutine(AutoCloseAfterDelay());
         }
 
@@ -137,7 +146,9 @@ namespace BrightDream.Combat
             IsExposed = false;
             autoCloseRoutine = null;
             if (weakpointVisual != null) weakpointVisual.SetActive(false);
+            if (feedback != null) feedback.Hide();
             RestoreTint();
+            UpdateGaugeUI();
         }
 
         /// <summary>전용 약점 비주얼이 생기기 전까지 쓰는 임시 표시 - 노출/평시 색을 본체 머티리얼에 직접 칠한다.</summary>
@@ -176,8 +187,10 @@ namespace BrightDream.Combat
             if (!IsExposed || hitRegisteredThisWindow) return;
 
             hitRegisteredThisWindow = true;
+            if (feedback != null) feedback.Hit();
             HitProgress++;
             UpdateProgressUI();
+            if (weakpointGaugeText != null) weakpointGaugeText.text = "<b>정화 성공</b>   다음 노출을 준비하세요";
             if (HitProgress >= hitsToDefeat) Defeat();
         }
 

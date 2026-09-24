@@ -22,6 +22,7 @@ public class LoadingOverlay : MonoBehaviour
 
     [Tooltip("화면을 걷는 데 걸리는 시간")]
     [SerializeField] private float fadeOutTime = 0.5f;
+    [SerializeField] private bool useDayHospitalArtwork = true;
 
     private CanvasGroup _group;
 
@@ -32,7 +33,16 @@ public class LoadingOverlay : MonoBehaviour
     {
         // Fit the artwork without changing the full-screen fade/input area.
         var background = transform.Find("Background");
-        if (background != null) LoadingScreen.FitBackground(background.GetComponent<Image>());
+        if (background != null)
+        {
+            var image = background.GetComponent<Image>();
+            if (image != null && useDayHospitalArtwork)
+            {
+                var day = Resources.Load<Sprite>("HospitalDayLoadingBackground");
+                if (day != null) image.sprite = day;
+            }
+            LoadingScreen.FitBackground(image);
+        }
         _group = GetComponent<CanvasGroup>();
         _group.alpha = 0f;
         _group.blocksRaycasts = false;

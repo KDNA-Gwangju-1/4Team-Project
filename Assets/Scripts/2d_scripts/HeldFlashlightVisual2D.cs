@@ -19,11 +19,13 @@ public class HeldFlashlightVisual2D : MonoBehaviour
     private PlayerMovement2D player;
     private Rigidbody2D body;
     private int airborneSortingOrder;
+    private PlayerSpriteAnimator2D animator;
 
     void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
         player = GetComponentInParent<PlayerMovement2D>();
+        animator = GetComponentInParent<PlayerSpriteAnimator2D>();
         if (player != null) body = player.GetComponent<Rigidbody2D>();
         if (sr != null)
         {
@@ -34,9 +36,12 @@ public class HeldFlashlightVisual2D : MonoBehaviour
 
     private void LateUpdate()
     {
-        // Before pickup PoseFlashlight is not called at all. Keep visibility in
-        // sync independently, but let cutscenes own the pose while input is disabled.
-        if (player != null && player.enabled) RefreshPose();
+        // Run after the animator, including cutscenes which disable player input.
+        if (player == null) return;
+        RefreshPose();
+        Vector3 emitter;
+        if (player.flashlight != null && animator != null && animator.TryGetFlashlightEmitter(out emitter))
+            player.flashlight.position = emitter;
     }
 
     // Refresh immediately for the beam; LateUpdate also covers no-input/no-lantern frames.
@@ -44,6 +49,7 @@ public class HeldFlashlightVisual2D : MonoBehaviour
     {
         RefreshPose();
         position = transform.position;
+        if (animator != null && animator.TryGetFlashlightEmitter(out position)) return true;
         if (sr == null || !sr.enabled || sr.sprite == null) return false;
         // The supplied art includes decorative rays beyond the actual lens (77% of width).
         Bounds bounds = sr.sprite.bounds;
@@ -55,10 +61,15 @@ public class HeldFlashlightVisual2D : MonoBehaviour
     {
         if (sr == null || player == null) return;
 
-        // Only the WALK art has a flashlight drawn into it. Jumping never did, and
-        // standing still used to fake it by holding a walk frame - which splayed his
-        // legs out the moment the light came on. Both of those poses get the overlay
-        // instead, so the body can keep its own stance.
+        // Equipped animation already contains the complete arm and lamp. Never
+        // superimpose the unrelated cutout (different size and no holding arm).
+        if (animator != null && animator.HasHoldingArtwork)
+        {
+            sr.enabled = false;
+            return;
+        }
+
+        // Legacy fallback for characters without the complete holding artwork.
         float speed = body != null ? Mathf.Abs(body.linearVelocity.x) : 0f;
         bool standingStill = player.IsGrounded && speed <= idleSpeedThreshold;
         sr.enabled = player.HasLantern && player.IsLightOn && (!player.IsGrounded || standingStill);

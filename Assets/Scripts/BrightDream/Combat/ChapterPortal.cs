@@ -110,6 +110,8 @@ namespace BrightDream.Combat
 
         private void Update()
         {
+            // ESC 일시정지 중에는 입력을 받지 않는다.
+            if (PauseMenu.IsPaused) return;
             if (!isOpen || entered) { SetHovering(false); return; }
             if (playerCamera == null) { SetHovering(false); return; }
 

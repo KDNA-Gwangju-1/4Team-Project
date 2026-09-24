@@ -12,6 +12,7 @@ public class PlayerSpriteAnimator2D : MonoBehaviour
 
     public Sprite[] walkFlashlightFrames;
     public float walkFlashlightFrameDuration = 0.11f;
+    public Sprite idleFlashlightSprite;
 
     public Sprite[] jumpFrames;
     public float jumpFrameDuration = 0.12f;
@@ -48,6 +49,28 @@ public class PlayerSpriteAnimator2D : MonoBehaviour
     private AnimState currentState = AnimState.Idle;
     private bool usingFlashlightWalk;
     private bool usingFlashlightIdle;
+    public bool HasHoldingArtwork => player != null && player.HasLantern
+        && walkFlashlightFrames != null && walkFlashlightFrames.Length >= 8;
+    private static readonly float[] HoldingLensY = { 228f, 242f, 243f, 232f, 228f, 242f, 243f, 232f };
+
+    // Lens positions in the eight 512px holding frames (top-left image coordinates).
+    // Resolve the displayed frame, not velocity: cutscenes can drive the animation too.
+    public bool TryGetFlashlightEmitter(out Vector3 position)
+    {
+        position = transform.position;
+        if (!HasHoldingArtwork || sr == null) return false;
+        int index = System.Array.IndexOf(walkFlashlightFrames, sr.sprite);
+        if (sr.sprite == idleFlashlightSprite && idleFlashlightSprite != null) index = 6;
+        if (index < 0) return false;
+        Vector2 pixel = new Vector2(448f, 512f - HoldingLensY[index % 8]);
+        Vector2 local = (pixel / 512f * sr.sprite.rect.size - sr.sprite.pivot) / sr.sprite.pixelsPerUnit;
+        // Input may change direction before this animator's Update runs.
+        bool flipped = player.IsLightOn ? player.LightDirection.x < 0f : player.FacingDirection < 0;
+        if (flipped) local.x = -local.x;
+        if (sr.flipY) local.y = -local.y;
+        position = transform.TransformPoint(local);
+        return true;
+    }
     private int frameIndex;
     private float frameTimer;
 
@@ -56,6 +79,8 @@ public class PlayerSpriteAnimator2D : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         player = GetComponent<PlayerMovement2D>();
+        if (idleFlashlightSprite == null)
+            idleFlashlightSprite = Resources.Load<Sprite>("Chapter2/Player/player-idle-flashlight");
     }
 
     void Update()
@@ -91,12 +116,7 @@ public class PlayerSpriteAnimator2D : MonoBehaviour
         bool nextUsingFlashlightWalk = next == AnimState.Walk && player != null
             && player.HasLantern && walkFlashlightFrames != null && walkFlashlightFrames.Length > 0;
 
-        // Standing still used to borrow walkFlashlightFrames[0] purely because that
-        // art has the flashlight in hand - and that frame has his legs further apart
-        // than any other in the cycle, so holding a light while standing read as a
-        // frozen walk. Idle now uses the idle cycle and HeldFlashlightVisual2D draws
-        // the flashlight on top.
-        bool nextUsingFlashlightIdle = false;
+        bool nextUsingFlashlightIdle = next == AnimState.Idle && HasHoldingArtwork;
 
         if (next != currentState || nextUsingFlashlightWalk != usingFlashlightWalk || nextUsingFlashlightIdle != usingFlashlightIdle)
         {
@@ -117,6 +137,21 @@ public class PlayerSpriteAnimator2D : MonoBehaviour
     {
         Sprite[] frames = CurrentFrames();
         if (frames == null || frames.Length == 0 || sr == null) return;
+
+        if (HasHoldingArtwork && currentState != AnimState.Walk)
+        {
+            if (currentState == AnimState.Idle && idleFlashlightSprite != null)
+            {
+                sr.sprite = idleFlashlightSprite;
+                return;
+            }
+            // Frame 7 is the narrow planted stance; frame 4 raises a knee for flight.
+            // Keep the same hand, lamp and pixel scale through every equipped state.
+            int holdingFrame = currentState == AnimState.Dash ? dashWalkFrameIndex
+                : currentState == AnimState.Jump ? 3 : 6;
+            sr.sprite = walkFlashlightFrames[Mathf.Clamp(holdingFrame, 0, walkFlashlightFrames.Length - 1)];
+            return;
+        }
 
         if (currentState == AnimState.Dash)
         {

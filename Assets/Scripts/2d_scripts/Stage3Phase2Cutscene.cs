@@ -190,6 +190,30 @@ public class Stage3Phase2Cutscene : MonoBehaviour
     private Parallax2D bossParallax;
     private FloatBob2D bossBob;
     private readonly List<GameObject> props = new List<GameObject>();
+    private float phase1SpriteWidth;
+
+    private void Awake()
+    {
+        var animator = boss != null ? boss.GetComponent<MonsterSpriteAnimator2D>() : null;
+        Sprite reference = animator != null && animator.activeFrames != null && animator.activeFrames.Length > 0
+            ? animator.activeFrames[0] : (bossRenderer != null ? bossRenderer.sprite : null);
+        phase1SpriteWidth = reference != null ? reference.bounds.size.x : 0f;
+    }
+
+    // A retry must use the same endpoint as the authored timeline. Some scenes
+    // transform in place and never play the optional ascent/burst (beat 3).
+    private void ApplyPhase2CombatScale(bool afterBurst)
+    {
+        if (boss == null || bossRenderer == null) return;
+        Sprite reference = phase2Frames != null && phase2Frames.Length > 0
+            ? phase2Frames[0] : bossRenderer.sprite;
+        float width = reference != null ? reference.bounds.size.x : 0f;
+        float parentScale = boss.parent != null ? Mathf.Abs(boss.parent.lossyScale.x) : 1f;
+        float divisor = afterBurst ? width : phase1SpriteWidth;
+        if (divisor <= 0.001f || parentScale <= 0.001f) return;
+        float scale = (afterBurst ? bossBurstWidth : phase2Width) / (divisor * parentScale);
+        boss.localScale = new Vector3(scale, scale, boss.localScale.z);
+    }
 
     public IEnumerator Play()
     {
@@ -760,6 +784,8 @@ public class Stage3Phase2Cutscene : MonoBehaviour
         }
         if (bossRenderer != null) bossRenderer.color = phase2Tint;
 
+        ApplyPhase2CombatScale(false);
+
         // what she is now speaks with a different face
         if (bossShadowDialogueFrame != null) bossDialogueFrame = bossShadowDialogueFrame;
 
@@ -866,12 +892,7 @@ public class Stage3Phase2Cutscene : MonoBehaviour
 
         if (bossRenderer != null)
         {
-            float drawn = bossRenderer.sprite != null ? bossRenderer.sprite.bounds.size.x : 1f;
-            if (drawn > 0.001f)
-            {
-                float factor = bossBurstWidth / drawn;
-                boss.localScale = new Vector3(factor, factor, boss.localScale.z);
-            }
+            ApplyPhase2CombatScale(true);
             bossRenderer.enabled = true;
         }
 
@@ -939,19 +960,20 @@ public class Stage3Phase2Cutscene : MonoBehaviour
         boss.position = new Vector3(landing.x + bossBurstOffset.x, landing.y + bossBurstOffset.y, 0f);
         if (bossRenderer != null)
         {
-            // 애니메이터는 다음 프레임에야 스프라이트를 바꾸므로 렌더러가 아니라 프레임에서 폭을 잰다
-            Sprite measure = phase2Look != null ? phase2Look : bossRenderer.sprite;
-            float drawn = measure != null ? measure.bounds.size.x : 1f;
-            if (drawn > 0.001f)
-            {
-                float factor = bossBurstWidth / drawn;
-                boss.localScale = new Vector3(factor, factor, boss.localScale.z);
-            }
+            bool hasBurst = false;
+            if (lines != null)
+                foreach (var line in lines)
+                    if (line != null && line.beatAfter == 3) hasBurst = true;
+            ApplyPhase2CombatScale(hasBurst);
             bossRenderer.color = phase2Tint;
             bossRenderer.enabled = true;
         }
 
         CameraFollow2D follow = cam.GetComponent<CameraFollow2D>();
+        var parallax = boss.GetComponent<Parallax2D>();
+        if (parallax != null) parallax.enabled = false;
+        var bob = boss.GetComponent<FloatBob2D>();
+        if (bob != null) bob.enabled = false;
         if (lockCameraForPhase2)
         {
             cam.transform.position = new Vector3(phase2CameraCentre.x, phase2CameraCentre.y, shotOffset.z);

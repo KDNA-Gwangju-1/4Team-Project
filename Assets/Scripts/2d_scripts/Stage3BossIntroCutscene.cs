@@ -698,19 +698,14 @@ public class Stage3BossIntroCutscene : MonoBehaviour
     private IEnumerator ShowQuestionMark()
     {
         GameObject qmGO = new GameObject("BossIntroQuestionMark");
-        qmGO.transform.position = player.transform.position + new Vector3(0f, 1.6f, 0f);
-        TextMesh tm = qmGO.AddComponent<TextMesh>();
-        tm.text = "?";
-        tm.characterSize = 0.2f;
-        tm.fontSize = 80;
-        tm.anchor = TextAnchor.MiddleCenter;
-        tm.alignment = TextAlignment.Center;
-        tm.color = new Color(1f, 0.92f, 0.3f);
-        MeshRenderer mr = qmGO.GetComponent<MeshRenderer>();
-        mr.sortingLayerName = "Default";
-        mr.sortingOrder = 100;
+        qmGO.transform.SetParent(player.transform, false);
+        qmGO.transform.localPosition = new Vector3(0f, 1.65f, 0f);
+        SpriteRenderer reaction = qmGO.AddComponent<SpriteRenderer>();
+        reaction.sprite = GetQuestionBubbleSprite();
+        reaction.sortingLayerID = player.GetComponent<SpriteRenderer>().sortingLayerID;
+        reaction.sortingOrder = 100;
 
-        Vector3 baseScale = Vector3.one * 0.6f;
+        Vector3 baseScale = Vector3.one;
         qmGO.transform.localScale = Vector3.zero;
 
         float popDuration = 0.2f;
@@ -743,6 +738,48 @@ public class Stage3BossIntroCutscene : MonoBehaviour
         }
 
         Destroy(qmGO);
+    }
+
+    private static Sprite questionBubbleSprite;
+
+    private static Sprite GetQuestionBubbleSprite()
+    {
+        if (questionBubbleSprite != null) return questionBubbleSprite;
+        // A pixel speech badge uses the same ink, lavender and warm ivory as the HUD.
+        const int width = 25, height = 31;
+        Color ink = new Color32(20, 16, 35, 255);
+        Color rim = new Color32(166, 137, 219, 255);
+        Color fill = new Color32(40, 31, 60, 255);
+        Color glyph = new Color32(255, 231, 153, 255);
+        Texture2D texture = new Texture2D(width, height, TextureFormat.RGBA32, false);
+        texture.name = "BossReactionPixelBadge";
+        texture.filterMode = FilterMode.Point;
+        texture.wrapMode = TextureWrapMode.Clamp;
+        Color[] pixels = new Color[width * height];
+        for (int y = 5; y < height; y++)
+        for (int x = 0; x < width; x++)
+        {
+            int edge = Mathf.Min(x, width - 1 - x, y - 5, height - 1 - y);
+            if ((x < 2 || x > width - 3) && (y < 7 || y > height - 3)) continue;
+            pixels[y * width + x] = edge == 0 ? ink : edge == 1 ? rim : fill;
+        }
+        for (int y = 0; y < 6; y++)
+        for (int x = 10; x <= 10 + y; x++)
+            pixels[y * width + x] = x == 10 || x == 10 + y ? rim : fill;
+        string[] mark = { "01110", "11011", "00011", "00110", "00100", "00000", "00100" };
+        for (int row = 0; row < mark.Length; row++)
+        for (int col = 0; col < 5; col++)
+        {
+            if (mark[row][col] != '1') continue;
+            for (int dy = 0; dy < 2; dy++)
+            for (int dx = 0; dx < 2; dx++)
+                pixels[(24 - row * 2 + dy) * width + 8 + col * 2 + dx] = glyph;
+        }
+        texture.SetPixels(pixels);
+        texture.Apply(false, true);
+        questionBubbleSprite = Sprite.Create(texture, new Rect(0, 0, width, height), new Vector2(0.5f, 0.5f), 28f);
+        questionBubbleSprite.name = "BossReactionPixelBadge";
+        return questionBubbleSprite;
     }
 
     private IEnumerator PlayTendrilClaw()

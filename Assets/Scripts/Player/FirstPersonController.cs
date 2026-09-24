@@ -103,6 +103,8 @@ public class FirstPersonController : MonoBehaviour
 
     private void Update()
     {
+        // ESC 일시정지 중에는 입력을 받지 않는다.
+        if (PauseMenu.IsPaused) return;
         HandleCursorToggle();
         HandleLook();
         HandleMove();
@@ -214,11 +216,7 @@ public class FirstPersonController : MonoBehaviour
 
     private void HandleCursorToggle()
     {
-        // 조작법 안내창은 아무 키로나 닫히는데, 그 키가 ESC 면 커서까지 같이 풀려 버렸다.
-        if (Input.GetKeyDown(KeyCode.Escape) && !ControlGuideUI.Blocking)
-        {
-            SetCursorLocked(!_cursorLocked);
-        }
+        // ESC 는 일시정지 메뉴가 맡는다 (메뉴가 커서를 풀고, 닫을 때 되돌린다).
 
         // 풀린 커서는 화면을 클릭하면 다시 잠근다 (BrightDream 과 같은 방식).
         if (!_cursorLocked && Input.GetMouseButtonDown(0) && !InputBlocked)

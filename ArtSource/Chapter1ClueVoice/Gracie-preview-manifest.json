@@ -1,0 +1,45 @@
+{
+  "voice": "Gracie",
+  "classification": "young female; elementary school age not guaranteed",
+  "model": "seed_audio",
+  "notInstalled": true,
+  "missing": {
+    "index": 2,
+    "clue": "photoalbum",
+    "reason": "Out of credits"
+  },
+  "jobs": [
+    {
+      "index": 1,
+      "job_id": "32be228a-91a0-4f13-ac06-9868befd6d60",
+      "status": "completed",
+      "type": "audio",
+      "model": "seed_audio",
+      "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3JRQOgPwrAwAqoEIhiqbccIsTD1/hf_20260924_143127_32be228a-91a0-4f13-ac06-9868befd6d60.mp3"
+    },
+    {
+      "index": 3,
+      "job_id": "3ecfcc2e-d470-4f79-979c-9dbac674e012",
+      "status": "completed",
+      "type": "audio",
+      "model": "seed_audio",
+      "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3JRQOgPwrAwAqoEIhiqbccIsTD1/hf_20260924_143327_3ecfcc2e-d470-4f79-979c-9dbac674e012.mp3"
+    },
+    {
+      "index": 5,
+      "job_id": "5045c685-c10e-42d8-93d5-24f67a9725f4",
+      "status": "completed",
+      "type": "audio",
+      "model": "seed_audio",
+      "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3JRQOgPwrAwAqoEIhiqbccIsTD1/hf_20260924_143328_5045c685-c10e-42d8-93d5-24f67a9725f4.mp3"
+    },
+    {
+      "index": 4,
+      "job_id": "ac84f96c-8f75-4191-8a95-3fac0c540847",
+      "status": "completed",
+      "type": "audio",
+      "model": "seed_audio",
+      "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3JRQOgPwrAwAqoEIhiqbccIsTD1/hf_20260924_143425_ac84f96c-8f75-4191-8a95-3fac0c540847.mp3"
+    }
+  ]
+}

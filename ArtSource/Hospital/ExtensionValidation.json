@@ -1,0 +1,24 @@
+{
+  "ends": [
+    {
+      "name": "Wall_End_Left",
+      "collider": true,
+      "trigger": false,
+      "visible": false
+    },
+    {
+      "name": "Wall_End_Right",
+      "collider": true,
+      "trigger": false,
+      "visible": false
+    }
+  ],
+  "blocked": [
+    true,
+    true
+  ],
+  "darkEndVisible": 0,
+  "missingScripts": 0,
+  "fogStart": 14.0,
+  "fogEnd": 36.0
+}

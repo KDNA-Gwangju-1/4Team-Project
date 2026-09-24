@@ -17,6 +17,9 @@ namespace BrightDream.Combat
 
         private bool isGameOver;
 
+        /// <summary>게임 오버 화면이 떠 있으면 true. 그동안은 일시정지 메뉴가 열리지 않는다.</summary>
+        public static bool IsGameOver => Instance != null && Instance.isGameOver;
+
         private void Awake()
         {
             if (Instance != null && Instance != this)

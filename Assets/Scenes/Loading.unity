@@ -148,8 +148,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 045c2106c2f61494e8e6b1b4436b92ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LoadingScreen
+  background: {fileID: 0}
   fallbackScene: HospitalRoom
-  minimumDisplayTime: 9
+  minimumDisplayTime: 2.5
 --- !u!4 &137873545
 Transform:
   m_ObjectHideFlags: 0

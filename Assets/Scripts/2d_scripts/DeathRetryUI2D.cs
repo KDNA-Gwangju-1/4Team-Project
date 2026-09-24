@@ -29,10 +29,16 @@ public class DeathRetryUI2D : MonoBehaviour
 
     public bool IsShown => shown;
 
+    /// <summary>A death screen is up in this scene (the pause menu stays shut while it is).</summary>
+    public static bool AnyShown { get; private set; }
+
+    void OnDestroy() { AnyShown = false; }
+
     public void Show()
     {
         if (shown) return;
         shown = true;
+        AnyShown = true;
 
         // 씬을 다시 올리면 페이즈가 날아가므로 지금 읽어둔다
         BossPhaseController2D phases = FindFirstObjectByType<BossPhaseController2D>();

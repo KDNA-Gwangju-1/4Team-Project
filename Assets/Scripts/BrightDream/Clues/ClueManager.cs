@@ -43,6 +43,8 @@ namespace BrightDream.Clues
         private int investigatePartIndex;
         private bool pendingAllCluesCollected;
         private DialogueSkinSession skinSession;
+        private AudioSource clueVoice;
+        private string investigatingClueId;
 
         public int CollectedCount => collectedClueIds.Count;
 
@@ -83,6 +85,7 @@ namespace BrightDream.Clues
         private void OnDisable()
         {
             StageProgressManager.OnStageChanged -= HandleStageChanged;
+            if (clueVoice != null) clueVoice.Stop();
         }
 
         /// <summary>Stage 1 안내 문구가 뜨는 시점(=CurrentStage가 1이 되는 시점)에 단서 진행도 UI를 노출한다.</summary>
@@ -117,6 +120,7 @@ namespace BrightDream.Clues
                 return;
             }
 
+            investigatingClueId = clue.ClueId;
             ShowInvestigateText(clue.InvestigateText);
             if (allCollected) pendingAllCluesCollected = true;
         }
@@ -168,6 +172,8 @@ namespace BrightDream.Clues
 
         private void Update()
         {
+            // ESC 일시정지 중에는 입력을 받지 않는다.
+            if (PauseMenu.IsPaused) return;
             if (investigateParts == null) return;
             if (!Input.GetKeyDown(KeyCode.Space)) return;
 
@@ -184,10 +190,31 @@ namespace BrightDream.Clues
             string part = investigateParts[investigatePartIndex].Trim();
             if (!part.StartsWith("(")) part = "(" + part + ")";
             investigateText.text = part;
+            PlayClueVoice();
+        }
+
+        private void PlayClueVoice()
+        {
+            if (clueVoice != null) clueVoice.Stop();
+            if (string.IsNullOrEmpty(investigatingClueId)) return;
+            var clip = Resources.Load<AudioClip>($"Audio/Chapter1Clues/{investigatingClueId}_{investigatePartIndex + 1:00}");
+            if (clip == null) return;
+            if (clueVoice == null)
+            {
+                clueVoice = gameObject.AddComponent<AudioSource>();
+                clueVoice.playOnAwake = false;
+                clueVoice.spatialBlend = 0f;
+                clueVoice.ignoreListenerPause = true;
+                clueVoice.volume = 0.85f;
+            }
+            clueVoice.clip = clip;
+            clueVoice.Play();
         }
 
         private void EndInvestigateText()
         {
+            if (clueVoice != null) clueVoice.Stop();
+            investigatingClueId = null;
             investigateParts = null;
             SetInvestigateTextActive(false);
 

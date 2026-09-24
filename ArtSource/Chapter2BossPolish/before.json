@@ -1,0 +1,9 @@
+{
+  "normal": {
+    "width": 13.31792,
+    "scale": "(6.09, 6.09, 1.85)",
+    "sprite": "boss-phase2-claw-01"
+  },
+  "retryWidth": 30.0,
+  "steps": 26
+}

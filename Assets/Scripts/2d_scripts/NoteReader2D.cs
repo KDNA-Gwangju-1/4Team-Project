@@ -52,6 +52,9 @@ public class NoteReader2D : MonoBehaviour
     private GameObject canvasGO;
     private CanvasGroup group;
     private bool open;
+
+    /// <summary>Any note open right now. ESC closes the note first, so the pause menu stays shut.</summary>
+    public static bool AnyOpen { get; private set; }
     private float alpha;
 
     void OnDestroy()
@@ -61,6 +64,8 @@ public class NoteReader2D : MonoBehaviour
 
     void Update()
     {
+        // ESC 일시정지 중에는 입력을 받지 않는다.
+        if (PauseMenu.IsPaused) return;
         PlayerMovement2D player = PlayerMovement2D.Instance;
         Keyboard keyboard = Keyboard.current;
 
@@ -69,7 +74,11 @@ public class NoteReader2D : MonoBehaviour
             Fade(1f);
             bool close = keyboard != null
                 && (keyboard[readKey].wasPressedThisFrame || keyboard.escapeKey.wasPressedThisFrame);
-            if (close) Close(player);
+            if (close)
+            {
+                if (keyboard.escapeKey.wasPressedThisFrame) PauseMenu.ConsumeEscapeThisFrame();
+                Close(player);
+            }
             return;
         }
 
@@ -92,6 +101,7 @@ public class NoteReader2D : MonoBehaviour
         if (canvasGO == null) return;
 
         open = true;
+        AnyOpen = true;
         if (prompt != null) prompt.SetVisible(false, promptText);
         // reading is a pause, not a moment to be walked into a monster during
         if (player != null) player.enabled = false;
@@ -100,6 +110,7 @@ public class NoteReader2D : MonoBehaviour
     private void Close(PlayerMovement2D player)
     {
         open = false;
+        AnyOpen = false;
         if (player != null) player.enabled = true;
     }
 

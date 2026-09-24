@@ -293,7 +293,7 @@ public class SubtitleUI : MonoBehaviour
     /// <summary>넘기기 키 중 하나라도 이번 프레임에 눌렸는지</summary>
     private bool AdvancePressed()
     {
-        if (advanceKeys == null) return false;
+        if (advanceKeys == null || PauseMenu.IsPaused) return false;
 
         for (int i = 0; i < advanceKeys.Length; i++)
         {

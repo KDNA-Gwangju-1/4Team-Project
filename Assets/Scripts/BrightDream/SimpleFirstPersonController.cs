@@ -10,7 +10,7 @@ using UnityEngine;
 ///   WASD  이동 / Shift 달리기 / Space 점프
 ///   마우스  시점 (감도는 GameSettings.MouseSensitivity 를 그대로 쓴다)
 ///   P     자동 걷기 on/off - 길을 따라 끝까지 걸으며 소요 시간을 Console 에 기록
-///   Esc   마우스 커서 잠금 해제
+///   Esc   일시정지 메뉴 (PauseMenu 가 커서를 풀고, 닫을 때 되돌린다)
 ///
 /// 자동 걷기 중에는 E 상호작용 키를 누를 수 없어서, 단서 조사(ClueInteractable)가
 /// IsAutoWalking을 보고 자동으로 조사 처리한다 - 안 그러면 단서를 하나도 못 모아서
@@ -86,7 +86,9 @@ public class SimpleFirstPersonController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape)) LockCursor(false);
+        // ESC 일시정지 중에는 입력을 받지 않는다.
+        if (PauseMenu.IsPaused) return;
+        // ESC 는 일시정지 메뉴가 맡는다 (메뉴가 커서를 풀고, 닫을 때 되돌린다).
         if (Input.GetMouseButtonDown(0) && Cursor.lockState != CursorLockMode.Locked) LockCursor(true);
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
         if (Input.GetKeyDown(KeyCode.P)) ToggleAutoWalk();
