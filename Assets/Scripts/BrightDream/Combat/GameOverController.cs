@@ -25,7 +25,50 @@ namespace BrightDream.Combat
                 return;
             }
             Instance = this;
+            StylePanel();
             if (gameOverPanel != null) gameOverPanel.SetActive(false);
+        }
+
+        /// <summary>HUD 와 같은 카드 디자인으로 게임 오버 화면을 꾸민다 (제목 + 카드 버튼).</summary>
+        private void StylePanel()
+        {
+            if (gameOverPanel == null) return;
+            foreach (var text in gameOverPanel.GetComponentsInChildren<UnityEngine.UI.Text>(true))
+            {
+                var button = text.GetComponentInParent<UnityEngine.UI.Button>(true);
+                if (button == null)
+                {
+                    // 제목
+                    text.font = HangulFont.GetEmphasis();
+                    text.fontStyle = FontStyle.Normal;
+                    text.fontSize = 68;
+                    text.color = new Color(1f, .93f, .86f);
+                    var shadow = text.GetComponent<UnityEngine.UI.Shadow>();
+                    if (shadow == null) shadow = text.gameObject.AddComponent<UnityEngine.UI.Shadow>();
+                    shadow.effectColor = new Color(.55f, .16f, .24f, .9f);
+                    shadow.effectDistance = new Vector2(0f, -4f);
+                    continue;
+                }
+                text.font = HangulFont.GetEmphasis();
+                text.fontStyle = FontStyle.Normal;
+                text.fontSize = 28;
+                text.color = ChapterHudStyle.Ink(true);
+                var image = button.GetComponent<UnityEngine.UI.Image>();
+                if (image != null)
+                {
+                    ChapterHudStyle.SkinCard(image, true);
+                    var rt = image.rectTransform;
+                    rt.sizeDelta = new Vector2(Mathf.Max(rt.sizeDelta.x, 300f), Mathf.Max(rt.sizeDelta.y, 72f));
+                }
+                var colors = button.colors;
+                colors.normalColor = Color.white;
+                colors.highlightedColor = new Color(.9f, .96f, 1f);
+                colors.pressedColor = new Color(.8f, .9f, .97f);
+                colors.selectedColor = colors.highlightedColor;
+                button.colors = colors;
+            }
+            var dim = gameOverPanel.GetComponent<UnityEngine.UI.Image>();
+            if (dim != null) dim.color = new Color(.10f, .08f, .16f, .72f);
         }
 
         public void TriggerGameOver()
@@ -41,6 +84,12 @@ namespace BrightDream.Combat
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             Time.timeScale = 0f;
+        }
+
+        private void Update()
+        {
+            // 재시작은 모든 챕터에서 R 키로 통일했다 (버튼 클릭도 그대로 된다).
+            if (isGameOver && Input.GetKeyDown(KeyCode.R)) RestartScene();
         }
 
         public void RestartScene()

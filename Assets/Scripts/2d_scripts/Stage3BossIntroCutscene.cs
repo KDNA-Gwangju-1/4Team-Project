@@ -850,7 +850,11 @@ public class Stage3BossIntroCutscene : MonoBehaviour
         Canvas canvas = captionCanvas.AddComponent<Canvas>();
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
         canvas.sortingOrder = 10;
-        captionCanvas.AddComponent<CanvasScaler>();
+        CanvasScaler scaler = captionCanvas.AddComponent<CanvasScaler>();
+        // same scaling as every other canvas in the game
+        scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        scaler.referenceResolution = new Vector2(1920f, 1080f);
+        scaler.matchWidthOrHeight = 0.5f;
 
         GameObject speakerGO = new GameObject("BossIntroSpeakerText");
         speakerGO.transform.SetParent(captionCanvas.transform, false);

@@ -565,7 +565,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82f65cfc907b55d499fc88c7cefec590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Monster
-  monsterId: stage2_monster_1
   shimmer: {fileID: 1218490217}
   shimmerScalePulse: 0.15
   shimmerAlphaBase: 5
@@ -1467,10 +1466,10 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 4.41, y: 1.87}
-    newSize: {x: 4, y: 2.2}
+    oldSize: {x: 4.54, y: 2.02}
+    newSize: {x: 4.41, y: 1.87}
     adaptiveTilingThreshold: 0.5
-    drawMode: 0
+    drawMode: 1
     adaptiveTiling: 0
   m_AutoTiling: 0
   m_Size: {x: 4, y: 1}
@@ -2619,10 +2618,10 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 4.41, y: 1.87}
-    newSize: {x: 4, y: 2.2}
+    oldSize: {x: 4.54, y: 2.02}
+    newSize: {x: 4.41, y: 1.87}
     adaptiveTilingThreshold: 0.5
-    drawMode: 0
+    drawMode: 1
     adaptiveTiling: 0
   m_AutoTiling: 0
   m_Size: {x: 4, y: 1}
@@ -3283,7 +3282,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82f65cfc907b55d499fc88c7cefec590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Monster
-  monsterId: stage2_monster_2
   shimmer: {fileID: 900000005}
   shimmerScalePulse: 0.15
   shimmerAlphaBase: 5
@@ -3739,10 +3737,10 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 4.41, y: 1.87}
-    newSize: {x: 3.5, y: 2.2}
+    oldSize: {x: 4.54, y: 2.02}
+    newSize: {x: 4.41, y: 1.87}
     adaptiveTilingThreshold: 0.5
-    drawMode: 0
+    drawMode: 1
     adaptiveTiling: 0
   m_AutoTiling: 0
   m_Size: {x: 4, y: 1}
@@ -4797,7 +4795,7 @@ MonoBehaviour:
   player: {fileID: 1550880036}
   cam: {fileID: 688051110}
   rabbit: {fileID: 1395789098}
-  captionFont: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+  captionFont: {fileID: 12800000, guid: 4e7331f9fd8a0604a816e16af86d666a, type: 3}
   playerDialogueFrame: {fileID: 21300000, guid: 87a8a037d993e734793549bdadb8ace1, type: 3}
   openingDelay: 0.6
   rabbitStopDistance: 9
@@ -5319,7 +5317,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 7.08, y: 2.21}
+    oldSize: {x: 7.2, y: 2.34}
     newSize: {x: 7.08, y: 2.2}
     adaptiveTilingThreshold: 0.5
     drawMode: 2
@@ -6391,8 +6389,8 @@ MonoBehaviour:
     \uAC78 \uCC3E\uC544\uBCF4\uC790"
   lockedMessageDuration: 2.5
   useRange: 2.8
-  useKey: 37
-  promptMessage: "W\uD0A4\uB97C \uB20C\uB7EC \uC774\uB3D9"
+  useKey: 19
+  promptMessage: "E\uD0A4\uB97C \uB20C\uB7EC \uC774\uB3D9"
 --- !u!1 &900000060
 GameObject:
   m_ObjectHideFlags: 0
@@ -6830,9 +6828,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LanternPickup2D
   pickupRange: 2.6
-  pickupKey: 40
-  promptText: "Z\uD0A4\uB97C \uB20C\uB7EC\uC11C \uC90D\uAE30"
-  font: {fileID: 0}
+  pickupKey: 19
+  promptText: "E\uD0A4\uB97C \uB20C\uB7EC\uC11C \uC90D\uAE30"
+  font: {fileID: 12800000, guid: 4e7331f9fd8a0604a816e16af86d666a, type: 3}
   bobAmplitude: 0.12
   bobPeriod: 2.2
 --- !u!1 &900002600
@@ -8080,7 +8078,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82f65cfc907b55d499fc88c7cefec590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Monster
-  monsterId: stage2_monster_1
   shimmer: {fileID: 900000002}
   shimmerScalePulse: 0.15
   shimmerAlphaBase: 5
@@ -8373,7 +8370,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82f65cfc907b55d499fc88c7cefec590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Monster
-  monsterId: stage2_monster_1
   shimmer: {fileID: 97613546}
   shimmerScalePulse: 0.15
   shimmerAlphaBase: 5
@@ -9240,10 +9236,10 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 4.41, y: 1.87}
-    newSize: {x: 4, y: 2.2}
+    oldSize: {x: 4.54, y: 2.02}
+    newSize: {x: 4.41, y: 1.87}
     adaptiveTilingThreshold: 0.5
-    drawMode: 0
+    drawMode: 1
     adaptiveTiling: 0
   m_AutoTiling: 0
   m_Size: {x: 4, y: 1}
@@ -9554,7 +9550,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82f65cfc907b55d499fc88c7cefec590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Monster
-  monsterId: stage2_monster_0
   shimmer: {fileID: 1930612481}
   shimmerScalePulse: 0.15
   shimmerAlphaBase: 5
@@ -10065,10 +10060,10 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 4.41, y: 1.87}
-    newSize: {x: 4, y: 2.2}
+    oldSize: {x: 4.54, y: 2.02}
+    newSize: {x: 4.41, y: 1.87}
     adaptiveTilingThreshold: 0.5
-    drawMode: 0
+    drawMode: 1
     adaptiveTiling: 0
   m_AutoTiling: 0
   m_Size: {x: 4, y: 1}
@@ -10211,7 +10206,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82f65cfc907b55d499fc88c7cefec590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Monster
-  monsterId: 
   shimmer: {fileID: 72992788}
   shimmerScalePulse: 0.15
   shimmerAlphaBase: 5
@@ -10784,10 +10778,10 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 4.41, y: 1.87}
-    newSize: {x: 4, y: 2.2}
+    oldSize: {x: 4.54, y: 2.02}
+    newSize: {x: 4.41, y: 1.87}
     adaptiveTilingThreshold: 0.5
-    drawMode: 0
+    drawMode: 1
     adaptiveTiling: 0
   m_AutoTiling: 0
   m_Size: {x: 4, y: 1}
@@ -11013,7 +11007,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 7.08, y: 2.21}
+    oldSize: {x: 7.2, y: 2.34}
     newSize: {x: 21.24, y: 2.2}
     adaptiveTilingThreshold: 0.5
     drawMode: 2
@@ -11801,10 +11795,10 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 4.41, y: 1.87}
-    newSize: {x: 4, y: 2.2}
+    oldSize: {x: 4.54, y: 2.02}
+    newSize: {x: 4.41, y: 1.87}
     adaptiveTilingThreshold: 0.5
-    drawMode: 0
+    drawMode: 1
     adaptiveTiling: 0
   m_AutoTiling: 0
   m_Size: {x: 4, y: 1}
@@ -11915,7 +11909,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82f65cfc907b55d499fc88c7cefec590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Monster
-  monsterId: stage2_monster_0
   shimmer: {fileID: 880410052}
   shimmerScalePulse: 0.15
   shimmerAlphaBase: 5
@@ -12141,10 +12134,10 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 4.41, y: 1.87}
-    newSize: {x: 4, y: 2.2}
+    oldSize: {x: 4.54, y: 2.02}
+    newSize: {x: 4.41, y: 1.87}
     adaptiveTilingThreshold: 0.5
-    drawMode: 0
+    drawMode: 1
     adaptiveTiling: 0
   m_AutoTiling: 0
   m_Size: {x: 4, y: 1}
@@ -12720,7 +12713,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7299bce333a50dc409379c5178cd9abd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DeathRetryUI2D
-  font: {fileID: 0}
+  font: {fileID: 12800000, guid: 4e7331f9fd8a0604a816e16af86d666a, type: 3}
   deathMessage: "\uC545\uBABD\uC5D0 \uC0BC\uCF1C\uC84C\uB2E4"
   retryPrompt: "R\uD0A4\uB97C \uB20C\uB7EC \uB2E4\uC2DC \uB3C4\uC804"
   messageColor: {r: 0.86, g: 0.24, b: 0.28, a: 1}
@@ -12999,10 +12992,10 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 4.41, y: 1.87}
-    newSize: {x: 4, y: 2.2}
+    oldSize: {x: 4.54, y: 2.02}
+    newSize: {x: 4.41, y: 1.87}
     adaptiveTilingThreshold: 0.5
-    drawMode: 0
+    drawMode: 1
     adaptiveTiling: 0
   m_AutoTiling: 0
   m_Size: {x: 4, y: 1}
@@ -13264,7 +13257,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82f65cfc907b55d499fc88c7cefec590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Monster
-  monsterId: stage2_monster_0
   shimmer: {fileID: 1742832664}
   shimmerScalePulse: 0.15
   shimmerAlphaBase: 5
@@ -13490,10 +13482,10 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 4.41, y: 1.87}
-    newSize: {x: 4, y: 2.2}
+    oldSize: {x: 4.54, y: 2.02}
+    newSize: {x: 4.41, y: 1.87}
     adaptiveTilingThreshold: 0.5
-    drawMode: 0
+    drawMode: 1
     adaptiveTiling: 0
   m_AutoTiling: 0
   m_Size: {x: 4, y: 1}
@@ -13895,7 +13887,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82f65cfc907b55d499fc88c7cefec590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Monster
-  monsterId: stage2_monster_1
   shimmer: {fileID: 1556393285}
   shimmerScalePulse: 0.15
   shimmerAlphaBase: 5
@@ -14115,9 +14106,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHeartsUI2D
   fullHeart: {fileID: 21300000, guid: fc7b536b0bbef734594f66c17e93240f, type: 3}
   emptyHeart: {fileID: 21300000, guid: fb7a7ec2fb0bd364fa88188a7e6381bc, type: 3}
-  heartSize: 48
-  spacing: 5
-  heartsPerRow: 10
+  heartsShown: 5
   shakeOnDamage: 6
   shakeDuration: 0.35
 --- !u!1 &2073177041
@@ -14176,10 +14165,10 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 4.41, y: 1.87}
-    newSize: {x: 4, y: 2.2}
+    oldSize: {x: 4.54, y: 2.02}
+    newSize: {x: 4.41, y: 1.87}
     adaptiveTilingThreshold: 0.5
-    drawMode: 0
+    drawMode: 1
     adaptiveTiling: 0
   m_AutoTiling: 0
   m_Size: {x: 4, y: 1}
@@ -14496,10 +14485,10 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 4.41, y: 1.87}
-    newSize: {x: 4, y: 2.2}
+    oldSize: {x: 4.54, y: 2.02}
+    newSize: {x: 4.41, y: 1.87}
     adaptiveTilingThreshold: 0.5
-    drawMode: 0
+    drawMode: 1
     adaptiveTiling: 0
   m_AutoTiling: 0
   m_Size: {x: 4, y: 1}
@@ -14742,10 +14731,10 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 4.41, y: 1.87}
-    newSize: {x: 3.5, y: 2.2}
+    oldSize: {x: 4.54, y: 2.02}
+    newSize: {x: 4.41, y: 1.87}
     adaptiveTilingThreshold: 0.5
-    drawMode: 0
+    drawMode: 1
     adaptiveTiling: 0
   m_AutoTiling: 0
   m_Size: {x: 4, y: 1}
@@ -14933,82 +14922,6 @@ MonoBehaviour:
   amplitude: 0.29
   period: 4.29
   phase: 0.8
---- !u!1660057539 &9223372036854775807
-SceneRoots:
-  m_ObjectHideFlags: 0
-  m_Roots:
-  - {fileID: 9300000000010110}
-  - {fileID: 9200000000010146}
-  - {fileID: 688051111}
-  - {fileID: 1550880040}
-  - {fileID: 1622609109}
-  - {fileID: 1339426228}
-  - {fileID: 1848619502}
-  - {fileID: 1037861024}
-  - {fileID: 504571201}
-  - {fileID: 900000011}
-  - {fileID: 2131494661}
-  - {fileID: 2112142019}
-  - {fileID: 2046570105}
-  - {fileID: 71258176}
-  - {fileID: 1073752431}
-  - {fileID: 900000021}
-  - {fileID: 900000031}
-  - {fileID: 125717466}
-  - {fileID: 222050585}
-  - {fileID: 434740367}
-  - {fileID: 716605055}
-  - {fileID: 839610827}
-  - {fileID: 858847554}
-  - {fileID: 979739361}
-  - {fileID: 900000061}
-  - {fileID: 900000071}
-  - {fileID: 640408619}
-  - {fileID: 85759301}
-  - {fileID: 100898131}
-  - {fileID: 14151893}
-  - {fileID: 1340462582}
-  - {fileID: 645962844}
-  - {fileID: 258692239}
-  - {fileID: 1648970461}
-  - {fileID: 378483974}
-  - {fileID: 276184313}
-  - {fileID: 561248720}
-  - {fileID: 435985504}
-  - {fileID: 1388365898}
-  - {fileID: 2073177044}
-  - {fileID: 1509697922}
-  - {fileID: 1644369145}
-  - {fileID: 150495742}
-  - {fileID: 1881974588}
-  - {fileID: 1616496217}
-  - {fileID: 1795759416}
-  - {fileID: 1286551790}
-  - {fileID: 763404134}
-  - {fileID: 1544240783}
-  - {fileID: 1316835594}
-  - {fileID: 900002601}
-  - {fileID: 900002701}
-  - {fileID: 900002801}
-  - {fileID: 1395789101}
-  - {fileID: 1225209431}
-  - {fileID: 455524469}
-  - {fileID: 298304839}
-  - {fileID: 1332833283}
-  - {fileID: 2009952593}
-  - {fileID: 1754025210}
-  - {fileID: 2136221601}
-  - {fileID: 717375711}
-  - {fileID: 1562922696}
-  - {fileID: 538377006}
-  - {fileID: 625873339}
-  - {fileID: 295485486}
-  - {fileID: 1163334290}
-  - {fileID: 1133444367}
-  - {fileID: 1492229583}
-  - {fileID: 61195911}
-  - {fileID: 1747587252}
-
 --- !u!1 &9200000000010001
 GameObject:
   m_ObjectHideFlags: 0
@@ -15052,7 +14965,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.045, y: 0.03}
@@ -15162,7 +15075,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.045, y: 0.03}
@@ -15272,7 +15185,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.16, y: 0.1}
@@ -15382,7 +15295,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.045, y: 0.03}
@@ -15492,7 +15405,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.045, y: 0.03}
@@ -15602,7 +15515,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.16, y: 0.1}
@@ -15712,7 +15625,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.16, y: 0.1}
@@ -15822,7 +15735,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.16, y: 0.1}
@@ -15932,7 +15845,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: -0.025, y: -0.018}
@@ -16042,7 +15955,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.045, y: 0.03}
@@ -16152,7 +16065,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.045, y: 0.03}
@@ -16262,7 +16175,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.16, y: 0.1}
@@ -16372,7 +16285,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: -0.025, y: -0.018}
@@ -16482,7 +16395,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: -0.025, y: -0.018}
@@ -16592,7 +16505,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: -0.025, y: -0.018}
@@ -16702,7 +16615,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: -0.025, y: -0.018}
@@ -16812,7 +16725,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.16, y: 0.1}
@@ -16922,7 +16835,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: -0.025, y: -0.018}
@@ -17032,7 +16945,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.16, y: 0.1}
@@ -17142,7 +17055,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: -0.025, y: -0.018}
@@ -17252,7 +17165,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.16, y: 0.1}
@@ -17362,7 +17275,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.045, y: 0.03}
@@ -17472,7 +17385,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.045, y: 0.03}
@@ -17582,7 +17495,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: -0.025, y: -0.018}
@@ -17692,7 +17605,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: -0.025, y: -0.018}
@@ -17802,7 +17715,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: -0.025, y: -0.018}
@@ -17912,7 +17825,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.045, y: 0.03}
@@ -18022,7 +17935,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: -0.025, y: -0.018}
@@ -18132,7 +18045,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.16, y: 0.1}
@@ -18242,7 +18155,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.16, y: 0.1}
@@ -18352,7 +18265,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: -0.025, y: -0.018}
@@ -18462,7 +18375,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: -0.025, y: -0.018}
@@ -18572,7 +18485,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: -0.025, y: -0.018}
@@ -18682,7 +18595,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.045, y: 0.03}
@@ -18792,7 +18705,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.16, y: 0.1}
@@ -18902,7 +18815,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: -0.025, y: -0.018}
@@ -19086,7 +18999,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.16, y: 0.1}
@@ -19196,7 +19109,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.045, y: 0.03}
@@ -19306,7 +19219,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: -0.025, y: -0.018}
@@ -19416,7 +19329,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: -0.025, y: -0.018}
@@ -19526,7 +19439,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: -0.025, y: -0.018}
@@ -19636,7 +19549,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.16, y: 0.1}
@@ -19746,7 +19659,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.045, y: 0.03}
@@ -19813,7 +19726,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
-
 --- !u!1 &9300000000010001
 GameObject:
   m_ObjectHideFlags: 0
@@ -31509,3 +31421,78 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1660057539 &9223372036854775807
+SceneRoots:
+  m_ObjectHideFlags: 0
+  m_Roots:
+  - {fileID: 9300000000010110}
+  - {fileID: 9200000000010146}
+  - {fileID: 688051111}
+  - {fileID: 1550880040}
+  - {fileID: 1622609109}
+  - {fileID: 1339426228}
+  - {fileID: 1848619502}
+  - {fileID: 1037861024}
+  - {fileID: 504571201}
+  - {fileID: 900000011}
+  - {fileID: 2131494661}
+  - {fileID: 2112142019}
+  - {fileID: 2046570105}
+  - {fileID: 71258176}
+  - {fileID: 1073752431}
+  - {fileID: 900000021}
+  - {fileID: 900000031}
+  - {fileID: 125717466}
+  - {fileID: 222050585}
+  - {fileID: 434740367}
+  - {fileID: 716605055}
+  - {fileID: 839610827}
+  - {fileID: 858847554}
+  - {fileID: 979739361}
+  - {fileID: 900000061}
+  - {fileID: 900000071}
+  - {fileID: 640408619}
+  - {fileID: 85759301}
+  - {fileID: 100898131}
+  - {fileID: 14151893}
+  - {fileID: 1340462582}
+  - {fileID: 645962844}
+  - {fileID: 258692239}
+  - {fileID: 1648970461}
+  - {fileID: 378483974}
+  - {fileID: 276184313}
+  - {fileID: 561248720}
+  - {fileID: 435985504}
+  - {fileID: 1388365898}
+  - {fileID: 2073177044}
+  - {fileID: 1509697922}
+  - {fileID: 1644369145}
+  - {fileID: 150495742}
+  - {fileID: 1881974588}
+  - {fileID: 1616496217}
+  - {fileID: 1795759416}
+  - {fileID: 1286551790}
+  - {fileID: 763404134}
+  - {fileID: 1544240783}
+  - {fileID: 1316835594}
+  - {fileID: 900002601}
+  - {fileID: 900002701}
+  - {fileID: 900002801}
+  - {fileID: 1395789101}
+  - {fileID: 1225209431}
+  - {fileID: 455524469}
+  - {fileID: 298304839}
+  - {fileID: 1332833283}
+  - {fileID: 2009952593}
+  - {fileID: 1754025210}
+  - {fileID: 2136221601}
+  - {fileID: 717375711}
+  - {fileID: 1562922696}
+  - {fileID: 538377006}
+  - {fileID: 625873339}
+  - {fileID: 295485486}
+  - {fileID: 1163334290}
+  - {fileID: 1133444367}
+  - {fileID: 1492229583}
+  - {fileID: 61195911}
+  - {fileID: 1747587252}

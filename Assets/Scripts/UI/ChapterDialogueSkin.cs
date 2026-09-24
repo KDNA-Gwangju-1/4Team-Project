@@ -67,9 +67,9 @@ public static class ChapterDialogueSkin
         line.horizontalOverflow = HorizontalWrapMode.Wrap;
         line.verticalOverflow = VerticalWrapMode.Truncate;
         line.resizeTextForBestFit = true;
-        line.fontSize = 30;
-        line.resizeTextMinSize = 26;
-        line.resizeTextMaxSize = 30;
+        line.fontSize = 34;
+        line.resizeTextMinSize = 28;
+        line.resizeTextMaxSize = 34;
         line.lineSpacing = 1.35f;
         line.fontStyle = FontStyle.Normal;
         line.raycastTarget = false;
@@ -101,7 +101,7 @@ public static class ChapterDialogueSkin
         if (text.GetComponent<ChapterSpeakerNameFit>() == null) text.gameObject.AddComponent<ChapterSpeakerNameFit>();
         text.font = HangulFont.GetEmphasis();
         text.fontStyle = FontStyle.Normal;
-        text.fontSize = 24;
+        text.fontSize = 30;
         text.resizeTextForBestFit = false;
         text.lineSpacing = 1f;
         text.horizontalOverflow = HorizontalWrapMode.Overflow;
@@ -117,7 +117,7 @@ public static class ChapterDialogueSkin
         float available = Mathf.Max(1f, text.rectTransform.rect.width - 12f);
         var settings = text.GetGenerationSettings(Vector2.zero);
         settings.resizeTextForBestFit = false;
-        for (int size = 24; size >= 12; size--)
+        for (int size = 30; size >= 14; size--)
         {
             settings.fontSize = size;
             float width = text.cachedTextGeneratorForLayout.GetPreferredWidth(text.text, settings) / text.pixelsPerUnit;
@@ -125,6 +125,20 @@ public static class ChapterDialogueSkin
             if (width <= available) break;
         }
     }
+
+    /// <summary>The detective bust with no panel baked in. Its bottom edge already fades out.</summary>
+    public static Sprite CleanProtagonist()
+    {
+        var clean = Resources.Load<Sprite>("UI/ChapterSkins/DetectivePortrait");
+        return clean != null ? clean : Load(Theme.Daily);
+    }
+
+    // The clean bust is dropped by this much (fraction of the art height) so its faded bottom
+    // sits behind the panel's top border instead of ending in mid-air beside the name plate.
+    private const float CleanPortraitDrop = 0.058f;
+    // Old cutscene frames have their own panel painted under the portrait: cut just below the
+    // new panel's top border and fade the cut so no hard edge shows.
+    private const float LegacyPortraitCut = 0.30f;
 
     public static Image PreservePortrait(RectTransform art, Sprite original)
     {
@@ -135,17 +149,37 @@ public static class ChapterDialogueSkin
         var fit = portraitRoot.gameObject.AddComponent<AspectRatioFitter>();
         fit.aspectMode = AspectRatioFitter.AspectMode.FitInParent;
         fit.aspectRatio = art.GetComponent<AspectRatioFitter>().aspectRatio;
-        // Clip away only the old bottom UI, keeping the original per-speaker illustration.
         var mask = new GameObject("OriginalPortrait", typeof(RectTransform), typeof(RectMask2D))
             .GetComponent<RectTransform>();
-        // Seat the cropped bust on the new panel's top edge, avoiding a floating cut edge.
-        Place(mask, portraitRoot, 0f, 0.32f, 1f, 0.915f);
+        mask.SetParent(portraitRoot, false);
         mask.SetAsFirstSibling();
         Image portrait = ImageChild("Portrait", mask);
-        Place(portrait.rectTransform, mask, 0f, -0.405f / 0.595f, 1f, 1f);
-        portrait.sprite = original;
         portrait.preserveAspect = true;
+        LayoutPortrait(portrait, original);
         return portrait;
+    }
+
+    /// <summary>Seats either the clean bust or a legacy cutscene frame so the cut never shows.</summary>
+    public static void LayoutPortrait(Image portrait, Sprite source)
+    {
+        if (portrait == null) return;
+        portrait.sprite = source;
+        var mask = portrait.rectTransform.parent as RectTransform;
+        var clip = mask.GetComponent<RectMask2D>();
+        if (source != null && source.name == "DetectivePortrait")
+        {
+            Place(mask, mask.parent, 0f, 0f, 1f, 1f);
+            Place(portrait.rectTransform, mask, 0f, -CleanPortraitDrop, 1f, 1f - CleanPortraitDrop);
+            clip.softness = Vector2Int.zero;
+        }
+        else
+        {
+            Place(mask, mask.parent, 0f, LegacyPortraitCut, 1f, 1f);
+            Place(portrait.rectTransform, mask, 0f, -LegacyPortraitCut / (1f - LegacyPortraitCut), 1f, 1f);
+            // fade the bottom cut over ~5% of the art height
+            float h = ((RectTransform)mask.parent).rect.height;
+            clip.softness = new Vector2Int(0, Mathf.Max(8, Mathf.RoundToInt(h * 0.05f)));
+        }
     }
 
     public static void StylePrompt(Text name, Text action, Text key)
@@ -182,31 +216,22 @@ public sealed class DialogueSkinSession
         daily = theme == ChapterDialogueSkin.Theme.Daily;
         playerFrame = Resources.Load<Sprite>("UI/ChapterSkins/" + theme + "Player");
         otherFrame = Resources.Load<Sprite>("UI/ChapterSkins/" + theme + "Other");
-        protagonist = ChapterDialogueSkin.Load(ChapterDialogueSkin.Theme.Daily);
+        protagonist = ChapterDialogueSkin.CleanProtagonist();
         name = nameText != null ? nameText : ChapterDialogueSkin.AddName(artRect, null, theme, "");
         ChapterDialogueSkin.StyleName(name, theme);
         portrait = ChapterDialogueSkin.PreservePortrait(artRect, protagonist);
         if (daily)
         {
-            // Existing clean blue lower panel, clipped in UI; no portrait pixels or baked name remain.
-            Sprite cleanBlue = Resources.Load<Sprite>("UI/ChapterSkins/DailyPanel");
-            if (cleanBlue != null)
+            // One clean blue frame with an empty name plate (DailyFrame.png) for every speaker;
+            // the name is drawn as text inside the painted plate. The old approach clipped a
+            // frame that still had "쌍둥이 동생의 의식" and the sister painted in, and covered the
+            // plate with a flat box.
+            Sprite frame = Resources.Load<Sprite>("UI/ChapterSkins/DailyFrame");
+            if (frame != null)
             {
-                art.enabled = false;
-                var clip = new GameObject("DailyPanelClip", typeof(RectTransform), typeof(RectMask2D)).GetComponent<RectTransform>();
-                ChapterDialogueSkin.Place(clip, artRect, 0f, 0f, 1f, 0.31f);
-                clip.SetAsFirstSibling();
-                var panel = new GameObject("BlueFrame", typeof(RectTransform), typeof(Image)).GetComponent<Image>();
-                ChapterDialogueSkin.Place(panel.rectTransform, clip, 0f, 0f, 1f, 1f / 0.31f);
-                panel.sprite = cleanBlue;
-                panel.raycastTarget = false;
-                var badge = new GameObject("DailyNamePlate", typeof(RectTransform), typeof(Image), typeof(Outline)).GetComponent<Image>();
-                ChapterDialogueSkin.Place(badge.rectTransform, artRect, 0.085f, 0.302f, 0.265f, 0.371f);
-                badge.color = new Color(0.025f, 0.085f, 0.18f);
-                badge.raycastTarget = false;
-                badge.GetComponent<Outline>().effectColor = new Color(0.3f, 0.75f, 1f);
-                badge.GetComponent<Outline>().effectDistance = new Vector2(1f, -1f);
-                name.transform.SetAsLastSibling();
+                playerFrame = otherFrame = frame;
+                art.sprite = frame;
+                ChapterDialogueSkin.Place(name.rectTransform, artRect, 0.092f, 0.292f, 0.270f, 0.348f);
             }
         }
         Begin();
@@ -226,8 +251,10 @@ public sealed class DialogueSkinSession
         name.enabled = daily || !isPlayer || playerFrame == null;
         name.text = isPlayer ? "꿈탐정" : (speaker ?? "");
         ChapterDialogueSkin.FitSpeakerName(name);
-        Sprite portraitSource = originalPortrait != null ? originalPortrait : (isPlayer ? protagonist : null);
-        portrait.sprite = portraitSource;
+        // The detective always uses the clean bust, even when a cutscene hands over its old
+        // combined frame; other speakers keep their own illustration.
+        Sprite portraitSource = isPlayer ? protagonist : originalPortrait;
+        ChapterDialogueSkin.LayoutPortrait(portrait, portraitSource);
         portrait.gameObject.SetActive(firstLine && portraitSource != null);
         firstLine = false;
     }

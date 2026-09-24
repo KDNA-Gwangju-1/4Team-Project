@@ -68,6 +68,8 @@ namespace BrightDream.Combat
             for (int i = 0; i < bodyRenderers.Length; i++)
                 if (bodyRenderers[i] != null) originalColors[i] = ReadColor(bodyRenderers[i].material);
 
+            ChapterObjectiveStyle.Apply(progressText, ChapterDialogueSkin.Theme.BrightDream, 2);
+            ChapterObjectiveStyle.Apply(weakpointGaugeText, ChapterDialogueSkin.Theme.BrightDream, 3);
             UpdateProgressUI();
             UpdateGaugeUI();
             if (progressText != null) progressText.gameObject.SetActive(false);
@@ -93,13 +95,13 @@ namespace BrightDream.Combat
 
         private void UpdateProgressUI()
         {
-            if (progressText != null) progressText.text = $"보스 정화 {HitProgress} / {hitsToDefeat}";
+            if (progressText != null) progressText.text = $"<b>보스 정화</b>   <color=#3E86B0><b>{HitProgress} / {hitsToDefeat}</b></color>";
         }
 
         /// <summary>다음 약점이 열리기까지 (노출 중이 아닐 때) 정화한 마릿수 - purifyCountToOpen에 도달하면 약점이 열린다.</summary>
         private void UpdateGaugeUI()
         {
-            if (weakpointGaugeText != null) weakpointGaugeText.text = $"약점 게이지 {purifiedSinceWindowClosed} / {purifyCountToOpen}";
+            if (weakpointGaugeText != null) weakpointGaugeText.text = $"<b>약점 게이지</b>   <color=#3E86B0><b>{purifiedSinceWindowClosed} / {purifyCountToOpen}</b></color>\n<color=#6B7C88>인형을 정화하면 차오름</color>";
         }
 
         /// <summary>정화 대상 몬스터가 (약점이 닫힌 상태에서) 정화될 때마다 BossArenaMonsterSpawner가 호출한다.

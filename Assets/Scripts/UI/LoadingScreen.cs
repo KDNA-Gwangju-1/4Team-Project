@@ -84,6 +84,12 @@ public class LoadingScreen : MonoBehaviour
 
     private void Start()
     {
+        // 앞 씬의 상태가 넘어오지 않게 되돌린다. 1인칭 씬은 커서를 잠근 채로 떠날 수 있고
+        // (BrightDream 포탈은 컨트롤러만 끈다) 2D 스테이지는 커서를 따로 풀지 않는다.
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        Time.timeScale = 1f;
+
         ApplyBackground();
 
         bool viaGo = requested;

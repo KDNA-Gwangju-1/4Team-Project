@@ -46,7 +46,7 @@ namespace BrightDream.Combat
             MonsterCombat.DespawnAll();
 
             StageProgressManager.Instance?.TryCompleteStage(clearStageIndex);
-            StageMessageUI.Instance?.ShowMessage("Chapter1 Clear");
+            StageMessageUI.Instance?.ShowMessage("챕터 1 클리어");
         }
     }
 }

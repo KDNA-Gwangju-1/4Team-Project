@@ -115,8 +115,8 @@ public class FirstPersonController : MonoBehaviour
 
     private void HandleLook()
     {
-        // 커서가 풀려 있을 때(메뉴 등)는 시점을 돌리지 않는다.
-        if (!_cursorLocked)
+        // 커서가 풀려 있을 때(메뉴 등)나 대사·안내창이 떠 있을 때는 시점을 돌리지 않는다.
+        if (!_cursorLocked || InputBlocked)
         {
             LookDeltaX = 0f;
             LookDeltaY = 0f;
@@ -144,14 +144,16 @@ public class FirstPersonController : MonoBehaviour
 
     private void HandleMove()
     {
-        float inputX = Input.GetAxisRaw("Horizontal");
-        float inputZ = Input.GetAxisRaw("Vertical");
+        // 대사·안내창이 떠 있는 동안은 걷지 않는다. 중력과 감속은 그대로 돌린다.
+        bool blocked = InputBlocked;
+        float inputX = blocked ? 0f : Input.GetAxisRaw("Horizontal");
+        float inputZ = blocked ? 0f : Input.GetAxisRaw("Vertical");
 
         // 대각선으로 갈 때 빨라지지 않도록 길이를 1로 맞춘다.
         Vector3 wish = transform.right * inputX + transform.forward * inputZ;
         if (wish.sqrMagnitude > 1f) wish.Normalize();
 
-        bool running = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
+        bool running = !blocked && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift));
         float targetSpeed = running ? runSpeed : walkSpeed;
 
         // 목표 속도까지 부드럽게 따라간다.
@@ -207,11 +209,21 @@ public class FirstPersonController : MonoBehaviour
     // 커서
     // ============================================================
 
+    /// <summary>대사나 조작법 안내창이 떠 있는 동안 true. 그동안 이동과 시점을 멈춘다.</summary>
+    private static bool InputBlocked => SubtitleUI.Blocking || ControlGuideUI.Blocking;
+
     private void HandleCursorToggle()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        // 조작법 안내창은 아무 키로나 닫히는데, 그 키가 ESC 면 커서까지 같이 풀려 버렸다.
+        if (Input.GetKeyDown(KeyCode.Escape) && !ControlGuideUI.Blocking)
         {
             SetCursorLocked(!_cursorLocked);
+        }
+
+        // 풀린 커서는 화면을 클릭하면 다시 잠근다 (BrightDream 과 같은 방식).
+        if (!_cursorLocked && Input.GetMouseButtonDown(0) && !InputBlocked)
+        {
+            SetCursorLocked(true);
         }
     }
 

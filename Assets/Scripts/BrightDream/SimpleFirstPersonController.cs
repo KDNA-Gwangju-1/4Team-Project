@@ -72,7 +72,10 @@ public class SimpleFirstPersonController : MonoBehaviour
 
         // 에디터 창이 뒤로 가면 Play Mode 가 멈춰서 자동 걷기 측정이 중단된다.
         // 프로젝트 설정(모두가 공유)을 건드리지 않고 이 테스트 Scene 에서만 켠다.
+        // 빌드에서는 켜지 않는다 - 켜 두면 Alt+Tab 중에도 타이머와 몬스터가 계속 돈다.
+#if UNITY_EDITOR
         Application.runInBackground = true;
+#endif
     }
 
     private void Start()
@@ -107,7 +110,7 @@ public class SimpleFirstPersonController : MonoBehaviour
         if (controller.isGrounded)
         {
             verticalVelocity = -2f;
-            if (Input.GetKeyDown(KeyCode.Space)) verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            if (Input.GetKeyDown(KeyCode.Space) && !JumpBlockedByDialogue()) verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * gravity);
         }
         verticalVelocity += gravity * Time.deltaTime;
 
@@ -222,6 +225,22 @@ public class SimpleFirstPersonController : MonoBehaviour
 
         Debug.Log($"[AutoWalk] 종료({reason}) - 총 이동 {autoDistance:F1}m / 총 소요 {autoElapsed:F1}초 " +
                   $"({autoElapsed / 60f:F2}분)");
+    }
+
+    // 대사 넘기기도 스페이스바라서, 대사를 넘기려고 누른 키로 점프하지 않게 막는다.
+    // 대사가 떠 있는 동안, 대사가 닫힌 프레임, 대사/조사 뒤 이 컨트롤러가 다시 켜진 프레임이 해당된다.
+    private int enabledFrame = -1;
+
+    private void OnEnable()
+    {
+        enabledFrame = Time.frameCount;
+    }
+
+    private bool JumpBlockedByDialogue()
+    {
+        return BrightDream.DialogueUI.IsShowing
+            || Time.frameCount == BrightDream.DialogueUI.LastClosedFrame
+            || Time.frameCount == enabledFrame;
     }
 
     private static void LockCursor(bool locked)

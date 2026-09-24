@@ -2,29 +2,34 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-// Minecraft-style row of hearts, one per point of player health.
+// Row of hearts showing the player's health as a fraction of max health.
+// Every chapter shows the same five hearts at the same size (see BrightDream's HeartHealthUI),
+// so a heart is not one hit point: with maxHealth 8 each heart holds 1.6 and fills partly.
 public class PlayerHeartsUI2D : MonoBehaviour
 {
     public Sprite fullHeart;
     public Sprite emptyHeart;
-    public float heartSize = 44f;
-    public float spacing = 4f;
-    public int heartsPerRow = 10;
+    [Tooltip("Hearts always shown, whatever maxHealth is. Kept equal to HeartHealthUI.heartsShown.")]
+    public int heartsShown = ChapterHudStyle.HeartCount;
 
     public float shakeOnDamage = 6f;
     public float shakeDuration = 0.35f;
 
-    private readonly List<Image> hearts = new List<Image>();
+    // shared layout numbers (ChapterHudStyle) so the widget is identical in 3D and 2D
+    private const float HeartSize = ChapterHudStyle.HeartSize;
+    private const float HeartStep = ChapterHudStyle.HeartStep;
+
+    private readonly List<Image> fills = new List<Image>();
     private RectTransform rect;
     private int lastHealth = -1;
+    private int lastMax = -1;
     private float shakeTimer;
     private Vector2 basePosition;
 
     void Awake()
     {
         rect = GetComponent<RectTransform>();
-        ChapterHudStyle.TopLeft(rect,24);
-        heartSize = 32f; spacing = 6f; heartsPerRow = 10;
+        ChapterHudStyle.TopLeft(rect, ChapterHudStyle.LeftColumnY(0));
         basePosition = rect.anchoredPosition;
     }
 
@@ -33,16 +38,19 @@ public class PlayerHeartsUI2D : MonoBehaviour
         var player = PlayerMovement2D.Instance;
         if (player == null) return;
 
-        if (hearts.Count != player.maxHealth) Rebuild(player.maxHealth);
+        if (fills.Count != heartsShown) Rebuild();
 
         int health = player.CurrentHealth;
-        if (health != lastHealth)
+        int max = Mathf.Max(1, player.maxHealth);
+        if (health != lastHealth || max != lastMax)
         {
             if (lastHealth >= 0 && health < lastHealth) shakeTimer = shakeDuration;
             lastHealth = health;
-            for (int i = 0; i < hearts.Count; i++)
+            lastMax = max;
+            float filled = Mathf.Clamp01(health / (float)max) * fills.Count;
+            for (int i = 0; i < fills.Count; i++)
             {
-                hearts[i].sprite = (i < health) ? fullHeart : emptyHeart;
+                fills[i].fillAmount = Mathf.Clamp01(filled - i);
             }
         }
 
@@ -60,38 +68,48 @@ public class PlayerHeartsUI2D : MonoBehaviour
         }
     }
 
-    private void Rebuild(int count)
+    private void Rebuild()
     {
-        ChapterHudStyle.Frame(rect, false, Mathf.Max(300f, Mathf.Min(count,heartsPerRow)*38f+24f),
-            40f + Mathf.Ceil(count/(float)heartsPerRow)*38f, "체력");
-        for (int i = 0; i < hearts.Count; i++)
+        ChapterHudStyle.Frame(rect, false, ChapterHudStyle.CardWidth, ChapterHudStyle.HeartCardHeight, "체력");
+        foreach (Image fill in fills)
         {
-            if (hearts[i] != null) Destroy(hearts[i].gameObject);
+            if (fill != null) Destroy(fill.transform.parent.gameObject);
         }
-        hearts.Clear();
+        fills.Clear();
 
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < heartsShown; i++)
         {
-            GameObject go = new GameObject("Heart_" + (i + 1));
-            go.transform.SetParent(transform, false);
+            GameObject heart = new GameObject("Heart_" + (i + 1));
+            heart.transform.SetParent(transform, false);
 
-            RectTransform r = go.AddComponent<RectTransform>();
+            RectTransform r = heart.AddComponent<RectTransform>();
             r.anchorMin = new Vector2(0f, 1f);
             r.anchorMax = new Vector2(0f, 1f);
             r.pivot = new Vector2(0f, 1f);
-            r.sizeDelta = new Vector2(heartSize, heartSize);
+            r.sizeDelta = new Vector2(HeartSize, HeartSize);
+            r.anchoredPosition = new Vector2(ChapterHudStyle.HeartLeft + i * HeartStep, -ChapterHudStyle.HeartTop);
 
-            int column = i % heartsPerRow;
-            int row = i / heartsPerRow;
-            r.anchoredPosition = new Vector2(
-                12f + column * (heartSize + spacing),
-                -32f - row * (heartSize + spacing));
+            // empty heart underneath, full heart on top revealed left to right
+            Image empty = heart.AddComponent<Image>();
+            empty.sprite = emptyHeart;
+            empty.preserveAspect = true;
+            empty.raycastTarget = false;
 
-            Image img = go.AddComponent<Image>();
-            img.sprite = fullHeart;
-            img.preserveAspect = true;
-            img.raycastTarget = false;
-            hearts.Add(img);
+            GameObject fillGO = new GameObject("Fill");
+            fillGO.transform.SetParent(heart.transform, false);
+            RectTransform fr = fillGO.AddComponent<RectTransform>();
+            fr.anchorMin = Vector2.zero;
+            fr.anchorMax = Vector2.one;
+            fr.offsetMin = fr.offsetMax = Vector2.zero;
+
+            Image fill = fillGO.AddComponent<Image>();
+            fill.sprite = fullHeart;
+            fill.preserveAspect = true;
+            fill.raycastTarget = false;
+            fill.type = Image.Type.Filled;
+            fill.fillMethod = Image.FillMethod.Horizontal;
+            fill.fillOrigin = (int)Image.OriginHorizontal.Left;
+            fills.Add(fill);
         }
         lastHealth = -1;
     }

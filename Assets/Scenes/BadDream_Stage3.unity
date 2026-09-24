@@ -177,7 +177,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 4e7331f9fd8a0604a816e16af86d666a, type: 3}
     m_FontSize: 20
     m_FontStyle: 0
     m_BestFit: 0
@@ -479,10 +479,10 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 7.08, y: 2.21}
+    oldSize: {x: 7.2, y: 2.34}
     newSize: {x: 7.08, y: 2.21}
     adaptiveTilingThreshold: 0.5
-    drawMode: 0
+    drawMode: 1
     adaptiveTiling: 0
   m_AutoTiling: 0
   m_Size: {x: 6.5844, y: 0.6}
@@ -1300,7 +1300,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Stage3BossIntroCutscene
   player: {fileID: 1550880036}
   cam: {fileID: 688051110}
-  captionFont: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+  captionFont: {fileID: 12800000, guid: 4e7331f9fd8a0604a816e16af86d666a, type: 3}
   boss: {fileID: 900000031}
   bossRenderer: {fileID: 900000032}
   walkDuration: 1.5
@@ -1337,7 +1337,7 @@ MonoBehaviour:
     text: "\uC790 \uC598\uB4E4\uC544 \uC624\uBE60\uB791 \uC0AC\uC774\uC88B\uAC8C
       \uB180\uC544\uC918~"
     beatAfter: 0
-  bossSpeakerName: "???"
+  bossSpeakerName: ???
   playerSpeakerName: "\uAFC8\uD0D0\uC815"
   lineDisplayDuration: 6
   lineGap: 0.3
@@ -1553,11 +1553,11 @@ MonoBehaviour:
   cam: {fileID: 688051110}
   boss: {fileID: 900000031}
   bossRenderer: {fileID: 900000032}
-  captionFont: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+  captionFont: {fileID: 12800000, guid: 4e7331f9fd8a0604a816e16af86d666a, type: 3}
   flashlight: {fileID: 1842253845}
   bossDialogueFrame: {fileID: 21300000, guid: 58906ac033375a44dbd39c8c55c26b20, type: 3}
   playerDialogueFrame: {fileID: 21300000, guid: 87a8a037d993e734793549bdadb8ace1, type: 3}
-  bossSpeakerName: "???"
+  bossSpeakerName: ???
   bossShadowDialogueFrame: {fileID: 21300000, guid: 364c998e501145c40aca4d0e96b3f4cb, type: 3}
   lines:
   - isBoss: 1
@@ -3287,7 +3287,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7299bce333a50dc409379c5178cd9abd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DeathRetryUI2D
-  font: {fileID: 0}
+  font: {fileID: 12800000, guid: 4e7331f9fd8a0604a816e16af86d666a, type: 3}
   deathMessage: "\uC545\uBABD\uC5D0 \uC0BC\uCF1C\uC84C\uB2E4"
   retryPrompt: "R\uD0A4\uB97C \uB20C\uB7EC \uB2E4\uC2DC \uB3C4\uC804"
   messageColor: {r: 0.86, g: 0.24, b: 0.28, a: 1}
@@ -3524,10 +3524,10 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 7.08, y: 2.21}
+    oldSize: {x: 7.2, y: 2.34}
     newSize: {x: 7.08, y: 2.21}
     adaptiveTilingThreshold: 0.5
-    drawMode: 0
+    drawMode: 1
     adaptiveTiling: 0
   m_AutoTiling: 0
   m_Size: {x: 6.5844, y: 0.6}
@@ -3681,7 +3681,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 4e7331f9fd8a0604a816e16af86d666a, type: 3}
     m_FontSize: 24
     m_FontStyle: 0
     m_BestFit: 0
@@ -4743,9 +4743,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHeartsUI2D
   fullHeart: {fileID: 21300000, guid: fc7b536b0bbef734594f66c17e93240f, type: 3}
   emptyHeart: {fileID: 21300000, guid: fb7a7ec2fb0bd364fa88188a7e6381bc, type: 3}
-  heartSize: 48
-  spacing: 5
-  heartsPerRow: 10
+  heartsShown: 5
   shakeOnDamage: 6
   shakeDuration: 0.35
 --- !u!1 &1834502762
@@ -4780,7 +4778,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82f65cfc907b55d499fc88c7cefec590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Monster2D
-  monsterId: 
   shimmer: {fileID: 0}
   shimmerScalePulse: 0.15
   shimmerAlphaBase: 0.25
@@ -5249,7 +5246,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -5446,7 +5443,7 @@ MonoBehaviour:
   cam: {fileID: 688051110}
   boss: {fileID: 900000034}
   bossRenderer: {fileID: 900000032}
-  captionFont: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+  captionFont: {fileID: 12800000, guid: 4e7331f9fd8a0604a816e16af86d666a, type: 3}
   hideDuringCutscene:
   - {fileID: 1918697673}
   - {fileID: 1834502762}
@@ -5625,10 +5622,10 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 7.08, y: 2.21}
+    oldSize: {x: 7.2, y: 2.34}
     newSize: {x: 7.08, y: 2.21}
     adaptiveTilingThreshold: 0.5
-    drawMode: 0
+    drawMode: 1
     adaptiveTiling: 0
   m_AutoTiling: 0
   m_Size: {x: 6.5844, y: 0.6}
@@ -5963,36 +5960,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!1660057539 &9223372036854775807
-SceneRoots:
-  m_ObjectHideFlags: 0
-  m_Roots:
-  - {fileID: 9300000000020042}
-  - {fileID: 9200000000020061}
-  - {fileID: 259253646}
-  - {fileID: 688051111}
-  - {fileID: 1550880040}
-  - {fileID: 900000031}
-  - {fileID: 1030072449}
-  - {fileID: 695877714}
-  - {fileID: 1052065774}
-  - {fileID: 2047802054}
-  - {fileID: 630067331}
-  - {fileID: 1627272916}
-  - {fileID: 1234360756}
-  - {fileID: 1335518756}
-  - {fileID: 1923766830}
-  - {fileID: 1918697677}
-  - {fileID: 696235914}
-  - {fileID: 1834502767}
-  - {fileID: 465286319}
-  - {fileID: 709877606}
-  - {fileID: 1721486575}
-  - {fileID: 749689156}
-  - {fileID: 1928006271}
-  - {fileID: 1283646432}
-  - {fileID: 281020849}
-
 --- !u!1 &9200000000020001
 GameObject:
   m_ObjectHideFlags: 0
@@ -6036,7 +6003,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.045, y: 0.03}
@@ -6146,7 +6113,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.045, y: 0.03}
@@ -6256,7 +6223,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.16, y: 0.1}
@@ -6366,7 +6333,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.16, y: 0.1}
@@ -6476,7 +6443,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.16, y: 0.1}
@@ -6586,7 +6553,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: -0.025, y: -0.018}
@@ -6696,7 +6663,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: -0.025, y: -0.018}
@@ -6806,7 +6773,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: -0.025, y: -0.018}
@@ -7007,7 +6974,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.16, y: 0.1}
@@ -7117,7 +7084,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.045, y: 0.03}
@@ -7227,7 +7194,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.16, y: 0.1}
@@ -7337,7 +7304,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: -0.025, y: -0.018}
@@ -7447,7 +7414,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: -0.025, y: -0.018}
@@ -7557,7 +7524,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.045, y: 0.03}
@@ -7714,7 +7681,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.16, y: 0.1}
@@ -7824,7 +7791,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: -0.025, y: -0.018}
@@ -7891,7 +7858,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
-
 --- !u!1 &9300000000020001
 GameObject:
   m_ObjectHideFlags: 0
@@ -11595,3 +11561,32 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1660057539 &9223372036854775807
+SceneRoots:
+  m_ObjectHideFlags: 0
+  m_Roots:
+  - {fileID: 9300000000020042}
+  - {fileID: 9200000000020061}
+  - {fileID: 259253646}
+  - {fileID: 688051111}
+  - {fileID: 1550880040}
+  - {fileID: 900000031}
+  - {fileID: 1030072449}
+  - {fileID: 695877714}
+  - {fileID: 1052065774}
+  - {fileID: 2047802054}
+  - {fileID: 630067331}
+  - {fileID: 1627272916}
+  - {fileID: 1234360756}
+  - {fileID: 1335518756}
+  - {fileID: 1923766830}
+  - {fileID: 1918697677}
+  - {fileID: 696235914}
+  - {fileID: 1834502767}
+  - {fileID: 465286319}
+  - {fileID: 709877606}
+  - {fileID: 1721486575}
+  - {fileID: 749689156}
+  - {fileID: 1928006271}
+  - {fileID: 1283646432}
+  - {fileID: 281020849}

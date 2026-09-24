@@ -22,8 +22,8 @@ public class DashStaminaUI2D : MonoBehaviour
     void Awake()
     {
         var root = GetComponent<RectTransform>();
-        ChapterHudStyle.TopLeft(root,182);
-        ChapterHudStyle.Frame(root,false,300,56,"대시  ·  SHIFT");
+        ChapterHudStyle.TopLeft(root, ChapterHudStyle.LeftColumnY(2));
+        ChapterHudStyle.Frame(root, false, ChapterHudStyle.CardWidth, ChapterHudStyle.GaugeCardHeight, "대시  ·  SHIFT");
         pipWidth = 84f; pipHeight = 12f; spacing = 8f;
     }
 
@@ -33,6 +33,9 @@ public class DashStaminaUI2D : MonoBehaviour
         if (player == null) return;
 
         if (pips.Count != player.dashStaminaMax) Rebuild(player.dashStaminaMax);
+
+        // the lantern gauge is hidden until the lantern is picked up; close the gap under 체력
+        ChapterHudStyle.TopLeft((RectTransform)transform, ChapterHudStyle.LeftColumnY(player.HasLantern ? 2 : 1));
 
         float stamina = player.DashStamina;
         for (int i = 0; i < pips.Count; i++)
@@ -62,7 +65,7 @@ public class DashStaminaUI2D : MonoBehaviour
             r.anchorMax = new Vector2(0f, 1f);
             r.pivot = new Vector2(0f, 1f);
             r.sizeDelta = new Vector2(pipWidth, pipHeight);
-            r.anchoredPosition = new Vector2(12f + i * (pipWidth + spacing), -32f);
+            r.anchoredPosition = new Vector2(16f + i * (pipWidth + spacing), -32f);
 
             Image bg = slot.AddComponent<Image>();
             bg.sprite = pipSprite;

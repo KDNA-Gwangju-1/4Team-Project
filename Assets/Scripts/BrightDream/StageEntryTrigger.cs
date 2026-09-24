@@ -7,7 +7,7 @@ using UnityEngine;
 public class StageEntryTrigger : MonoBehaviour
 {
     [TextArea(1, 3)]
-    [SerializeField] private string message = "Stage 1 단서를 찾아라";
+    [SerializeField] private string message = "스테이지 1 단서를 찾아라";
     [SerializeField] private float displayDuration = 4f;
     [SerializeField] private bool triggerOnce = true;
     [Tooltip("진행 순서. StageProgressManager 상 바로 다음 순서가 아니면 트리거가 무시된다.")]

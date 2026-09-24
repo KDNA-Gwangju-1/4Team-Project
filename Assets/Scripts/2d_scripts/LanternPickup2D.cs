@@ -9,10 +9,10 @@ public class LanternPickup2D : MonoBehaviour
 {
     [Tooltip("How close the player has to be before the prompt appears.")]
     public float pickupRange = 2.6f;
-    public Key pickupKey = Key.Z;
+    public Key pickupKey = Key.E;
 
     [Header("Prompt")]
-    [TextArea] public string promptText = "Z키를 눌러서 줍기";
+    [TextArea] public string promptText = "E키를 눌러서 줍기";
     [Tooltip("Left empty, the prompt uses its own default face.")]
     public Font font;
 

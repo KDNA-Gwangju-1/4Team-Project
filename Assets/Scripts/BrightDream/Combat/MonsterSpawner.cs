@@ -23,6 +23,8 @@ namespace BrightDream.Combat
         [SerializeField] private float spawnInterval = 1.2f;
         [SerializeField] private float minSpawnSpacing = 3f;
         [SerializeField] private int maxSpawnAttempts = 8;
+        [Tooltip("동시에 살아 있을 수 있는 최대 마릿수. 다 차면 줄어들 때까지 스폰을 쉰다.")]
+        [SerializeField] private int maxActiveMonsters = 12;
 
         [Tooltip("전투 구역 중심 (기본값: CombatArena 바닥 중심).")]
         [SerializeField] private Vector3 arenaCenter = new Vector3(30.3987f, 0f, 37.6758f);
@@ -76,6 +78,12 @@ namespace BrightDream.Combat
                     MonsterPurifyManager.Instance.PurifiedCount < MonsterPurifyManager.TargetCount))
             {
                 activeMonsters.RemoveAll(t => t == null);
+
+                if (activeMonsters.Count >= maxActiveMonsters)
+                {
+                    yield return new WaitForSeconds(spawnInterval);
+                    continue;
+                }
 
                 GameObject template = monsterTemplates[Random.Range(0, monsterTemplates.Length)];
                 Vector3 spawnPos = FindSpawnPosition();

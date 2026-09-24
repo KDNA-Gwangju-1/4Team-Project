@@ -42,6 +42,7 @@ namespace BrightDream.Combat
 
         private void Start()
         {
+            ChapterObjectiveStyle.Apply(progressText, ChapterDialogueSkin.Theme.BrightDream, 1);
             UpdateUI();
             if (progressText != null) progressText.gameObject.SetActive(false);
         }
@@ -100,7 +101,7 @@ namespace BrightDream.Combat
 
         private void UpdateUI()
         {
-            if (progressText != null) progressText.text = $"몬스터 정화 {PurifiedCount} / {TargetCount}";
+            if (progressText != null) progressText.text = $"<b>몬스터 정화</b>   <color=#3E86B0><b>{PurifiedCount} / {TargetCount}</b></color>\n<color=#6B7C88>먹물 묻은 인형만 쏘기</color>";
         }
     }
 }

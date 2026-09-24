@@ -15,14 +15,14 @@ public class LightGaugeUI2D : MonoBehaviour
     void Awake()
     {
         var root = GetComponent<RectTransform>();
-        ChapterHudStyle.TopLeft(root,114);
-        ChapterHudStyle.Frame(root,false,300,56,"손전등");
+        ChapterHudStyle.TopLeft(root, ChapterHudStyle.LeftColumnY(1));
+        ChapterHudStyle.Frame(root, false, ChapterHudStyle.CardWidth, ChapterHudStyle.GaugeCardHeight, "손전등");
         if (fill != null)
         {
             var rect = fill.rectTransform;
             rect.anchorMin = new Vector2(0,0); rect.anchorMax = new Vector2(1,0);
             rect.pivot = new Vector2(.5f,0);
-            rect.sizeDelta = new Vector2(-24,10); rect.anchoredPosition = new Vector2(0,10);
+            rect.sizeDelta = new Vector2(-32,10); rect.anchoredPosition = new Vector2(0,12);
         }
     }
 

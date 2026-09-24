@@ -60,16 +60,8 @@ namespace BrightDream.Clues
         {
             HangulFont.Apply(progressText);
             HangulFont.Apply(investigateText);
-            if (progressText != null) progressText.lineSpacing = 1.25f;
-            if (progressText != null)
-            {
-                var rect = progressText.rectTransform;
-                rect.anchorMin = rect.anchorMax = new Vector2(0,1);
-                rect.anchoredPosition = new Vector2(164,-222);
-                ChapterNoticeStyle.Apply(progressText,ChapterDialogueSkin.Theme.BrightDream,280,208,24);
-                progressText.alignment = TextAnchor.MiddleLeft;
-                progressText.lineSpacing = 1.35f;
-            }
+            // 목표(퀘스트) 카드는 모든 씬 공통으로 오른쪽 위에 쌓는다 - 0번 칸.
+            ChapterObjectiveStyle.Apply(progressText, ChapterDialogueSkin.Theme.BrightDream, 0);
             if (useChapterSkin && investigatePanel != null)
             {
                 var art = ChapterDialogueSkin.Apply(investigatePanel.transform as RectTransform,
@@ -133,7 +125,7 @@ namespace BrightDream.Clues
         private void FinishAllClueCollection()
         {
             OnAllCluesCollected?.Invoke();
-            StageMessageUI.Instance?.ShowMessage("Stage1 Clear\n정화총 획득가능");
+            StageMessageUI.Instance?.ShowMessage("스테이지 1 클리어\n정화총 획득 가능");
             // Stage1이 끝나면 단서 체크리스트는 더 볼 일이 없으므로 끈다
             // (Stage2 정화 진행도 UI가 같은 자리를 이어서 쓴다).
             if (progressText != null) progressText.gameObject.SetActive(false);
@@ -143,10 +135,13 @@ namespace BrightDream.Clues
         {
             if (progressText == null) return;
 
-            string text = $"기억의 단서  {collectedClueIds.Count} / {TotalClueCount}";
+            // 제목은 굵게 + 개수는 강조색, 찾은 단서는 강조색 ●, 아직 못 찾은 단서는 흐린 ○
+            string text = $"<b>기억의 단서</b>   <color=#3E86B0><b>{collectedClueIds.Count} / {TotalClueCount}</b></color>";
             foreach ((string id, string label) in ClueChecklist)
             {
-                text += "\n" + (collectedClueIds.Contains(id) ? "●  " : "○  ") + label;
+                text += collectedClueIds.Contains(id)
+                    ? $"\n<color=#3E86B0>●</color>  {label}"
+                    : $"\n<color=#9AA8B2>○  {label}</color>";
             }
             progressText.text = text;
         }
@@ -174,7 +169,7 @@ namespace BrightDream.Clues
         private void Update()
         {
             if (investigateParts == null) return;
-            if (!Input.GetMouseButtonDown(0) && !Input.GetKeyDown(KeyCode.Space)) return;
+            if (!Input.GetKeyDown(KeyCode.Space)) return;
 
             investigatePartIndex++;
             if (investigatePartIndex >= investigateParts.Length) EndInvestigateText();
@@ -183,8 +178,12 @@ namespace BrightDream.Clues
 
         private void ShowCurrentInvestigatePart()
         {
-            skinSession?.ShowLine(true, "꿈탐정");
-            investigateText.text = investigateParts[investigatePartIndex].Trim();
+            // 단서 텍스트는 꿈탐정의 대사가 아니라 언니의 기억(나레이션)이다.
+            // 초상화 없는 빈 대사창에 이름은 ???, 문장은 괄호로 감싼다.
+            skinSession?.ShowLine(false, "???");
+            string part = investigateParts[investigatePartIndex].Trim();
+            if (!part.StartsWith("(")) part = "(" + part + ")";
+            investigateText.text = part;
         }
 
         private void EndInvestigateText()

@@ -50,7 +50,10 @@ public static class HangulFont
     {
         if (text == null) return;
 
-        bool bold = text.fontStyle == FontStyle.Bold || text.fontStyle == FontStyle.BoldAndItalic;
+        // 씬에 이미 SemiBold 를 넣어 둔 Text(스타일은 Normal)도 굵은 글씨로 본다.
+        // 안 그러면 여기서 Regular 로 도로 바뀌어 버린다.
+        bool bold = text.fontStyle == FontStyle.Bold || text.fontStyle == FontStyle.BoldAndItalic
+                    || (text.font != null && text.font == GetEmphasis() && text.font != Get());
         var font = bold ? GetEmphasis() : Get();
         if (font == null) return;
         text.font = font;

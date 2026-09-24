@@ -2122,10 +2122,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NoteReader2D
   readRange: 2.6
-  readKey: 40
-  promptText: "Z\uD0A4\uB97C \uB20C\uB7EC \uD3BC\uCE58\uAE30"
+  readKey: 19
+  promptText: "E\uD0A4\uB97C \uB20C\uB7EC \uD3BC\uCE58\uAE30"
   sheet: {fileID: 21300000, guid: d33dfdb9935e060448e0ddac73fdc20c, type: 3}
-  font: {fileID: 0}
+  font: {fileID: 12800000, guid: 4e7331f9fd8a0604a816e16af86d666a, type: 3}
   fontSize: 22
   inkColor: {r: 0.13, g: 0.1, b: 0.09, a: 1}
   sheetHeight01: 0.92
@@ -2356,7 +2356,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Stage1IntroCutscene
   player: {fileID: 1550880036}
   cam: {fileID: 688051110}
-  captionFont: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+  captionFont: {fileID: 12800000, guid: 4e7331f9fd8a0604a816e16af86d666a, type: 3}
   startOrthoSize: 5
   revealOrthoSize: 11
   zoomOutDuration: 3
@@ -3113,8 +3113,8 @@ MonoBehaviour:
     \uAC78 \uCC3E\uC544\uBCF4\uC790"
   lockedMessageDuration: 2.5
   useRange: 2.8
-  useKey: 37
-  promptMessage: "W\uD0A4\uB97C \uB20C\uB7EC \uC774\uB3D9"
+  useKey: 19
+  promptMessage: "E\uD0A4\uB97C \uB20C\uB7EC \uC774\uB3D9"
 --- !u!1 &900000006
 GameObject:
   m_ObjectHideFlags: 0
@@ -3267,9 +3267,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LanternPickup2D
   pickupRange: 2.6
-  pickupKey: 40
-  promptText: "Z\uD0A4\uB97C \uB20C\uB7EC\uC11C \uC90D\uAE30"
-  font: {fileID: 0}
+  pickupKey: 19
+  promptText: "E\uD0A4\uB97C \uB20C\uB7EC\uC11C \uC90D\uAE30"
+  font: {fileID: 12800000, guid: 4e7331f9fd8a0604a816e16af86d666a, type: 3}
   bobAmplitude: 0.12
   bobPeriod: 2.2
 --- !u!114 &900000020
@@ -3456,7 +3456,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 4e7331f9fd8a0604a816e16af86d666a, type: 3}
     m_FontSize: 36
     m_FontStyle: 0
     m_BestFit: 0
@@ -8494,9 +8494,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHeartsUI2D
   fullHeart: {fileID: 21300000, guid: fc7b536b0bbef734594f66c17e93240f, type: 3}
   emptyHeart: {fileID: 21300000, guid: fb7a7ec2fb0bd364fa88188a7e6381bc, type: 3}
-  heartSize: 48
-  spacing: 5
-  heartsPerRow: 10
+  heartsShown: 5
   shakeOnDamage: 6
   shakeDuration: 0.35
 --- !u!1 &2107915765
@@ -8590,50 +8588,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1660057539 &9223372036854775807
-SceneRoots:
-  m_ObjectHideFlags: 0
-  m_Roots:
-  - {fileID: 9300000000000327}
-  - {fileID: 9200000000000094}
-  - {fileID: 259253646}
-  - {fileID: 688051111}
-  - {fileID: 1550880040}
-  - {fileID: 900000002}
-  - {fileID: 900000007}
-  - {fileID: 900000041}
-  - {fileID: 84004495}
-  - {fileID: 2107915767}
-  - {fileID: 619401995}
-  - {fileID: 2046813895}
-  - {fileID: 1846729215}
-  - {fileID: 1765147663}
-  - {fileID: 1448174354}
-  - {fileID: 1237043236}
-  - {fileID: 1434078007}
-  - {fileID: 49788404}
-  - {fileID: 1699698500}
-  - {fileID: 1241163006}
-  - {fileID: 759127215}
-  - {fileID: 1892872618}
-  - {fileID: 1057121140}
-  - {fileID: 1078238396}
-  - {fileID: 984413070}
-  - {fileID: 466262690}
-  - {fileID: 819468457}
-  - {fileID: 1845476093}
-  - {fileID: 1319212878}
-  - {fileID: 1264291537}
-  - {fileID: 1121187112}
-  - {fileID: 598739388}
-  - {fileID: 994563849}
-  - {fileID: 859167824}
-  - {fileID: 224033157}
-  - {fileID: 1352721567}
-  - {fileID: 1506519788}
-  - {fileID: 630331620}
-  - {fileID: 1586735864}
-
 --- !u!1 &9200000000000001
 GameObject:
   m_ObjectHideFlags: 0
@@ -8677,7 +8631,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: -0.025, y: -0.018}
@@ -8787,7 +8741,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: -0.025, y: -0.018}
@@ -8897,7 +8851,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: -0.025, y: -0.018}
@@ -9007,7 +8961,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.045, y: 0.03}
@@ -9117,7 +9071,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.16, y: 0.1}
@@ -9227,7 +9181,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.045, y: 0.03}
@@ -9337,7 +9291,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.045, y: 0.03}
@@ -9447,7 +9401,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.16, y: 0.1}
@@ -9557,7 +9511,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.16, y: 0.1}
@@ -9667,7 +9621,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: -0.025, y: -0.018}
@@ -9777,7 +9731,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.16, y: 0.1}
@@ -9887,7 +9841,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.045, y: 0.03}
@@ -9997,7 +9951,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.16, y: 0.1}
@@ -10107,7 +10061,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: -0.025, y: -0.018}
@@ -10217,7 +10171,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.16, y: 0.1}
@@ -10327,7 +10281,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.045, y: 0.03}
@@ -10437,7 +10391,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.045, y: 0.03}
@@ -10547,7 +10501,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: -0.025, y: -0.018}
@@ -10657,7 +10611,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: -0.025, y: -0.018}
@@ -10767,7 +10721,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: -0.025, y: -0.018}
@@ -10877,7 +10831,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: -0.025, y: -0.018}
@@ -10987,7 +10941,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: -0.025, y: -0.018}
@@ -11097,7 +11051,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: -0.025, y: -0.018}
@@ -11273,7 +11227,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.16, y: 0.1}
@@ -11383,7 +11337,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: -0.025, y: -0.018}
@@ -11493,7 +11447,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.16, y: 0.1}
@@ -11603,7 +11557,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.045, y: 0.03}
@@ -11713,7 +11667,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.16, y: 0.1}
@@ -11823,7 +11777,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: -0.025, y: -0.018}
@@ -11933,7 +11887,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.16, y: 0.1}
@@ -12043,7 +11997,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.045, y: 0.03}
@@ -12153,7 +12107,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: -0.025, y: -0.018}
@@ -12263,7 +12217,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.045, y: 0.03}
@@ -12373,7 +12327,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: 0.045, y: 0.03}
@@ -12483,7 +12437,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7d91ef0054d59046a3a4a97c2c4310d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryDrift2D
   viewCamera: {fileID: 688051111}
   cameraInfluence: {x: -0.025, y: -0.018}
@@ -12550,7 +12504,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
-
 --- !u!1 &9300000000000001
 GameObject:
   m_ObjectHideFlags: 0
@@ -22470,3 +22423,46 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1660057539 &9223372036854775807
+SceneRoots:
+  m_ObjectHideFlags: 0
+  m_Roots:
+  - {fileID: 9300000000000327}
+  - {fileID: 9200000000000094}
+  - {fileID: 259253646}
+  - {fileID: 688051111}
+  - {fileID: 1550880040}
+  - {fileID: 900000002}
+  - {fileID: 900000007}
+  - {fileID: 900000041}
+  - {fileID: 84004495}
+  - {fileID: 2107915767}
+  - {fileID: 619401995}
+  - {fileID: 2046813895}
+  - {fileID: 1846729215}
+  - {fileID: 1765147663}
+  - {fileID: 1448174354}
+  - {fileID: 1237043236}
+  - {fileID: 1434078007}
+  - {fileID: 49788404}
+  - {fileID: 1699698500}
+  - {fileID: 1241163006}
+  - {fileID: 759127215}
+  - {fileID: 1892872618}
+  - {fileID: 1057121140}
+  - {fileID: 1078238396}
+  - {fileID: 984413070}
+  - {fileID: 466262690}
+  - {fileID: 819468457}
+  - {fileID: 1845476093}
+  - {fileID: 1319212878}
+  - {fileID: 1264291537}
+  - {fileID: 1121187112}
+  - {fileID: 598739388}
+  - {fileID: 994563849}
+  - {fileID: 859167824}
+  - {fileID: 224033157}
+  - {fileID: 1352721567}
+  - {fileID: 1506519788}
+  - {fileID: 630331620}
+  - {fileID: 1586735864}

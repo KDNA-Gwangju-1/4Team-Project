@@ -180,6 +180,8 @@ namespace BrightDream.Combat
                                  "로딩 화면만 띄웁니다. 어두운 꿈 씬을 합친 뒤 Build Settings 에 넣어 주세요.", this);
             }
 
+            // 다음 챕터(2D)를 처음부터 시작하게 이전 판의 손전등 획득 등 static 상태를 비운다.
+            PlayerMovement2D.ResetChapterState();
             LoadingScreen.Go(canLoad ? nextScene : "", loadingBackground);
         }
 

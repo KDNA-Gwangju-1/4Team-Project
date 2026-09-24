@@ -5,9 +5,9 @@ namespace BrightDream.Combat
 {
     /// <summary>
     /// 기존 Health Bar(Slider/Fill Image + Text)를 대신해 하트로 HP를 표시한다.
-    /// 하트 1개 = 20 HP이고, 표시할 하트 개수는 PlayerHealth.MaxHealth에서 매 프레임 계산한다
-    /// - 보스 스테이지에서 최대 체력이 100 -> 200이 되면 하트도 5개 -> 10개로 자동으로 늘어난다.
-    /// 그래서 heartFills에는 최대 개수(10개)를 다 연결해 두고, 쓰이지 않는 하트는 꺼 둔다.
+    /// 하트는 항상 heartsShown(5)개이고, 현재 HP / 최대 HP 비율만큼 채운다
+    /// - 보스 스테이지에서 최대 체력이 100 -> 200이 되어도 하트는 5개 그대로, 한 칸이 40 HP를 맡는다.
+    /// heartFills에는 10개가 연결되어 있지만 heartsShown 개만 켜고 나머지는 꺼 둔다.
     /// 각 하트는 Shadow/Empty(배경) 위에 Fill(Image, Type=Filled, Horizontal), 그 위에 Outline을 겹쳐 놓고
     /// fillAmount 로 부분 채움을 표현한다 - heartFills 배열에는 Fill Image만 연결하면 된다.
     ///
@@ -32,7 +32,9 @@ namespace BrightDream.Combat
         [SerializeField] private float heartbeatScale = 1.12f;
         [SerializeField] private float heartbeatsPerSecond = 1.6f;
 
-        private const float HpPerHeart = 20f;
+        [Tooltip("항상 보여 줄 하트 개수. 모든 챕터가 5개로 통일되어 있다 (BadDream 의 PlayerHeartsUI2D 와 같은 값). " +
+                 "최대 체력이 바뀌어도(보스 스테이지 100 -> 200) 개수는 그대로고, 하트 한 칸이 맡는 양만 달라진다.")]
+        [SerializeField] private int heartsShown = ChapterHudStyle.HeartCount;
 
         /// <summary>현재 표시 중인 하트 개수. PlayerHealth.MaxHealth가 바뀌면 따라 바뀐다.</summary>
         private int heartCount;
@@ -54,7 +56,7 @@ namespace BrightDream.Combat
 
         private void Awake()
         {
-            ChapterHudStyle.TopLeft(transform as RectTransform,24);
+            ChapterHudStyle.TopLeft(transform as RectTransform, ChapterHudStyle.LeftColumnY(0));
             heartRoots = new Transform[heartFills.Length];
             punchTimers = new float[heartFills.Length];
             for (int i = 0; i < heartFills.Length; i++)
@@ -67,8 +69,11 @@ namespace BrightDream.Combat
                 {
                     heart.anchorMin = heart.anchorMax = new Vector2(0,1);
                     heart.pivot = new Vector2(.5f,.5f);
-                    heart.sizeDelta = new Vector2(34,34);
-                    heart.anchoredPosition = new Vector2(29 + i*40,-49);
+                    // 크기·간격은 ChapterHudStyle 공용 값 (2D PlayerHeartsUI2D 와 같다)
+                    float s = ChapterHudStyle.HeartSize;
+                    heart.sizeDelta = new Vector2(s, s);
+                    heart.anchoredPosition = new Vector2(ChapterHudStyle.HeartLeft + s * .5f + i * ChapterHudStyle.HeartStep,
+                                                         -(ChapterHudStyle.HeartTop + s * .5f));
                     foreach (var image in heart.GetComponentsInChildren<Image>(true))
                     {
                         if (image.transform == heart) continue;
@@ -122,11 +127,11 @@ namespace BrightDream.Combat
         /// </summary>
         private void RefreshHeartCount()
         {
-            int wanted = Mathf.Clamp(Mathf.RoundToInt(subscribedTo.MaxHealth / HpPerHeart), 1, heartFills.Length);
+            int wanted = Mathf.Clamp(heartsShown, 1, heartFills.Length);
             if (wanted == heartCount) return;
 
             heartCount = wanted;
-            ChapterHudStyle.Frame(transform as RectTransform, true, heartCount*40f+24f, 80f, "체력");
+            ChapterHudStyle.Frame(transform as RectTransform, true, ChapterHudStyle.CardWidth, ChapterHudStyle.HeartCardHeight, "체력");
             for (int i = 0; i < heartFills.Length; i++)
             {
                 if (heartRoots[i] == null) continue;

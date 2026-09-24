@@ -105,8 +105,8 @@ public sealed class OpeningCinematicPlayer : MonoBehaviour
         labelRect.pivot = new Vector2(.5f, 0f);
         labelRect.sizeDelta = new Vector2(180f, 34f);
         var label = labelObject.GetComponent<Text>();
-        label.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
-        label.text = "HOLD ESC";
+        label.font = HangulFont.GetEmphasis();
+        label.text = "ESC 길게 누르기";
         label.fontSize = 22;
         label.alignment = TextAnchor.MiddleCenter;
         label.color = Color.white;
@@ -197,8 +197,11 @@ public sealed class OpeningCinematicPlayer : MonoBehaviour
     }
     private void Error(VideoPlayer source, string message)
     {
-        Debug.LogError("[OpeningCinematicPlayer] " + message);
-        Finish(false);
+        // A video that cannot play (missing file, unsupported codec, prepare timeout) used to
+        // send the player back to the menu, and START retried the same video forever - the
+        // game was unreachable on that PC. Skip the cinematic and carry on instead.
+        Debug.LogError("[OpeningCinematicPlayer] " + message + " Skipping the cinematic.");
+        Finish(true);
     }
     private void Finish(bool success)
     {

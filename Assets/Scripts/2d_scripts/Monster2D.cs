@@ -7,10 +7,6 @@ public class Monster2D : MonoBehaviour
     private const int RayCount = 15;
     private const float SkinMargin = 1.1f;
 
-    private static readonly HashSet<string> DefeatedMonsterIds = new HashSet<string>();
-
-    public string monsterId = "";
-
     public Transform shimmer;
     public float shimmerScalePulse = 0.15f;
     public float shimmerAlphaBase = 0.25f;
@@ -69,10 +65,8 @@ public class Monster2D : MonoBehaviour
 
     public void Kill()
     {
-        if (!string.IsNullOrEmpty(monsterId))
-        {
-            DefeatedMonsterIds.Add(monsterId);
-        }
+        // no permanent kill list: monsters come back after respawnDelay anyway, and a
+        // static list outlived retries, so shared ids wiped whole groups on the next try
         StartCoroutine(KillSequence());
     }
 
@@ -120,12 +114,6 @@ public class Monster2D : MonoBehaviour
 
     void Awake()
     {
-        if (!string.IsNullOrEmpty(monsterId) && DefeatedMonsterIds.Contains(monsterId))
-        {
-            Destroy(gameObject);
-            return;
-        }
-
         sr = GetComponent<SpriteRenderer>();
         col = GetComponent<Collider2D>();
         animator = GetComponent<MonsterSpriteAnimator2D>();

@@ -71,11 +71,13 @@ namespace BrightDream
         private void OnEnable()
         {
             StageProgressManager.OnStageChanged += HandleStageChanged;
+            BossWeakpointController.OnBossDefeated += StopTimer;
         }
 
         private void OnDisable()
         {
             StageProgressManager.OnStageChanged -= HandleStageChanged;
+            BossWeakpointController.OnBossDefeated -= StopTimer;
         }
 
         private void HandleStageChanged(int currentStage)
@@ -122,7 +124,7 @@ namespace BrightDream
             IsRunning = false;
             hasExpired = true;
             OnTimeUp?.Invoke();
-            StageMessageUI.Instance?.ShowMessage("TIME OVER");
+            StageMessageUI.Instance?.ShowMessage("시간 초과");
             GameOverController.Instance?.TriggerGameOver();
         }
 

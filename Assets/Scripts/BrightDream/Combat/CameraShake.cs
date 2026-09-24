@@ -38,7 +38,9 @@ namespace BrightDream.Combat
             {
                 float falloff = 1f - (elapsed / duration);
                 transform.localPosition = basePosition + Random.insideUnitSphere * magnitude * falloff;
-                elapsed += Time.deltaTime;
+                // 치명타는 게임 오버(timeScale 0)를 먼저 띄운 뒤 흔들기 때문에, deltaTime 을 쓰면
+                // 흔들림이 끝나지 않는다.
+                elapsed += Time.unscaledDeltaTime;
                 yield return null;
             }
             transform.localPosition = basePosition;

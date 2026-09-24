@@ -69,6 +69,21 @@ public class DialogueTrigger : MonoBehaviour
         }
 
         _played = true;
+
+        // 다른 대사나 조작법 안내창이 떠 있으면 끊지 않고 끝날 때까지 기다렸다가 띄운다.
+        // (SubtitleUI.Play 는 재생 중이던 대사를 끊고 새로 시작한다.)
+        if (subtitle.IsPlaying || ControlGuideUI.Blocking)
+        {
+            if (gameObject.activeInHierarchy) StartCoroutine(PlayWhenFree());
+            return;
+        }
+
+        subtitle.Play(lines, speaker);
+    }
+
+    private System.Collections.IEnumerator PlayWhenFree()
+    {
+        while (subtitle.IsPlaying || ControlGuideUI.Blocking) yield return null;
         subtitle.Play(lines, speaker);
     }
 

@@ -22,8 +22,8 @@ public class Portal2D : MonoBehaviour
     [Header("Interaction")]
     [Tooltip("How close the player has to be before the prompt appears.")]
     public float useRange = 2.8f;
-    public Key useKey = Key.W;
-    [TextArea] public string promptMessage = "W키를 눌러 이동";
+    public Key useKey = Key.E;
+    [TextArea] public string promptMessage = "E키를 눌러 이동";
 
     private Coroutine hideMessageRoutine;
     private InteractPrompt2D prompt;

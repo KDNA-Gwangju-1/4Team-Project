@@ -51,9 +51,8 @@ public sealed class ChapterNoticeStyle : MonoBehaviour
         {
             backing = new GameObject("NoticePanel", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image)).GetComponent<Image>();
             backing.raycastTarget = false;
-            var border = backing.gameObject.AddComponent<Outline>();
-            border.effectDistance = new Vector2(1.5f, -1.5f);
-            border.effectColor = accentColor;
+            // same rounded card as the HUD so notices, timer and HUD read as one set
+            ChapterHudStyle.SkinCard(backing, bright);
             accent = new GameObject("Accent", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image)).GetComponent<Image>();
             accent.transform.SetParent(backing.transform, false);
             accent.raycastTarget = false;
@@ -83,7 +82,7 @@ public sealed class ChapterNoticeStyle : MonoBehaviour
         if (backing == null || label == null) return;
         bool visible = isActiveAndEnabled && label.enabled && !string.IsNullOrWhiteSpace(label.text) && label.color.a > .001f;
         if (backing.gameObject.activeSelf != visible) backing.gameObject.SetActive(visible);
-        Color panel = panelColor; panel.a *= label.color.a; backing.color = panel;
+        Color panel = Color.white; panel.a *= label.color.a; backing.color = panel;
         Color edge = accentColor; edge.a *= label.color.a; accent.color = edge;
     }
 }

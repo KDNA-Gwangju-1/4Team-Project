@@ -29,7 +29,7 @@ public class SubtitleUI : MonoBehaviour
     [SerializeField] private bool waitForInput = true;
 
     [Tooltip("대사를 넘기는 키. 여러 개 넣어도 된다.")]
-    [SerializeField] private KeyCode[] advanceKeys = { KeyCode.Space, KeyCode.E };
+    [SerializeField] private KeyCode[] advanceKeys = { KeyCode.Space };
 
     [Tooltip("글자가 찍히는 도중에 누르면 남은 글자를 한 번에 보여 준다.")]
     [SerializeField] private bool skipTypingOnInput = true;

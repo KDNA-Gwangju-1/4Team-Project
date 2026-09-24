@@ -4,7 +4,7 @@ using UnityEngine.UI;
 namespace BrightDream
 {
     /// <summary>
-    /// 대사 한 줄씩 보여주는 UI. E키/스페이스바/좌클릭으로 넘기거나, 아무 입력 없어도 2.5초 뒤 자동으로 다음 줄로 넘어간다.
+    /// 대사 한 줄씩 보여주는 UI. 스페이스바로 넘기거나, 아무 입력 없어도 2.5초 뒤 자동으로 다음 줄로 넘어간다.
     /// 마지막 줄에서 넘기면 패널을 닫고 onFinished 콜백을 호출한다.
     /// Time.timeScale이 0이어도(연출 중 게임 일시정지) Update의 실제 입력과 unscaledDeltaTime은 그대로 들어오므로 문제없다.
     /// </summary>
@@ -21,6 +21,9 @@ namespace BrightDream
         /// 건드리지 않는다 - 그런 경우까지 포함해 항상 안전하게 멈추도록 별도 플래그로 알린다.
         /// </summary>
         public static bool IsShowing { get; private set; }
+
+        /// <summary>대사창이 마지막으로 닫힌 프레임. 대사를 넘긴 스페이스바가 같은 프레임에 점프까지 하지 않게 쓴다.</summary>
+        public static int LastClosedFrame { get; private set; } = -1;
 
         [Tooltip("보통 이 스크립트가 붙은 오브젝트 자신 - 씬에서 처음부터 비활성 상태로 둔다. " +
                  "Awake에서 다시 꺼버리면 안 된다: panel이 비활성이면 Awake 자체가 ShowSequence의 " +
@@ -89,9 +92,8 @@ namespace BrightDream
             if (lines == null) return;
 
             lineTimer += Time.unscaledDeltaTime;
-            bool skipPressed = allowSkipInput && (Input.GetKeyDown(KeyCode.E)
-                                                  || Input.GetKeyDown(KeyCode.Space)
-                                                  || Input.GetMouseButtonDown(0));
+            // 대사 넘기기는 모든 챕터에서 스페이스바 하나로 통일했다.
+            bool skipPressed = allowSkipInput && Input.GetKeyDown(KeyCode.Space);
             bool advance = skipPressed || lineTimer >= AutoAdvanceDelay;
             if (!advance) return;
 
@@ -111,6 +113,7 @@ namespace BrightDream
         {
             lines = null;
             IsShowing = false;
+            LastClosedFrame = Time.frameCount;
             if (panel != null) panel.SetActive(false);
 
             System.Action callback = onFinished;

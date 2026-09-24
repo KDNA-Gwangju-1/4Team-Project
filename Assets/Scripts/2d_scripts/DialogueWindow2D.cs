@@ -87,7 +87,7 @@ public class DialogueWindow2D : MonoBehaviour
         lineGO.transform.SetParent(frameGO.transform, false);
 
         // 폰트가 비면 Text는 아무것도 안 그린다 - 창만 뜨고 글자가 없는 채로 조용히 실패한다
-        if (font == null) font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        if (font == null) font = HangulFont.Get();
 
         lineText = lineGO.AddComponent<Text>();
         lineText.font = font;
@@ -216,10 +216,8 @@ public class DialogueWindow2D : MonoBehaviour
 
     public static bool AdvancePressed()
     {
-        return Input.GetKeyDown(KeyCode.Return)
-            || Input.GetKeyDown(KeyCode.KeypadEnter)
-            || Input.GetKeyDown(KeyCode.Space)
-            || Input.GetMouseButtonDown(0);
+        // dialogue advances on Space only, in every chapter
+        return Input.GetKeyDown(KeyCode.Space);
     }
 
     private IEnumerator Fade(float from, float to)

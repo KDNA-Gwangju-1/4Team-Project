@@ -81,7 +81,7 @@ public class DeathRetryUI2D : MonoBehaviour
     private Text NewText(string name, string content, int size, Color color, float height01)
     {
         Text t = NewChild(name).AddComponent<Text>();
-        t.font = font != null ? font : Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        t.font = font != null ? font : HangulFont.Get();
         t.fontSize = size;
         t.fontStyle = FontStyle.Bold;
         HangulFont.Apply(t);
@@ -138,7 +138,7 @@ public class DeathRetryUI2D : MonoBehaviour
     {
         if (!acceptingInput) return;
 
-        if (Input.GetKeyDown(KeyCode.R) || Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.R))
         {
             acceptingInput = false;
             Retry();

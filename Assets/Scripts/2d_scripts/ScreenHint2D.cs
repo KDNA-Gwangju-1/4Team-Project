@@ -43,7 +43,7 @@ public class ScreenHint2D : MonoBehaviour
         textGO.transform.SetParent(canvasGO.transform, false);
 
         label = textGO.AddComponent<Text>();
-        label.font = font != null ? font : Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        label.font = font != null ? font : HangulFont.Get();
         label.fontSize = fontSize;
         label.fontStyle = FontStyle.Bold;
         label.alignment = TextAnchor.MiddleCenter;

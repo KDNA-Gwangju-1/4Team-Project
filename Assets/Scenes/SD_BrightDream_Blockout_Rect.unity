@@ -5289,7 +5289,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46446391009ac4f43b434b6fc099f15e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StageEntryTrigger
-  message: "Boss Stage\n\uBCF4\uC2A4\uC758 \uC57D\uC810\uC744 \uCC3E\uC544 \uC815\uD654\uC2DC\uCF1C\uB77C"
+  message: "\uBCF4\uC2A4 \uC2A4\uD14C\uC774\uC9C0\n\uBCF4\uC2A4\uC758 \uC57D\uC810\uC744
+    \uCC3E\uC544 \uC815\uD654\uC2DC\uCF1C\uB77C"
   displayDuration: 2.5
   triggerOnce: 1
   stageIndex: 3
@@ -24094,7 +24095,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 4e7331f9fd8a0604a816e16af86d666a, type: 3}
     m_FontSize: 18
     m_FontStyle: 0
     m_BestFit: 0
@@ -73326,9 +73327,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: de727970a439ba54b99fc62f024d3284, type: 3}
     m_FontSize: 72
-    m_FontStyle: 1
+    m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 72
@@ -73338,7 +73339,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: GAME OVER
+  m_Text: "\uAFC8\uC774 \uBB34\uB108\uC84C\uB2E4"
 --- !u!222 &494240475
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -86535,7 +86536,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 4e7331f9fd8a0604a816e16af86d666a, type: 3}
     m_FontSize: 26
     m_FontStyle: 0
     m_BestFit: 0
@@ -96491,9 +96492,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: de727970a439ba54b99fc62f024d3284, type: 3}
     m_FontSize: 42
-    m_FontStyle: 1
+    m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 42
@@ -96503,7 +96504,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "Stage 1 \uB2E8\uC11C\uB97C \uCC3E\uC544\uB77C"
+  m_Text: "\uC2A4\uD14C\uC774\uC9C0 1 \uB2E8\uC11C\uB97C \uCC3E\uC544\uB77C"
 --- !u!222 &667405476
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -100126,6 +100127,7 @@ MonoBehaviour:
   spawnInterval: 1.2
   minSpawnSpacing: 3
   maxSpawnAttempts: 8
+  maxActiveMonsters: 12
   arenaCenter: {x: 30.3987, y: 0, z: 37.6758}
   leashDistance: 30
 --- !u!1 &692028473
@@ -169278,6 +169280,7 @@ MonoBehaviour:
   lowHealthHearts: 1
   heartbeatScale: 1.12
   heartbeatsPerSecond: 1.6
+  heartsShown: 5
 --- !u!1 &1187947056
 GameObject:
   m_ObjectHideFlags: 0
@@ -203429,7 +203432,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1404556523}
   - component: {fileID: 1404556522}
-  - component: {fileID: 1404556521}
   m_Layer: 0
   m_Name: DreamRift_ToSiblingDream
   m_TagString: Untagged
@@ -203437,18 +203439,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1404556521
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1404556520}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3de14b338d4597a4ea8d2c22866af299, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DreamRiftPortal
 --- !u!65 &1404556522
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -210267,7 +210257,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 4e7331f9fd8a0604a816e16af86d666a, type: 3}
     m_FontSize: 28
     m_FontStyle: 0
     m_BestFit: 0
@@ -212521,9 +212511,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: de727970a439ba54b99fc62f024d3284, type: 3}
     m_FontSize: 48
-    m_FontStyle: 1
+    m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 48
@@ -215352,7 +215342,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 4e7331f9fd8a0604a816e16af86d666a, type: 3}
     m_FontSize: 24
     m_FontStyle: 0
     m_BestFit: 0
@@ -216032,7 +216022,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -219380,7 +219370,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 4e7331f9fd8a0604a816e16af86d666a, type: 3}
     m_FontSize: 28
     m_FontStyle: 0
     m_BestFit: 0
@@ -235361,7 +235351,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 4e7331f9fd8a0604a816e16af86d666a, type: 3}
     m_FontSize: 28
     m_FontStyle: 0
     m_BestFit: 0
@@ -285344,7 +285334,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 4e7331f9fd8a0604a816e16af86d666a, type: 3}
     m_FontSize: 28
     m_FontStyle: 0
     m_BestFit: 0
@@ -285356,7 +285346,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uB2E4\uC2DC \uC2DC\uC791"
+  m_Text: "R\uD0A4\uB85C \uB2E4\uC2DC \uC2DC\uC791"
 --- !u!222 &1933644409
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -306830,7 +306820,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 4e7331f9fd8a0604a816e16af86d666a, type: 3}
     m_FontSize: 28
     m_FontStyle: 0
     m_BestFit: 0
@@ -311358,7 +311348,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 4e7331f9fd8a0604a816e16af86d666a, type: 3}
     m_FontSize: 32
     m_FontStyle: 0
     m_BestFit: 0

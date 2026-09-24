@@ -89,7 +89,7 @@ public class InteractPrompt2D : MonoBehaviour
         textGO.transform.SetParent(canvasGO.transform, false);
 
         label = textGO.AddComponent<Text>();
-        label.font = font != null ? font : Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        label.font = font != null ? font : HangulFont.Get();
         label.fontSize = fontSize;
         label.fontStyle = FontStyle.Bold;
         label.alignment = TextAnchor.MiddleCenter;
@@ -127,7 +127,9 @@ public class InteractPrompt2D : MonoBehaviour
             backingGO.transform.SetAsFirstSibling();
             skinBacking = backingGO.GetComponent<Image>();
             skinBacking.raycastTarget = false;
-            skinBacking.color = new Color(0.045f, 0.025f, 0.09f, 0f);
+            // same rounded card as the HUD; the fade drives its alpha
+            ChapterHudStyle.SkinCard(skinBacking, false);
+            skinBacking.color = new Color(1f, 1f, 1f, 0f);
             RectTransform backingRect = skinBacking.rectTransform;
             backingRect.anchorMin = backingRect.anchorMax = new Vector2(0.5f, screenHeight01);
             backingRect.sizeDelta = new Vector2(680f, 64f);

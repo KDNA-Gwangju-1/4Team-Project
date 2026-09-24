@@ -9,8 +9,8 @@ public class NoteReader2D : MonoBehaviour
 {
     [Tooltip("How close the player has to be before the prompt appears.")]
     public float readRange = 2.6f;
-    public Key readKey = Key.Z;
-    [TextArea] public string promptText = "Z키를 눌러 펼치기";
+    public Key readKey = Key.E;
+    [TextArea] public string promptText = "E키를 눌러 펼치기";
 
     [Header("The opened note")]
     [Tooltip("The unfolded sheet the text is written on.")]
@@ -157,7 +157,7 @@ public class NoteReader2D : MonoBehaviour
         GameObject textGO = new GameObject("Writing");
         textGO.transform.SetParent(paper.transform, false);
         Text body = textGO.AddComponent<Text>();
-        body.font = font != null ? font : Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        body.font = font != null ? font : HangulFont.Get();
         body.fontSize = fontSize;
         HangulFont.Apply(body);
         body.color = inkColor;

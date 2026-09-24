@@ -24,6 +24,9 @@ public class WeaponPickup : MonoBehaviour
 
     private void Awake()
     {
+        // static이라 씬을 다시 불러와도(게임 오버 → 다시 시작) 값이 남는다. 픽업이 새로 생길 때 되돌린다.
+        PlayerHasWeapon = false;
+
         if (visualRenderers == null || visualRenderers.Length == 0)
             visualRenderers = GetComponentsInChildren<Renderer>(true);
 

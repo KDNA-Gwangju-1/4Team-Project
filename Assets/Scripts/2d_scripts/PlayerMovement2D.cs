@@ -52,6 +52,21 @@ public class PlayerMovement2D : MonoBehaviour
     public static float? PendingSpawnX = null;
     public static int? CarriedHealth = null;
 
+    /// <summary>
+    /// Call when the 2D chapter starts over (new game, or entering it from the bright dream).
+    /// Statics survive scene loads, so without this a second run starts with the lantern
+    /// already picked up and the tutorial skipped.
+    /// </summary>
+    public static void ResetChapterState()
+    {
+        LanternObtained = false;
+        PendingSpawnX = null;
+        CarriedHealth = null;
+        BossPhaseController2D.ResumeAtPhase2 = false;
+        Stage2IntroCutscene.SkipIntroOnce = false;
+        Stage3BossIntroCutscene.SkipIntroOnce = false;
+    }
+
     public GameObject bulletPrefab;
     public float bulletSpeed = 10f;
     public float bulletMaxDistance = 8f;
@@ -126,11 +141,22 @@ public class PlayerMovement2D : MonoBehaviour
 
     // 입력은 Update에서 예약하고 FixedUpdate에서 실행한다. 컷신이 이 컴포넌트를 끄면 예약만 남아
     // 있다가 다시 켜질 때 터진다 - 카메라가 훑는 동안 누른 점프가 컷신이 끝나자마자 실행됐다.
+    private int enabledFrame = -1;
+
+    void OnEnable()
+    {
+        enabledFrame = Time.frameCount;
+    }
+
     void OnDisable()
     {
         jumpRequested = false;
         wallJumpRequested = false;
         dashRequested = false;
+        // a cutscene that disables us mid-aim used to leave the beam on (and still revealing
+        // monsters) for the whole scene; cutscenes that want it call CutsceneSetLight afterwards
+        if (flashlightRenderer != null) flashlightRenderer.enabled = false;
+        if (flashlightMask != null) flashlightMask.enabled = false;
     }
 
     void Awake()
@@ -187,7 +213,9 @@ public class PlayerMovement2D : MonoBehaviour
         touchingWallLeft = wallHitLeft.collider != null;
 
         var keyboard = Keyboard.current;
-        if (keyboard != null)
+        // Space also advances cutscene dialogue; the press that closes the last line must not
+        // also jump on the frame the cutscene hands control back
+        if (keyboard != null && Time.frameCount != enabledFrame)
         {
             if (keyboard.dKey.wasPressedThisFrame) facingDirection = 1;
             if (keyboard.aKey.wasPressedThisFrame) facingDirection = -1;
@@ -370,7 +398,7 @@ public class PlayerMovement2D : MonoBehaviour
         if (flashlight == null || flashlightRenderer == null) return;
 
         var mouse = Mouse.current;
-        bool wantsLight = hasLantern && mouse != null && mouse.leftButton.isPressed;
+        bool wantsLight = hasLantern && mouse != null && mouse.rightButton.isPressed;
 
         // the lamp runs dry after lightMaxSeconds and stays dead until it has
         // fully recharged, which takes lightLockoutSeconds
@@ -421,7 +449,8 @@ public class PlayerMovement2D : MonoBehaviour
         var mouse = Mouse.current;
         if (mouse == null) return;
 
-        if (mouse.rightButton.wasPressedThisFrame && Time.time - lastFireTime >= fireCooldown)
+        if (mouse.leftButton.wasPressedThisFrame && Time.time - lastFireTime >= fireCooldown
+            && Time.frameCount != enabledFrame)
         {
             Vector2 direction = GetMouseDirection(mouse);
             FireBullet(direction);
