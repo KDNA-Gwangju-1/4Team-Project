@@ -56,7 +56,9 @@ public class Portal2D : MonoBehaviour
 
         if (overrideSpawnX) PlayerMovement2D.PendingSpawnX = spawnX;
         PlayerMovement2D.CarriedHealth = carryHealth ? player.CurrentHealth : (int?)null;
-        SceneManager.LoadScene(targetSceneName);
+        // 스테이지 사이는 로딩 화면 없이 짧게 어두워졌다 밝아진다. 덮는 동안 조작은 멈춘다.
+        player.enabled = false;
+        SceneFader.LoadScene(targetSceneName);
     }
 
     private void ShowLockedMessage()

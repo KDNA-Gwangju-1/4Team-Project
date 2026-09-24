@@ -94,8 +94,9 @@ namespace BrightDream.Combat
 
         public void RestartScene()
         {
-            Time.timeScale = 1f;
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            // 챕터2 재시도와 같은 짧은 페이드. timeScale 은 화면이 다 가려진 뒤 SceneFader 가 1 로 되돌린다.
+            if (SceneFader.IsFading) return;
+            SceneFader.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
 }

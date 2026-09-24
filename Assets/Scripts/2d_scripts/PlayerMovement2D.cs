@@ -608,7 +608,7 @@ public class PlayerMovement2D : MonoBehaviour
 
         if (!string.IsNullOrEmpty(sceneOnDeath))
         {
-            SceneManager.LoadScene(sceneOnDeath);
+            SceneFader.LoadScene(sceneOnDeath);
         }
     }
 

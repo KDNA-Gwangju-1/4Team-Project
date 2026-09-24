@@ -44,6 +44,9 @@ public class LoadingOverlay : MonoBehaviour
     /// </summary>
     public void Play(float hold, Action onCovered)
     {
+        // 문으로 이동할 때마다 다른 로딩 팁을 보여 준다.
+        var background = transform.Find("Background");
+        if (background != null) LoadingScreen.ShowTip(background.GetComponent<Image>());
         StopAllCoroutines();
         StartCoroutine(Routine(hold, onCovered));
     }

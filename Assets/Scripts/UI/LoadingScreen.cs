@@ -174,6 +174,70 @@ public class LoadingScreen : MonoBehaviour
             icon.SetParent(image.transform, false);
             icon.anchoredPosition = position;
         }
+        ShowTip(image);
+    }
+
+    // ============================================================
+    // 로딩 팁 - 배경 그림의 두 가로줄 사이 빈칸에 매번 하나를 골라 띄운다.
+    // (그림에 박혀 있던 문구는 지웠다. 문구를 더 넣으려면 이 배열에 추가하면 된다.)
+    // ============================================================
+
+    private static readonly string[] Tips =
+    {
+        "꿈병 환자는 깊은 잠에 빠진 채 깨어나지 않는다.\n뇌파는 정상이지만, 마음은 꿈속 어딘가에 머물러 있다.",
+        "꿈탐정은 잠든 사람의 손을 잡아 그 꿈으로 들어간다.\n꿈속에서 찾은 기억의 조각이 깨어날 길을 알려 준다.",
+        "쌍둥이는 같은 날 같은 꿈을 꾸기도 한답니다.\n마음이 닿아 있으면, 꿈도 이어질 수 있어요.",
+        "밝은 꿈은 행복했던 기억으로 지어지고,\n악몽은 꺼내지 못한 마음으로 지어집니다.",
+        "꿈속 인형들은 꿈꾸는 사람의 마음을 닮아요.\n검보라색 먹물은 그 마음에 스며든 상처랍니다.",
+        "악몽 속 그림자는 빛을 비춰야 모습을 드러냅니다.\n보이지 않는 것과는 싸울 수도, 화해할 수도 없으니까요.",
+        "누군가를 부러워하는 마음은 부끄러운 게 아니에요.\n다만 오래 숨겨 두면, 꿈속에서 모양을 갖게 된답니다.",
+        "꿈병 환자의 심박은 매일 같은 시각에 치솟는다.\n그 시각은 환자가 가장 무서워했던 순간과 겹친다고 한다.",
+        "꿈에서 찾은 물건은 대개 현실의 기억과 이어져 있어요.\n리본, 이름, 사진, 편지. 작은 것일수록 소중하답니다.",
+        "전하지 못한 사과는 마음속에 오래 남아요.\n꿈은 가끔, 그 말을 건넬 두 번째 기회를 줍니다.",
+    };
+
+    private static int lastTip = -1;
+
+    /// <summary>배경 그림 위 빈칸에 팁 하나를 무작위로 띄운다. 바로 앞에 나온 팁은 피한다.</summary>
+    internal static void ShowTip(Image image)
+    {
+        if (image == null || image.sprite == null) return;
+
+        const string tipName = "LoadingTip";
+        var found = image.transform.Find(tipName);
+        Text tip = found != null ? found.GetComponent<Text>() : null;
+        if (tip == null)
+        {
+            tip = new GameObject(tipName, typeof(RectTransform), typeof(CanvasRenderer), typeof(Text)).GetComponent<Text>();
+            tip.transform.SetParent(image.transform, false);
+            tip.raycastTarget = false;
+        }
+
+        // 두 가로줄 사이 칸 (그림 기준 비율). 병원 그림과 꿈 그림은 칸 높이가 다르다.
+        bool hospital = image.sprite.name == "LoadingBackground";
+        float bottom = hospital ? 0.240f : 0.158f;
+        float top = hospital ? 0.386f : 0.368f;
+        var rt = tip.rectTransform;
+        rt.anchorMin = new Vector2(0.207f, bottom);
+        rt.anchorMax = new Vector2(0.793f, top);
+        rt.offsetMin = rt.offsetMax = Vector2.zero;
+
+        tip.font = HangulFont.Get();
+        tip.fontStyle = FontStyle.Normal;
+        tip.alignment = TextAnchor.MiddleLeft;
+        tip.color = new Color(0.86f, 0.89f, 1f, 0.95f);
+        tip.lineSpacing = 1.45f;
+        tip.horizontalOverflow = HorizontalWrapMode.Wrap;
+        tip.verticalOverflow = VerticalWrapMode.Truncate;
+        tip.resizeTextForBestFit = true;
+        tip.resizeTextMinSize = 20;
+        tip.resizeTextMaxSize = 30;
+        tip.fontSize = 30;
+
+        int pick = Random.Range(0, Tips.Length);
+        if (Tips.Length > 1 && pick == lastTip) pick = (pick + 1 + Random.Range(0, Tips.Length - 1)) % Tips.Length;
+        lastTip = pick;
+        tip.text = Tips[pick];
     }
 
     private IEnumerator LoadRoutine(string target)
