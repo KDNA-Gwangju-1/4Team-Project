@@ -32,8 +32,7 @@ namespace BrightDream.Combat
         [SerializeField] private Transform boss;
         [Tooltip("BossHand 프리팹. 비우면 손 없이 보스만 빨려 들어간다.")]
         [SerializeField] private GameObject handPrefab;
-        [Tooltip("손이 붙잡을 지점 - 유니콘 몸통 가운데 뼈(Spine). 지정하면 손목이 이 지점 앞에 정확히 멈추고, " +
-                 "끌려가는 동안 유니콘이 손에 매달려 따라온다. 비우면 렌더러 중심을 겨누고 손과 따로 움직인다.")]
+        [Tooltip("유니콘 몸통 가운데 뼈(Spine). 손바닥의 GripAnchor가 이 지점을 붙잡고, 애니메이션 후에도 접촉을 유지한다.")]
         [SerializeField] private Transform grabPoint;
 
         [Header("타이밍")]
@@ -43,13 +42,15 @@ namespace BrightDream.Combat
         [SerializeField] private float reachDuration = 1.1f;
         [Tooltip("붙잡은 뒤 끌기 시작까지의 뜸.")]
         [SerializeField] private float grabHold = 0.45f;
+        [Tooltip("손가락 관절이 몸통을 감싸 쥐는 시간.")]
+        [SerializeField] private float fingerCloseDuration = 0.85f;
         [Tooltip("유니콘이 균열로 끌려 들어가는 시간.")]
         [SerializeField] private float dragDuration = 1.3f;
         [Tooltip("균열이 잦아드는 시간.")]
         [SerializeField] private float closeDuration = 1.2f;
 
         [Header("연출")]
-        [Tooltip("손목이 붙잡을 지점 앞 몇 m 에서 멈출지. 손가락 길이(약 2.4m)보다 짧으면 손가락이 몸통을 감싼다.")]
+        [Tooltip("GripAnchor가 없는 구형 프리팹에서만 사용하는 손목 앞 접촉 거리.")]
         [SerializeField] private float grabOffset = 1.2f;
         [Tooltip("끌려갈 때 흔들리는 폭.")]
         [SerializeField] private float struggleAmount = 0.35f;
@@ -74,6 +75,7 @@ namespace BrightDream.Combat
         public static event Action OnRiftExitFinished;
 
         public bool IsPlaying { get; private set; }
+        public bool HasGrabbedBoss { get; private set; }
 
         private Renderer[] riftRenderers;
         private float[] riftBaseIntensity;
@@ -83,6 +85,45 @@ namespace BrightDream.Combat
 
         private GameObject hand;
         private bool done;
+        private Transform contactAnchor;
+        private Transform activeArm, activeGrip;
+        private Vector3 activeArmBase, activeGripBase;
+        private float reachBlend, trackedStretch;
+        private bool trackingReach;
+        private BossHandGrip fingerRig;
+
+        // Animator evaluates the Spine after the coroutine. Correct contact afterwards,
+        // so defeat/struggle animation cannot slide the body out of the palm.
+        private void LateUpdate()
+        {
+            if (trackingReach) TrackReach();
+            if (HasGrabbedBoss && boss != null && grabPoint != null && contactAnchor != null)
+                boss.position += contactAnchor.position - grabPoint.position;
+        }
+
+        private void TrackReach()
+        {
+            if (hand == null || activeGrip == null || contactAnchor == null) return;
+            Vector3 target = BossAimPoint();
+            Vector3 direction = target - hand.transform.position;
+            if (direction.sqrMagnitude < 0.0001f) return;
+            // The anchor sits below the palm: aim the wrist above the torso, keeping
+            // the dorsum upward. Compensate that offset instead of snapping the boss.
+            for (int i = 0; i < 4; i++)
+            {
+                Vector3 offset = hand.transform.InverseTransformPoint(contactAnchor.position);
+                offset.z = 0f;
+                Vector3 aim = direction - hand.transform.TransformVector(offset);
+                hand.transform.rotation = Quaternion.LookRotation(aim.normalized, Vector3.up);
+            }
+            SetHandExtension(activeArm, activeArmBase, activeGrip, activeGripBase, 0f);
+            float start = Vector3.Dot(contactAnchor.position - hand.transform.position, hand.transform.forward);
+            SetHandExtension(activeArm, activeArmBase, activeGrip, activeGripBase, 1f);
+            float end = Vector3.Dot(contactAnchor.position - hand.transform.position, hand.transform.forward);
+            trackedStretch = Mathf.Abs(end - start) > 0.0001f
+                ? Mathf.Max(0f, (Vector3.Dot(direction, hand.transform.forward) - start) / (end - start)) : 1f;
+            SetHandExtension(activeArm, activeArmBase, activeGrip, activeGripBase, trackedStretch * reachBlend);
+        }
 
         private void Awake()
         {
@@ -111,6 +152,9 @@ namespace BrightDream.Combat
         private void OnDisable()
         {
             BossWeakpointController.OnBossDefeated -= HandleBossDefeated;
+            trackingReach = false;
+            HasGrabbedBoss = false;
+            if (hand != null) Destroy(hand);
         }
 
         private void HandleBossDefeated()
@@ -176,11 +220,14 @@ namespace BrightDream.Combat
             {
                 hand = Instantiate(handPrefab, riftPos, Quaternion.LookRotation(dir, Vector3.up));
                 hand.name = "BossHand_Runtime";
+                fingerRig = hand.GetComponent<BossHandGrip>();
+                if (fingerRig != null) fingerRig.SetGrip(0f);
 
                 foreach (var tr in hand.GetComponentsInChildren<Transform>(true))
                 {
                     if (tr.name == "Arm") arm = tr;
                     else if (tr.name == "Hand") grip = tr;
+                    else if (tr.name == "GripAnchor") contactAnchor = tr;
                 }
                 if (grip != null) gripBase = grip.localPosition;
 
@@ -204,6 +251,22 @@ namespace BrightDream.Combat
                     if (Mathf.Abs(d1 - d0) > 0.0001f) stretch = (reachDist - d0) / (d1 - d0);
                 }
                 SetHandExtension(arm, armBase, grip, gripBase, 0f);
+                if (grip != null)
+                {
+                    // Old prefabs still receive an explicit forward contact point.
+                    if (contactAnchor == null)
+                    {
+                        contactAnchor = new GameObject("GripAnchor").transform;
+                        contactAnchor.position = grip.position + hand.transform.forward * grabOffset;
+                        contactAnchor.SetParent(grip, true);
+                    }
+                    activeArm = arm;
+                    activeGrip = grip;
+                    activeArmBase = armBase;
+                    activeGripBase = gripBase;
+                    reachBlend = 0f;
+                    trackingReach = true;
+                }
             }
 
             t = 0f;
@@ -213,8 +276,32 @@ namespace BrightDream.Combat
                 float p = Mathf.Clamp01(t / Mathf.Max(reachDuration, 0.0001f));
                 float e = 1f - (1f - p) * (1f - p) * (1f - p);      // ease out cubic
                 SetHandExtension(arm, armBase, grip, gripBase, stretch * e);
+                reachBlend = e;
+                if (fingerRig != null) fingerRig.SetGrip(e * .12f);
+                if (trackingReach) TrackReach();
                 yield return null;
             }
+
+            if (trackingReach)
+            {
+                reachBlend = 1f;
+                TrackReach();
+                stretch = trackedStretch;
+            }
+            // Close MCP, PIP and DIP joints around the torso before applying attachment.
+            t = 0f;
+            while (t < fingerCloseDuration)
+            {
+                t += Time.unscaledDeltaTime;
+                float close = Mathf.SmoothStep(0f, 1f, t / Mathf.Max(.001f, fingerCloseDuration));
+                if (fingerRig != null) fingerRig.SetGrip(Mathf.Lerp(.12f, 1f, close));
+                if (trackingReach) TrackReach();
+                yield return null;
+            }
+            if (fingerRig != null) fingerRig.SetGrip(1f);
+            stretch = trackedStretch;
+            trackingReach = false;
+            HasGrabbedBoss = grabPoint != null && contactAnchor != null && boss != null;
 
             // ── 3) 붙잡는 순간 ──
             var shake = CameraShake.Instance;
@@ -223,10 +310,10 @@ namespace BrightDream.Combat
 
             // ── 4) 끌고 들어간다 ──
             // 팔은 다시 줄어들고 유니콘은 그 끝에 매달려 균열로 딸려 온다.
-            // 붙잡을 지점이 있으면 붙잡은 순간의 손목-몸통 간격을 유지해 유니콘을 손에 고정하고,
+            // 손바닥 GripAnchor에 몸통을 고정하고,
             // 흔들림도 유니콘만이 아니라 팔 전체를 좌우로 휘둘러 준다 - 따로 움직이면 손이 놓친 것처럼 보인다.
             bool holdInHand = grabPoint != null && grip != null && boss != null && hand != null;
-            Vector3 holdOffset = holdInHand ? grabPoint.position - grip.position : Vector3.zero;
+            Vector3 gripScale = grip != null ? grip.localScale : Vector3.one;
             Quaternion handRotation = hand != null ? hand.transform.rotation : Quaternion.identity;
 
             t = 0f;
@@ -247,10 +334,11 @@ namespace BrightDream.Combat
                     SetHandExtension(arm, armBase, grip, gripBase, stretch * (1f - e));
 
                     boss.localScale = Vector3.Lerp(bossScale, bossScale * shrinkTo, e);
-                    // 몸이 줄어드는 만큼 손목-몸통 간격도 줄여야 손가락이 계속 몸통에 걸쳐 있다.
                     float shrink = bossScale.x > 0.0001f ? boss.localScale.x / bossScale.x : 1f;
-                    Vector3 wanted = grip.position + Quaternion.AngleAxis(swayDeg, Vector3.up) * holdOffset * shrink;
-                    boss.position += wanted - grabPoint.position;
+                    grip.localScale = gripScale * shrink;
+                    if (arm != null)
+                        arm.localScale = new Vector3(armBase.x * shrink, armBase.y * shrink, arm.localScale.z);
+                    if (contactAnchor != null) boss.position += contactAnchor.position - grabPoint.position;
                 }
                 else
                 {
@@ -265,6 +353,7 @@ namespace BrightDream.Combat
             }
 
             if (boss != null) boss.gameObject.SetActive(false);
+            HasGrabbedBoss = false;
             if (hand != null) Destroy(hand);
 
             // ── 5) 균열이 잦아든다 ──

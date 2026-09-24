@@ -1,0 +1,50 @@
+[
+  {
+    "angle": 0,
+    "found": true,
+    "heightDelta": 0.12088573,
+    "path": "PathComplete"
+  },
+  {
+    "angle": 1,
+    "found": true,
+    "heightDelta": 0.121139258,
+    "path": "PathComplete"
+  },
+  {
+    "angle": 2,
+    "found": true,
+    "heightDelta": 0.123850614,
+    "path": "PathComplete"
+  },
+  {
+    "angle": 3,
+    "found": true,
+    "heightDelta": 0.130231947,
+    "path": "PathComplete"
+  },
+  {
+    "angle": 4,
+    "found": true,
+    "heightDelta": 0.125808269,
+    "path": "PathComplete"
+  },
+  {
+    "angle": 5,
+    "found": true,
+    "heightDelta": 0.120135605,
+    "path": "PathComplete"
+  },
+  {
+    "angle": 6,
+    "found": true,
+    "heightDelta": 0.119118452,
+    "path": "PathComplete"
+  },
+  {
+    "angle": 7,
+    "found": true,
+    "heightDelta": 0.0924888551,
+    "path": "PathComplete"
+  }
+]

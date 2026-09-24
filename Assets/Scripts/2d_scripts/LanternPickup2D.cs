@@ -37,6 +37,14 @@ public class LanternPickup2D : MonoBehaviour
 
     void Update()
     {
+        // Scene intros may grant the lantern in Start, after this pickup's Awake.
+        // Retire redundant pickups before displaying a prompt or accepting input.
+        if (PlayerMovement2D.LanternObtained)
+        {
+            if (prompt != null) prompt.SetVisible(false, promptText);
+            Destroy(gameObject);
+            return;
+        }
         // ESC 일시정지 중에는 입력을 받지 않는다.
         if (PauseMenu.IsPaused) return;
         if (taken) return;

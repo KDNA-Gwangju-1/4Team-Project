@@ -16,12 +16,15 @@ namespace BrightDream.Clues
         [SerializeField] private CrosshairController crosshair;
 
         private ClueInteractable currentTarget;
+        private WeaponPickup currentWeapon;
+        private string cluePrompt;
 
         private void Awake()
         {
             ChapterNoticeStyle.Apply(promptText, ChapterDialogueSkin.Theme.BrightDream);
             if (playerCamera == null) playerCamera = Camera.main;
             if (promptText != null) promptText.gameObject.SetActive(false);
+            cluePrompt = promptText != null ? promptText.text : "E 조사하기";
         }
 
         private void Update()
@@ -29,6 +32,15 @@ namespace BrightDream.Clues
             // ESC 일시정지 중에는 입력을 받지 않는다.
             if (PauseMenu.IsPaused) return;
             DetectTarget();
+
+            if (currentWeapon != null && Input.GetKeyDown(KeyCode.E))
+            {
+                currentWeapon.TryInteract();
+                currentWeapon = null;
+                SetPrompt(false);
+                if (crosshair != null) crosshair.SetHovering(false);
+                return;
+            }
 
             if (currentTarget != null && Input.GetKeyDown(KeyCode.E))
             {
@@ -42,20 +54,25 @@ namespace BrightDream.Clues
         private void DetectTarget()
         {
             ClueInteractable hitClue = null;
+            WeaponPickup hitWeapon = null;
             if (playerCamera != null &&
                 Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out RaycastHit hit, interactDistance, ~0, QueryTriggerInteraction.Collide))
             {
                 hitClue = hit.collider.GetComponentInParent<ClueInteractable>();
                 if (hitClue != null && hitClue.IsCollected) hitClue = null;
+                hitWeapon = hit.collider.GetComponentInParent<WeaponPickup>();
+                if (hitWeapon != null && !hitWeapon.CanInteract) hitWeapon = null;
             }
 
-            if (hitClue != currentTarget)
+            if (hitClue != currentTarget || hitWeapon != currentWeapon)
             {
                 if (currentTarget != null) currentTarget.SetHighlighted(false);
                 currentTarget = hitClue;
+                currentWeapon = hitWeapon;
                 if (currentTarget != null) currentTarget.SetHighlighted(true);
-                SetPrompt(currentTarget != null);
-                if (crosshair != null) crosshair.SetHovering(currentTarget != null);
+                if (promptText != null) promptText.text = currentWeapon != null ? "E  정화총 획득하기" : cluePrompt;
+                SetPrompt(currentTarget != null || currentWeapon != null);
+                if (crosshair != null) crosshair.SetHovering(currentTarget != null || currentWeapon != null);
             }
         }
 

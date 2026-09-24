@@ -91,6 +91,11 @@ namespace BrightDream.Combat
 
         public static void SetArenaBounds(Bounds bounds)
         {
+            if (bounds.size.x < 1f || bounds.size.z < 1f)
+            {
+                arenaBoundsSet = false;
+                return;
+            }
             arenaMinX = bounds.min.x;
             arenaMaxX = bounds.max.x;
             arenaMinZ = bounds.min.z;
@@ -142,7 +147,7 @@ namespace BrightDream.Combat
                 nextPos.x = Mathf.Clamp(nextPos.x, arenaMinX, arenaMaxX);
                 nextPos.z = Mathf.Clamp(nextPos.z, arenaMinZ, arenaMaxZ);
             }
-            if (groundSnapCollider != null) nextPos.y = SampleGroundHeight(nextPos);
+            if (groundSnapCollider != null && groundSnapCollider.enabled) nextPos.y = SampleGroundHeight(nextPos);
             transform.position = nextPos;
             transform.forward = toPlayer; // 밀어내기/회피와 무관하게 항상 플레이어를 바라본다.
         }

@@ -1,0 +1,47 @@
+[
+  {
+    "name": "DeckCollider_1",
+    "hit": true,
+    "delta": -0.0169792324
+  },
+  {
+    "name": "DeckCollider_2",
+    "hit": true,
+    "delta": 0.0145495087
+  },
+  {
+    "name": "DeckCollider_3",
+    "hit": true,
+    "delta": -0.004190773
+  },
+  {
+    "name": "DeckCollider_4",
+    "hit": true,
+    "delta": -0.01475507
+  },
+  {
+    "name": "DeckCollider_5",
+    "hit": true,
+    "delta": -0.008993864
+  },
+  {
+    "name": "DeckCollider_6",
+    "hit": true,
+    "delta": 0.00524497032
+  },
+  {
+    "name": "DeckCollider_7",
+    "hit": true,
+    "delta": 0.04198706
+  },
+  {
+    "name": "DeckCollider_8",
+    "hit": true,
+    "delta": 0.003529057
+  },
+  {
+    "name": "DeckCollider_9",
+    "hit": true,
+    "delta": 0.00302104652
+  }
+]

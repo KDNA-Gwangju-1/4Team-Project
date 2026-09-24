@@ -87,7 +87,12 @@ namespace BrightDream.Combat
                 }
 
                 GameObject template = monsterTemplates[Random.Range(0, monsterTemplates.Length)];
-                Vector3 spawnPos = FindSpawnPosition();
+                Vector3 spawnPos;
+                if (!TryFindSpawnPosition(out spawnPos))
+                {
+                    yield return new WaitForSeconds(spawnInterval);
+                    continue;
+                }
 
                 bool spawnDark = ShouldSpawnDark();
 
@@ -137,8 +142,11 @@ namespace BrightDream.Combat
             BossWeakpointController.Instance?.RegisterMonsterPurified();
         }
 
-        private Vector3 FindSpawnPosition()
+        private bool TryFindSpawnPosition(out Vector3 position)
         {
+            position = Vector3.zero;
+            if (arenaFloorCollider == null || !arenaFloorCollider.enabled || !arenaFloorCollider.gameObject.activeInHierarchy)
+                return false;
             for (int i = 0; i < maxSpawnAttempts; i++)
             {
                 // 뒤쪽 180도(±90도) 부채꼴 안에서 랜덤 각도/반경을 고른다.
@@ -152,7 +160,10 @@ namespace BrightDream.Combat
                     Bounds b = arenaFloorCollider.bounds;
                     candidate.x = Mathf.Clamp(candidate.x, b.min.x, b.max.x);
                     candidate.z = Mathf.Clamp(candidate.z, b.min.z, b.max.z);
-                    candidate.y = SampleGroundHeight(candidate, b);
+                    RaycastHit ground;
+                    if (!arenaFloorCollider.Raycast(new Ray(new Vector3(candidate.x, b.max.y + 5f, candidate.z), Vector3.down), out ground, b.size.y + 10f))
+                        continue;
+                    candidate.y = ground.point.y + spawnSurfaceOffset;
                 }
                 else
                 {
@@ -165,9 +176,10 @@ namespace BrightDream.Combat
                     if (t == null) continue;
                     if (Vector3.Distance(candidate, t.position) < minSpawnSpacing) { overlaps = true; break; }
                 }
-                if (!overlaps) return candidate;
+                if (!overlaps) { position = candidate; return true; }
             }
-            return bossTransform.position + rearDirection * minSpawnRadius;
+            // A crowded or invalid floor must not funnel every retry into one fallback point.
+            return false;
         }
 
         private static readonly Vector2[] SampleOffsets =

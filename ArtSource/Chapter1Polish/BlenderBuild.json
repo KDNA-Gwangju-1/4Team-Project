@@ -1,0 +1,37 @@
+[
+  {
+    "name": "Treeline",
+    "vertices": 19752,
+    "faces": 16288
+  },
+  {
+    "name": "HalfTree",
+    "vertices": 2469,
+    "faces": 2036
+  },
+  {
+    "name": "Hills",
+    "vertices": 3514,
+    "faces": 3052
+  },
+  {
+    "name": "BushRow",
+    "vertices": 2532,
+    "faces": 2280
+  },
+  {
+    "name": "Arena",
+    "vertices": 29570,
+    "faces": 28048
+  },
+  {
+    "name": "Hand",
+    "vertices": 17996,
+    "faces": 17794
+  },
+  {
+    "name": "Arm",
+    "vertices": 806,
+    "faces": 760
+  }
+]

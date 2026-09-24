@@ -42,6 +42,7 @@ namespace BrightDream.Combat
         private NavMeshAgent agent;
         private BossWeakpointController weakpoint;
         private BossRiftEntrance entrance;
+        private BossRiftExit exitSequence;
         private Renderer bodyRenderer;
         private int walkingHash, headbuttHash, slamHash, emergeHash, defeatedHash, grabbedHash, hitStateHash;
         private float grabDelay;
@@ -62,6 +63,7 @@ namespace BrightDream.Combat
             agent = GetComponentInParent<NavMeshAgent>();
             weakpoint = GetComponentInParent<BossWeakpointController>();
             entrance = FindObjectOfType<BossRiftEntrance>();
+            exitSequence = FindObjectOfType<BossRiftExit>();
             bodyRenderer = GetComponentInChildren<Renderer>(true);
             walkingHash = Animator.StringToHash(walkingParameter);
             headbuttHash = Animator.StringToHash(headbuttTrigger);
@@ -113,7 +115,7 @@ namespace BrightDream.Combat
             {
                 SetWalking(false);
                 // BossRiftExit는 실제 시간(WaitForSecondsRealtime)으로 진행하므로 같은 시간축으로 잰다.
-                if (!grabbed && Time.realtimeSinceStartup - defeatedAtRealtime >= grabDelay)
+                if (!grabbed && (exitSequence != null ? exitSequence.HasGrabbedBoss : Time.realtimeSinceStartup - defeatedAtRealtime >= grabDelay))
                 {
                     grabbed = true;
                     animator.SetBool(grabbedHash, true);

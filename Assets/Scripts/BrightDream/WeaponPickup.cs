@@ -3,7 +3,7 @@ using BrightDream.Clues;
 
 /// <summary>
 /// 단서 4개를 모두 모으면 모습을 드러내는 정화총 픽업.
-/// 드러난 뒤 플레이어가 걸어서 닿으면 자동으로 획득 처리된다.
+/// 드러난 뒤 바라보고 E키로 상호작용하면 획득한다.
 /// </summary>
 [RequireComponent(typeof(Collider))]
 public class WeaponPickup : MonoBehaviour
@@ -21,6 +21,7 @@ public class WeaponPickup : MonoBehaviour
 
     private Collider pickupCollider;
     private bool revealed;
+    public bool CanInteract => revealed && !PlayerHasWeapon && gameObject.activeInHierarchy;
 
     private void Awake()
     {
@@ -53,12 +54,11 @@ public class WeaponPickup : MonoBehaviour
         pickupCollider.enabled = true;
     }
 
-    private void OnTriggerEnter(Collider other)
+    public bool TryInteract()
     {
-        if (!revealed) return;
-        if (other.GetComponentInParent<CharacterController>() == null) return;
-
+        if (!CanInteract || PauseMenu.IsPaused || Time.timeScale <= 0f) return false;
         Grant(showMessage: true);
+        return true;
     }
 
     /// <summary>디버그 스테이지 스킵 등, 정상적인 픽업 동선을 건너뛰고 즉시 총을 지급할 때 쓴다.</summary>
