@@ -1,0 +1,6573 @@
+{
+  "pathRoot": "(0.00, 0.00, 0.00)",
+  "stones": [
+    {
+      "name": "MPStoneFinalV41_0",
+      "active": true,
+      "x": -0.9602639,
+      "y": 0.02706774,
+      "z": 1.022157
+    },
+    {
+      "name": "MPStoneFinalV41_1",
+      "active": true,
+      "x": -0.356930017,
+      "y": 0.02271152,
+      "z": 0.9874944
+    },
+    {
+      "name": "MPStoneFinalV41_2",
+      "active": true,
+      "x": 0.229300678,
+      "y": 0.020611871,
+      "z": 0.9514008
+    },
+    {
+      "name": "MPStoneFinalV41_3",
+      "active": true,
+      "x": 0.8456235,
+      "y": 0.0390895531,
+      "z": 0.927945
+    },
+    {
+      "name": "MPStoneFinalV41_4",
+      "active": false,
+      "x": -0.620437562,
+      "y": 0.037117742,
+      "z": 1.34185469
+    },
+    {
+      "name": "MPStoneFinalV41_5",
+      "active": false,
+      "x": -0.0238772687,
+      "y": 0.0263751578,
+      "z": 1.27867866
+    },
+    {
+      "name": "MPStoneFinalV41_6",
+      "active": false,
+      "x": 0.5573293,
+      "y": 0.0355993733,
+      "z": 1.33134353
+    },
+    {
+      "name": "MPStoneFinalV41_7",
+      "active": false,
+      "x": -0.917627752,
+      "y": 0.0388419181,
+      "z": 1.60520041
+    },
+    {
+      "name": "MPStoneFinalV41_8",
+      "active": false,
+      "x": -0.339251935,
+      "y": 0.02098314,
+      "z": 1.66881371
+    },
+    {
+      "name": "MPStoneFinalV41_9",
+      "active": false,
+      "x": 0.280573577,
+      "y": 0.032022737,
+      "z": 1.66174209
+    },
+    {
+      "name": "MPStoneFinalV41_10",
+      "active": true,
+      "x": 0.8855455,
+      "y": 0.03698504,
+      "z": 1.68519771
+    },
+    {
+      "name": "MPStoneFinalV41_11",
+      "active": true,
+      "x": -0.6894245,
+      "y": 0.03359873,
+      "z": 1.9471103
+    },
+    {
+      "name": "MPStoneFinalV41_12",
+      "active": true,
+      "x": -0.07178305,
+      "y": 0.0372013561,
+      "z": 1.96180868
+    },
+    {
+      "name": "MPStoneFinalV41_13",
+      "active": true,
+      "x": 0.533151,
+      "y": 0.0208121538,
+      "z": 2.05036926
+    },
+    {
+      "name": "MPStoneFinalV41_14",
+      "active": false,
+      "x": -1.01257777,
+      "y": 0.02617126,
+      "z": 2.23147464
+    },
+    {
+      "name": "MPStoneFinalV41_15",
+      "active": false,
+      "x": -0.428049952,
+      "y": 0.03680438,
+      "z": 2.29204965
+    },
+    {
+      "name": "MPStoneFinalV41_16",
+      "active": false,
+      "x": 0.161640048,
+      "y": 0.0346013755,
+      "z": 2.372732
+    },
+    {
+      "name": "MPStoneFinalV41_17",
+      "active": false,
+      "x": 0.7861837,
+      "y": 0.0335667767,
+      "z": 2.4375577
+    },
+    {
+      "name": "MPStoneFinalV41_18",
+      "active": true,
+      "x": -0.7687811,
+      "y": 0.0265307724,
+      "z": 2.57936621
+    },
+    {
+      "name": "MPStoneFinalV41_19",
+      "active": true,
+      "x": -0.13861227,
+      "y": 0.0235354155,
+      "z": 2.63600039
+    },
+    {
+      "name": "MPStoneFinalV41_20",
+      "active": true,
+      "x": 0.418214858,
+      "y": 0.02572294,
+      "z": 2.7525506
+    },
+    {
+      "name": "MPStoneFinalV41_21",
+      "active": false,
+      "x": -1.08362269,
+      "y": 0.025283061,
+      "z": 2.89827371
+    },
+    {
+      "name": "MPStoneFinalV41_22",
+      "active": false,
+      "x": -0.5309022,
+      "y": 0.021930255,
+      "z": 2.93858933
+    },
+    {
+      "name": "MPStoneFinalV41_23",
+      "active": false,
+      "x": 0.06407305,
+      "y": 0.0334376544,
+      "z": 3.00709271
+    },
+    {
+      "name": "MPStoneFinalV41_24",
+      "active": false,
+      "x": 0.7012775,
+      "y": 0.0248967148,
+      "z": 3.08903742
+    },
+    {
+      "name": "MPStoneFinalV41_25",
+      "active": true,
+      "x": -0.8184694,
+      "y": 0.034533266,
+      "z": 3.29272342
+    },
+    {
+      "name": "MPStoneFinalV41_26",
+      "active": true,
+      "x": -0.2554783,
+      "y": 0.03784921,
+      "z": 3.310665
+    },
+    {
+      "name": "MPStoneFinalV41_27",
+      "active": true,
+      "x": 0.3477546,
+      "y": 0.0324657373,
+      "z": 3.39954185
+    },
+    {
+      "name": "MPStoneFinalV41_28",
+      "active": false,
+      "x": -1.17502713,
+      "y": 0.0252508856,
+      "z": 3.551525
+    },
+    {
+      "name": "MPStoneFinalV41_29",
+      "active": false,
+      "x": -0.5762513,
+      "y": 0.0395424254,
+      "z": 3.6366694
+    },
+    {
+      "name": "MPStoneFinalV41_30",
+      "active": false,
+      "x": 0.03779129,
+      "y": 0.03394465,
+      "z": 3.693278
+    },
+    {
+      "name": "MPStoneFinalV41_31",
+      "active": false,
+      "x": 0.644779146,
+      "y": 0.0224777125,
+      "z": 3.755896
+    },
+    {
+      "name": "MPStoneFinalV41_32",
+      "active": true,
+      "x": -0.8858288,
+      "y": 0.03869761,
+      "z": 3.92959213
+    },
+    {
+      "name": "MPStoneFinalV41_33",
+      "active": true,
+      "x": -0.328842282,
+      "y": 0.0317816138,
+      "z": 4.03307343
+    },
+    {
+      "name": "MPStoneFinalV41_34",
+      "active": true,
+      "x": 0.290922076,
+      "y": 0.0364186,
+      "z": 4.058323
+    },
+    {
+      "name": "MPStoneFinalV41_35",
+      "active": true,
+      "x": -1.27947855,
+      "y": 0.0311283916,
+      "z": 4.2759943
+    },
+    {
+      "name": "MPStoneFinalV41_36",
+      "active": false,
+      "x": -0.6536018,
+      "y": 0.0318349153,
+      "z": 4.33950567
+    },
+    {
+      "name": "MPStoneFinalV41_37",
+      "active": false,
+      "x": -0.08324132,
+      "y": 0.0354972556,
+      "z": 4.33577156
+    },
+    {
+      "name": "MPStoneFinalV41_38",
+      "active": false,
+      "x": 0.5115997,
+      "y": 0.0220911857,
+      "z": 4.43146467
+    },
+    {
+      "name": "MPStoneFinalV41_39",
+      "active": false,
+      "x": -0.9985079,
+      "y": 0.03319177,
+      "z": 4.64073753
+    },
+    {
+      "name": "MPStoneFinalV41_40",
+      "active": true,
+      "x": -0.397507429,
+      "y": 0.0276644677,
+      "z": 4.706314
+    },
+    {
+      "name": "MPStoneFinalV41_41",
+      "active": true,
+      "x": 0.202528134,
+      "y": 0.0319522657,
+      "z": 4.71874142
+    },
+    {
+      "name": "MPStoneFinalV41_42",
+      "active": true,
+      "x": -1.2650255,
+      "y": 0.0344219543,
+      "z": 5.006355
+    },
+    {
+      "name": "MPStoneFinalV41_43",
+      "active": false,
+      "x": -0.6650951,
+      "y": 0.0367089324,
+      "z": 5.04339075
+    },
+    {
+      "name": "MPStoneFinalV41_44",
+      "active": false,
+      "x": -0.08296989,
+      "y": 0.0229396634,
+      "z": 5.024013
+    },
+    {
+      "name": "MPStoneFinalV41_45",
+      "active": false,
+      "x": 0.5127632,
+      "y": 0.03659933,
+      "z": 5.03494453
+    },
+    {
+      "name": "MPStoneFinalV41_46",
+      "active": false,
+      "x": -0.979156137,
+      "y": 0.0203993283,
+      "z": 5.360206
+    },
+    {
+      "name": "MPStoneFinalV41_47",
+      "active": true,
+      "x": -0.369390756,
+      "y": 0.0227492563,
+      "z": 5.33726025
+    },
+    {
+      "name": "MPStoneFinalV41_48",
+      "active": true,
+      "x": 0.254606515,
+      "y": 0.025468884,
+      "z": 5.33527
+    },
+    {
+      "name": "MPStoneFinalV41_49",
+      "active": true,
+      "x": -1.24388146,
+      "y": 0.0232909471,
+      "z": 5.688008
+    },
+    {
+      "name": "MPStoneFinalV41_50",
+      "active": false,
+      "x": -0.634996951,
+      "y": 0.02688298,
+      "z": 5.683473
+    },
+    {
+      "name": "MPStoneFinalV41_51",
+      "active": false,
+      "x": -0.0357257836,
+      "y": 0.036966078,
+      "z": 5.71274233
+    },
+    {
+      "name": "MPStoneFinalV41_52",
+      "active": false,
+      "x": 0.554118633,
+      "y": 0.0284034833,
+      "z": 5.73500872
+    },
+    {
+      "name": "MPStoneFinalV41_53",
+      "active": false,
+      "x": -0.9425456,
+      "y": 0.0325580165,
+      "z": 6.04096
+    },
+    {
+      "name": "MPStoneFinalV41_54",
+      "active": true,
+      "x": -0.339785457,
+      "y": 0.0230962671,
+      "z": 6.029565
+    },
+    {
+      "name": "MPStoneFinalV41_55",
+      "active": true,
+      "x": 0.224551052,
+      "y": 0.02472404,
+      "z": 6.086952
+    },
+    {
+      "name": "MPStoneFinalV41_56",
+      "active": true,
+      "x": -1.26675189,
+      "y": 0.0296757612,
+      "z": 6.322086
+    },
+    {
+      "name": "MPStoneFinalV41_57",
+      "active": false,
+      "x": -0.694095969,
+      "y": 0.0288915131,
+      "z": 6.352371
+    },
+    {
+      "name": "MPStoneFinalV41_58",
+      "active": false,
+      "x": -0.0735735,
+      "y": 0.0215219371,
+      "z": 6.43006468
+    },
+    {
+      "name": "MPStoneFinalV41_59",
+      "active": true,
+      "x": 0.5370808,
+      "y": 0.0257663354,
+      "z": 6.47927046
+    },
+    {
+      "name": "MPStoneFinalV41_60",
+      "active": false,
+      "x": -1.04461288,
+      "y": 0.0231007617,
+      "z": 6.618969
+    },
+    {
+      "name": "MPStoneFinalV41_61",
+      "active": true,
+      "x": -0.4276204,
+      "y": 0.03900312,
+      "z": 6.692122
+    },
+    {
+      "name": "MPStoneFinalV41_62",
+      "active": true,
+      "x": 0.150523648,
+      "y": 0.0251806565,
+      "z": 6.80077744
+    },
+    {
+      "name": "MPStoneFinalV41_63",
+      "active": true,
+      "x": -1.382082,
+      "y": 0.0368690528,
+      "z": 6.94147444
+    },
+    {
+      "name": "MPStoneFinalV41_64",
+      "active": true,
+      "x": -0.8143923,
+      "y": 0.023101598,
+      "z": 7.02525043
+    },
+    {
+      "name": "MPStoneFinalV41_65",
+      "active": false,
+      "x": -0.1749268,
+      "y": 0.0258457549,
+      "z": 7.080285
+    },
+    {
+      "name": "MPStoneFinalV41_66",
+      "active": false,
+      "x": 0.374028683,
+      "y": 0.0257949773,
+      "z": 7.140066
+    },
+    {
+      "name": "MPStoneFinalV41_67",
+      "active": false,
+      "x": -1.13674927,
+      "y": 0.0343415737,
+      "z": 7.342666
+    },
+    {
+      "name": "MPStoneFinalV41_68",
+      "active": false,
+      "x": -0.5112423,
+      "y": 0.0330518074,
+      "z": 7.384031
+    },
+    {
+      "name": "MPStoneFinalV41_69",
+      "active": true,
+      "x": 0.06254216,
+      "y": 0.03854337,
+      "z": 7.41277838
+    },
+    {
+      "name": "MPStoneFinalV41_70",
+      "active": true,
+      "x": -1.432534,
+      "y": 0.03029397,
+      "z": 7.713997
+    },
+    {
+      "name": "MPStoneFinalV41_71",
+      "active": true,
+      "x": -0.865622938,
+      "y": 0.03793703,
+      "z": 7.692541
+    },
+    {
+      "name": "MPStoneFinalV41_72",
+      "active": false,
+      "x": -0.261707544,
+      "y": 0.0219572,
+      "z": 7.702249
+    },
+    {
+      "name": "MPStoneFinalV41_73",
+      "active": false,
+      "x": 0.3806346,
+      "y": 0.0267348252,
+      "z": 7.726359
+    },
+    {
+      "name": "MPStoneFinalV41_74",
+      "active": false,
+      "x": -1.12100446,
+      "y": 0.0385872424,
+      "z": 8.062841
+    },
+    {
+      "name": "MPStoneFinalV41_75",
+      "active": true,
+      "x": -0.5196683,
+      "y": 0.0207889117,
+      "z": 8.066105
+    },
+    {
+      "name": "MPStoneFinalV41_76",
+      "active": true,
+      "x": 0.08613455,
+      "y": 0.02654004,
+      "z": 8.060438
+    },
+    {
+      "name": "MPStoneFinalV41_77",
+      "active": true,
+      "x": -1.37428939,
+      "y": 0.0205491632,
+      "z": 8.440027
+    },
+    {
+      "name": "MPStoneFinalV41_78",
+      "active": false,
+      "x": -0.8027101,
+      "y": 0.03857196,
+      "z": 8.446488
+    },
+    {
+      "name": "MPStoneFinalV41_79",
+      "active": false,
+      "x": -0.2092912,
+      "y": 0.0284322426,
+      "z": 8.379456
+    },
+    {
+      "name": "MPStoneFinalV41_80",
+      "active": false,
+      "x": 0.411601454,
+      "y": 0.02582374,
+      "z": 8.335621
+    },
+    {
+      "name": "MPStoneFinalV41_81",
+      "active": false,
+      "x": -1.06922674,
+      "y": 0.0231962316,
+      "z": 8.77778149
+    },
+    {
+      "name": "MPStoneFinalV41_82",
+      "active": true,
+      "x": -0.476707369,
+      "y": 0.03277474,
+      "z": 8.764481
+    },
+    {
+      "name": "MPStoneFinalV41_83",
+      "active": true,
+      "x": 0.111772954,
+      "y": 0.02565265,
+      "z": 8.703201
+    },
+    {
+      "name": "MPStoneFinalV41_84",
+      "active": true,
+      "x": -1.34015334,
+      "y": 0.039993763,
+      "z": 9.130808
+    },
+    {
+      "name": "MPStoneFinalV41_85",
+      "active": false,
+      "x": -0.7651605,
+      "y": 0.0391834565,
+      "z": 9.097725
+    },
+    {
+      "name": "MPStoneFinalV41_86",
+      "active": false,
+      "x": -0.177782,
+      "y": 0.0294279866,
+      "z": 9.076637
+    },
+    {
+      "name": "MPStoneFinalV41_87",
+      "active": false,
+      "x": 0.4360841,
+      "y": 0.0259599872,
+      "z": 9.051346
+    },
+    {
+      "name": "MPStoneFinalV41_88",
+      "active": false,
+      "x": -1.04084623,
+      "y": 0.0394560471,
+      "z": 9.441313
+    },
+    {
+      "name": "MPStoneFinalV41_89",
+      "active": true,
+      "x": -0.4245997,
+      "y": 0.0332554765,
+      "z": 9.404581
+    },
+    {
+      "name": "MPStoneFinalV41_90",
+      "active": true,
+      "x": 0.1792859,
+      "y": 0.03982009,
+      "z": 9.383539
+    },
+    {
+      "name": "MPStoneFinalV41_91",
+      "active": true,
+      "x": -1.31477237,
+      "y": 0.0302416068,
+      "z": 9.795585
+    },
+    {
+      "name": "MPStoneFinalV41_92",
+      "active": true,
+      "x": -0.728921235,
+      "y": 0.0361658819,
+      "z": 9.810108
+    },
+    {
+      "name": "MPStoneFinalV41_93",
+      "active": false,
+      "x": -0.120243065,
+      "y": 0.027397003,
+      "z": 9.727345
+    },
+    {
+      "name": "MPStoneFinalV41_94",
+      "active": false,
+      "x": 0.485660136,
+      "y": 0.0237049274,
+      "z": 9.697281
+    },
+    {
+      "name": "MPStoneFinalV41_95",
+      "active": false,
+      "x": -0.970703,
+      "y": 0.0249362625,
+      "z": 10.1438227
+    },
+    {
+      "name": "MPStoneFinalV41_96",
+      "active": false,
+      "x": -0.397242129,
+      "y": 0.035929393,
+      "z": 10.1113882
+    },
+    {
+      "name": "MPStoneFinalV41_97",
+      "active": false,
+      "x": 0.187169671,
+      "y": 0.024650909,
+      "z": 10.0465059
+    },
+    {
+      "name": "MPStoneFinalV41_98",
+      "active": false,
+      "x": -1.25466275,
+      "y": 0.0217170082,
+      "z": 10.5464954
+    },
+    {
+      "name": "MPStoneFinalV41_99",
+      "active": false,
+      "x": -0.680442154,
+      "y": 0.0204785317,
+      "z": 10.4707136
+    },
+    {
+      "name": "MPStoneFinalV41_100",
+      "active": true,
+      "x": -0.08552831,
+      "y": 0.03234737,
+      "z": 10.4366961
+    },
+    {
+      "name": "MPStoneFinalV41_101",
+      "active": true,
+      "x": 0.5276896,
+      "y": 0.0344034731,
+      "z": 10.3363743
+    },
+    {
+      "name": "MPStoneFinalV41_102",
+      "active": true,
+      "x": -0.9169171,
+      "y": 0.02761932,
+      "z": 10.8317776
+    },
+    {
+      "name": "MPStoneFinalV41_103",
+      "active": false,
+      "x": -0.312263131,
+      "y": 0.038845934,
+      "z": 10.7610664
+    },
+    {
+      "name": "MPStoneFinalV41_104",
+      "active": false,
+      "x": 0.242008761,
+      "y": 0.0277144313,
+      "z": 10.733285
+    },
+    {
+      "name": "MPStoneFinalV41_105",
+      "active": true,
+      "x": -1.185826,
+      "y": 0.0334867053,
+      "z": 11.283287
+    },
+    {
+      "name": "MPStoneFinalV41_106",
+      "active": false,
+      "x": -0.5855157,
+      "y": 0.02482095,
+      "z": 11.183486
+    },
+    {
+      "name": "MPStoneFinalV41_107",
+      "active": true,
+      "x": 0.0170994066,
+      "y": 0.02819848,
+      "z": 11.0855675
+    },
+    {
+      "name": "MPStoneFinalV41_108",
+      "active": true,
+      "x": 0.6150459,
+      "y": 0.0272474252,
+      "z": 10.9623976
+    },
+    {
+      "name": "MPStoneFinalV41_109",
+      "active": false,
+      "x": -0.8168013,
+      "y": 0.0370209143,
+      "z": 11.5783644
+    },
+    {
+      "name": "MPStoneFinalV41_110",
+      "active": false,
+      "x": -0.259444147,
+      "y": 0.0269102082,
+      "z": 11.4455509
+    },
+    {
+      "name": "MPStoneFinalV41_111",
+      "active": false,
+      "x": 0.356231332,
+      "y": 0.0262315534,
+      "z": 11.3010788
+    },
+    {
+      "name": "MPStoneFinalV41_112",
+      "active": true,
+      "x": -0.945046842,
+      "y": 0.0282170437,
+      "z": 11.9847984
+    },
+    {
+      "name": "MPStoneFinalV41_113",
+      "active": true,
+      "x": -0.4009717,
+      "y": 0.0300323665,
+      "z": 11.8386536
+    },
+    {
+      "name": "MPStoneFinalV41_114",
+      "active": true,
+      "x": 0.184325531,
+      "y": 0.0345397666,
+      "z": 11.6615009
+    },
+    {
+      "name": "MPStoneFinalV41_115",
+      "active": true,
+      "x": 0.752505,
+      "y": 0.0277578719,
+      "z": 11.4990959
+    },
+    {
+      "name": "MPStoneFinalV41_116",
+      "active": false,
+      "x": -0.5389348,
+      "y": 0.0314873271,
+      "z": 12.2448463
+    },
+    {
+      "name": "MPStoneFinalV41_117",
+      "active": false,
+      "x": 0.05202237,
+      "y": 0.0344412476,
+      "z": 12.057106
+    },
+    {
+      "name": "MPStoneFinalV41_118",
+      "active": false,
+      "x": 0.6171265,
+      "y": 0.0366043672,
+      "z": 11.8671274
+    },
+    {
+      "name": "MPStoneFinalV41_119",
+      "active": true,
+      "x": -0.692969143,
+      "y": 0.0209667049,
+      "z": 12.6589355
+    },
+    {
+      "name": "MPStoneFinalV41_120",
+      "active": true,
+      "x": -0.146147057,
+      "y": 0.0225746632,
+      "z": 12.5047684
+    },
+    {
+      "name": "MPStoneFinalV41_121",
+      "active": true,
+      "x": 0.41928634,
+      "y": 0.0337674245,
+      "z": 12.3261843
+    },
+    {
+      "name": "MPStoneFinalV41_122",
+      "active": true,
+      "x": 1.00695837,
+      "y": 0.0314370319,
+      "z": 12.1147919
+    },
+    {
+      "name": "MPStoneFinalV41_123",
+      "active": false,
+      "x": -0.366499156,
+      "y": 0.0232407078,
+      "z": 12.8763189
+    },
+    {
+      "name": "MPStoneFinalV41_124",
+      "active": false,
+      "x": 0.1961357,
+      "y": 0.0255799331,
+      "z": 12.7200327
+    },
+    {
+      "name": "MPStoneFinalV41_125",
+      "active": false,
+      "x": 0.7993568,
+      "y": 0.03747047,
+      "z": 12.5763168
+    },
+    {
+      "name": "MPStoneFinalV41_126",
+      "active": true,
+      "x": -0.5745767,
+      "y": 0.023847878,
+      "z": 13.2569551
+    },
+    {
+      "name": "MPStoneFinalV41_127",
+      "active": true,
+      "x": 0.0277634449,
+      "y": 0.03065141,
+      "z": 13.1200323
+    },
+    {
+      "name": "MPStoneFinalV41_128",
+      "active": true,
+      "x": 0.5744898,
+      "y": 0.0246889461,
+      "z": 12.9463253
+    },
+    {
+      "name": "MPStoneFinalV41_129",
+      "active": true,
+      "x": 1.18176675,
+      "y": 0.0250760987,
+      "z": 12.783267
+    },
+    {
+      "name": "MPStoneFinalV41_130",
+      "active": false,
+      "x": -0.191972136,
+      "y": 0.0373113044,
+      "z": 13.5701141
+    },
+    {
+      "name": "MPStoneFinalV41_131",
+      "active": false,
+      "x": 0.389540046,
+      "y": 0.026121024,
+      "z": 13.350461
+    },
+    {
+      "name": "MPStoneFinalV41_132",
+      "active": false,
+      "x": 0.958506048,
+      "y": 0.03057539,
+      "z": 13.1903343
+    },
+    {
+      "name": "MPStoneFinalV41_133",
+      "active": true,
+      "x": -0.333202332,
+      "y": 0.0239405669,
+      "z": 13.9732714
+    },
+    {
+      "name": "MPStoneFinalV41_134",
+      "active": true,
+      "x": 0.235886216,
+      "y": 0.0396481678,
+      "z": 13.7825441
+    },
+    {
+      "name": "MPStoneFinalV41_135",
+      "active": true,
+      "x": 0.803859055,
+      "y": 0.03405703,
+      "z": 13.6052008
+    },
+    {
+      "name": "MPStoneFinalV41_136",
+      "active": true,
+      "x": 1.33567059,
+      "y": 0.0207818672,
+      "z": 13.3755121
+    },
+    {
+      "name": "MPStoneFinalV41_137",
+      "active": true,
+      "x": 0.07870074,
+      "y": 0.0366070159,
+      "z": 14.2579317
+    },
+    {
+      "name": "MPStoneFinalV41_138",
+      "active": false,
+      "x": 0.6680569,
+      "y": 0.03765721,
+      "z": 14.0249786
+    },
+    {
+      "name": "MPStoneFinalV41_139",
+      "active": false,
+      "x": 1.20716512,
+      "y": 0.031511955,
+      "z": 13.7761831
+    },
+    {
+      "name": "MPStoneFinalV41_140",
+      "active": false,
+      "x": -0.0175712146,
+      "y": 0.0318950824,
+      "z": 14.6806946
+    },
+    {
+      "name": "MPStoneFinalV41_141",
+      "active": false,
+      "x": 0.5133366,
+      "y": 0.0382732376,
+      "z": 14.4307346
+    },
+    {
+      "name": "MPStoneFinalV41_142",
+      "active": true,
+      "x": 1.03102577,
+      "y": 0.0362410359,
+      "z": 14.1703329
+    },
+    {
+      "name": "MPStoneFinalV41_143",
+      "active": true,
+      "x": 1.59621823,
+      "y": 0.036988318,
+      "z": 13.9521933
+    },
+    {
+      "name": "MPStoneFinalV41_144",
+      "active": true,
+      "x": 0.388276,
+      "y": 0.0383440778,
+      "z": 14.896699
+    },
+    {
+      "name": "MPStoneFinalV41_145",
+      "active": false,
+      "x": 0.9374462,
+      "y": 0.030796675,
+      "z": 14.6156359
+    },
+    {
+      "name": "MPStoneFinalV41_146",
+      "active": false,
+      "x": 1.48351336,
+      "y": 0.038559258,
+      "z": 14.3834772
+    },
+    {
+      "name": "MPStoneFinalV41_147",
+      "active": false,
+      "x": 0.2795754,
+      "y": 0.0250938982,
+      "z": 15.3263512
+    },
+    {
+      "name": "MPStoneFinalV41_148",
+      "active": false,
+      "x": 0.8187974,
+      "y": 0.0346889123,
+      "z": 15.0607738
+    },
+    {
+      "name": "MPStoneFinalV41_149",
+      "active": true,
+      "x": 1.33468747,
+      "y": 0.0285052937,
+      "z": 14.7790747
+    },
+    {
+      "name": "MPStoneFinalV41_150",
+      "active": true,
+      "x": 1.87953091,
+      "y": 0.0306853,
+      "z": 14.5019169
+    },
+    {
+      "name": "MPStoneFinalV41_151",
+      "active": true,
+      "x": 0.6972123,
+      "y": 0.0224761665,
+      "z": 15.4810734
+    },
+    {
+      "name": "MPStoneFinalV41_152",
+      "active": false,
+      "x": 1.24690318,
+      "y": 0.0273501724,
+      "z": 15.2404776
+    },
+    {
+      "name": "MPStoneFinalV41_153",
+      "active": false,
+      "x": 1.76834261,
+      "y": 0.0329209864,
+      "z": 14.947567
+    },
+    {
+      "name": "MPStoneFinalV41_154",
+      "active": false,
+      "x": 0.5991857,
+      "y": 0.0364562534,
+      "z": 15.9567175
+    },
+    {
+      "name": "MPStoneFinalV41_155",
+      "active": false,
+      "x": 1.14045489,
+      "y": 0.0255632438,
+      "z": 15.6673279
+    },
+    {
+      "name": "MPStoneFinalV41_156",
+      "active": true,
+      "x": 1.67351437,
+      "y": 0.0380215161,
+      "z": 15.3776951
+    },
+    {
+      "name": "MPStoneFinalV41_157",
+      "active": true,
+      "x": 2.20550823,
+      "y": 0.020344276,
+      "z": 15.0919971
+    },
+    {
+      "name": "MPStoneFinalV41_158",
+      "active": true,
+      "x": 1.04086637,
+      "y": 0.0214236174,
+      "z": 16.1269855
+    },
+    {
+      "name": "MPStoneFinalV41_159",
+      "active": false,
+      "x": 1.557785,
+      "y": 0.0245381556,
+      "z": 15.8193874
+    },
+    {
+      "name": "MPStoneFinalV41_160",
+      "active": false,
+      "x": 2.08206034,
+      "y": 0.0292199664,
+      "z": 15.5445137
+    },
+    {
+      "name": "MPStoneFinalV41_161",
+      "active": false,
+      "x": 0.9601865,
+      "y": 0.03546617,
+      "z": 16.5878677
+    },
+    {
+      "name": "MPStoneFinalV41_162",
+      "active": false,
+      "x": 1.46122873,
+      "y": 0.0336558819,
+      "z": 16.2640457
+    },
+    {
+      "name": "MPStoneFinalV41_163",
+      "active": true,
+      "x": 1.96699321,
+      "y": 0.0270185657,
+      "z": 15.9663019
+    },
+    {
+      "name": "MPStoneFinalV41_164",
+      "active": true,
+      "x": 2.507299,
+      "y": 0.0334114656,
+      "z": 15.6538277
+    },
+    {
+      "name": "MPStoneFinalV41_165",
+      "active": true,
+      "x": 1.38455665,
+      "y": 0.0351879746,
+      "z": 16.7258854
+    },
+    {
+      "name": "MPStoneFinalV41_166",
+      "active": false,
+      "x": 1.90358424,
+      "y": 0.0237976629,
+      "z": 16.4016762
+    },
+    {
+      "name": "MPStoneFinalV41_167",
+      "active": false,
+      "x": 2.40769529,
+      "y": 0.02961949,
+      "z": 16.09899
+    },
+    {
+      "name": "MPStoneFinalV41_168",
+      "active": false,
+      "x": 1.37445176,
+      "y": 0.0395976342,
+      "z": 17.2023888
+    },
+    {
+      "name": "MPStoneFinalV41_169",
+      "active": false,
+      "x": 1.86889863,
+      "y": 0.0337669067,
+      "z": 16.84679
+    },
+    {
+      "name": "MPStoneFinalV41_170",
+      "active": true,
+      "x": 2.35100269,
+      "y": 0.0306956824,
+      "z": 16.53132
+    },
+    {
+      "name": "MPStoneFinalV41_171",
+      "active": true,
+      "x": 2.87172914,
+      "y": 0.0336162075,
+      "z": 16.1883564
+    },
+    {
+      "name": "MPStoneFinalV41_172",
+      "active": true,
+      "x": 1.77363324,
+      "y": 0.039147336,
+      "z": 17.314724
+    },
+    {
+      "name": "MPStoneFinalV41_173",
+      "active": false,
+      "x": 2.288376,
+      "y": 0.03733237,
+      "z": 16.9551487
+    },
+    {
+      "name": "MPStoneFinalV41_174",
+      "active": false,
+      "x": 2.77704787,
+      "y": 0.0245493278,
+      "z": 16.6113472
+    },
+    {
+      "name": "MPStoneFinalV41_175",
+      "active": false,
+      "x": 1.72263527,
+      "y": 0.03358746,
+      "z": 17.7558479
+    },
+    {
+      "name": "MPStoneFinalV41_176",
+      "active": true,
+      "x": 2.26833034,
+      "y": 0.0324532837,
+      "z": 17.4366188
+    },
+    {
+      "name": "MPStoneFinalV41_177",
+      "active": true,
+      "x": 2.759003,
+      "y": 0.0256001614,
+      "z": 17.0904331
+    },
+    {
+      "name": "MPStoneFinalV41_178",
+      "active": true,
+      "x": 3.232473,
+      "y": 0.0331138819,
+      "z": 16.7530632
+    },
+    {
+      "name": "MPStoneFinalV41_179",
+      "active": false,
+      "x": 2.175166,
+      "y": 0.028700592,
+      "z": 17.8718567
+    },
+    {
+      "name": "MPStoneFinalV41_180",
+      "active": false,
+      "x": 2.69060659,
+      "y": 0.0395546779,
+      "z": 17.5248032
+    },
+    {
+      "name": "MPStoneFinalV41_181",
+      "active": false,
+      "x": 3.18528461,
+      "y": 0.03372893,
+      "z": 17.197998
+    },
+    {
+      "name": "MPStoneFinalV41_182",
+      "active": true,
+      "x": 2.2034688,
+      "y": 0.0329200476,
+      "z": 18.3504124
+    },
+    {
+      "name": "MPStoneFinalV41_183",
+      "active": true,
+      "x": 2.63995576,
+      "y": 0.0279114116,
+      "z": 18.0015049
+    },
+    {
+      "name": "MPStoneFinalV41_184",
+      "active": true,
+      "x": 3.11082,
+      "y": 0.028451357,
+      "z": 17.5973816
+    },
+    {
+      "name": "MPStoneFinalV41_185",
+      "active": true,
+      "x": 3.60349131,
+      "y": 0.0280540138,
+      "z": 17.2683315
+    },
+    {
+      "name": "MPStoneFinalV41_186",
+      "active": false,
+      "x": 2.6162293,
+      "y": 0.0287201367,
+      "z": 18.4249477
+    },
+    {
+      "name": "MPStoneFinalV41_187",
+      "active": false,
+      "x": 3.06163144,
+      "y": 0.0352935344,
+      "z": 18.073595
+    },
+    {
+      "name": "MPStoneFinalV41_188",
+      "active": false,
+      "x": 3.5510385,
+      "y": 0.039379552,
+      "z": 17.6746521
+    },
+    {
+      "name": "MPStoneFinalV41_189",
+      "active": true,
+      "x": 2.57031965,
+      "y": 0.03390941,
+      "z": 18.90757
+    },
+    {
+      "name": "MPStoneFinalV41_190",
+      "active": true,
+      "x": 3.02161336,
+      "y": 0.035377562,
+      "z": 18.5365334
+    },
+    {
+      "name": "MPStoneFinalV41_191",
+      "active": true,
+      "x": 3.53705215,
+      "y": 0.034712933,
+      "z": 18.1814556
+    },
+    {
+      "name": "MPStoneFinalV41_192",
+      "active": true,
+      "x": 3.98536944,
+      "y": 0.0228189416,
+      "z": 17.7541752
+    },
+    {
+      "name": "MPStoneFinalV41_193",
+      "active": false,
+      "x": 3.05329323,
+      "y": 0.03527153,
+      "z": 19.0163651
+    },
+    {
+      "name": "MPStoneFinalV41_194",
+      "active": false,
+      "x": 3.49112487,
+      "y": 0.030002756,
+      "z": 18.5908546
+    },
+    {
+      "name": "MPStoneFinalV41_195",
+      "active": false,
+      "x": 3.96977639,
+      "y": 0.022590965,
+      "z": 18.22572
+    },
+    {
+      "name": "MPStoneFinalV41_196",
+      "active": true,
+      "x": 3.078679,
+      "y": 0.0249551423,
+      "z": 19.4931564
+    },
+    {
+      "name": "MPStoneFinalV41_197",
+      "active": true,
+      "x": 3.523863,
+      "y": 0.03466755,
+      "z": 19.0313263
+    },
+    {
+      "name": "MPStoneFinalV41_198",
+      "active": true,
+      "x": 3.98093176,
+      "y": 0.037799947,
+      "z": 18.6597137
+    },
+    {
+      "name": "MPStoneFinalV41_199",
+      "active": true,
+      "x": 4.39669275,
+      "y": 0.0326336026,
+      "z": 18.2273121
+    },
+    {
+      "name": "MPStoneFinalV41_200",
+      "active": false,
+      "x": 3.57397175,
+      "y": 0.02802043,
+      "z": 19.5175648
+    },
+    {
+      "name": "MPStoneFinalV41_201",
+      "active": false,
+      "x": 4.00207472,
+      "y": 0.0273330081,
+      "z": 19.1044846
+    },
+    {
+      "name": "MPStoneFinalV41_202",
+      "active": false,
+      "x": 4.419856,
+      "y": 0.0277346987,
+      "z": 18.7107868
+    },
+    {
+      "name": "MPStoneFinalV41_203",
+      "active": true,
+      "x": 3.55828142,
+      "y": 0.03555609,
+      "z": 19.9800014
+    },
+    {
+      "name": "MPStoneFinalV41_204",
+      "active": true,
+      "x": 3.97441,
+      "y": 0.0368856229,
+      "z": 19.560955
+    },
+    {
+      "name": "MPStoneFinalV41_205",
+      "active": true,
+      "x": 4.432515,
+      "y": 0.03513796,
+      "z": 19.1266651
+    },
+    {
+      "name": "MPStoneFinalV41_206",
+      "active": true,
+      "x": 4.85586643,
+      "y": 0.0392828025,
+      "z": 18.6938782
+    },
+    {
+      "name": "MPStoneFinalV41_207",
+      "active": false,
+      "x": 4.005668,
+      "y": 0.029572716,
+      "z": 19.9933281
+    },
+    {
+      "name": "MPStoneFinalV41_208",
+      "active": false,
+      "x": 4.421118,
+      "y": 0.0294362251,
+      "z": 19.59477
+    },
+    {
+      "name": "MPStoneFinalV41_209",
+      "active": false,
+      "x": 4.85253,
+      "y": 0.0213012025,
+      "z": 19.176527
+    },
+    {
+      "name": "MPStoneFinalV41_210",
+      "active": true,
+      "x": 4.074862,
+      "y": 0.0305791516,
+      "z": 20.4811935
+    },
+    {
+      "name": "MPStoneFinalV41_211",
+      "active": true,
+      "x": 4.51290655,
+      "y": 0.031685967,
+      "z": 20.0675449
+    },
+    {
+      "name": "MPStoneFinalV41_212",
+      "active": true,
+      "x": 4.86765146,
+      "y": 0.02638538,
+      "z": 19.6044865
+    },
+    {
+      "name": "MPStoneFinalV41_213",
+      "active": true,
+      "x": 5.29474735,
+      "y": 0.0312343463,
+      "z": 19.1860847
+    },
+    {
+      "name": "MPStoneFinalV41_214",
+      "active": false,
+      "x": 4.534347,
+      "y": 0.02398711,
+      "z": 20.5411777
+    },
+    {
+      "name": "MPStoneFinalV41_215",
+      "active": false,
+      "x": 4.9157753,
+      "y": 0.0364030525,
+      "z": 20.06519
+    },
+    {
+      "name": "MPStoneFinalV41_216",
+      "active": false,
+      "x": 5.34545326,
+      "y": 0.0223347545,
+      "z": 19.5993214
+    },
+    {
+      "name": "MPStoneFinalV41_217",
+      "active": true,
+      "x": 4.611897,
+      "y": 0.0341335647,
+      "z": 20.9962234
+    },
+    {
+      "name": "MPStoneFinalV41_218",
+      "active": true,
+      "x": 5.009201,
+      "y": 0.0285980832,
+      "z": 20.5529671
+    },
+    {
+      "name": "MPStoneFinalV41_219",
+      "active": true,
+      "x": 5.380086,
+      "y": 0.03283528,
+      "z": 20.0768642
+    },
+    {
+      "name": "MPStoneFinalV41_220",
+      "active": true,
+      "x": 5.740788,
+      "y": 0.03428458,
+      "z": 19.5787849
+    },
+    {
+      "name": "MPStoneFinalV41_221",
+      "active": false,
+      "x": 5.11919,
+      "y": 0.03339448,
+      "z": 20.9632359
+    },
+    {
+      "name": "MPStoneFinalV41_222",
+      "active": false,
+      "x": 5.48103571,
+      "y": 0.0207031555,
+      "z": 20.4809513
+    },
+    {
+      "name": "MPStoneFinalV41_223",
+      "active": false,
+      "x": 5.787456,
+      "y": 0.0293187685,
+      "z": 19.9854774
+    },
+    {
+      "name": "MPStoneFinalV41_224",
+      "active": true,
+      "x": 5.247233,
+      "y": 0.0374957025,
+      "z": 21.4247952
+    },
+    {
+      "name": "MPStoneFinalV41_225",
+      "active": true,
+      "x": 5.581911,
+      "y": 0.0216658339,
+      "z": 20.94016
+    },
+    {
+      "name": "MPStoneFinalV41_226",
+      "active": true,
+      "x": 5.907319,
+      "y": 0.0266070645,
+      "z": 20.44756
+    },
+    {
+      "name": "MPStoneFinalV41_227",
+      "active": true,
+      "x": 6.243849,
+      "y": 0.0294396058,
+      "z": 19.9257469
+    },
+    {
+      "name": "MPStoneFinalV41_228",
+      "active": false,
+      "x": 5.74166727,
+      "y": 0.0298605133,
+      "z": 21.3526344
+    },
+    {
+      "name": "MPStoneFinalV41_229",
+      "active": false,
+      "x": 6.058743,
+      "y": 0.0353117026,
+      "z": 20.8272
+    },
+    {
+      "name": "MPStoneFinalV41_230",
+      "active": false,
+      "x": 6.352816,
+      "y": 0.0334349051,
+      "z": 20.3363953
+    },
+    {
+      "name": "MPStoneFinalV41_231",
+      "active": true,
+      "x": 5.858588,
+      "y": 0.03477366,
+      "z": 21.7972832
+    },
+    {
+      "name": "MPStoneFinalV41_232",
+      "active": true,
+      "x": 6.204137,
+      "y": 0.03716148,
+      "z": 21.3002167
+    },
+    {
+      "name": "MPStoneFinalV41_233",
+      "active": true,
+      "x": 6.484789,
+      "y": 0.0322983377,
+      "z": 20.72311
+    },
+    {
+      "name": "MPStoneFinalV41_234",
+      "active": true,
+      "x": 6.753859,
+      "y": 0.0285922866,
+      "z": 20.2350216
+    },
+    {
+      "name": "MPStoneFinalV41_235",
+      "active": false,
+      "x": 6.36642742,
+      "y": 0.0290373657,
+      "z": 21.7140484
+    },
+    {
+      "name": "MPStoneFinalV41_236",
+      "active": false,
+      "x": 6.62202072,
+      "y": 0.0316456333,
+      "z": 21.1903667
+    },
+    {
+      "name": "MPStoneFinalV41_237",
+      "active": false,
+      "x": 6.94860744,
+      "y": 0.0345258974,
+      "z": 20.6303215
+    },
+    {
+      "name": "MPStoneFinalV41_238",
+      "active": true,
+      "x": 6.51258135,
+      "y": 0.0381841362,
+      "z": 22.110405
+    },
+    {
+      "name": "MPStoneFinalV41_239",
+      "active": true,
+      "x": 6.776856,
+      "y": 0.0227498189,
+      "z": 21.6095543
+    },
+    {
+      "name": "MPStoneFinalV41_240",
+      "active": true,
+      "x": 7.081691,
+      "y": 0.0255691223,
+      "z": 21.0708485
+    },
+    {
+      "name": "MPStoneFinalV41_241",
+      "active": true,
+      "x": 7.348234,
+      "y": 0.0376013331,
+      "z": 20.5442619
+    },
+    {
+      "name": "MPStoneFinalV41_242",
+      "active": false,
+      "x": 6.9729805,
+      "y": 0.0229278877,
+      "z": 22.0208225
+    },
+    {
+      "name": "MPStoneFinalV41_243",
+      "active": false,
+      "x": 7.231501,
+      "y": 0.02328373,
+      "z": 21.4806919
+    },
+    {
+      "name": "MPStoneFinalV41_244",
+      "active": false,
+      "x": 7.51005173,
+      "y": 0.0305464081,
+      "z": 20.9447575
+    },
+    {
+      "name": "MPStoneFinalV41_245",
+      "active": true,
+      "x": 7.17189837,
+      "y": 0.030257903,
+      "z": 22.4426765
+    },
+    {
+      "name": "MPStoneFinalV41_246",
+      "active": true,
+      "x": 7.42265844,
+      "y": 0.0254992358,
+      "z": 21.9199333
+    },
+    {
+      "name": "MPStoneFinalV41_247",
+      "active": true,
+      "x": 7.67328072,
+      "y": 0.02874977,
+      "z": 21.368845
+    },
+    {
+      "name": "MPStoneFinalV41_248",
+      "active": true,
+      "x": 7.95424271,
+      "y": 0.0214197412,
+      "z": 20.8027382
+    },
+    {
+      "name": "MPStoneFinalV41_249",
+      "active": false,
+      "x": 7.616571,
+      "y": 0.0355913825,
+      "z": 22.3321133
+    },
+    {
+      "name": "MPStoneFinalV41_250",
+      "active": false,
+      "x": 7.88178873,
+      "y": 0.0367166549,
+      "z": 21.7637634
+    },
+    {
+      "name": "MPStoneFinalV41_251",
+      "active": false,
+      "x": 8.113814,
+      "y": 0.0220685489,
+      "z": 21.1977463
+    },
+    {
+      "name": "MPStoneFinalV41_252",
+      "active": true,
+      "x": 7.91010475,
+      "y": 0.03323268,
+      "z": 22.7503147
+    },
+    {
+      "name": "MPStoneFinalV41_253",
+      "active": true,
+      "x": 8.098704,
+      "y": 0.0235454384,
+      "z": 22.1933136
+    },
+    {
+      "name": "MPStoneFinalV41_254",
+      "active": true,
+      "x": 8.253087,
+      "y": 0.0245424174,
+      "z": 21.5809116
+    },
+    {
+      "name": "MPStoneFinalV41_255",
+      "active": true,
+      "x": 8.459817,
+      "y": 0.032858897,
+      "z": 21.0197277
+    },
+    {
+      "name": "MPStoneFinalV41_256",
+      "active": false,
+      "x": 8.335389,
+      "y": 0.0390617922,
+      "z": 22.5310364
+    },
+    {
+      "name": "MPStoneFinalV41_257",
+      "active": false,
+      "x": 8.498345,
+      "y": 0.0365883224,
+      "z": 21.9432831
+    },
+    {
+      "name": "MPStoneFinalV41_258",
+      "active": false,
+      "x": 8.660938,
+      "y": 0.0219672322,
+      "z": 21.3587322
+    },
+    {
+      "name": "MPStoneFinalV41_259",
+      "active": true,
+      "x": 8.660991,
+      "y": 0.0258761626,
+      "z": 22.8898849
+    },
+    {
+      "name": "MPStoneFinalV41_260",
+      "active": true,
+      "x": 8.789201,
+      "y": 0.0314393379,
+      "z": 22.3384361
+    },
+    {
+      "name": "MPStoneFinalV41_261",
+      "active": true,
+      "x": 8.892244,
+      "y": 0.0307456739,
+      "z": 21.7019081
+    },
+    {
+      "name": "MPStoneFinalV41_262",
+      "active": true,
+      "x": 9.0815,
+      "y": 0.03831369,
+      "z": 21.1610966
+    },
+    {
+      "name": "MPStoneFinalV41_263",
+      "active": false,
+      "x": 9.061186,
+      "y": 0.039527446,
+      "z": 22.6552944
+    },
+    {
+      "name": "MPStoneFinalV41_264",
+      "active": false,
+      "x": 9.15567,
+      "y": 0.0379040539,
+      "z": 22.1110039
+    },
+    {
+      "name": "MPStoneFinalV41_265",
+      "active": false,
+      "x": 9.28778,
+      "y": 0.0374444127,
+      "z": 21.4989777
+    },
+    {
+      "name": "MPStoneFinalV41_266",
+      "active": true,
+      "x": 9.387851,
+      "y": 0.02497764,
+      "z": 23.0391674
+    },
+    {
+      "name": "MPStoneFinalV41_267",
+      "active": true,
+      "x": 9.442214,
+      "y": 0.0222667,
+      "z": 22.4334641
+    },
+    {
+      "name": "MPStoneFinalV41_268",
+      "active": true,
+      "x": 9.525568,
+      "y": 0.0206915885,
+      "z": 21.8774185
+    },
+    {
+      "name": "MPStoneFinalV41_269",
+      "active": true,
+      "x": 9.64547348,
+      "y": 0.03633506,
+      "z": 21.273983
+    },
+    {
+      "name": "MPStoneFinalV41_270",
+      "active": false,
+      "x": 9.743522,
+      "y": 0.028496759,
+      "z": 22.7942467
+    },
+    {
+      "name": "MPStoneFinalV41_271",
+      "active": false,
+      "x": 9.872276,
+      "y": 0.0385738164,
+      "z": 22.19336
+    },
+    {
+      "name": "MPStoneFinalV41_272",
+      "active": false,
+      "x": 9.954751,
+      "y": 0.03354706,
+      "z": 21.64541
+    },
+    {
+      "name": "MPStoneFinalV41_273",
+      "active": true,
+      "x": 10.0463781,
+      "y": 0.0206633229,
+      "z": 23.1562958
+    },
+    {
+      "name": "MPStoneFinalV41_274",
+      "active": true,
+      "x": 10.1342239,
+      "y": 0.0308633875,
+      "z": 22.5522156
+    },
+    {
+      "name": "MPStoneFinalV41_275",
+      "active": true,
+      "x": 10.2273769,
+      "y": 0.0377955139,
+      "z": 21.9589539
+    },
+    {
+      "name": "MPStoneFinalV41_276",
+      "active": true,
+      "x": 10.3475695,
+      "y": 0.03684873,
+      "z": 21.34989
+    },
+    {
+      "name": "MPStoneFinalV41_277",
+      "active": false,
+      "x": 10.4205847,
+      "y": 0.0222699046,
+      "z": 22.8812714
+    },
+    {
+      "name": "MPStoneFinalV41_278",
+      "active": false,
+      "x": 10.5265388,
+      "y": 0.0332994759,
+      "z": 22.3021355
+    },
+    {
+      "name": "MPStoneFinalV41_279",
+      "active": false,
+      "x": 10.60402,
+      "y": 0.02368845,
+      "z": 21.6896152
+    },
+    {
+      "name": "MPStoneFinalV41_280",
+      "active": true,
+      "x": 10.6761045,
+      "y": 0.0395059623,
+      "z": 23.2749043
+    },
+    {
+      "name": "MPStoneFinalV41_281",
+      "active": true,
+      "x": 10.8016081,
+      "y": 0.022331614,
+      "z": 22.6823788
+    },
+    {
+      "name": "MPStoneFinalV41_282",
+      "active": true,
+      "x": 10.8979864,
+      "y": 0.0283547714,
+      "z": 22.0942764
+    },
+    {
+      "name": "MPStoneFinalV41_283",
+      "active": true,
+      "x": 10.9867191,
+      "y": 0.03072843,
+      "z": 21.4790554
+    },
+    {
+      "name": "MPStoneFinalV41_284",
+      "active": false,
+      "x": 11.0741873,
+      "y": 0.0203399062,
+      "z": 23.0462551
+    },
+    {
+      "name": "MPStoneFinalV41_285",
+      "active": false,
+      "x": 11.2084579,
+      "y": 0.0335706547,
+      "z": 22.4142113
+    },
+    {
+      "name": "MPStoneFinalV41_286",
+      "active": false,
+      "x": 11.2753057,
+      "y": 0.0352100059,
+      "z": 21.84957
+    },
+    {
+      "name": "MPStoneFinalV41_287",
+      "active": true,
+      "x": 11.4213409,
+      "y": 0.0277061053,
+      "z": 23.3979149
+    },
+    {
+      "name": "MPStoneFinalV41_288",
+      "active": true,
+      "x": 11.5123892,
+      "y": 0.0327259153,
+      "z": 22.7762356
+    },
+    {
+      "name": "MPStoneFinalV41_289",
+      "active": true,
+      "x": 11.5764713,
+      "y": 0.0354280174,
+      "z": 22.2077789
+    },
+    {
+      "name": "MPStoneFinalV41_290",
+      "active": true,
+      "x": 11.6348333,
+      "y": 0.0367735773,
+      "z": 21.5976334
+    },
+    {
+      "name": "MPStoneFinalV41_291",
+      "active": false,
+      "x": 11.8154936,
+      "y": 0.0200291052,
+      "z": 23.1367378
+    },
+    {
+      "name": "MPStoneFinalV41_292",
+      "active": false,
+      "x": 11.8760157,
+      "y": 0.0273845233,
+      "z": 22.5494
+    },
+    {
+      "name": "MPStoneFinalV41_293",
+      "active": false,
+      "x": 11.9200382,
+      "y": 0.02952448,
+      "z": 21.9114437
+    },
+    {
+      "name": "MPStoneFinalV41_294",
+      "active": true,
+      "x": 12.1106215,
+      "y": 0.02992872,
+      "z": 23.43813
+    },
+    {
+      "name": "MPStoneFinalV41_295",
+      "active": true,
+      "x": 12.1714163,
+      "y": 0.02415954,
+      "z": 22.8523922
+    },
+    {
+      "name": "MPStoneFinalV41_296",
+      "active": true,
+      "x": 12.22055,
+      "y": 0.02494584,
+      "z": 22.2447834
+    },
+    {
+      "name": "MPStoneFinalV41_297",
+      "active": true,
+      "x": 12.2964916,
+      "y": 0.0308198035,
+      "z": 21.6337147
+    },
+    {
+      "name": "MPStoneFinalV41_298",
+      "active": false,
+      "x": 12.4510756,
+      "y": 0.03515111,
+      "z": 23.17379
+    },
+    {
+      "name": "MPStoneFinalV41_299",
+      "active": false,
+      "x": 12.52837,
+      "y": 0.0293154027,
+      "z": 22.5599537
+    },
+    {
+      "name": "MPStoneFinalV41_300",
+      "active": false,
+      "x": 12.5956163,
+      "y": 0.0206614416,
+      "z": 21.9582558
+    },
+    {
+      "name": "MPStoneFinalV41_301",
+      "active": true,
+      "x": 12.7753649,
+      "y": 0.0326149948,
+      "z": 23.53391
+    },
+    {
+      "name": "MPStoneFinalV41_302",
+      "active": true,
+      "x": 12.86287,
+      "y": 0.03972979,
+      "z": 22.9301682
+    },
+    {
+      "name": "MPStoneFinalV41_303",
+      "active": true,
+      "x": 12.8941116,
+      "y": 0.02889835,
+      "z": 22.3345947
+    },
+    {
+      "name": "MPStoneFinalV41_304",
+      "active": true,
+      "x": 12.9608707,
+      "y": 0.03604359,
+      "z": 21.7006817
+    },
+    {
+      "name": "MPStoneFinalV41_305",
+      "active": false,
+      "x": 13.118227,
+      "y": 0.0226485077,
+      "z": 23.2304611
+    },
+    {
+      "name": "MPStoneFinalV41_306",
+      "active": false,
+      "x": 13.2197943,
+      "y": 0.033968363,
+      "z": 22.64409
+    },
+    {
+      "name": "MPStoneFinalV41_307",
+      "active": false,
+      "x": 13.3097382,
+      "y": 0.0319560468,
+      "z": 22.0510235
+    },
+    {
+      "name": "MPStoneFinalV41_308",
+      "active": true,
+      "x": 13.3646355,
+      "y": 0.0230664816,
+      "z": 23.57087
+    },
+    {
+      "name": "MPStoneFinalV41_309",
+      "active": true,
+      "x": 13.5157423,
+      "y": 0.0203916635,
+      "z": 23.0056171
+    },
+    {
+      "name": "MPStoneFinalV41_310",
+      "active": true,
+      "x": 13.61319,
+      "y": 0.03976526,
+      "z": 22.4379635
+    },
+    {
+      "name": "MPStoneFinalV41_311",
+      "active": true,
+      "x": 13.6903057,
+      "y": 0.03760575,
+      "z": 21.8150578
+    },
+    {
+      "name": "MPStoneFinalV41_312",
+      "active": false,
+      "x": 13.7714491,
+      "y": 0.02062356,
+      "z": 23.340826
+    },
+    {
+      "name": "MPStoneFinalV41_313",
+      "active": false,
+      "x": 13.9020309,
+      "y": 0.02412693,
+      "z": 22.7813129
+    },
+    {
+      "name": "MPStoneFinalV41_314",
+      "active": false,
+      "x": 14.0232306,
+      "y": 0.0311461724,
+      "z": 22.1687641
+    },
+    {
+      "name": "MPStoneFinalV41_315",
+      "active": true,
+      "x": 14.0574112,
+      "y": 0.02442093,
+      "z": 23.7238026
+    },
+    {
+      "name": "MPStoneFinalV41_316",
+      "active": true,
+      "x": 14.131196,
+      "y": 0.03076473,
+      "z": 23.145071
+    },
+    {
+      "name": "MPStoneFinalV41_317",
+      "active": true,
+      "x": 14.2861853,
+      "y": 0.03065651,
+      "z": 22.54118
+    },
+    {
+      "name": "MPStoneFinalV41_318",
+      "active": true,
+      "x": 14.3852253,
+      "y": 0.0357046574,
+      "z": 21.954752
+    },
+    {
+      "name": "MPStoneFinalV41_319",
+      "active": false,
+      "x": 14.4064817,
+      "y": 0.0240935627,
+      "z": 23.538496
+    },
+    {
+      "name": "MPStoneFinalV41_320",
+      "active": false,
+      "x": 14.5276089,
+      "y": 0.02518683,
+      "z": 22.95031
+    },
+    {
+      "name": "MPStoneFinalV41_321",
+      "active": false,
+      "x": 14.653862,
+      "y": 0.03679345,
+      "z": 22.3678913
+    },
+    {
+      "name": "MPStoneFinalV41_322",
+      "active": true,
+      "x": 14.7608509,
+      "y": 0.027741801,
+      "z": 23.886816
+    },
+    {
+      "name": "MPStoneFinalV41_323",
+      "active": true,
+      "x": 14.815527,
+      "y": 0.0331121869,
+      "z": 23.2630939
+    },
+    {
+      "name": "MPStoneFinalV41_324",
+      "active": true,
+      "x": 14.9314728,
+      "y": 0.033319816,
+      "z": 22.7008934
+    },
+    {
+      "name": "MPStoneFinalV41_325",
+      "active": true,
+      "x": 15.0228577,
+      "y": 0.0208547376,
+      "z": 22.1079121
+    },
+    {
+      "name": "MPStoneFinalV41_326",
+      "active": false,
+      "x": 15.1436834,
+      "y": 0.03284075,
+      "z": 23.61234
+    },
+    {
+      "name": "MPStoneFinalV41_327",
+      "active": false,
+      "x": 15.206645,
+      "y": 0.0256666075,
+      "z": 23.0204659
+    },
+    {
+      "name": "MPStoneFinalV41_328",
+      "active": false,
+      "x": 15.2462034,
+      "y": 0.0238619763,
+      "z": 22.4457779
+    },
+    {
+      "name": "MPStoneFinalV41_329",
+      "active": true,
+      "x": 15.4255257,
+      "y": 0.0207485873,
+      "z": 23.9432163
+    },
+    {
+      "name": "MPStoneFinalV41_330",
+      "active": true,
+      "x": 15.5212688,
+      "y": 0.0220053717,
+      "z": 23.3500118
+    },
+    {
+      "name": "MPStoneFinalV41_331",
+      "active": true,
+      "x": 15.6150465,
+      "y": 0.030135734,
+      "z": 22.7263622
+    },
+    {
+      "name": "MPStoneFinalV41_332",
+      "active": true,
+      "x": 15.6585207,
+      "y": 0.0389456376,
+      "z": 22.17329
+    },
+    {
+      "name": "MPStoneFinalV41_333",
+      "active": false,
+      "x": 15.7991056,
+      "y": 0.02154624,
+      "z": 23.6405735
+    },
+    {
+      "name": "MPStoneFinalV41_334",
+      "active": false,
+      "x": 15.9103746,
+      "y": 0.0260658376,
+      "z": 23.0761814
+    },
+    {
+      "name": "MPStoneFinalV41_335",
+      "active": false,
+      "x": 15.99107,
+      "y": 0.03651498,
+      "z": 22.4936867
+    },
+    {
+      "name": "MPStoneFinalV41_336",
+      "active": true,
+      "x": 15.9982681,
+      "y": 0.0249742083,
+      "z": 24.0353146
+    },
+    {
+      "name": "MPStoneFinalV41_337",
+      "active": true,
+      "x": 16.1727352,
+      "y": 0.03287465,
+      "z": 23.4415855
+    },
+    {
+      "name": "MPStoneFinalV41_338",
+      "active": true,
+      "x": 16.27862,
+      "y": 0.0363595746,
+      "z": 22.8441372
+    },
+    {
+      "name": "MPStoneFinalV41_339",
+      "active": true,
+      "x": 16.3940544,
+      "y": 0.021048218,
+      "z": 22.2904167
+    },
+    {
+      "name": "MPStoneFinalV41_340",
+      "active": false,
+      "x": 16.3743839,
+      "y": 0.0345821567,
+      "z": 23.8643
+    },
+    {
+      "name": "MPStoneFinalV41_341",
+      "active": false,
+      "x": 16.5619087,
+      "y": 0.0260861441,
+      "z": 23.2520962
+    },
+    {
+      "name": "MPStoneFinalV41_342",
+      "active": false,
+      "x": 16.7462959,
+      "y": 0.03,
+      "z": 22.691
+    },
+    {
+      "name": "MPStoneFinalV41_343",
+      "active": true,
+      "x": 16.5595627,
+      "y": 0.02880212,
+      "z": 24.23492
+    },
+    {
+      "name": "MPStoneFinalV41_344",
+      "active": true,
+      "x": 16.7823925,
+      "y": 0.03,
+      "z": 23.6659164
+    },
+    {
+      "name": "MPStoneFinalV41_345",
+      "active": true,
+      "x": 16.9741745,
+      "y": 0.03,
+      "z": 23.122694
+    },
+    {
+      "name": "MPStoneFinalV41_346",
+      "active": true,
+      "x": 17.1417675,
+      "y": 0.03,
+      "z": 22.56424
+    },
+    {
+      "name": "MPStoneFinalV41_347",
+      "active": false,
+      "x": 16.8465252,
+      "y": 0.03,
+      "z": 23.9807281
+    },
+    {
+      "name": "MPStoneFinalV41_348",
+      "active": false,
+      "x": 17.1460285,
+      "y": 0.03,
+      "z": 23.50539
+    },
+    {
+      "name": "MPStoneFinalV41_349",
+      "active": false,
+      "x": 17.35588,
+      "y": 0.03,
+      "z": 22.9499569
+    },
+    {
+      "name": "MPStoneFinalV41_351",
+      "active": false,
+      "x": 17.15704,
+      "y": 0.03,
+      "z": 23.7297611
+    },
+    {
+      "name": "MPStoneFinalV41_352",
+      "active": true,
+      "x": 17.44779,
+      "y": 0.03,
+      "z": 23.29749
+    },
+    {
+      "name": "MPStoneFinalV41_353",
+      "active": true,
+      "x": 17.8058853,
+      "y": 0.03,
+      "z": 22.84207
+    },
+    {
+      "name": "MPStoneFinalV41_356",
+      "active": false,
+      "x": 17.81702,
+      "y": 0.03,
+      "z": 23.00834
+    },
+    {
+      "name": "MPStoneFinalV41_386",
+      "active": true,
+      "x": 20.036768,
+      "y": 0.03,
+      "z": 26.0478745
+    },
+    {
+      "name": "MPStoneFinalV41_387",
+      "active": true,
+      "x": 20.4570618,
+      "y": 0.03,
+      "z": 25.62917
+    },
+    {
+      "name": "MPStoneFinalV41_388",
+      "active": true,
+      "x": 20.8326988,
+      "y": 0.03,
+      "z": 25.2471943
+    },
+    {
+      "name": "MPStoneFinalV41_389",
+      "active": false,
+      "x": 19.7261429,
+      "y": 0.03,
+      "z": 26.2826214
+    },
+    {
+      "name": "MPStoneFinalV41_390",
+      "active": false,
+      "x": 20.25895,
+      "y": 0.03,
+      "z": 26.0105572
+    },
+    {
+      "name": "MPStoneFinalV41_391",
+      "active": false,
+      "x": 20.7558155,
+      "y": 0.03,
+      "z": 25.7107925
+    },
+    {
+      "name": "MPStoneFinalV41_392",
+      "active": true,
+      "x": 19.63151,
+      "y": 0.03,
+      "z": 26.7777576
+    },
+    {
+      "name": "MPStoneFinalV41_393",
+      "active": false,
+      "x": 20.1843815,
+      "y": 0.03,
+      "z": 26.4462376
+    },
+    {
+      "name": "MPStoneFinalV41_394",
+      "active": true,
+      "x": 20.708559,
+      "y": 0.03,
+      "z": 26.15182
+    },
+    {
+      "name": "MPStoneFinalV41_395",
+      "active": true,
+      "x": 21.2123566,
+      "y": 0.03,
+      "z": 25.8438969
+    },
+    {
+      "name": "MPStoneFinalV41_396",
+      "active": false,
+      "x": 20.0516186,
+      "y": 0.02065012,
+      "z": 26.91363
+    },
+    {
+      "name": "MPStoneFinalV41_397",
+      "active": false,
+      "x": 20.6004543,
+      "y": 0.03,
+      "z": 26.5922165
+    },
+    {
+      "name": "MPStoneFinalV41_398",
+      "active": false,
+      "x": 21.1132889,
+      "y": 0.03,
+      "z": 26.28363
+    },
+    {
+      "name": "MPStoneFinalV41_399",
+      "active": true,
+      "x": 19.9688034,
+      "y": 0.0233738888,
+      "z": 27.3031044
+    },
+    {
+      "name": "MPStoneFinalV41_400",
+      "active": true,
+      "x": 20.4633541,
+      "y": 0.0288505442,
+      "z": 27.0043945
+    },
+    {
+      "name": "MPStoneFinalV41_401",
+      "active": true,
+      "x": 21.0119381,
+      "y": 0.03,
+      "z": 26.7270679
+    },
+    {
+      "name": "MPStoneFinalV41_402",
+      "active": true,
+      "x": 21.5455341,
+      "y": 0.0236137677,
+      "z": 26.4254684
+    },
+    {
+      "name": "MPStoneFinalV41_403",
+      "active": false,
+      "x": 20.39192,
+      "y": 0.0201725848,
+      "z": 27.448719
+    },
+    {
+      "name": "MPStoneFinalV41_404",
+      "active": false,
+      "x": 20.9599056,
+      "y": 0.0243624784,
+      "z": 27.1496544
+    },
+    {
+      "name": "MPStoneFinalV41_405",
+      "active": false,
+      "x": 21.4811,
+      "y": 0.0290246382,
+      "z": 26.8901863
+    },
+    {
+      "name": "MPStoneFinalV41_406",
+      "active": true,
+      "x": 20.259058,
+      "y": 0.0236007143,
+      "z": 27.7716084
+    },
+    {
+      "name": "MPStoneFinalV41_407",
+      "active": true,
+      "x": 20.8333817,
+      "y": 0.02351896,
+      "z": 27.557621
+    },
+    {
+      "name": "MPStoneFinalV41_408",
+      "active": true,
+      "x": 21.396574,
+      "y": 0.031209657,
+      "z": 27.3182659
+    },
+    {
+      "name": "MPStoneFinalV41_409",
+      "active": true,
+      "x": 21.9528637,
+      "y": 0.03866747,
+      "z": 27.12443
+    },
+    {
+      "name": "MPStoneFinalV41_410",
+      "active": false,
+      "x": 20.645565,
+      "y": 0.0256356,
+      "z": 27.96133
+    },
+    {
+      "name": "MPStoneFinalV41_411",
+      "active": false,
+      "x": 21.2095528,
+      "y": 0.029339483,
+      "z": 27.7590637
+    },
+    {
+      "name": "MPStoneFinalV41_412",
+      "active": true,
+      "x": 21.8,
+      "y": 0.0250863656,
+      "z": 27.6180973
+    },
+    {
+      "name": "MPStoneFinalV41_413",
+      "active": true,
+      "x": 20.4108047,
+      "y": 0.0390265957,
+      "z": 28.323595
+    },
+    {
+      "name": "MPStoneFinalV41_414",
+      "active": true,
+      "x": 20.9907265,
+      "y": 0.0310926829,
+      "z": 28.1678734
+    },
+    {
+      "name": "MPStoneFinalV41_415",
+      "active": false,
+      "x": 21.5856876,
+      "y": 0.0275140479,
+      "z": 28.0197277
+    },
+    {
+      "name": "MPStoneFinalV41_416",
+      "active": false,
+      "x": 22.1642418,
+      "y": 0.03011031,
+      "z": 27.9121685
+    },
+    {
+      "name": "MPStoneFinalV41_417",
+      "active": false,
+      "x": 20.7308159,
+      "y": 0.0378516242,
+      "z": 28.5895348
+    },
+    {
+      "name": "MPStoneFinalV41_418",
+      "active": false,
+      "x": 21.3119183,
+      "y": 0.02931817,
+      "z": 28.4272671
+    },
+    {
+      "name": "MPStoneFinalV41_419",
+      "active": true,
+      "x": 21.90594,
+      "y": 0.03525939,
+      "z": 28.3083286
+    },
+    {
+      "name": "MPStoneFinalV41_420",
+      "active": true,
+      "x": 20.5424,
+      "y": 0.0223229658,
+      "z": 28.9919033
+    },
+    {
+      "name": "MPStoneFinalV41_421",
+      "active": true,
+      "x": 21.1142216,
+      "y": 0.0214362517,
+      "z": 28.85821
+    },
+    {
+      "name": "MPStoneFinalV41_422",
+      "active": false,
+      "x": 21.6815357,
+      "y": 0.030174695,
+      "z": 28.7005959
+    },
+    {
+      "name": "MPStoneFinalV41_423",
+      "active": false,
+      "x": 22.3019581,
+      "y": 0.03454313,
+      "z": 28.5556164
+    },
+    {
+      "name": "MPStoneFinalV41_424",
+      "active": false,
+      "x": 20.9601383,
+      "y": 0.03546891,
+      "z": 29.2271481
+    },
+    {
+      "name": "MPStoneFinalV41_425",
+      "active": false,
+      "x": 21.52535,
+      "y": 0.03617323,
+      "z": 29.1171074
+    },
+    {
+      "name": "MPStoneFinalV41_426",
+      "active": true,
+      "x": 22.1088562,
+      "y": 0.0222892258,
+      "z": 28.9455528
+    },
+    {
+      "name": "MPStoneFinalV41_427",
+      "active": true,
+      "x": 20.82569,
+      "y": 0.0231715571,
+      "z": 29.61927
+    },
+    {
+      "name": "MPStoneFinalV41_428",
+      "active": true,
+      "x": 21.4032841,
+      "y": 0.02385271,
+      "z": 29.46715
+    },
+    {
+      "name": "MPStoneFinalV41_429",
+      "active": false,
+      "x": 21.9809265,
+      "y": 0.02927617,
+      "z": 29.3015938
+    },
+    {
+      "name": "MPStoneFinalV41_430",
+      "active": false,
+      "x": 22.5323734,
+      "y": 0.0352473781,
+      "z": 29.181654
+    },
+    {
+      "name": "MPStoneFinalV41_431",
+      "active": false,
+      "x": 21.1238613,
+      "y": 0.0236927066,
+      "z": 29.8406372
+    },
+    {
+      "name": "MPStoneFinalV41_432",
+      "active": false,
+      "x": 21.7309055,
+      "y": 0.0258995891,
+      "z": 29.705204
+    },
+    {
+      "name": "MPStoneFinalV41_433",
+      "active": true,
+      "x": 22.322094,
+      "y": 0.0277876779,
+      "z": 29.6058941
+    },
+    {
+      "name": "MPStoneFinalV41_434",
+      "active": true,
+      "x": 20.87474,
+      "y": 0.0286622643,
+      "z": 30.1721954
+    },
+    {
+      "name": "MPStoneFinalV41_435",
+      "active": true,
+      "x": 21.4861,
+      "y": 0.03174133,
+      "z": 30.0812016
+    },
+    {
+      "name": "MPStoneFinalV41_436",
+      "active": true,
+      "x": 22.0451412,
+      "y": 0.023421308,
+      "z": 30.04484
+    },
+    {
+      "name": "MPStoneFinalV41_437",
+      "active": true,
+      "x": 22.68157,
+      "y": 0.0205374621,
+      "z": 29.9691353
+    },
+    {
+      "name": "MPStoneFinalV41_438",
+      "active": false,
+      "x": 21.1989479,
+      "y": 0.0329270065,
+      "z": 30.487381
+    },
+    {
+      "name": "MPStoneFinalV41_439",
+      "active": false,
+      "x": 21.7925777,
+      "y": 0.02912587,
+      "z": 30.41485
+    },
+    {
+      "name": "MPStoneFinalV41_440",
+      "active": false,
+      "x": 22.4004841,
+      "y": 0.0288206618,
+      "z": 30.2843971
+    },
+    {
+      "name": "MPStoneFinalV41_441",
+      "active": true,
+      "x": 20.9711571,
+      "y": 0.0268565584,
+      "z": 30.917778
+    },
+    {
+      "name": "MPStoneFinalV41_442",
+      "active": true,
+      "x": 21.54642,
+      "y": 0.0277387444,
+      "z": 30.82209
+    },
+    {
+      "name": "MPStoneFinalV41_443",
+      "active": true,
+      "x": 22.13814,
+      "y": 0.0240824968,
+      "z": 30.6893482
+    },
+    {
+      "name": "MPStoneFinalV41_444",
+      "active": true,
+      "x": 22.7319,
+      "y": 0.0340051129,
+      "z": 30.584631
+    },
+    {
+      "name": "MPStoneFinalV41_445",
+      "active": false,
+      "x": 21.3610725,
+      "y": 0.0377921574,
+      "z": 31.1944351
+    },
+    {
+      "name": "MPStoneFinalV41_446",
+      "active": false,
+      "x": 21.9439087,
+      "y": 0.0316782333,
+      "z": 31.0906124
+    },
+    {
+      "name": "MPStoneFinalV41_447",
+      "active": false,
+      "x": 22.5285168,
+      "y": 0.025897691,
+      "z": 30.98062
+    },
+    {
+      "name": "MPStoneFinalV41_448",
+      "active": true,
+      "x": 21.1646042,
+      "y": 0.0355845354,
+      "z": 31.5358124
+    },
+    {
+      "name": "MPStoneFinalV41_449",
+      "active": true,
+      "x": 21.7453384,
+      "y": 0.0206358116,
+      "z": 31.4520454
+    },
+    {
+      "name": "MPStoneFinalV41_450",
+      "active": true,
+      "x": 22.3730412,
+      "y": 0.0376904532,
+      "z": 31.3539982
+    },
+    {
+      "name": "MPStoneFinalV41_451",
+      "active": true,
+      "x": 22.9735832,
+      "y": 0.0228336584,
+      "z": 31.2329578
+    },
+    {
+      "name": "MPStoneFinalV41_452",
+      "active": false,
+      "x": 21.505991,
+      "y": 0.02234357,
+      "z": 31.8293018
+    },
+    {
+      "name": "MPStoneFinalV41_453",
+      "active": false,
+      "x": 22.0942345,
+      "y": 0.021239968,
+      "z": 31.7376442
+    },
+    {
+      "name": "MPStoneFinalV41_454",
+      "active": false,
+      "x": 22.675251,
+      "y": 0.03476938,
+      "z": 31.6253338
+    },
+    {
+      "name": "MPStoneFinalV41_455",
+      "active": true,
+      "x": 21.21129,
+      "y": 0.022125205,
+      "z": 32.1477928
+    },
+    {
+      "name": "MPStoneFinalV41_456",
+      "active": true,
+      "x": 21.8159065,
+      "y": 0.03407409,
+      "z": 32.117424
+    },
+    {
+      "name": "MPStoneFinalV41_457",
+      "active": true,
+      "x": 22.3963184,
+      "y": 0.03903175,
+      "z": 32.05618
+    },
+    {
+      "name": "MPStoneFinalV41_458",
+      "active": true,
+      "x": 22.9735336,
+      "y": 0.0356650464,
+      "z": 32.0021324
+    },
+    {
+      "name": "MPStoneFinalV41_459",
+      "active": false,
+      "x": 21.4927025,
+      "y": 0.0221998431,
+      "z": 32.446373
+    },
+    {
+      "name": "MPStoneFinalV41_460",
+      "active": false,
+      "x": 22.0921936,
+      "y": 0.0285616219,
+      "z": 32.39841
+    },
+    {
+      "name": "MPStoneFinalV41_461",
+      "active": false,
+      "x": 22.71962,
+      "y": 0.0390832573,
+      "z": 32.3769646
+    },
+    {
+      "name": "MPStoneFinalV41_462",
+      "active": true,
+      "x": 21.2159786,
+      "y": 0.0375506133,
+      "z": 32.79555
+    },
+    {
+      "name": "MPStoneFinalV41_463",
+      "active": true,
+      "x": 21.8352127,
+      "y": 0.0318037421,
+      "z": 32.7702026
+    },
+    {
+      "name": "MPStoneFinalV41_464",
+      "active": true,
+      "x": 22.3889217,
+      "y": 0.0319991969,
+      "z": 32.7005272
+    },
+    {
+      "name": "MPStoneFinalV41_465",
+      "active": true,
+      "x": 22.9598656,
+      "y": 0.0224863179,
+      "z": 32.7832146
+    },
+    {
+      "name": "MPStoneFinalV41_466",
+      "active": false,
+      "x": 21.5212727,
+      "y": 0.03630098,
+      "z": 33.11494
+    },
+    {
+      "name": "MPStoneFinalV41_467",
+      "active": false,
+      "x": 22.13106,
+      "y": 0.0385123119,
+      "z": 33.10028
+    },
+    {
+      "name": "MPStoneFinalV41_468",
+      "active": false,
+      "x": 22.725172,
+      "y": 0.0232121069,
+      "z": 33.0600471
+    },
+    {
+      "name": "MPStoneFinalV41_469",
+      "active": true,
+      "x": 21.28218,
+      "y": 0.0351606347,
+      "z": 33.4997444
+    },
+    {
+      "name": "MPStoneFinalV41_470",
+      "active": true,
+      "x": 21.87834,
+      "y": 0.0288478322,
+      "z": 33.46125
+    },
+    {
+      "name": "MPStoneFinalV41_471",
+      "active": true,
+      "x": 22.5031242,
+      "y": 0.0267606713,
+      "z": 33.4201851
+    },
+    {
+      "name": "MPStoneFinalV41_472",
+      "active": true,
+      "x": 23.0671539,
+      "y": 0.0318383835,
+      "z": 33.38868
+    },
+    {
+      "name": "MPStoneFinalV41_473",
+      "active": false,
+      "x": 21.6046753,
+      "y": 0.0374083221,
+      "z": 33.7851028
+    },
+    {
+      "name": "MPStoneFinalV41_474",
+      "active": false,
+      "x": 22.2328548,
+      "y": 0.03872785,
+      "z": 33.755043
+    },
+    {
+      "name": "MPStoneFinalV41_475",
+      "active": false,
+      "x": 22.8198566,
+      "y": 0.0236064754,
+      "z": 33.751915
+    },
+    {
+      "name": "MPStoneFinalV41_476",
+      "active": true,
+      "x": 21.3279457,
+      "y": 0.0389022529,
+      "z": 34.1294861
+    },
+    {
+      "name": "MPStoneFinalV41_477",
+      "active": true,
+      "x": 21.91201,
+      "y": 0.0239645578,
+      "z": 34.127243
+    },
+    {
+      "name": "MPStoneFinalV41_478",
+      "active": true,
+      "x": 22.5250816,
+      "y": 0.0296254735,
+      "z": 34.1147
+    },
+    {
+      "name": "MPStoneFinalV41_479",
+      "active": true,
+      "x": 23.1404572,
+      "y": 0.0375271849,
+      "z": 34.0636139
+    },
+    {
+      "name": "MPStoneFinalV41_480",
+      "active": false,
+      "x": 21.6346245,
+      "y": 0.0261218026,
+      "z": 34.4352074
+    },
+    {
+      "name": "MPStoneFinalV41_481",
+      "active": false,
+      "x": 22.1999111,
+      "y": 0.021301575,
+      "z": 34.4191132
+    },
+    {
+      "name": "MPStoneFinalV41_482",
+      "active": false,
+      "x": 22.8400555,
+      "y": 0.0232069772,
+      "z": 34.45875
+    },
+    {
+      "name": "MPStoneFinalV41_483",
+      "active": true,
+      "x": 21.3077526,
+      "y": 0.025408119,
+      "z": 34.64486
+    },
+    {
+      "name": "MPStoneFinalV41_484",
+      "active": true,
+      "x": 21.93062,
+      "y": 0.0251749288,
+      "z": 34.7642326
+    },
+    {
+      "name": "MPStoneFinalV41_485",
+      "active": true,
+      "x": 22.507658,
+      "y": 0.03189291,
+      "z": 34.81967
+    },
+    {
+      "name": "MPStoneFinalV41_486",
+      "active": true,
+      "x": 23.092001,
+      "y": 0.0203196444,
+      "z": 34.87403
+    },
+    {
+      "name": "MPStoneFinalV41_487",
+      "active": false,
+      "x": 21.6471863,
+      "y": 0.0237985961,
+      "z": 34.9976425
+    },
+    {
+      "name": "MPStoneFinalV41_488",
+      "active": false,
+      "x": 22.2187328,
+      "y": 0.0387328565,
+      "z": 35.12047
+    },
+    {
+      "name": "MPStoneFinalV41_489",
+      "active": false,
+      "x": 22.7737885,
+      "y": 0.0341263041,
+      "z": 35.2548943
+    },
+    {
+      "name": "MPStoneFinalV41_490",
+      "active": true,
+      "x": 21.2131348,
+      "y": 0.02373591,
+      "z": 35.254715
+    },
+    {
+      "name": "MPStoneFinalV41_491",
+      "active": true,
+      "x": 21.8018837,
+      "y": 0.03668385,
+      "z": 35.3637543
+    },
+    {
+      "name": "MPStoneFinalV41_492",
+      "active": true,
+      "x": 22.3806953,
+      "y": 0.0248724539,
+      "z": 35.501545
+    },
+    {
+      "name": "MPStoneFinalV41_493",
+      "active": true,
+      "x": 22.9823952,
+      "y": 0.0356130823,
+      "z": 35.61919
+    },
+    {
+      "name": "MPStoneFinalV41_494",
+      "active": false,
+      "x": 21.4351826,
+      "y": 0.0282333419,
+      "z": 35.5600739
+    },
+    {
+      "name": "MPStoneFinalV41_495",
+      "active": false,
+      "x": 22.0009861,
+      "y": 0.036537502,
+      "z": 35.7569962
+    },
+    {
+      "name": "MPStoneFinalV41_496",
+      "active": true,
+      "x": 22.577261,
+      "y": 0.0228432789,
+      "z": 35.9773674
+    },
+    {
+      "name": "MPStoneFinalV41_497",
+      "active": false,
+      "x": 21.1212215,
+      "y": 0.0395563,
+      "z": 35.73417
+    },
+    {
+      "name": "MPStoneFinalV41_498",
+      "active": true,
+      "x": 21.6559277,
+      "y": 0.0211369451,
+      "z": 35.99194
+    },
+    {
+      "name": "MPStoneFinalV41_499",
+      "active": false,
+      "x": 22.190567,
+      "y": 0.0219601542,
+      "z": 36.2214851
+    },
+    {
+      "name": "MPStoneFinalV41_500",
+      "active": true,
+      "x": 22.7633629,
+      "y": 0.0368302278,
+      "z": 36.4832077
+    },
+    {
+      "name": "MPStoneFinalV41_501",
+      "active": false,
+      "x": 21.3153782,
+      "y": 0.0209936649,
+      "z": 36.09515
+    },
+    {
+      "name": "MPStoneFinalV41_502",
+      "active": false,
+      "x": 21.8479366,
+      "y": 0.0340885445,
+      "z": 36.4166336
+    },
+    {
+      "name": "MPStoneFinalV41_503",
+      "active": false,
+      "x": 22.34555,
+      "y": 0.0208977163,
+      "z": 36.7236977
+    },
+    {
+      "name": "MPStoneFinalV41_504",
+      "active": true,
+      "x": 20.815239,
+      "y": 0.020648919,
+      "z": 36.2520027
+    },
+    {
+      "name": "MPStoneFinalV41_505",
+      "active": true,
+      "x": 21.3846226,
+      "y": 0.0245569386,
+      "z": 36.5235863
+    },
+    {
+      "name": "MPStoneFinalV41_506",
+      "active": true,
+      "x": 21.8988438,
+      "y": 0.0239646118,
+      "z": 36.8185
+    },
+    {
+      "name": "MPStoneFinalV41_507",
+      "active": true,
+      "x": 22.4137955,
+      "y": 0.0273181163,
+      "z": 37.1092262
+    },
+    {
+      "name": "MPStoneFinalV41_508",
+      "active": false,
+      "x": 20.9159737,
+      "y": 0.0279469043,
+      "z": 36.5940971
+    },
+    {
+      "name": "MPStoneFinalV41_509",
+      "active": false,
+      "x": 21.4113655,
+      "y": 0.022447085,
+      "z": 36.9166222
+    },
+    {
+      "name": "MPStoneFinalV41_510",
+      "active": false,
+      "x": 21.8723965,
+      "y": 0.0229089726,
+      "z": 37.2773743
+    },
+    {
+      "name": "MPStoneFinalV41_511",
+      "active": true,
+      "x": 20.5322647,
+      "y": 0.0219835341,
+      "z": 36.7722931
+    },
+    {
+      "name": "MPStoneFinalV41_512",
+      "active": true,
+      "x": 21.0482082,
+      "y": 0.0282185413,
+      "z": 37.12273
+    },
+    {
+      "name": "MPStoneFinalV41_513",
+      "active": true,
+      "x": 21.5360718,
+      "y": 0.03574967,
+      "z": 37.4320221
+    },
+    {
+      "name": "MPStoneFinalV41_514",
+      "active": true,
+      "x": 22.0551243,
+      "y": 0.0378719941,
+      "z": 37.7479362
+    },
+    {
+      "name": "MPStoneFinalV41_515",
+      "active": false,
+      "x": 20.6477661,
+      "y": 0.0255296547,
+      "z": 37.3331947
+    },
+    {
+      "name": "MPStoneFinalV41_516",
+      "active": false,
+      "x": 21.1714115,
+      "y": 0.0239043422,
+      "z": 37.5717773
+    },
+    {
+      "name": "MPStoneFinalV41_517",
+      "active": false,
+      "x": 21.7228012,
+      "y": 0.03602838,
+      "z": 37.8654366
+    },
+    {
+      "name": "MPStoneFinalV41_518",
+      "active": true,
+      "x": 20.1686344,
+      "y": 0.0205916129,
+      "z": 37.59185
+    },
+    {
+      "name": "MPStoneFinalV41_519",
+      "active": true,
+      "x": 20.75248,
+      "y": 0.0212985836,
+      "z": 37.7469177
+    },
+    {
+      "name": "MPStoneFinalV41_520",
+      "active": true,
+      "x": 21.2829838,
+      "y": 0.020377975,
+      "z": 37.9654846
+    },
+    {
+      "name": "MPStoneFinalV41_521",
+      "active": false,
+      "x": 21.8544579,
+      "y": 0.02000718,
+      "z": 38.1662674
+    },
+    {
+      "name": "MPStoneFinalV41_522",
+      "active": false,
+      "x": 20.2819176,
+      "y": 0.0315650739,
+      "z": 37.9582024
+    },
+    {
+      "name": "MPStoneFinalV41_523",
+      "active": false,
+      "x": 20.8052521,
+      "y": 0.0281971525,
+      "z": 38.1776047
+    },
+    {
+      "name": "MPStoneFinalV41_524",
+      "active": false,
+      "x": 21.3835545,
+      "y": 0.0353247076,
+      "z": 38.3605652
+    },
+    {
+      "name": "MPStoneFinalV41_525",
+      "active": true,
+      "x": 19.9008656,
+      "y": 0.0339392833,
+      "z": 38.237854
+    },
+    {
+      "name": "MPStoneFinalV41_526",
+      "active": true,
+      "x": 20.4837971,
+      "y": 0.03926508,
+      "z": 38.4476166
+    },
+    {
+      "name": "MPStoneFinalV41_527",
+      "active": true,
+      "x": 21.0680637,
+      "y": 0.03339843,
+      "z": 38.5444679
+    },
+    {
+      "name": "MPStoneFinalV41_528",
+      "active": true,
+      "x": 21.63533,
+      "y": 0.03434479,
+      "z": 38.75454
+    },
+    {
+      "name": "MPStoneFinalV41_529",
+      "active": false,
+      "x": 20.1389332,
+      "y": 0.03070547,
+      "z": 38.7100677
+    },
+    {
+      "name": "MPStoneFinalV41_530",
+      "active": false,
+      "x": 20.7222061,
+      "y": 0.03823416,
+      "z": 38.8293037
+    },
+    {
+      "name": "MPStoneFinalV41_531",
+      "active": false,
+      "x": 21.3113632,
+      "y": 0.0346766375,
+      "z": 38.95514
+    },
+    {
+      "name": "MPStoneFinalV41_532",
+      "active": true,
+      "x": 19.77176,
+      "y": 0.0386136472,
+      "z": 39.06045
+    },
+    {
+      "name": "MPStoneFinalV41_533",
+      "active": true,
+      "x": 20.3475361,
+      "y": 0.02411275,
+      "z": 39.1354065
+    },
+    {
+      "name": "MPStoneFinalV41_534",
+      "active": true,
+      "x": 20.9631157,
+      "y": 0.03706668,
+      "z": 39.1961021
+    },
+    {
+      "name": "MPStoneFinalV41_535",
+      "active": true,
+      "x": 21.5188541,
+      "y": 0.02534794,
+      "z": 39.3192253
+    },
+    {
+      "name": "MPStoneFinalV41_536",
+      "active": false,
+      "x": 19.9754963,
+      "y": 0.02871854,
+      "z": 39.4218063
+    },
+    {
+      "name": "MPStoneFinalV41_537",
+      "active": false,
+      "x": 20.6037827,
+      "y": 0.0332062058,
+      "z": 39.520443
+    },
+    {
+      "name": "MPStoneFinalV41_538",
+      "active": false,
+      "x": 21.20511,
+      "y": 0.0249740332,
+      "z": 39.565094
+    },
+    {
+      "name": "MPStoneFinalV41_539",
+      "active": true,
+      "x": 19.6407661,
+      "y": 0.037669193,
+      "z": 39.8039474
+    },
+    {
+      "name": "MPStoneFinalV41_540",
+      "active": true,
+      "x": 20.25404,
+      "y": 0.03937103,
+      "z": 39.7951851
+    },
+    {
+      "name": "MPStoneFinalV41_541",
+      "active": true,
+      "x": 20.8409443,
+      "y": 0.0298332553,
+      "z": 39.8395271
+    },
+    {
+      "name": "MPStoneFinalV41_542",
+      "active": true,
+      "x": 21.45905,
+      "y": 0.0227044187,
+      "z": 39.85714
+    },
+    {
+      "name": "MPStoneFinalV41_543",
+      "active": false,
+      "x": 19.9571438,
+      "y": 0.02261723,
+      "z": 40.18175
+    },
+    {
+      "name": "MPStoneFinalV41_544",
+      "active": false,
+      "x": 20.52778,
+      "y": 0.0363159329,
+      "z": 40.1864624
+    },
+    {
+      "name": "MPStoneFinalV41_545",
+      "active": false,
+      "x": 21.1494656,
+      "y": 0.0362975672,
+      "z": 40.1910934
+    },
+    {
+      "name": "MPStoneFinalV41_546",
+      "active": true,
+      "x": 19.6629848,
+      "y": 0.0279239062,
+      "z": 40.5312843
+    },
+    {
+      "name": "MPStoneFinalV41_547",
+      "active": true,
+      "x": 20.2763729,
+      "y": 0.0294849053,
+      "z": 40.52102
+    },
+    {
+      "name": "MPStoneFinalV41_548",
+      "active": true,
+      "x": 20.874321,
+      "y": 0.0279032141,
+      "z": 40.5087967
+    },
+    {
+      "name": "MPStoneFinalV41_549",
+      "active": false,
+      "x": 21.4119949,
+      "y": 0.0227004,
+      "z": 40.3491
+    },
+    {
+      "name": "MPStoneFinalV41_550",
+      "active": false,
+      "x": 19.9761333,
+      "y": 0.0338927731,
+      "z": 40.88452
+    },
+    {
+      "name": "MPStoneFinalV41_551",
+      "active": false,
+      "x": 20.59184,
+      "y": 0.0383247249,
+      "z": 40.8449
+    },
+    {
+      "name": "MPStoneFinalV41_552",
+      "active": false,
+      "x": 20.8790722,
+      "y": 0.0262039136,
+      "z": 40.4956322
+    },
+    {
+      "name": "MPStoneFinalV41_553",
+      "active": true,
+      "x": 19.69693,
+      "y": 0.0291532539,
+      "z": 41.26245
+    },
+    {
+      "name": "MPStoneFinalV41_554",
+      "active": true,
+      "x": 20.2685642,
+      "y": 0.02111997,
+      "z": 41.21645
+    },
+    {
+      "name": "MPStoneFinalV41_555",
+      "active": false,
+      "x": 20.6985111,
+      "y": 0.0304767862,
+      "z": 41.1662979
+    },
+    {
+      "name": "MPStoneFinalV41_556",
+      "active": false,
+      "x": 21.110548,
+      "y": 0.0351565741,
+      "z": 40.4781036
+    },
+    {
+      "name": "MPStoneFinalV41_557",
+      "active": false,
+      "x": 19.9554768,
+      "y": 0.0268446058,
+      "z": 41.59146
+    },
+    {
+      "name": "MPStoneFinalV41_558",
+      "active": false,
+      "x": 20.5722885,
+      "y": 0.0228646379,
+      "z": 41.5585938
+    },
+    {
+      "name": "MPStoneFinalV41_559",
+      "active": true,
+      "x": 20.5624275,
+      "y": 0.0250373855,
+      "z": 41.6843376
+    },
+    {
+      "name": "MPStoneFinalV41_560",
+      "active": true,
+      "x": 19.7188015,
+      "y": 0.026986273,
+      "z": 41.9829445
+    },
+    {
+      "name": "MPStoneFinalV41_561",
+      "active": false,
+      "x": 20.3047676,
+      "y": 0.032581985,
+      "z": 41.9150963
+    },
+    {
+      "name": "MPStoneFinalV41_562",
+      "active": false,
+      "x": 20.8535156,
+      "y": 0.0369395465,
+      "z": 41.90821
+    },
+    {
+      "name": "MPStoneFinalV41_563",
+      "active": true,
+      "x": 21.4893742,
+      "y": 0.03348472,
+      "z": 42.1348038
+    },
+    {
+      "name": "MPStoneFinalV41_564",
+      "active": false,
+      "x": 20.1057568,
+      "y": 0.0218953528,
+      "z": 42.27204
+    },
+    {
+      "name": "MPStoneFinalV41_565",
+      "active": true,
+      "x": 20.7035542,
+      "y": 0.0313153565,
+      "z": 42.204216
+    },
+    {
+      "name": "MPStoneFinalV41_566",
+      "active": false,
+      "x": 21.313242,
+      "y": 0.0217855927,
+      "z": 42.13526
+    },
+    {
+      "name": "MPStoneFinalV41_567",
+      "active": true,
+      "x": 19.88368,
+      "y": 0.0345163681,
+      "z": 42.66611
+    },
+    {
+      "name": "MPStoneFinalV41_568",
+      "active": false,
+      "x": 20.4799557,
+      "y": 0.0231992938,
+      "z": 42.5836754
+    },
+    {
+      "name": "MPStoneFinalV41_569",
+      "active": false,
+      "x": 21.0711517,
+      "y": 0.0253436435,
+      "z": 42.48423
+    },
+    {
+      "name": "MPStoneFinalV41_570",
+      "active": false,
+      "x": 21.6345615,
+      "y": 0.0283823572,
+      "z": 42.37772
+    },
+    {
+      "name": "MPStoneFinalV41_571",
+      "active": false,
+      "x": 20.14764,
+      "y": 0.02165979,
+      "z": 42.9172554
+    },
+    {
+      "name": "MPStoneFinalV41_572",
+      "active": true,
+      "x": 20.7544422,
+      "y": 0.02073727,
+      "z": 42.87831
+    },
+    {
+      "name": "MPStoneFinalV41_573",
+      "active": true,
+      "x": 21.3594971,
+      "y": 0.03042996,
+      "z": 42.8102036
+    },
+    {
+      "name": "MPStoneFinalV41_574",
+      "active": true,
+      "x": 19.9189949,
+      "y": 0.0394247,
+      "z": 43.30046
+    },
+    {
+      "name": "MPStoneFinalV41_575",
+      "active": false,
+      "x": 20.5031414,
+      "y": 0.0258718412,
+      "z": 43.2274933
+    },
+    {
+      "name": "MPStoneFinalV41_576",
+      "active": false,
+      "x": 21.096487,
+      "y": 0.023013955,
+      "z": 43.13869
+    },
+    {
+      "name": "MPStoneFinalV41_577",
+      "active": false,
+      "x": 21.7113571,
+      "y": 0.0340949744,
+      "z": 43.105072
+    },
+    {
+      "name": "MPStoneFinalV41_578",
+      "active": false,
+      "x": 20.26609,
+      "y": 0.0249135569,
+      "z": 43.62249
+    },
+    {
+      "name": "MPStoneFinalV41_579",
+      "active": true,
+      "x": 20.8601513,
+      "y": 0.0331795029,
+      "z": 43.5087166
+    },
+    {
+      "name": "MPStoneFinalV41_580",
+      "active": true,
+      "x": 21.4332142,
+      "y": 0.0252731163,
+      "z": 43.4217262
+    },
+    {
+      "name": "MPStoneFinalV41_581",
+      "active": true,
+      "x": 20.0407829,
+      "y": 0.0306966864,
+      "z": 44.0445557
+    },
+    {
+      "name": "MPStoneFinalV41_582",
+      "active": false,
+      "x": 20.62587,
+      "y": 0.0239763968,
+      "z": 43.9067574
+    },
+    {
+      "name": "MPStoneFinalV41_583",
+      "active": false,
+      "x": 21.2286377,
+      "y": 0.0299183149,
+      "z": 43.82741
+    },
+    {
+      "name": "MPStoneFinalV41_584",
+      "active": false,
+      "x": 21.8169823,
+      "y": 0.0275583863,
+      "z": 43.6865273
+    },
+    {
+      "name": "MPStoneFinalV41_585",
+      "active": false,
+      "x": 20.4475117,
+      "y": 0.0273481142,
+      "z": 44.30716
+    },
+    {
+      "name": "MPStoneFinalV41_586",
+      "active": true,
+      "x": 21.0300579,
+      "y": 0.030118756,
+      "z": 44.1673126
+    },
+    {
+      "name": "MPStoneFinalV41_587",
+      "active": true,
+      "x": 21.61096,
+      "y": 0.02255149,
+      "z": 44.08649
+    },
+    {
+      "name": "MPStoneFinalV41_588",
+      "active": true,
+      "x": 20.214077,
+      "y": 0.0386427045,
+      "z": 44.7004662
+    },
+    {
+      "name": "MPStoneFinalV41_589",
+      "active": false,
+      "x": 20.8196926,
+      "y": 0.0314331,
+      "z": 44.5847
+    },
+    {
+      "name": "MPStoneFinalV41_590",
+      "active": false,
+      "x": 21.3830872,
+      "y": 0.03860583,
+      "z": 44.4355354
+    },
+    {
+      "name": "MPStoneFinalV41_591",
+      "active": false,
+      "x": 22.0044765,
+      "y": 0.0297529511,
+      "z": 44.35627
+    },
+    {
+      "name": "MPStoneFinalV41_592",
+      "active": false,
+      "x": 20.5058537,
+      "y": 0.0254284963,
+      "z": 45.01307
+    },
+    {
+      "name": "MPStoneFinalV41_593",
+      "active": true,
+      "x": 21.11805,
+      "y": 0.0315659046,
+      "z": 44.88601
+    },
+    {
+      "name": "MPStoneFinalV41_594",
+      "active": true,
+      "x": 21.6776524,
+      "y": 0.0358868651,
+      "z": 44.76319
+    },
+    {
+      "name": "MPStoneFinalV41_595",
+      "active": true,
+      "x": 20.2619076,
+      "y": 0.0219083838,
+      "z": 45.35154
+    },
+    {
+      "name": "MPStoneFinalV41_596",
+      "active": false,
+      "x": 20.835207,
+      "y": 0.0298317969,
+      "z": 45.2258453
+    },
+    {
+      "name": "MPStoneFinalV41_597",
+      "active": false,
+      "x": 21.4267559,
+      "y": 0.0334622376,
+      "z": 45.13205
+    },
+    {
+      "name": "MPStoneFinalV41_598",
+      "active": false,
+      "x": 22.0365658,
+      "y": 0.0216358062,
+      "z": 45.0243034
+    },
+    {
+      "name": "MPStoneFinalV41_599",
+      "active": true,
+      "x": 20.675415,
+      "y": 0.0354364775,
+      "z": 45.66781
+    },
+    {
+      "name": "MPStoneFinalV41_600",
+      "active": true,
+      "x": 21.2517185,
+      "y": 0.03309203,
+      "z": 45.51211
+    },
+    {
+      "name": "MPStoneFinalV41_601",
+      "active": true,
+      "x": 21.8695621,
+      "y": 0.0272199772,
+      "z": 45.38057
+    },
+    {
+      "name": "MPStoneFinalV41_602",
+      "active": false,
+      "x": 20.4823074,
+      "y": 0.03649409,
+      "z": 46.08497
+    },
+    {
+      "name": "MPStoneFinalV41_603",
+      "active": false,
+      "x": 21.0795116,
+      "y": 0.0226333272,
+      "z": 45.8993645
+    },
+    {
+      "name": "MPStoneFinalV41_604",
+      "active": false,
+      "x": 21.63745,
+      "y": 0.0325607955,
+      "z": 45.7646179
+    },
+    {
+      "name": "MPStoneFinalV41_605",
+      "active": false,
+      "x": 22.2500973,
+      "y": 0.0359196961,
+      "z": 45.6039848
+    },
+    {
+      "name": "MPStoneFinalV41_606",
+      "active": true,
+      "x": 20.8534164,
+      "y": 0.0362150148,
+      "z": 46.3238373
+    },
+    {
+      "name": "MPStoneFinalV41_607",
+      "active": true,
+      "x": 21.46283,
+      "y": 0.0292970166,
+      "z": 46.18295
+    },
+    {
+      "name": "MPStoneFinalV41_608",
+      "active": true,
+      "x": 22.0196533,
+      "y": 0.027462611,
+      "z": 46.0480576
+    },
+    {
+      "name": "MPStoneFinalV41_609",
+      "active": false,
+      "x": 20.6529026,
+      "y": 0.0321543664,
+      "z": 46.68493
+    },
+    {
+      "name": "MPStoneFinalV41_610",
+      "active": false,
+      "x": 21.2444038,
+      "y": 0.0288307741,
+      "z": 46.57812
+    },
+    {
+      "name": "MPStoneFinalV41_611",
+      "active": false,
+      "x": 21.8193913,
+      "y": 0.03867183,
+      "z": 46.43578
+    },
+    {
+      "name": "MPStoneFinalV41_612",
+      "active": false,
+      "x": 22.3777237,
+      "y": 0.0255513676,
+      "z": 46.3100433
+    },
+    {
+      "name": "MPStoneFinalV41_613",
+      "active": true,
+      "x": 20.9701424,
+      "y": 0.02968867,
+      "z": 46.9560051
+    },
+    {
+      "name": "MPStoneFinalV41_614",
+      "active": true,
+      "x": 21.5723724,
+      "y": 0.02713791,
+      "z": 46.85447
+    },
+    {
+      "name": "MPStoneFinalV41_615",
+      "active": true,
+      "x": 22.1356716,
+      "y": 0.02922526,
+      "z": 46.70097
+    },
+    {
+      "name": "MPStoneFinalV41_616",
+      "active": false,
+      "x": 20.747261,
+      "y": 0.033179298,
+      "z": 47.31133
+    },
+    {
+      "name": "MPStoneFinalV41_617",
+      "active": false,
+      "x": 21.3092785,
+      "y": 0.02445268,
+      "z": 47.2022171
+    },
+    {
+      "name": "MPStoneFinalV41_618",
+      "active": false,
+      "x": 21.9374275,
+      "y": 0.0333030261,
+      "z": 47.1293259
+    },
+    {
+      "name": "MPStoneFinalV41_619",
+      "active": false,
+      "x": 22.5141335,
+      "y": 0.0398700573,
+      "z": 46.99168
+    },
+    {
+      "name": "MPStoneFinalV41_620",
+      "active": true,
+      "x": 21.1059971,
+      "y": 0.0342658535,
+      "z": 47.6201935
+    },
+    {
+      "name": "MPStoneFinalV41_621",
+      "active": true,
+      "x": 21.69165,
+      "y": 0.03786856,
+      "z": 47.49234
+    },
+    {
+      "name": "MPStoneFinalV41_622",
+      "active": true,
+      "x": 22.2965126,
+      "y": 0.0280353911,
+      "z": 47.38598
+    },
+    {
+      "name": "MPStoneFinalV41_623",
+      "active": false,
+      "x": 20.89494,
+      "y": 0.0210309476,
+      "z": 47.9640121
+    },
+    {
+      "name": "MPStoneFinalV41_624",
+      "active": false,
+      "x": 21.4960918,
+      "y": 0.03030468,
+      "z": 47.87131
+    },
+    {
+      "name": "MPStoneFinalV41_625",
+      "active": false,
+      "x": 22.0753345,
+      "y": 0.0207745489,
+      "z": 47.8026466
+    },
+    {
+      "name": "MPStoneFinalV41_626",
+      "active": true,
+      "x": 22.69974,
+      "y": 0.0202616919,
+      "z": 47.6860275
+    },
+    {
+      "name": "MPStoneFinalV41_627",
+      "active": true,
+      "x": 21.1981182,
+      "y": 0.0265276115,
+      "z": 48.2378922
+    },
+    {
+      "name": "MPStoneFinalV41_628",
+      "active": true,
+      "x": 21.8256512,
+      "y": 0.03366978,
+      "z": 48.17428
+    },
+    {
+      "name": "MPStoneFinalV41_629",
+      "active": true,
+      "x": 22.40625,
+      "y": 0.0347334631,
+      "z": 48.11425
+    },
+    {
+      "name": "MPStoneFinalV41_630",
+      "active": false,
+      "x": 20.9548721,
+      "y": 0.02174272,
+      "z": 48.57977
+    },
+    {
+      "name": "MPStoneFinalV41_631",
+      "active": false,
+      "x": 21.5532913,
+      "y": 0.0255563352,
+      "z": 48.50053
+    },
+    {
+      "name": "MPStoneFinalV41_632",
+      "active": false,
+      "x": 22.1558361,
+      "y": 0.03581667,
+      "z": 48.4712563
+    },
+    {
+      "name": "MPStoneFinalV41_633",
+      "active": false,
+      "x": 22.7507687,
+      "y": 0.0244334284,
+      "z": 48.4457855
+    },
+    {
+      "name": "MPStoneFinalV41_634",
+      "active": true,
+      "x": 21.2699127,
+      "y": 0.0225389041,
+      "z": 48.9189034
+    },
+    {
+      "name": "MPStoneFinalV41_635",
+      "active": true,
+      "x": 21.8583355,
+      "y": 0.03942224,
+      "z": 48.8253136
+    },
+    {
+      "name": "MPStoneFinalV41_636",
+      "active": true,
+      "x": 22.4553566,
+      "y": 0.0309513062,
+      "z": 48.7905045
+    },
+    {
+      "name": "MPStoneFinalV41_637",
+      "active": false,
+      "x": 20.9826069,
+      "y": 0.0298754163,
+      "z": 49.2946548
+    },
+    {
+      "name": "MPStoneFinalV41_638",
+      "active": false,
+      "x": 21.6052856,
+      "y": 0.02336216,
+      "z": 49.23383
+    },
+    {
+      "name": "MPStoneFinalV41_639",
+      "active": false,
+      "x": 22.17953,
+      "y": 0.035864912,
+      "z": 49.1605759
+    },
+    {
+      "name": "MPStoneFinalV41_640",
+      "active": false,
+      "x": 22.7815056,
+      "y": 0.0200193655,
+      "z": 49.054924
+    },
+    {
+      "name": "MPStoneFinalV41_641",
+      "active": true,
+      "x": 21.3150482,
+      "y": 0.0380746573,
+      "z": 49.62823
+    },
+    {
+      "name": "MPStoneFinalV41_642",
+      "active": true,
+      "x": 21.8887272,
+      "y": 0.0277209412,
+      "z": 49.5031967
+    },
+    {
+      "name": "MPStoneFinalV41_643",
+      "active": true,
+      "x": 22.4852486,
+      "y": 0.0305017326,
+      "z": 49.39261
+    },
+    {
+      "name": "MPStoneFinalV41_644",
+      "active": false,
+      "x": 21.0498028,
+      "y": 0.022356566,
+      "z": 50.0067139
+    },
+    {
+      "name": "MPStoneFinalV41_645",
+      "active": false,
+      "x": 21.659586,
+      "y": 0.022678744,
+      "z": 49.9391632
+    },
+    {
+      "name": "MPStoneFinalV41_646",
+      "active": false,
+      "x": 22.236681,
+      "y": 0.0293739717,
+      "z": 49.7986031
+    },
+    {
+      "name": "MPStoneFinalV41_647",
+      "active": false,
+      "x": 22.8354244,
+      "y": 0.02840431,
+      "z": 49.68261
+    },
+    {
+      "name": "MPStoneFinalV41_648",
+      "active": true,
+      "x": 21.4706535,
+      "y": 0.0201022,
+      "z": 50.2739563
+    },
+    {
+      "name": "MPStoneFinalV41_649",
+      "active": true,
+      "x": 22.0754585,
+      "y": 0.03110887,
+      "z": 50.1976242
+    },
+    {
+      "name": "MPStoneFinalV41_650",
+      "active": true,
+      "x": 22.6757336,
+      "y": 0.0252728984,
+      "z": 50.05331
+    },
+    {
+      "name": "MPStoneFinalV41_651",
+      "active": false,
+      "x": 21.2699165,
+      "y": 0.0397279747,
+      "z": 50.64543
+    },
+    {
+      "name": "MPStoneFinalV41_652",
+      "active": false,
+      "x": 21.8635311,
+      "y": 0.037629135,
+      "z": 50.55966
+    },
+    {
+      "name": "MPStoneFinalV41_653",
+      "active": false,
+      "x": 22.49707,
+      "y": 0.0203573629,
+      "z": 50.4308739
+    },
+    {
+      "name": "MPStoneFinalV41_654",
+      "active": false,
+      "x": 23.0763168,
+      "y": 0.03138442,
+      "z": 50.33821
+    },
+    {
+      "name": "MPStoneFinalV41_655",
+      "active": true,
+      "x": 21.5892448,
+      "y": 0.02868381,
+      "z": 50.8986931
+    },
+    {
+      "name": "MPStoneFinalV41_656",
+      "active": true,
+      "x": 22.206356,
+      "y": 0.0378426835,
+      "z": 50.8227272
+    },
+    {
+      "name": "MPStoneFinalV41_657",
+      "active": true,
+      "x": 22.8162422,
+      "y": 0.03189863,
+      "z": 50.8145142
+    },
+    {
+      "name": "MPStoneFinalV41_658",
+      "active": false,
+      "x": 21.2886028,
+      "y": 0.0278116185,
+      "z": 51.173893
+    },
+    {
+      "name": "MPStoneFinalV41_659",
+      "active": false,
+      "x": 21.9105282,
+      "y": 0.02370452,
+      "z": 51.1999779
+    },
+    {
+      "name": "MPStoneFinalV41_660",
+      "active": false,
+      "x": 22.5178471,
+      "y": 0.03190276,
+      "z": 51.2066574
+    },
+    {
+      "name": "MPStoneFinalV41_661",
+      "active": false,
+      "x": 23.125927,
+      "y": 0.0394533277,
+      "z": 51.1495476
+    },
+    {
+      "name": "MPStoneFinalV41_662",
+      "active": true,
+      "x": 21.6119118,
+      "y": 0.022288736,
+      "z": 51.52953
+    },
+    {
+      "name": "MPStoneFinalV41_663",
+      "active": true,
+      "x": 22.18664,
+      "y": 0.0352221169,
+      "z": 51.4960251
+    },
+    {
+      "name": "MPStoneFinalV41_664",
+      "active": true,
+      "x": 22.82514,
+      "y": 0.0370417722,
+      "z": 51.5309
+    },
+    {
+      "name": "MPStoneFinalV41_665",
+      "active": false,
+      "x": 21.3307247,
+      "y": 0.0321780741,
+      "z": 51.7872238
+    },
+    {
+      "name": "MPStoneFinalV41_666",
+      "active": false,
+      "x": 21.8847065,
+      "y": 0.0367263258,
+      "z": 51.82743
+    },
+    {
+      "name": "MPStoneFinalV41_667",
+      "active": false,
+      "x": 22.5154285,
+      "y": 0.02873664,
+      "z": 51.88366
+    },
+    {
+      "name": "MPStoneFinalV41_668",
+      "active": false,
+      "x": 23.109642,
+      "y": 0.0303396825,
+      "z": 51.91376
+    },
+    {
+      "name": "MPStoneFinalV41_669",
+      "active": true,
+      "x": 21.59028,
+      "y": 0.0237885937,
+      "z": 52.15871
+    },
+    {
+      "name": "MPStoneFinalV41_670",
+      "active": true,
+      "x": 22.18593,
+      "y": 0.02140961,
+      "z": 52.18759
+    },
+    {
+      "name": "MPStoneFinalV41_671",
+      "active": true,
+      "x": 22.7895088,
+      "y": 0.0322445,
+      "z": 52.2972679
+    },
+    {
+      "name": "MPStoneFinalV41_672",
+      "active": false,
+      "x": 21.2172356,
+      "y": 0.0288646556,
+      "z": 52.4119339
+    },
+    {
+      "name": "MPStoneFinalV41_673",
+      "active": false,
+      "x": 21.8252277,
+      "y": 0.0202258844,
+      "z": 52.5025444
+    },
+    {
+      "name": "MPStoneFinalV41_674",
+      "active": false,
+      "x": 22.4197025,
+      "y": 0.0369312465,
+      "z": 52.5924721
+    },
+    {
+      "name": "MPStoneFinalV41_675",
+      "active": false,
+      "x": 23.0358963,
+      "y": 0.03023398,
+      "z": 52.66041
+    },
+    {
+      "name": "MPStoneFinalV41_676",
+      "active": true,
+      "x": 21.4486256,
+      "y": 0.03422113,
+      "z": 52.7666321
+    },
+    {
+      "name": "MPStoneFinalV41_677",
+      "active": true,
+      "x": 22.0515518,
+      "y": 0.02023749,
+      "z": 52.86808
+    },
+    {
+      "name": "MPStoneFinalV41_678",
+      "active": true,
+      "x": 22.630415,
+      "y": 0.03585928,
+      "z": 52.99078
+    },
+    {
+      "name": "MPStoneFinalV41_679",
+      "active": false,
+      "x": 21.1411114,
+      "y": 0.02436308,
+      "z": 52.984787
+    },
+    {
+      "name": "MPStoneFinalV41_680",
+      "active": false,
+      "x": 21.7147751,
+      "y": 0.03404496,
+      "z": 53.1328621
+    },
+    {
+      "name": "MPStoneFinalV41_681",
+      "active": false,
+      "x": 22.2833729,
+      "y": 0.0331398658,
+      "z": 53.30118
+    },
+    {
+      "name": "MPStoneFinalV41_682",
+      "active": false,
+      "x": 22.885685,
+      "y": 0.0218068175,
+      "z": 53.40861
+    },
+    {
+      "name": "MPStoneFinalV41_683",
+      "active": true,
+      "x": 21.3797073,
+      "y": 0.0317772441,
+      "z": 53.3889771
+    },
+    {
+      "name": "MPStoneFinalV41_684",
+      "active": true,
+      "x": 21.9380589,
+      "y": 0.0392220058,
+      "z": 53.5643845
+    },
+    {
+      "name": "MPStoneFinalV41_685",
+      "active": true,
+      "x": 22.495409,
+      "y": 0.0220588483,
+      "z": 53.7218361
+    },
+    {
+      "name": "MPStoneFinalV41_686",
+      "active": false,
+      "x": 20.9681759,
+      "y": 0.0245673321,
+      "z": 53.5214767
+    },
+    {
+      "name": "MPStoneFinalV41_687",
+      "active": false,
+      "x": 21.489727,
+      "y": 0.02183456,
+      "z": 53.744072
+    },
+    {
+      "name": "MPStoneFinalV41_688",
+      "active": false,
+      "x": 22.1056767,
+      "y": 0.0314641967,
+      "z": 53.94884
+    },
+    {
+      "name": "MPStoneFinalV41_689",
+      "active": false,
+      "x": 22.6271629,
+      "y": 0.0291399639,
+      "z": 54.191082
+    },
+    {
+      "name": "MPStoneFinalV41_690",
+      "active": true,
+      "x": 21.0927525,
+      "y": 0.0309336167,
+      "z": 53.86427
+    },
+    {
+      "name": "MPStoneFinalV41_691",
+      "active": true,
+      "x": 21.6276588,
+      "y": 0.037083827,
+      "z": 54.16957
+    },
+    {
+      "name": "MPStoneFinalV41_692",
+      "active": true,
+      "x": 22.15289,
+      "y": 0.0316719674,
+      "z": 54.4583435
+    },
+    {
+      "name": "MPStoneFinalV41_693",
+      "active": false,
+      "x": 20.7152271,
+      "y": 0.0333349779,
+      "z": 53.8511467
+    },
+    {
+      "name": "MPStoneFinalV41_694",
+      "active": false,
+      "x": 21.1764088,
+      "y": 0.0279796757,
+      "z": 54.2153244
+    },
+    {
+      "name": "MPStoneFinalV41_695",
+      "active": false,
+      "x": 21.67667,
+      "y": 0.0243208,
+      "z": 54.5918732
+    },
+    {
+      "name": "MPStoneFinalV41_696",
+      "active": false,
+      "x": 22.16837,
+      "y": 0.03961665,
+      "z": 54.93002
+    },
+    {
+      "name": "MPStoneFinalV41_697",
+      "active": true,
+      "x": 20.7470379,
+      "y": 0.02325504,
+      "z": 54.23232
+    },
+    {
+      "name": "MPStoneFinalV41_698",
+      "active": true,
+      "x": 21.2043915,
+      "y": 0.0254699271,
+      "z": 54.6255836
+    },
+    {
+      "name": "MPStoneFinalV41_699",
+      "active": true,
+      "x": 21.6773472,
+      "y": 0.0294119,
+      "z": 55.0325623
+    },
+    {
+      "name": "MPStoneFinalV41_700",
+      "active": false,
+      "x": 20.3874454,
+      "y": 0.035297282,
+      "z": 54.2023
+    },
+    {
+      "name": "MPStoneFinalV41_701",
+      "active": false,
+      "x": 20.7673321,
+      "y": 0.035404563,
+      "z": 54.67452
+    },
+    {
+      "name": "MPStoneFinalV41_702",
+      "active": false,
+      "x": 21.1569824,
+      "y": 0.02299798,
+      "z": 55.0970726
+    },
+    {
+      "name": "MPStoneFinalV41_703",
+      "active": true,
+      "x": 21.5470581,
+      "y": 0.0218152385,
+      "z": 55.5601158
+    },
+    {
+      "name": "MPStoneFinalV41_704",
+      "active": true,
+      "x": 20.3819332,
+      "y": 0.0338986851,
+      "z": 54.6598244
+    },
+    {
+      "name": "MPStoneFinalV41_705",
+      "active": true,
+      "x": 20.7303867,
+      "y": 0.02669024,
+      "z": 55.1468849
+    },
+    {
+      "name": "MPStoneFinalV41_706",
+      "active": false,
+      "x": 21.0785217,
+      "y": 0.0348418355,
+      "z": 55.6198235
+    },
+    {
+      "name": "MPStoneFinalV41_707",
+      "active": false,
+      "x": 20.005785,
+      "y": 0.0239379629,
+      "z": 54.5293846
+    },
+    {
+      "name": "MPStoneFinalV41_708",
+      "active": false,
+      "x": 20.298563,
+      "y": 0.024428064,
+      "z": 55.03063
+    },
+    {
+      "name": "MPStoneFinalV41_709",
+      "active": false,
+      "x": 20.5534458,
+      "y": 0.0381124765,
+      "z": 55.5759926
+    },
+    {
+      "name": "MPStoneFinalV41_710",
+      "active": true,
+      "x": 21.0716019,
+      "y": 0.02488829,
+      "z": 56.2227631
+    },
+    {
+      "name": "MPStoneFinalV41_711",
+      "active": true,
+      "x": 19.8593273,
+      "y": 0.0292009525,
+      "z": 54.903717
+    },
+    {
+      "name": "MPStoneFinalV41_712",
+      "active": true,
+      "x": 20.1211948,
+      "y": 0.0242207516,
+      "z": 55.44562
+    },
+    {
+      "name": "MPStoneFinalV41_713",
+      "active": false,
+      "x": 20.9574375,
+      "y": 0.0394352,
+      "z": 56.2346268
+    },
+    {
+      "name": "MPStoneFinalV41_714",
+      "active": true,
+      "x": 19.41968,
+      "y": 0.0280464534,
+      "z": 54.63723
+    },
+    {
+      "name": "MPStoneFinalV41_715",
+      "active": false,
+      "x": 19.62916,
+      "y": 0.0299039036,
+      "z": 55.1647148
+    },
+    {
+      "name": "MPStoneFinalV41_716",
+      "active": false,
+      "x": 21.1234226,
+      "y": 0.0284738038,
+      "z": 56.3890839
+    },
+    {
+      "name": "MPStoneFinalV41_717",
+      "active": false,
+      "x": 20.77,
+      "y": 0.03120466,
+      "z": 55.99
+    },
+    {
+      "name": "MPStoneFinalV41_718",
+      "active": false,
+      "x": 19.1980877,
+      "y": 0.03379658,
+      "z": 54.9093628
+    },
+    {
+      "name": "MPStoneFinalV41_719",
+      "active": true,
+      "x": 19.4265881,
+      "y": 0.0339065045,
+      "z": 55.45635
+    },
+    {
+      "name": "MPStoneFinalV41_720",
+      "active": true,
+      "x": 20.0040016,
+      "y": 0.0327756256,
+      "z": 56.3087921
+    },
+    {
+      "name": "MPStoneFinalV41_721",
+      "active": true,
+      "x": 18.5257969,
+      "y": 0.0290213674,
+      "z": 54.3948
+    },
+    {
+      "name": "MPStoneFinalV41_722",
+      "active": false,
+      "x": 19.0659523,
+      "y": 0.0396982469,
+      "z": 55.3920631
+    },
+    {
+      "name": "MPStoneFinalV41_723",
+      "active": true,
+      "x": 19.24925,
+      "y": 0.0297631547,
+      "z": 55.9397163
+    },
+    {
+      "name": "MPStoneFinalV41_724",
+      "active": false,
+      "x": 19.703,
+      "y": 0.025863694,
+      "z": 56.482
+    },
+    {
+      "name": "MPStoneFinalV41_725",
+      "active": true,
+      "x": 18.6276875,
+      "y": 0.03999583,
+      "z": 55.3073769
+    },
+    {
+      "name": "MPStoneFinalV41_726",
+      "active": false,
+      "x": 18.854393,
+      "y": 0.0249584168,
+      "z": 55.836
+    },
+    {
+      "name": "MPStoneFinalV41_727",
+      "active": true,
+      "x": 19.1367874,
+      "y": 0.03547442,
+      "z": 56.9040947
+    },
+    {
+      "name": "MPStoneFinalV41_728",
+      "active": false,
+      "x": 19.81,
+      "y": 0.0338209942,
+      "z": 55.88
+    },
+    {
+      "name": "MPStoneFinalV41_729",
+      "active": false,
+      "x": 18.4760685,
+      "y": 0.0390005,
+      "z": 55.68795
+    },
+    {
+      "name": "MPStoneFinalV41_730",
+      "active": true,
+      "x": 18.6669,
+      "y": 0.0246953368,
+      "z": 56.27586
+    },
+    {
+      "name": "MPStoneFinalV41_731",
+      "active": false,
+      "x": 18.93248,
+      "y": 0.0287145227,
+      "z": 56.83842
+    },
+    {
+      "name": "MPStoneFinalV41_732",
+      "active": true,
+      "x": 17.8911476,
+      "y": 0.0219768323,
+      "z": 55.5069542
+    },
+    {
+      "name": "MPStoneFinalV41_733",
+      "active": false,
+      "x": 18.241888,
+      "y": 0.02966426,
+      "z": 56.0979538
+    },
+    {
+      "name": "MPStoneFinalV41_734",
+      "active": false,
+      "x": 18.3986454,
+      "y": 0.0236296728,
+      "z": 56.66264
+    },
+    {
+      "name": "MPStoneFinalV41_735",
+      "active": false,
+      "x": 17.4817486,
+      "y": 0.03427686,
+      "z": 55.23302
+    },
+    {
+      "name": "MPStoneFinalV41_736",
+      "active": false,
+      "x": 17.871973,
+      "y": 0.035574168,
+      "z": 55.8262
+    },
+    {
+      "name": "MPStoneFinalV41_737",
+      "active": true,
+      "x": 17.9851856,
+      "y": 0.02925918,
+      "z": 56.41163
+    },
+    {
+      "name": "MPStoneFinalV41_738",
+      "active": true,
+      "x": 18.1311855,
+      "y": 0.0285213664,
+      "z": 57.0417824
+    },
+    {
+      "name": "MPStoneFinalV41_739",
+      "active": false,
+      "x": 17.4401684,
+      "y": 0.03887015,
+      "z": 55.6020775
+    },
+    {
+      "name": "MPStoneFinalV41_740",
+      "active": false,
+      "x": 17.5996475,
+      "y": 0.0300676785,
+      "z": 56.17666
+    },
+    {
+      "name": "MPStoneFinalV41_741",
+      "active": false,
+      "x": 17.71961,
+      "y": 0.0275609251,
+      "z": 56.7878342
+    },
+    {
+      "name": "MPStoneFinalV41_742",
+      "active": true,
+      "x": 17.056633,
+      "y": 0.0369100347,
+      "z": 55.40302
+    },
+    {
+      "name": "MPStoneFinalV41_743",
+      "active": true,
+      "x": 17.1960182,
+      "y": 0.036027398,
+      "z": 55.9736938
+    },
+    {
+      "name": "MPStoneFinalV41_744",
+      "active": true,
+      "x": 17.3011723,
+      "y": 0.0232448224,
+      "z": 56.5449753
+    },
+    {
+      "name": "MPStoneFinalV41_745",
+      "active": true,
+      "x": 17.41093,
+      "y": 0.0318933949,
+      "z": 57.1355362
+    },
+    {
+      "name": "MPStoneFinalV41_746",
+      "active": false,
+      "x": 16.7771816,
+      "y": 0.0203335267,
+      "z": 55.7427864
+    },
+    {
+      "name": "MPStoneFinalV41_747",
+      "active": false,
+      "x": 16.8770161,
+      "y": 0.0205569752,
+      "z": 56.3252373
+    },
+    {
+      "name": "MPStoneFinalV41_748",
+      "active": false,
+      "x": 17.0559921,
+      "y": 0.038599357,
+      "z": 56.9191322
+    },
+    {
+      "name": "MPStoneFinalV41_749",
+      "active": true,
+      "x": 16.3313828,
+      "y": 0.021217633,
+      "z": 55.57021
+    },
+    {
+      "name": "MPStoneFinalV41_750",
+      "active": true,
+      "x": 16.51911,
+      "y": 0.0321114659,
+      "z": 56.14905
+    },
+    {
+      "name": "MPStoneFinalV41_751",
+      "active": true,
+      "x": 16.6542969,
+      "y": 0.0375252627,
+      "z": 56.69128
+    },
+    {
+      "name": "MPStoneFinalV41_752",
+      "active": true,
+      "x": 16.8571987,
+      "y": 0.02388557,
+      "z": 57.2798424
+    },
+    {
+      "name": "MPStoneFinalV41_753",
+      "active": false,
+      "x": 16.0664043,
+      "y": 0.0390036181,
+      "z": 55.9625854
+    },
+    {
+      "name": "MPStoneFinalV41_754",
+      "active": false,
+      "x": 16.24281,
+      "y": 0.0237259828,
+      "z": 56.5409164
+    },
+    {
+      "name": "MPStoneFinalV41_755",
+      "active": false,
+      "x": 16.4663086,
+      "y": 0.0292715151,
+      "z": 57.10728
+    },
+    {
+      "name": "MPStoneFinalV41_756",
+      "active": true,
+      "x": 15.65132,
+      "y": 0.0225325432,
+      "z": 55.78913
+    },
+    {
+      "name": "MPStoneFinalV41_757",
+      "active": true,
+      "x": 15.8454781,
+      "y": 0.0261978917,
+      "z": 56.3766174
+    },
+    {
+      "name": "MPStoneFinalV41_758",
+      "active": true,
+      "x": 16.009285,
+      "y": 0.038000755,
+      "z": 56.92062
+    },
+    {
+      "name": "MPStoneFinalV41_759",
+      "active": true,
+      "x": 16.25241,
+      "y": 0.0282084774,
+      "z": 57.507267
+    },
+    {
+      "name": "MPStoneFinalV41_760",
+      "active": false,
+      "x": 15.4282322,
+      "y": 0.0252892561,
+      "z": 56.2376556
+    },
+    {
+      "name": "MPStoneFinalV41_761",
+      "active": false,
+      "x": 15.6357765,
+      "y": 0.0373439677,
+      "z": 56.7580452
+    },
+    {
+      "name": "MPStoneFinalV41_762",
+      "active": false,
+      "x": 15.8172884,
+      "y": 0.0381267071,
+      "z": 57.3676
+    },
+    {
+      "name": "MPStoneFinalV41_763",
+      "active": true,
+      "x": 15.0273666,
+      "y": 0.0209226348,
+      "z": 56.0560722
+    },
+    {
+      "name": "MPStoneFinalV41_764",
+      "active": true,
+      "x": 15.1976862,
+      "y": 0.0357651673,
+      "z": 56.61055
+    },
+    {
+      "name": "MPStoneFinalV41_765",
+      "active": true,
+      "x": 15.399478,
+      "y": 0.0375866033,
+      "z": 57.1849136
+    },
+    {
+      "name": "MPStoneFinalV41_766",
+      "active": true,
+      "x": 15.5888033,
+      "y": 0.02192641,
+      "z": 57.76981
+    },
+    {
+      "name": "MPStoneFinalV41_767",
+      "active": false,
+      "x": 14.7670956,
+      "y": 0.0273249,
+      "z": 56.4307556
+    },
+    {
+      "name": "MPStoneFinalV41_768",
+      "active": false,
+      "x": 14.964385,
+      "y": 0.0293824412,
+      "z": 56.9834
+    },
+    {
+      "name": "MPStoneFinalV41_769",
+      "active": false,
+      "x": 15.2081509,
+      "y": 0.0290369578,
+      "z": 57.5672455
+    },
+    {
+      "name": "MPStoneFinalV41_770",
+      "active": true,
+      "x": 14.304141,
+      "y": 0.0322280936,
+      "z": 56.2241974
+    },
+    {
+      "name": "MPStoneFinalV41_771",
+      "active": true,
+      "x": 14.5299377,
+      "y": 0.0332173519,
+      "z": 56.79522
+    },
+    {
+      "name": "MPStoneFinalV41_772",
+      "active": true,
+      "x": 14.7704,
+      "y": 0.02109661,
+      "z": 57.3370171
+    },
+    {
+      "name": "MPStoneFinalV41_773",
+      "active": true,
+      "x": 14.95865,
+      "y": 0.0284985472,
+      "z": 57.9001427
+    },
+    {
+      "name": "MPStoneFinalV41_774",
+      "active": false,
+      "x": 14.12649,
+      "y": 0.03289175,
+      "z": 56.6616554
+    },
+    {
+      "name": "MPStoneFinalV41_775",
+      "active": false,
+      "x": 14.3216467,
+      "y": 0.0285273548,
+      "z": 57.2206955
+    },
+    {
+      "name": "MPStoneFinalV41_776",
+      "active": false,
+      "x": 14.5716887,
+      "y": 0.03374856,
+      "z": 57.7987061
+    },
+    {
+      "name": "MPStoneFinalV41_777",
+      "active": true,
+      "x": 13.675704,
+      "y": 0.0287916344,
+      "z": 56.5306435
+    },
+    {
+      "name": "MPStoneFinalV41_778",
+      "active": true,
+      "x": 13.905776,
+      "y": 0.0231660176,
+      "z": 57.072052
+    },
+    {
+      "name": "MPStoneFinalV41_779",
+      "active": true,
+      "x": 14.1694345,
+      "y": 0.0215083212,
+      "z": 57.6236343
+    },
+    {
+      "name": "MPStoneFinalV41_780",
+      "active": true,
+      "x": 14.3983946,
+      "y": 0.033301726,
+      "z": 58.1754265
+    },
+    {
+      "name": "MPStoneFinalV41_781",
+      "active": false,
+      "x": 13.4406538,
+      "y": 0.0368940048,
+      "z": 56.9770927
+    },
+    {
+      "name": "MPStoneFinalV41_782",
+      "active": false,
+      "x": 13.7318048,
+      "y": 0.0254910644,
+      "z": 57.526783
+    },
+    {
+      "name": "MPStoneFinalV41_783",
+      "active": false,
+      "x": 13.9670792,
+      "y": 0.027399186,
+      "z": 58.0506
+    },
+    {
+      "name": "MPStoneFinalV41_784",
+      "active": true,
+      "x": 12.9821272,
+      "y": 0.0218633749,
+      "z": 56.8508072
+    },
+    {
+      "name": "MPStoneFinalV41_785",
+      "active": true,
+      "x": 13.2791395,
+      "y": 0.0262983069,
+      "z": 57.35241
+    },
+    {
+      "name": "MPStoneFinalV41_786",
+      "active": true,
+      "x": 13.574604,
+      "y": 0.02811086,
+      "z": 57.91001
+    },
+    {
+      "name": "MPStoneFinalV41_787",
+      "active": true,
+      "x": 13.8702135,
+      "y": 0.0373713449,
+      "z": 58.4434471
+    },
+    {
+      "name": "MPStoneFinalV41_788",
+      "active": false,
+      "x": 12.8182983,
+      "y": 0.03638044,
+      "z": 57.32367
+    },
+    {
+      "name": "MPStoneFinalV41_789",
+      "active": false,
+      "x": 13.1302853,
+      "y": 0.0397606045,
+      "z": 57.8152046
+    },
+    {
+      "name": "MPStoneFinalV41_790",
+      "active": false,
+      "x": 13.4761477,
+      "y": 0.03611155,
+      "z": 58.30742
+    },
+    {
+      "name": "MPStoneFinalV41_791",
+      "active": true,
+      "x": 12.2693949,
+      "y": 0.02789558,
+      "z": 57.3094025
+    },
+    {
+      "name": "MPStoneFinalV41_792",
+      "active": true,
+      "x": 12.6661606,
+      "y": 0.0207503848,
+      "z": 57.77212
+    },
+    {
+      "name": "MPStoneFinalV41_793",
+      "active": true,
+      "x": 13.0348616,
+      "y": 0.03457055,
+      "z": 58.2785339
+    },
+    {
+      "name": "MPStoneFinalV41_794",
+      "active": true,
+      "x": 13.3853941,
+      "y": 0.03863933,
+      "z": 58.7333755
+    },
+    {
+      "name": "MPStoneFinalV41_795",
+      "active": false,
+      "x": 12.1950989,
+      "y": 0.0365945846,
+      "z": 57.8318634
+    },
+    {
+      "name": "MPStoneFinalV41_796",
+      "active": false,
+      "x": 12.6139078,
+      "y": 0.03185439,
+      "z": 58.2337952
+    },
+    {
+      "name": "MPStoneFinalV41_797",
+      "active": false,
+      "x": 13.0456123,
+      "y": 0.02233739,
+      "z": 58.68606
+    },
+    {
+      "name": "MPStoneFinalV41_798",
+      "active": true,
+      "x": 11.7438755,
+      "y": 0.03138297,
+      "z": 57.8512154
+    },
+    {
+      "name": "MPStoneFinalV41_799",
+      "active": true,
+      "x": 12.1652784,
+      "y": 0.0249384362,
+      "z": 58.2916527
+    },
+    {
+      "name": "MPStoneFinalV41_800",
+      "active": true,
+      "x": 12.604682,
+      "y": 0.0256459769,
+      "z": 58.69513
+    },
+    {
+      "name": "MPStoneFinalV41_801",
+      "active": true,
+      "x": 13.0318651,
+      "y": 0.03538898,
+      "z": 59.1047249
+    },
+    {
+      "name": "MPStoneFinalV41_802",
+      "active": false,
+      "x": 11.72898,
+      "y": 0.02043576,
+      "z": 58.35584
+    },
+    {
+      "name": "MPStoneFinalV41_803",
+      "active": false,
+      "x": 12.1540565,
+      "y": 0.0308563244,
+      "z": 58.76585
+    },
+    {
+      "name": "MPStoneFinalV41_804",
+      "active": false,
+      "x": 12.6033373,
+      "y": 0.02960677,
+      "z": 59.13531
+    },
+    {
+      "name": "MPStoneFinalV41_805",
+      "active": true,
+      "x": 11.2980862,
+      "y": 0.0334710255,
+      "z": 58.39822
+    },
+    {
+      "name": "MPStoneFinalV41_806",
+      "active": true,
+      "x": 11.7334452,
+      "y": 0.0227185916,
+      "z": 58.80357
+    },
+    {
+      "name": "MPStoneFinalV41_807",
+      "active": true,
+      "x": 12.1508837,
+      "y": 0.03992261,
+      "z": 59.1991539
+    },
+    {
+      "name": "MPStoneFinalV41_808",
+      "active": true,
+      "x": 12.59751,
+      "y": 0.02524739,
+      "z": 59.6510544
+    },
+    {
+      "name": "MPStoneFinalV41_809",
+      "active": false,
+      "x": 11.2699747,
+      "y": 0.0320234373,
+      "z": 58.8502274
+    },
+    {
+      "name": "MPStoneFinalV41_810",
+      "active": false,
+      "x": 11.7335758,
+      "y": 0.03044744,
+      "z": 59.2758446
+    },
+    {
+      "name": "MPStoneFinalV41_811",
+      "active": false,
+      "x": 12.175869,
+      "y": 0.02615055,
+      "z": 59.68132
+    },
+    {
+      "name": "MPStoneFinalV41_812",
+      "active": true,
+      "x": 10.7974863,
+      "y": 0.02391661,
+      "z": 58.90235
+    },
+    {
+      "name": "MPStoneFinalV41_813",
+      "active": true,
+      "x": 11.25806,
+      "y": 0.024750039,
+      "z": 59.29368
+    },
+    {
+      "name": "MPStoneFinalV41_814",
+      "active": true,
+      "x": 11.707303,
+      "y": 0.03327909,
+      "z": 59.7154427
+    },
+    {
+      "name": "MPStoneFinalV41_815",
+      "active": true,
+      "x": 12.1044235,
+      "y": 0.0349563919,
+      "z": 60.16444
+    },
+    {
+      "name": "MPStoneFinalV41_816",
+      "active": false,
+      "x": 10.7707882,
+      "y": 0.03490847,
+      "z": 59.3464546
+    },
+    {
+      "name": "MPStoneFinalV41_817",
+      "active": false,
+      "x": 11.23193,
+      "y": 0.026147075,
+      "z": 59.73866
+    },
+    {
+      "name": "MPStoneFinalV41_818",
+      "active": false,
+      "x": 11.6562557,
+      "y": 0.0261359438,
+      "z": 60.1718864
+    },
+    {
+      "name": "MPStoneFinalV41_819",
+      "active": true,
+      "x": 10.2824507,
+      "y": 0.03887383,
+      "z": 59.4323235
+    },
+    {
+      "name": "MPStoneFinalV41_820",
+      "active": true,
+      "x": 10.7432442,
+      "y": 0.0378718823,
+      "z": 59.7818451
+    },
+    {
+      "name": "MPStoneFinalV41_821",
+      "active": true,
+      "x": 11.2132988,
+      "y": 0.0257267039,
+      "z": 60.1594276
+    },
+    {
+      "name": "MPStoneFinalV41_822",
+      "active": true,
+      "x": 11.6895561,
+      "y": 0.0277113356,
+      "z": 60.5515175
+    },
+    {
+      "name": "MPStoneFinalV41_823",
+      "active": false,
+      "x": 10.2734318,
+      "y": 0.02544516,
+      "z": 59.9420853
+    },
+    {
+      "name": "MPStoneFinalV41_824",
+      "active": false,
+      "x": 10.76391,
+      "y": 0.0201562084,
+      "z": 60.26039
+    },
+    {
+      "name": "MPStoneFinalV41_825",
+      "active": false,
+      "x": 11.2497444,
+      "y": 0.0207190551,
+      "z": 60.6004448
+    },
+    {
+      "name": "MPStoneFinalV41_826",
+      "active": true,
+      "x": 9.822614,
+      "y": 0.03520239,
+      "z": 60.15375
+    },
+    {
+      "name": "MPStoneFinalV41_827",
+      "active": true,
+      "x": 10.3343763,
+      "y": 0.0203008428,
+      "z": 60.4141655
+    },
+    {
+      "name": "MPStoneFinalV41_828",
+      "active": true,
+      "x": 10.8974447,
+      "y": 0.0321263522,
+      "z": 60.6812668
+    },
+    {
+      "name": "MPStoneFinalV41_829",
+      "active": false,
+      "x": 11.3939686,
+      "y": 0.02609709,
+      "z": 60.95406
+    },
+    {
+      "name": "MPStoneFinalV41_830",
+      "active": false,
+      "x": 9.919385,
+      "y": 0.03366996,
+      "z": 60.58764
+    },
+    {
+      "name": "MPStoneFinalV41_831",
+      "active": false,
+      "x": 10.46936,
+      "y": 0.03145441,
+      "z": 60.8388863
+    },
+    {
+      "name": "MPStoneFinalV41_832",
+      "active": false,
+      "x": 10.9788866,
+      "y": 0.0341081545,
+      "z": 61.1374855
+    },
+    {
+      "name": "MPStoneFinalV41_833",
+      "active": true,
+      "x": 9.537504,
+      "y": 0.0396262445,
+      "z": 60.74367
+    },
+    {
+      "name": "MPStoneFinalV41_834",
+      "active": true,
+      "x": 10.0854979,
+      "y": 0.0202626213,
+      "z": 61.0217247
+    },
+    {
+      "name": "MPStoneFinalV41_835",
+      "active": true,
+      "x": 10.6042852,
+      "y": 0.0325414948,
+      "z": 61.29886
+    },
+    {
+      "name": "MPStoneFinalV41_836",
+      "active": true,
+      "x": 11.1560955,
+      "y": 0.0358533524,
+      "z": 61.5945778
+    },
+    {
+      "name": "MPStoneFinalV41_837",
+      "active": false,
+      "x": 9.661067,
+      "y": 0.0266720857,
+      "z": 61.22992
+    },
+    {
+      "name": "MPStoneFinalV41_838",
+      "active": false,
+      "x": 10.1761379,
+      "y": 0.0253419932,
+      "z": 61.4586754
+    },
+    {
+      "name": "MPStoneFinalV41_839",
+      "active": false,
+      "x": 10.7280083,
+      "y": 0.0336934924,
+      "z": 61.7828751
+    },
+    {
+      "name": "MPStoneFinalV41_840",
+      "active": true,
+      "x": 9.233877,
+      "y": 0.03580273,
+      "z": 61.3128662
+    },
+    {
+      "name": "MPStoneFinalV41_841",
+      "active": true,
+      "x": 9.724544,
+      "y": 0.02421967,
+      "z": 61.59515
+    },
+    {
+      "name": "MPStoneFinalV41_842",
+      "active": true,
+      "x": 10.2621908,
+      "y": 0.0241191424,
+      "z": 61.88624
+    },
+    {
+      "name": "MPStoneFinalV41_843",
+      "active": true,
+      "x": 10.7573929,
+      "y": 0.03223277,
+      "z": 62.2051048
+    },
+    {
+      "name": "MPStoneFinalV41_844",
+      "active": false,
+      "x": 9.273089,
+      "y": 0.03848597,
+      "z": 61.7687225
+    },
+    {
+      "name": "MPStoneFinalV41_845",
+      "active": false,
+      "x": 9.808096,
+      "y": 0.0331562,
+      "z": 62.0558
+    },
+    {
+      "name": "MPStoneFinalV41_846",
+      "active": false,
+      "x": 10.365366,
+      "y": 0.0317809321,
+      "z": 62.2825661
+    },
+    {
+      "name": "MPStoneFinalV41_847",
+      "active": true,
+      "x": 8.773218,
+      "y": 0.0293299258,
+      "z": 62.0509338
+    },
+    {
+      "name": "MPStoneFinalV41_848",
+      "active": true,
+      "x": 9.375052,
+      "y": 0.0202752929,
+      "z": 62.238327
+    },
+    {
+      "name": "MPStoneFinalV41_849",
+      "active": true,
+      "x": 9.918174,
+      "y": 0.0207275115,
+      "z": 62.4121628
+    },
+    {
+      "name": "MPStoneFinalV41_850",
+      "active": true,
+      "x": 10.5061245,
+      "y": 0.02598231,
+      "z": 62.6374321
+    },
+    {
+      "name": "MPStoneFinalV41_851",
+      "active": false,
+      "x": 8.972961,
+      "y": 0.0221503526,
+      "z": 62.52516
+    },
+    {
+      "name": "MPStoneFinalV41_852",
+      "active": false,
+      "x": 9.527535,
+      "y": 0.02799168,
+      "z": 62.64864
+    },
+    {
+      "name": "MPStoneFinalV41_853",
+      "active": false,
+      "x": 10.11926,
+      "y": 0.0355566442,
+      "z": 62.80605
+    },
+    {
+      "name": "MPStoneFinalV41_854",
+      "active": true,
+      "x": 8.62464,
+      "y": 0.0377969667,
+      "z": 62.9270477
+    },
+    {
+      "name": "MPStoneFinalV41_855",
+      "active": true,
+      "x": 9.189145,
+      "y": 0.0205782559,
+      "z": 62.98837
+    },
+    {
+      "name": "MPStoneFinalV41_856",
+      "active": true,
+      "x": 9.785362,
+      "y": 0.02476875,
+      "z": 63.0244751
+    },
+    {
+      "name": "MPStoneFinalV41_857",
+      "active": false,
+      "x": 10.4293127,
+      "y": 0.03428276,
+      "z": 63.0926971
+    },
+    {
+      "name": "MPStoneFinalV41_858",
+      "active": false,
+      "x": 8.889789,
+      "y": 0.02778396,
+      "z": 63.3391953
+    },
+    {
+      "name": "MPStoneFinalV41_859",
+      "active": false,
+      "x": 9.491675,
+      "y": 0.0253566243,
+      "z": 63.3469734
+    },
+    {
+      "name": "MPStoneFinalV41_860",
+      "active": false,
+      "x": 10.0872717,
+      "y": 0.0235546418,
+      "z": 63.36744
+    },
+    {
+      "name": "MPStoneFinalV41_861",
+      "active": true,
+      "x": 8.620679,
+      "y": 0.0247788243,
+      "z": 63.75477
+    },
+    {
+      "name": "MPStoneFinalV41_862",
+      "active": true,
+      "x": 9.19353,
+      "y": 0.02677474,
+      "z": 63.6774521
+    },
+    {
+      "name": "MPStoneFinalV41_863",
+      "active": true,
+      "x": 9.830855,
+      "y": 0.03169231,
+      "z": 63.64084
+    },
+    {
+      "name": "MPStoneFinalV41_864",
+      "active": true,
+      "x": 10.4126911,
+      "y": 0.036487326,
+      "z": 63.60509
+    },
+    {
+      "name": "MPStoneFinalV41_865",
+      "active": false,
+      "x": 8.937604,
+      "y": 0.0351518281,
+      "z": 64.09034
+    },
+    {
+      "name": "MPStoneFinalV41_866",
+      "active": false,
+      "x": 9.500609,
+      "y": 0.02962186,
+      "z": 64.03439
+    },
+    {
+      "name": "MPStoneFinalV41_867",
+      "active": false,
+      "x": 10.1018505,
+      "y": 0.0279148221,
+      "z": 63.94703
+    },
+    {
+      "name": "MPStoneFinalV41_868",
+      "active": true,
+      "x": 8.6791935,
+      "y": 0.0365577675,
+      "z": 64.54957
+    },
+    {
+      "name": "MPStoneFinalV41_869",
+      "active": true,
+      "x": 9.275734,
+      "y": 0.0250159632,
+      "z": 64.4226761
+    },
+    {
+      "name": "MPStoneFinalV41_870",
+      "active": true,
+      "x": 9.857085,
+      "y": 0.0324614123,
+      "z": 64.29539
+    },
+    {
+      "name": "MPStoneFinalV41_871",
+      "active": true,
+      "x": 10.4210577,
+      "y": 0.0213372856,
+      "z": 64.16047
+    },
+    {
+      "name": "MPStoneFinalV41_872",
+      "active": true,
+      "x": 9.094974,
+      "y": 0.03189142,
+      "z": 64.93075
+    },
+    {
+      "name": "MPStoneFinalV41_873",
+      "active": false,
+      "x": 9.630767,
+      "y": 0.03870718,
+      "z": 64.67584
+    },
+    {
+      "name": "MPStoneFinalV41_874",
+      "active": false,
+      "x": 10.2052526,
+      "y": 0.0318832919,
+      "z": 64.41829
+    },
+    {
+      "name": "MPStoneFinalV41_875",
+      "active": true,
+      "x": 9.010485,
+      "y": 0.0250675026,
+      "z": 65.49271
+    },
+    {
+      "name": "MPStoneFinalV41_876",
+      "active": false,
+      "x": 9.532166,
+      "y": 0.02418966,
+      "z": 65.14468
+    },
+    {
+      "name": "MPStoneFinalV41_877",
+      "active": true,
+      "x": 10.01504,
+      "y": 0.02429821,
+      "z": 64.79245
+    },
+    {
+      "name": "MPStoneFinalV41_878",
+      "active": false,
+      "x": 10.5376558,
+      "y": 0.0296261162,
+      "z": 64.49876
+    },
+    {
+      "name": "MPStoneFinalV41_879",
+      "active": true,
+      "x": 9.575485,
+      "y": 0.03164373,
+      "z": 65.5762253
+    },
+    {
+      "name": "MPStoneFinalV41_880",
+      "active": false,
+      "x": 10.0110874,
+      "y": 0.0356970057,
+      "z": 65.18529
+    },
+    {
+      "name": "MPStoneFinalV41_881",
+      "active": false,
+      "x": 10.4762011,
+      "y": 0.0357306972,
+      "z": 64.7701645
+    },
+    {
+      "name": "MPStoneFinalV41_882",
+      "active": true,
+      "x": 9.742628,
+      "y": 0.0348892771,
+      "z": 66.06833
+    },
+    {
+      "name": "MPStoneFinalV41_883",
+      "active": true,
+      "x": 10.1304855,
+      "y": 0.03474831,
+      "z": 65.63684
+    },
+    {
+      "name": "MPStoneFinalV41_884",
+      "active": true,
+      "x": 10.4992485,
+      "y": 0.0320955329,
+      "z": 65.1200562
+    },
+    {
+      "name": "MPStoneFinalV41_885",
+      "active": true,
+      "x": 10.9079418,
+      "y": 0.0251727719,
+      "z": 64.70971
+    },
+    {
+      "name": "MPStoneFinalV41_886",
+      "active": false,
+      "x": 10.2526674,
+      "y": 0.0362249762,
+      "z": 66.05724
+    },
+    {
+      "name": "MPStoneFinalV41_887",
+      "active": false,
+      "x": 10.583313,
+      "y": 0.037737146,
+      "z": 65.56742
+    },
+    {
+      "name": "MPStoneFinalV41_888",
+      "active": false,
+      "x": 10.94871,
+      "y": 0.0208123382,
+      "z": 65.06897
+    },
+    {
+      "name": "MPStoneFinalV41_889",
+      "active": true,
+      "x": 10.4094276,
+      "y": 0.0331574269,
+      "z": 66.46663
+    },
+    {
+      "name": "MPStoneFinalV41_890",
+      "active": true,
+      "x": 10.7464361,
+      "y": 0.0224523321,
+      "z": 65.9798355
+    },
+    {
+      "name": "MPStoneFinalV41_891",
+      "active": true,
+      "x": 11.0936861,
+      "y": 0.03156369,
+      "z": 65.4911652
+    },
+    {
+      "name": "MPStoneFinalV41_892",
+      "active": true,
+      "x": 11.3840065,
+      "y": 0.0203996561,
+      "z": 64.9864044
+    },
+    {
+      "name": "MPStoneFinalV41_893",
+      "active": false,
+      "x": 10.876812,
+      "y": 0.0260167029,
+      "z": 66.43196
+    },
+    {
+      "name": "MPStoneFinalV41_894",
+      "active": false,
+      "x": 11.1840792,
+      "y": 0.0381010622,
+      "z": 65.9609451
+    },
+    {
+      "name": "MPStoneFinalV41_895",
+      "active": false,
+      "x": 11.4595976,
+      "y": 0.0291490778,
+      "z": 65.38149
+    },
+    {
+      "name": "MPStoneFinalV41_896",
+      "active": true,
+      "x": 11.0753889,
+      "y": 0.0237178374,
+      "z": 66.9263458
+    },
+    {
+      "name": "MPStoneFinalV41_897",
+      "active": true,
+      "x": 11.3046036,
+      "y": 0.0209134445,
+      "z": 66.39703
+    },
+    {
+      "name": "MPStoneFinalV41_898",
+      "active": true,
+      "x": 11.5454884,
+      "y": 0.03788565,
+      "z": 65.86216
+    },
+    {
+      "name": "MPStoneFinalV41_899",
+      "active": true,
+      "x": 11.8079977,
+      "y": 0.0200513881,
+      "z": 65.282074
+    },
+    {
+      "name": "MPStoneFinalV41_900",
+      "active": false,
+      "x": 11.5706682,
+      "y": 0.0209945869,
+      "z": 66.74951
+    },
+    {
+      "name": "MPStoneFinalV41_901",
+      "active": false,
+      "x": 11.7869549,
+      "y": 0.03787978,
+      "z": 66.19388
+    },
+    {
+      "name": "MPStoneFinalV41_902",
+      "active": false,
+      "x": 11.9710646,
+      "y": 0.02561548,
+      "z": 65.63673
+    },
+    {
+      "name": "MPStoneFinalV41_903",
+      "active": true,
+      "x": 11.8694983,
+      "y": 0.03153643,
+      "z": 67.08995
+    },
+    {
+      "name": "MPStoneFinalV41_904",
+      "active": true,
+      "x": 12.026701,
+      "y": 0.0393804274,
+      "z": 66.50378
+    },
+    {
+      "name": "MPStoneFinalV41_905",
+      "active": true,
+      "x": 12.1894045,
+      "y": 0.0352498665,
+      "z": 65.9461
+    },
+    {
+      "name": "MPStoneFinalV41_906",
+      "active": true,
+      "x": 12.37687,
+      "y": 0.03671202,
+      "z": 65.34707
+    },
+    {
+      "name": "MPStoneFinalV41_907",
+      "active": false,
+      "x": 12.2986975,
+      "y": 0.028685689,
+      "z": 66.88975
+    },
+    {
+      "name": "MPStoneFinalV41_908",
+      "active": false,
+      "x": 12.4345875,
+      "y": 0.0210533123,
+      "z": 66.33321
+    },
+    {
+      "name": "MPStoneFinalV41_909",
+      "active": false,
+      "x": 12.5596571,
+      "y": 0.0362303443,
+      "z": 65.72432
+    },
+    {
+      "name": "MPStoneFinalV41_910",
+      "active": true,
+      "x": 12.4827919,
+      "y": 0.021728985,
+      "z": 67.27614
+    },
+    {
+      "name": "MPStoneFinalV41_911",
+      "active": true,
+      "x": 12.6493845,
+      "y": 0.0201528333,
+      "z": 66.6979
+    },
+    {
+      "name": "MPStoneFinalV41_912",
+      "active": true,
+      "x": 12.8827286,
+      "y": 0.03603433,
+      "z": 66.1361
+    },
+    {
+      "name": "MPStoneFinalV41_913",
+      "active": true,
+      "x": 13.0656013,
+      "y": 0.03997876,
+      "z": 65.58333
+    },
+    {
+      "name": "MPStoneFinalV41_914",
+      "active": false,
+      "x": 12.8715029,
+      "y": 0.0203746986,
+      "z": 67.10218
+    },
+    {
+      "name": "MPStoneFinalV41_915",
+      "active": false,
+      "x": 13.0889778,
+      "y": 0.0345759,
+      "z": 66.52272
+    },
+    {
+      "name": "MPStoneFinalV41_916",
+      "active": false,
+      "x": 13.2946053,
+      "y": 0.03291804,
+      "z": 65.96063
+    },
+    {
+      "name": "MPStoneFinalV41_917",
+      "active": true,
+      "x": 13.0475121,
+      "y": 0.03145813,
+      "z": 67.4314957
+    },
+    {
+      "name": "MPStoneFinalV41_918",
+      "active": true,
+      "x": 13.2922058,
+      "y": 0.0307412036,
+      "z": 66.93504
+    },
+    {
+      "name": "MPStoneFinalV41_919",
+      "active": true,
+      "x": 13.5464573,
+      "y": 0.0300556179,
+      "z": 66.3421249
+    },
+    {
+      "name": "MPStoneFinalV41_920",
+      "active": true,
+      "x": 13.7841444,
+      "y": 0.0328038931,
+      "z": 65.8204651
+    },
+    {
+      "name": "MPStoneFinalV41_921",
+      "active": false,
+      "x": 13.4760094,
+      "y": 0.0386126637,
+      "z": 67.32017
+    },
+    {
+      "name": "MPStoneFinalV41_922",
+      "active": false,
+      "x": 13.7098513,
+      "y": 0.0208310559,
+      "z": 66.77696
+    },
+    {
+      "name": "MPStoneFinalV41_923",
+      "active": false,
+      "x": 13.9986,
+      "y": 0.0391332842,
+      "z": 66.26015
+    },
+    {
+      "name": "MPStoneFinalV41_924",
+      "active": true,
+      "x": 13.5769272,
+      "y": 0.0309006721,
+      "z": 67.73514
+    },
+    {
+      "name": "MPStoneFinalV41_925",
+      "active": true,
+      "x": 13.8726006,
+      "y": 0.0349043645,
+      "z": 67.2372
+    },
+    {
+      "name": "MPStoneFinalV41_926",
+      "active": true,
+      "x": 14.1389894,
+      "y": 0.0214240272,
+      "z": 66.6661
+    },
+    {
+      "name": "MPStoneFinalV41_927",
+      "active": true,
+      "x": 14.4568462,
+      "y": 0.026941888,
+      "z": 66.17302
+    },
+    {
+      "name": "MPStoneFinalV41_928",
+      "active": false,
+      "x": 14.0503016,
+      "y": 0.0301383045,
+      "z": 67.64897
+    },
+    {
+      "name": "MPStoneFinalV41_929",
+      "active": false,
+      "x": 14.3172855,
+      "y": 0.03441127,
+      "z": 67.14025
+    },
+    {
+      "name": "MPStoneFinalV41_930",
+      "active": false,
+      "x": 14.5947151,
+      "y": 0.03592446,
+      "z": 66.56404
+    },
+    {
+      "name": "MPStoneFinalV41_931",
+      "active": true,
+      "x": 14.2578087,
+      "y": 0.03352475,
+      "z": 68.09167
+    },
+    {
+      "name": "MPStoneFinalV41_932",
+      "active": true,
+      "x": 14.4937305,
+      "y": 0.0293453634,
+      "z": 67.55499
+    },
+    {
+      "name": "MPStoneFinalV41_933",
+      "active": true,
+      "x": 14.72297,
+      "y": 0.03203722,
+      "z": 67.0039749
+    },
+    {
+      "name": "MPStoneFinalV41_934",
+      "active": true,
+      "x": 14.9399014,
+      "y": 0.0267341547,
+      "z": 66.414856
+    },
+    {
+      "name": "MPStoneFinalV41_935",
+      "active": false,
+      "x": 14.6821489,
+      "y": 0.03650957,
+      "z": 67.9563141
+    },
+    {
+      "name": "MPStoneFinalV41_936",
+      "active": false,
+      "x": 14.9371748,
+      "y": 0.03880821,
+      "z": 67.43726
+    },
+    {
+      "name": "MPStoneFinalV41_937",
+      "active": true,
+      "x": 15.207469,
+      "y": 0.0295537151,
+      "z": 66.85984
+    },
+    {
+      "name": "MPStoneFinalV41_938",
+      "active": true,
+      "x": 14.78286,
+      "y": 0.0312776938,
+      "z": 68.2824
+    },
+    {
+      "name": "MPStoneFinalV41_939",
+      "active": true,
+      "x": 15.1263714,
+      "y": 0.02669404,
+      "z": 67.76408
+    },
+    {
+      "name": "MPStoneFinalV41_940",
+      "active": false,
+      "x": 15.3919067,
+      "y": 0.031641122,
+      "z": 67.22988
+    },
+    {
+      "name": "MPStoneFinalV41_941",
+      "active": false,
+      "x": 15.6728821,
+      "y": 0.02192282,
+      "z": 66.712204
+    },
+    {
+      "name": "MPStoneFinalV41_942",
+      "active": false,
+      "x": 15.2350864,
+      "y": 0.0217640325,
+      "z": 68.22377
+    },
+    {
+      "name": "MPStoneFinalV41_943",
+      "active": false,
+      "x": 15.5078144,
+      "y": 0.030799428,
+      "z": 67.68286
+    },
+    {
+      "name": "MPStoneFinalV41_944",
+      "active": true,
+      "x": 15.82818,
+      "y": 0.0241770856,
+      "z": 67.1665344
+    },
+    {
+      "name": "MPStoneFinalV41_945",
+      "active": true,
+      "x": 15.2608023,
+      "y": 0.0257478431,
+      "z": 68.68008
+    },
+    {
+      "name": "MPStoneFinalV41_946",
+      "active": true,
+      "x": 15.5968542,
+      "y": 0.0338131376,
+      "z": 68.1427841
+    },
+    {
+      "name": "MPStoneFinalV41_947",
+      "active": false,
+      "x": 15.9079876,
+      "y": 0.0237541515,
+      "z": 67.63467
+    },
+    {
+      "name": "MPStoneFinalV41_948",
+      "active": false,
+      "x": 16.2277565,
+      "y": 0.0362617634,
+      "z": 67.13441
+    },
+    {
+      "name": "MPStoneFinalV41_949",
+      "active": false,
+      "x": 15.6801643,
+      "y": 0.02492884,
+      "z": 68.6384
+    },
+    {
+      "name": "MPStoneFinalV41_950",
+      "active": false,
+      "x": 16.0105324,
+      "y": 0.0354570262,
+      "z": 68.10183
+    },
+    {
+      "name": "MPStoneFinalV41_951",
+      "active": true,
+      "x": 16.4123764,
+      "y": 0.0277177133,
+      "z": 67.6430054
+    },
+    {
+      "name": "MPStoneFinalV41_952",
+      "active": true,
+      "x": 15.840682,
+      "y": 0.03864049,
+      "z": 69.0148849
+    },
+    {
+      "name": "MPStoneFinalV41_953",
+      "active": true,
+      "x": 16.1265526,
+      "y": 0.0260993689,
+      "z": 68.52321
+    },
+    {
+      "name": "MPStoneFinalV41_954",
+      "active": false,
+      "x": 16.5008984,
+      "y": 0.0223935135,
+      "z": 68.0341644
+    },
+    {
+      "name": "MPStoneFinalV41_955",
+      "active": false,
+      "x": 16.8566628,
+      "y": 0.033745043,
+      "z": 67.5453
+    },
+    {
+      "name": "MPStoneFinalV41_956",
+      "active": false,
+      "x": 16.2675838,
+      "y": 0.0281562191,
+      "z": 68.9777756
+    },
+    {
+      "name": "MPStoneFinalV41_957",
+      "active": false,
+      "x": 16.60665,
+      "y": 0.0210397132,
+      "z": 68.47838
+    },
+    {
+      "name": "MPStoneFinalV41_958",
+      "active": true,
+      "x": 16.9398212,
+      "y": 0.0255726166,
+      "z": 67.98906
+    },
+    {
+      "name": "MPStoneFinalV41_959",
+      "active": true,
+      "x": 16.3931942,
+      "y": 0.03365569,
+      "z": 69.41367
+    },
+    {
+      "name": "MPStoneFinalV41_960",
+      "active": true,
+      "x": 16.7400551,
+      "y": 0.0214415621,
+      "z": 68.93826
+    },
+    {
+      "name": "MPStoneFinalV41_961",
+      "active": false,
+      "x": 17.0374832,
+      "y": 0.02256906,
+      "z": 68.44275
+    },
+    {
+      "name": "MPStoneFinalV41_962",
+      "active": false,
+      "x": 17.401022,
+      "y": 0.0340994224,
+      "z": 67.9386139
+    }
+  ],
+  "arena": {
+    "position": "(8.07, 0.04, 67.61)",
+    "mesh": "Center: (0.00, -0.48, 0.00), Extents: (17.96, 1.28, 16.19)",
+    "world": "Center: (8.07, -0.44, 67.61), Extents: (17.96, 1.28, 16.19)"
+  },
+  "landmarks": [
+    {
+      "name": "WP_BridgeEntrance",
+      "pos": "(17.08, 0.06, 22.87)"
+    },
+    {
+      "name": "Bridge_Craft",
+      "pos": "(18.99, 0.00, 24.48)"
+    },
+    {
+      "name": "Gate_UnicornPlaza",
+      "pos": "(8.07, 3.00, 67.61)"
+    },
+    {
+      "name": "Bridge",
+      "pos": "(0.00, 0.00, 0.00)"
+    },
+    {
+      "name": "WP_BridgeExit",
+      "pos": "(20.66, 0.06, 26.74)"
+    },
+    {
+      "name": "26_bench",
+      "pos": "(2.23, 0.00, 20.14)"
+    },
+    {
+      "name": "32_signpost",
+      "pos": "(18.63, -0.11, 31.39)"
+    },
+    {
+      "name": "WP_BridgeCenter",
+      "pos": "(18.99, 0.75, 24.48)"
+    },
+    {
+      "name": "32_signpost (1)",
+      "pos": "(18.17, -0.11, 44.35)"
+    },
+    {
+      "name": "Gate_CombatArena",
+      "pos": "(30.40, 3.00, 37.68)"
+    },
+    {
+      "name": "13_bridge",
+      "pos": "(18.85, 0.00, 24.56)"
+    }
+  ]
+}
