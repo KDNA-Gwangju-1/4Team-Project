@@ -160,6 +160,8 @@ public class DeathRetryUI2D : MonoBehaviour
         if (scene.name == "BadDream_Stage3") Stage3BossIntroCutscene.SkipIntroOnce = true;
         if (scene.name == "BadDream_stage2") Stage2IntroCutscene.SkipIntroOnce = true;
         BossPhaseController2D.ResumeAtPhase2 = diedInPhase2;
+        // 죽고 다시 도전하는 거니 타임어택도 5분 그대로 다시 채운다.
+        TimeAttackTimer2D.ResetTimer();
         SceneFader.LoadScene(scene.buildIndex);
     }
 
