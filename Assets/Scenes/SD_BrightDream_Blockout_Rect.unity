@@ -276421,9 +276421,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 46446391009ac4f43b434b6fc099f15e, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::StageEntryTrigger
-  message: 
+  message: "스테이지 1\n단서를 찾아라"
   displayDuration: 2.5
   triggerOnce: 1
   stageIndex: 1
@@ -279903,9 +279903,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 46446391009ac4f43b434b6fc099f15e, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::StageEntryTrigger
-  message: 
+  message: 스테이지 2
   displayDuration: 2.5
   triggerOnce: 1
   stageIndex: 2
