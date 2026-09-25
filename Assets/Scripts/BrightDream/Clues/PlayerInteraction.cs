@@ -31,6 +31,8 @@ namespace BrightDream.Clues
         {
             // ESC 일시정지 중에는 입력을 받지 않는다.
             if (PauseMenu.IsPaused) return;
+            // 조작 안내 문구가 떠 있는 동안에도 입력을 받지 않는다.
+            if (BrightDreamControlGuide.Blocking) return;
             DetectTarget();
 
             if (currentWeapon != null && Input.GetKeyDown(KeyCode.E))

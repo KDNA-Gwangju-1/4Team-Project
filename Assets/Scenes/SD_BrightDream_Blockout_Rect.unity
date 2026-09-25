@@ -146670,6 +146670,85 @@ Transform:
   m_Children: []
   m_Father: {fileID: 535299178}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &925091058
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 925091059}
+  - component: {fileID: 925091061}
+  - component: {fileID: 925091060}
+  m_Layer: 0
+  m_Name: ControlGuideText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &925091059
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 925091058}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1495898715}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 820, y: 280}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &925091060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 925091058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Text
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 14
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 
+--- !u!222 &925091061
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 925091058}
+  m_CullTransparentMesh: 1
 --- !u!1001 &925117519
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -237690,6 +237769,7 @@ GameObject:
   - component: {fileID: 1495898717}
   - component: {fileID: 1495898716}
   - component: {fileID: 1495898719}
+  - component: {fileID: 1495898720}
   m_Layer: 0
   m_Name: ClueCanvas
   m_TagString: Untagged
@@ -237722,6 +237802,7 @@ RectTransform:
   - {fileID: 1474302084}
   - {fileID: 1516951929}
   - {fileID: 1621915532}
+  - {fileID: 925091059}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -237806,6 +237887,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StageMessageUI
   messageText: {fileID: 667405475}
   defaultDuration: 2.5
+--- !u!114 &1495898720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1495898714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 703e00ecfa0d7e34d931b385f1f7431d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BrightDreamControlGuide
+  guideText: {fileID: 925091060}
+  message: "WASD \uC774\uB3D9 / Shift \uB2EC\uB9AC\uAE30 / Space \uC810\uD504\n\uB9C8\uC6B0\uC2A4\uB85C
+    \uC2DC\uC810 \uC804\uD658\nE \uC0C1\uD638\uC791\uC6A9 / \uC88C\uD074\uB9AD \uBC1C\uC0AC\n\n\uC2A4\uD398\uC774\uC2A4\uBC14\uB97C
+    \uB20C\uB7EC \uC2DC\uC791"
 --- !u!1 &1496141865
 GameObject:
   m_ObjectHideFlags: 0
@@ -276421,9 +276518,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 46446391009ac4f43b434b6fc099f15e, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StageEntryTrigger
-  message: "스테이지 1\n단서를 찾아라"
+  message: "\uC2A4\uD14C\uC774\uC9C0 1\n\uB2E8\uC11C\uB97C \uCC3E\uC544\uB77C"
   displayDuration: 2.5
   triggerOnce: 1
   stageIndex: 1
@@ -279903,9 +280000,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 46446391009ac4f43b434b6fc099f15e, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StageEntryTrigger
-  message: 스테이지 2
+  message: "\uC2A4\uD14C\uC774\uC9C0 2"
   displayDuration: 2.5
   triggerOnce: 1
   stageIndex: 2

@@ -88,6 +88,8 @@ public class SimpleFirstPersonController : MonoBehaviour
     {
         // ESC 일시정지 중에는 입력을 받지 않는다.
         if (PauseMenu.IsPaused) return;
+        // 조작 안내 문구가 떠 있는 동안에도 입력을 받지 않는다.
+        if (BrightDreamControlGuide.Blocking) return;
         // ESC 는 일시정지 메뉴가 맡는다 (메뉴가 커서를 풀고, 닫을 때 되돌린다).
         if (Input.GetMouseButtonDown(0) && Cursor.lockState != CursorLockMode.Locked) LockCursor(true);
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
