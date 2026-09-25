@@ -1,0 +1,106 @@
+[
+  {
+    "cut": 1,
+    "name": "opening-news",
+    "start": 0,
+    "end": 5,
+    "source": "opening",
+    "source_start": 2
+  },
+  {
+    "cut": 2,
+    "name": "opening-arrival",
+    "start": 5,
+    "end": 8,
+    "source": "opening",
+    "source_start": 36
+  },
+  {
+    "cut": 3,
+    "name": "corridor",
+    "start": 8,
+    "end": 11,
+    "source": "frames",
+    "source_start": 0
+  },
+  {
+    "cut": 4,
+    "name": "hospital",
+    "start": 11,
+    "end": 15,
+    "source": "frames",
+    "source_start": 0
+  },
+  {
+    "cut": 5,
+    "name": "garden",
+    "start": 15,
+    "end": 20,
+    "source": "frames",
+    "source_start": 0
+  },
+  {
+    "cut": 6,
+    "name": "clue",
+    "start": 20,
+    "end": 23,
+    "source": "v1-clue",
+    "source_start": 0
+  },
+  {
+    "cut": 7,
+    "name": "bossOrbit",
+    "start": 23,
+    "end": 30,
+    "source": "frames",
+    "source_start": 0
+  },
+  {
+    "cut": 8,
+    "name": "abductionB",
+    "start": 30,
+    "end": 35,
+    "source": "frames",
+    "source_start": 1.1
+  },
+  {
+    "cut": 9,
+    "name": "stage1",
+    "start": 35,
+    "end": 41,
+    "source": "frames",
+    "source_start": 0.3
+  },
+  {
+    "cut": 10,
+    "name": "stage2final",
+    "start": 41,
+    "end": 47,
+    "source": "frames",
+    "source_start": 0.3
+  },
+  {
+    "cut": 11,
+    "name": "boss1",
+    "start": 47,
+    "end": 51,
+    "source": "frames",
+    "source_start": 0.7
+  },
+  {
+    "cut": 12,
+    "name": "boss2",
+    "start": 51,
+    "end": 55,
+    "source": "frames",
+    "source_start": 0.7
+  },
+  {
+    "cut": 13,
+    "name": "title",
+    "start": 55,
+    "end": 60,
+    "source": "title",
+    "source_start": 0
+  }
+]
