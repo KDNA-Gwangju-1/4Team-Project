@@ -1,0 +1,13 @@
+node_modules/
+keys/
+sidekeys/
+decoded/
+check-*.png
+*-registration.json
+foot-registration.png
+motion.json
+side-motion.json
+review-sheet.jpg
+review-*.jpg
+main.mp4
+side.mp4

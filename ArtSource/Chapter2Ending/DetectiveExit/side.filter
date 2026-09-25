@@ -1,0 +1,4 @@
+[0:v]split=2[base][motion];
+[base]fps=60[bg];
+[motion]crop=380:520:550:130,minterpolate=fps=60:mi_mode=mci:mc_mode=aobmc:me_mode=bilat:me=epzs:mb_size=16:search_param=48:vsbmc=1:scd=none,tmix=frames=3:weights='1 6 1',setpts=PTS-1/(60*TB)[interp];
+[bg][interp]overlay=550:130:shortest=1,fade=t=out:st=2.45:d=0.7,scale=1920:1080:flags=lanczos,setsar=1[out]
