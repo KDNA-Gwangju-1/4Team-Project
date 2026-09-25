@@ -64,7 +64,10 @@ namespace BrightDream
                 warningColor = new Color(.75f,.16f,.22f);
             }
             // 타이머가 시작되기 전에는 아예 보이지 않는다 (메인 메뉴 직후 화면에 숫자만 떠 있지 않도록).
-            if (timerText != null) timerText.enabled = false;
+            // 단, 이미 IsRunning이면(체크포인트 리스폰이 같은 프레임에 다른 오브젝트의 Start()에서
+            // TryCompleteStage(1)을 먼저 호출해 StartTimer가 이미 실행된 경우) 도로 숨기지 않는다 -
+            // Start() 호출 순서는 보장되지 않으므로 여기서 무조건 끄면 그 결과를 지워 버린다.
+            if (timerText != null && !IsRunning) timerText.enabled = false;
             UpdateText();
         }
 
