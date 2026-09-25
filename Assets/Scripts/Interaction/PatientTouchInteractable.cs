@@ -117,6 +117,7 @@ public class PatientTouchInteractable : Interactable
         if (enterDreamOnTouch && !enteringDream && gameObject.activeInHierarchy)
         {
             enteringDream = true;
+            GameSfx.Play("Clue", .22f);
             StartCoroutine(EnterDreamRoutine());
         }
     }
@@ -141,6 +142,7 @@ public class PatientTouchInteractable : Interactable
             Debug.LogWarning("[손대기] 꿈 로딩 배경을 못 찾았습니다. " +
                              "Assets/Resources/" + dreamBackgroundResource + " 가 있는지 보세요.", this);
 
+        GameSfx.Play("Portal", .4f);
         LoadingScreen.Go(dreamScene, art);
     }
 

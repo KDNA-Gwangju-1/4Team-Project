@@ -75,6 +75,7 @@ public class WeaponPickup : MonoBehaviour
         if (PlayerHasWeapon) return;
 
         PlayerHasWeapon = true;
+        if (showMessage) GameSfx.Play("Pickup", .55f);
         revealed = false;
         if (equippedWeaponVisual != null) equippedWeaponVisual.SetActive(true);
         if (showMessage) StageMessageUI.Instance?.ShowMessage(pickupMessage, messageDuration);

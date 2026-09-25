@@ -166,6 +166,7 @@ namespace BrightDream.Combat
         private IEnumerator PlaySequence()
         {
             IsPlaying = true;
+            GameSfx.Play("RiftOpen", .48f);
 
             if (!string.IsNullOrEmpty(message))
             {
@@ -302,6 +303,7 @@ namespace BrightDream.Combat
             stretch = trackedStretch;
             trackingReach = false;
             HasGrabbedBoss = grabPoint != null && contactAnchor != null && boss != null;
+            if (HasGrabbedBoss) GameSfx.Play("RiftGrab", .55f);
 
             // ── 3) 붙잡는 순간 ──
             var shake = CameraShake.Instance;
@@ -357,6 +359,7 @@ namespace BrightDream.Combat
             if (hand != null) Destroy(hand);
 
             // ── 5) 균열이 잦아든다 ──
+            GameSfx.Play("RiftClose", .45f);
             // 완전히 닫지 않는다. 찢어진 자국이 남아 다음 챕터로 넘어가는 포탈이 된다.
             t = 0f;
             while (t < closeDuration)

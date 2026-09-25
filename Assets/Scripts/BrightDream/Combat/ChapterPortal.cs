@@ -155,6 +155,7 @@ namespace BrightDream.Combat
         private void Enter()
         {
             entered = true;              // 연출 중에 또 눌리지 않게 잠근다.
+            GameSfx.Play("Portal", .5f);
             SetHovering(false);
             StartCoroutine(EnterRoutine());
         }

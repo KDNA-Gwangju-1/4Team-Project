@@ -73,6 +73,7 @@ public class Monster2D : MonoBehaviour
     private IEnumerator KillSequence()
     {
         isDead = true;
+        GameSfx.Play("Purify", .28f);
         if (col != null) col.enabled = false;
         if (shimmerRenderer != null) shimmerRenderer.enabled = false;
         // the silhouette layers were being left on, so a black shape stayed

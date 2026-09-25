@@ -54,6 +54,7 @@ namespace BrightDream.Combat
         private void Fire()
         {
             if (projectilePrefab == null || playerCamera == null) return;
+            GameSfx.Play("Shot", .36f);
 
             Vector3 origin = muzzlePoint != null ? muzzlePoint.position : playerCamera.transform.position;
             Vector3 direction = (GetAimPoint() - origin).normalized;

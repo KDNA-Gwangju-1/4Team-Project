@@ -1,0 +1,13 @@
+{
+  "footsteps": 1,
+  "granted": true,
+  "exposed": true,
+  "count": 5,
+  "playing": [
+    "Pickup",
+    "AmbGarden",
+    "Shot",
+    "Weakpoint",
+    "Hurt"
+  ]
+}

@@ -119,7 +119,10 @@ namespace BrightDream
             // timeScale을 건드리지 않으므로, DialogueUI.IsShowing을 직접 확인해 함께 막는다.
             if (DialogueUI.IsShowing) return;
 
+            int previousSecond = Mathf.CeilToInt(RemainingTime);
             RemainingTime = Mathf.Max(0f, RemainingTime - Time.deltaTime);
+            if (RemainingTime > 0f && RemainingTime <= 10f && Mathf.CeilToInt(RemainingTime) != previousSecond)
+                GameSfx.Play("Warning", .35f);
             UpdateText();
 
             if (RemainingTime > 0f) return;

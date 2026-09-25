@@ -391,6 +391,7 @@ public class PlayerMovement2D : MonoBehaviour
 
     public void PickUpLantern()
     {
+        if (!hasLantern) GameSfx.Play("Pickup", .45f);
         hasLantern = true;
         LanternObtained = true;
     }

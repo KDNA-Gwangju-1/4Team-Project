@@ -33,6 +33,8 @@ public class PlayerSounds2D : MonoBehaviour
     private AudioSource footstepsSource;
     private AudioSource flashlightSource;
     private bool lightWasOn;
+    private bool previousGrounded;
+    private bool groundInitialized;
 
     void Awake()
     {
@@ -94,7 +96,14 @@ public class PlayerSounds2D : MonoBehaviour
             return;
         }
 
-        bool walking = player.IsGrounded && !player.IsDashing
+        if (groundInitialized && player.enabled)
+        {
+            if (!previousGrounded && player.IsGrounded) GameSfx.Play("Land", .25f);
+            if (previousGrounded && !player.IsGrounded && body != null && body.linearVelocity.y > .5f) GameSfx.Play("Jump", .22f);
+        }
+        previousGrounded = player.IsGrounded;
+        groundInitialized = true;
+        bool walking = player.enabled && player.IsGrounded && !player.IsDashing
             && body != null && Mathf.Abs(body.linearVelocity.x) > walkSpeedThreshold;
         Toggle(footstepsSource, walking);
 

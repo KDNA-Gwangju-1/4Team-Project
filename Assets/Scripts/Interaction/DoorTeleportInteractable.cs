@@ -47,12 +47,14 @@ public class DoorTeleportInteractable : Interactable
         if (loadingOverlay != null)
         {
             if (loadingOverlay.IsShowing) return;   // 연출 중에 또 누르는 것 방지
+            GameSfx.Play("Door", .42f);
 
             // 화면이 완전히 덮인 뒤에 옮긴다. 그래야 순간이동하는 게 안 보인다.
             loadingOverlay.Play(loadingSeconds, delegate { Move(player); });
         }
         else
         {
+            GameSfx.Play("Door", .42f);
             Move(player);
         }
 

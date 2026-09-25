@@ -38,6 +38,7 @@ public class DeathRetryUI2D : MonoBehaviour
     {
         if (shown) return;
         shown = true;
+        GameSfx.Play("Defeat", .48f, true);
         AnyShown = true;
 
         // 씬을 다시 올리면 페이즈가 날아가므로 지금 읽어둔다

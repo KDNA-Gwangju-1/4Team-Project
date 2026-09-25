@@ -139,6 +139,7 @@ namespace BrightDream.Combat
 
         private IEnumerator DoHeadbutt()
         {
+            GameSfx.At("Warning", transform.position, .55f);
             isAttacking = true;
             BeginManualMove();
 
@@ -186,6 +187,7 @@ namespace BrightDream.Combat
 
         private IEnumerator DoGroundSlam()
         {
+            GameSfx.Play("Warning", .55f);
             isAttacking = true;
             BeginManualMove();
             Vector3 groundPos = transform.position;
@@ -235,6 +237,7 @@ namespace BrightDream.Combat
 
             // 착지한 이 프레임이 유일한 판정 순간이다 - 유예 시간 없음.
             TryDamagePlayerOnLanding(groundPos);
+            GameSfx.At("Slam", groundPos, .65f);
 
             if (slamIndicator != null) slamIndicator.Hide();
             CameraShake.Instance?.Shake();

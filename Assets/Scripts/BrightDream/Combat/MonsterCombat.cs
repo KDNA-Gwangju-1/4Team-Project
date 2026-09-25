@@ -283,12 +283,14 @@ namespace BrightDream.Combat
             if (needsPurification)
             {
                 MonsterPurifyManager.Instance?.RegisterPurify();
+                GameSfx.At("Purify", transform.position, .5f);
                 OnPurified?.Invoke();
                 StartCoroutine(FlashRedThenDestroy());
             }
             else
             {
                 PlayerHealth.Instance?.TakeDamage(wrongShotDamage);
+                GameSfx.Play("WrongHit", .35f);
                 CameraShake.Instance?.Shake();
                 Destroy(gameObject);
             }

@@ -444,6 +444,7 @@ public class BossAttack2D : MonoBehaviour
         // no floor waves while she is down here - the player needs the ground free
         // to stand on and aim, and she is not the one throwing them right now
         isTired = true;
+        GameSfx.Play("Weakpoint", .45f);
         ClearLiveTentacles();
 
         // she has to hold still to be shot at

@@ -101,6 +101,7 @@ public class NoteReader2D : MonoBehaviour
         if (canvasGO == null) return;
 
         open = true;
+        GameSfx.Play("Paper", .4f, true);
         AnyOpen = true;
         if (prompt != null) prompt.SetVisible(false, promptText);
         // reading is a pause, not a moment to be walked into a monster during
@@ -110,6 +111,7 @@ public class NoteReader2D : MonoBehaviour
     private void Close(PlayerMovement2D player)
     {
         open = false;
+        GameSfx.Play("Paper", .25f, true);
         AnyOpen = false;
         if (player != null) player.enabled = true;
     }

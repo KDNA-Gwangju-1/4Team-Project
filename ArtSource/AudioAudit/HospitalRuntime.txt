@@ -1,0 +1,14 @@
+{
+  "footsteps": 1,
+  "worldBlockedWhenPaused": true,
+  "uiWorksWhilePaused": true,
+  "mutePreserved": true,
+  "services": 1,
+  "playing": [
+    "Door",
+    "AmbHospital",
+    "WhispersOfNight",
+    "UiClick",
+    "Weakpoint"
+  ]
+}

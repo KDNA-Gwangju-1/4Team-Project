@@ -120,6 +120,7 @@ namespace BrightDream.Combat
             purifiedSinceWindowClosed = 0;
             UpdateGaugeUI();
             IsExposed = true;
+            GameSfx.Play("Weakpoint", .6f);
             hitRegisteredThisWindow = false;
             if (weakpointVisual != null) weakpointVisual.SetActive(true);
             // The entire body is the valid target. Restore its unmistakable exposed tint.
@@ -179,6 +180,7 @@ namespace BrightDream.Combat
             if (!IsExposed || hitRegisteredThisWindow) return;
 
             hitRegisteredThisWindow = true;
+            GameSfx.Play("Purify", .6f);
             HitProgress++;
             UpdateProgressUI();
             if (weakpointGaugeText != null) weakpointGaugeText.text = "<b>정화 성공</b>   다음 노출을 준비하세요";
@@ -200,6 +202,7 @@ namespace BrightDream.Combat
         private void Defeat()
         {
             isDefeated = true;
+            GameSfx.Play("Victory", .5f);
             CloseWindow();
             if (progressText != null) progressText.gameObject.SetActive(false);
             if (weakpointGaugeText != null) weakpointGaugeText.gameObject.SetActive(false);

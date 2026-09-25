@@ -54,6 +54,7 @@ public class Portal2D : MonoBehaviour
         }
 
         leaving = true;
+        GameSfx.Play("Door", .4f);
         if (prompt != null) prompt.SetVisible(false, promptMessage);
 
         if (overrideSpawnX) PlayerMovement2D.PendingSpawnX = spawnX;
@@ -65,6 +66,7 @@ public class Portal2D : MonoBehaviour
 
     private void ShowLockedMessage()
     {
+        GameSfx.Play("UiBack", .3f, true);
         if (lockedMessageText == null) return;
 
         lockedMessageText.text = lockedMessage;

@@ -125,6 +125,7 @@ public sealed class PauseMenu : MonoBehaviour
     private void Open()
     {
         if (root == null) Build();
+        GameSfx.Play("UiBack", .25f, true);
 
         savedTimeScale = Time.timeScale;
         savedLockState = Cursor.lockState;
@@ -346,6 +347,7 @@ public sealed class PauseMenu : MonoBehaviour
         rt.anchoredPosition = new Vector2(0f, RowY(row));
 
         var button = image.gameObject.AddComponent<Button>();
+        image.gameObject.AddComponent<UiButtonSound>();
         button.targetGraphic = image;
         var colors = button.colors;
         colors.normalColor = new Color(1f, 1f, 1f, .92f);

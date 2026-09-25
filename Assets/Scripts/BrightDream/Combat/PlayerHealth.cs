@@ -83,6 +83,7 @@ namespace BrightDream.Combat
         public void TakeDamage(float amount, bool grantInvincibility = false)
         {
             if (IsInvincible || isDead) return;
+            if (amount > 0f) GameSfx.Play("Hurt", .42f);
 
             CurrentHealth = Mathf.Max(0f, CurrentHealth - amount);
             UpdateHealthBar();

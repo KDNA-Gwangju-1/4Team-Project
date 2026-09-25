@@ -117,6 +117,7 @@ namespace BrightDream.Clues
             if (clue == null || collectedClueIds.Contains(clue.ClueId)) return;
 
             collectedClueIds.Add(clue.ClueId);
+            GameSfx.Play("Clue", .28f);
             UpdateProgressUI();
             OnClueCollected?.Invoke(clue.ClueId);
             bool allCollected = collectedClueIds.Count >= TotalClueCount;
@@ -137,6 +138,7 @@ namespace BrightDream.Clues
         /// <summary>단서 4개를 다 모았을 때의 효과 - 정상 흐름(대사 마지막)과 자동 걷기(조용히) 양쪽에서 공유한다.</summary>
         private void FinishAllClueCollection()
         {
+            GameSfx.Play("Victory", .3f);
             OnAllCluesCollected?.Invoke();
             StageMessageUI.Instance?.ShowMessage("스테이지 1 클리어\n정화총 획득 가능");
             // Stage1이 끝나면 단서 체크리스트는 더 볼 일이 없으므로 끈다

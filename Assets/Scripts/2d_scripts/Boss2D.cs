@@ -90,11 +90,13 @@ public class Boss2D : MonoBehaviour
         if (isDying || Invulnerable) return;
 
         currentHealth = Mathf.Max(0, currentHealth - amount);
+        GameSfx.Play("Purify", .42f);
         if (OnDamaged != null) OnDamaged(currentHealth, maxHealth);
 
         if (currentHealth <= 0)
         {
             isDying = true;
+            GameSfx.Play("Victory", .5f);
             if (OnDied != null) OnDied();
             StartCoroutine(DieSequence());
         }

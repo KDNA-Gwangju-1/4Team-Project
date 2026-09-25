@@ -155,6 +155,7 @@ namespace BrightDream.Combat
         private IEnumerator PlaySequence()
         {
             IsPlaying = true;
+            GameSfx.Play("RiftOpen", .5f);
 
             if (!string.IsNullOrEmpty(message))
             {
