@@ -216,6 +216,8 @@ public class TentacleStrike2D : MonoBehaviour
         }
 
         // --- shot down: flinch before it goes, so the kill lands ---
+        // hitCol can already be gone if a cutscene tore the strike down mid-animation
+        if (hitCol == null) yield break;
         hitCol.enabled = false;
         if (killed) yield return HurtRoutine();
 
