@@ -30,6 +30,10 @@ namespace BrightDream.Combat
         [SerializeField] private float contactDamage = 20f; // 하트 1개 (박치기 / 점프 착지)
         [Tooltip("공격 패턴과 무관하게, 그냥 몸에 부딪히기만 해도 주는 피해 - 하트 반개.")]
         [SerializeField] private float bodyBumpDamage = 10f;
+        [Tooltip("몸에 부딪혔을 때 보스 반대 방향으로 밀어내는 힘(수평).")]
+        [SerializeField] private float bodyBumpKnockback = 6f;
+        [Tooltip("밀려날 때 살짝 떠오르는 정도. 0이면 수평으로만 밀린다.")]
+        [SerializeField] private float bodyBumpKnockbackUpward = 1.5f;
 
         [Header("몸통 박치기")]
         [Tooltip("이 거리 안에 플레이어가 있으면 박치기에 맞는다 - 보스 몸 자체 크기에 맞춘 반경.")]
@@ -295,13 +299,15 @@ namespace BrightDream.Combat
             ApplyDamage(contactDamage);
         }
 
-        /// <summary>공격 패턴과 무관하게 보스 몸에 그냥 부딪히기만 해도 하트 반개를 준다.</summary>
+        /// <summary>공격 패턴과 무관하게 보스 몸에 그냥 부딪히기만 해도 하트 반개를 주고 밀어낸다.</summary>
         private void OnTriggerEnter(Collider other)
         {
             if (isDefeated) return;
-            if (other.GetComponentInParent<CharacterController>() == null) return;
+            CharacterController playerController = other.GetComponentInParent<CharacterController>();
+            if (playerController == null) return;
 
             ApplyDamage(bodyBumpDamage);
+            ApplyKnockback(playerController);
         }
 
         private void ApplyDamage(float amount)
@@ -309,6 +315,20 @@ namespace BrightDream.Combat
             if (PlayerHealth.Instance == null || PlayerHealth.Instance.IsInvincible) return;
             PlayerHealth.Instance.TakeDamage(amount, grantInvincibility: true);
             CameraShake.Instance?.Shake();
+        }
+
+        /// <summary>보스 위치 기준 바깥쪽(수평)으로 플레이어를 밀어낸다.</summary>
+        private void ApplyKnockback(CharacterController playerController)
+        {
+            SimpleFirstPersonController fpc = playerController.GetComponent<SimpleFirstPersonController>();
+            if (fpc == null) return;
+
+            Vector3 away = playerController.transform.position - transform.position;
+            away.y = 0f;
+            // 완전히 겹친 순간(방향을 못 구함)에는 보스가 보는 반대 방향으로 밀어낸다.
+            away = away.sqrMagnitude > 0.0001f ? away.normalized : -transform.forward;
+
+            fpc.ApplyKnockback(away * bodyBumpKnockback + Vector3.up * bodyBumpKnockbackUpward);
         }
 
         private void HandleBossDefeated()

@@ -34,12 +34,24 @@ public class SimpleFirstPersonController : MonoBehaviour
     [SerializeField] private BrightDreamPath path;
     [SerializeField] private bool autoWalkOnStart;
 
+    [Tooltip("넉백(보스 접촉 등 외부 밀림)이 초당 이만큼씩 줄어들며 자연스럽게 멎는다.")]
+    [SerializeField] private float knockbackDeceleration = 25f;
+
     private CharacterController controller;
     private float pitch;
     private float verticalVelocity;
+    private Vector3 externalVelocity;
 
     /// <summary>지금 이 프레임에 바닥을 딛고 있는지 - 보스 점프 착지 공격의 회피 판정 등 외부에서 참조한다.</summary>
     public bool IsGrounded => controller.isGrounded;
+
+    /// <summary>보스 접촉 등 외부 힘으로 플레이어를 밀어낸다. CharacterController는 Rigidbody가
+    /// 아니라 AddForce가 먹히지 않으므로, 다음 프레임들의 Move()에 직접 실어 보내고 매 프레임
+    /// knockbackDeceleration만큼 감쇠시켜 자연스럽게 멎게 한다.</summary>
+    public void ApplyKnockback(Vector3 velocity)
+    {
+        externalVelocity += velocity;
+    }
 
     /// <summary>자동 걷기 중인지 - E키 상호작용(단서 조사)이 안 눌리는 자동 걷기 중에는
     /// ClueInteractable/ClueManager가 조사 UI로 멈추지 않고 조용히 자동 수집하도록 참조한다.</summary>
@@ -118,7 +130,8 @@ public class SimpleFirstPersonController : MonoBehaviour
         }
         verticalVelocity += gravity * Time.deltaTime;
 
-        controller.Move((wish * speed + Vector3.up * verticalVelocity) * Time.deltaTime);
+        controller.Move((wish * speed + Vector3.up * verticalVelocity + externalVelocity) * Time.deltaTime);
+        externalVelocity = Vector3.MoveTowards(externalVelocity, Vector3.zero, knockbackDeceleration * Time.deltaTime);
     }
 
     private void ApplyLook()
