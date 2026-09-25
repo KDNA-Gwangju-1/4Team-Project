@@ -44,4 +44,7 @@ public class BrightDreamControlGuide : MonoBehaviour
         Blocking = false;
         if (guideText != null) guideText.gameObject.SetActive(false);
     }
+
+    /// <summary>체크포인트 리스폰 등, 씬 맨 처음이 아닌 지점에서 다시 시작할 때 안내창을 즉시 닫는다.</summary>
+    public void ForceClose() => Close();
 }

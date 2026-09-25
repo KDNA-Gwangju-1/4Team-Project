@@ -197,6 +197,7 @@ public sealed class PauseMenu : MonoBehaviour
         // 다음 판을 처음부터 시작하도록 챕터 간 static 상태를 비운다.
         PlayerMovement2D.ResetChapterState();
         TimeAttackTimer2D.ResetTimer();
+        BrightDream.Combat.CheckpointRespawn.ResetCheckpoint();
         LoadingScreen.Go("MainMenu");
     }
 

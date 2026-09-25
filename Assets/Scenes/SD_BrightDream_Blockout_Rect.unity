@@ -15826,6 +15826,7 @@ GameObject:
   - component: {fileID: 99768988}
   - component: {fileID: 99768990}
   - component: {fileID: 99768991}
+  - component: {fileID: 99768992}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -15983,6 +15984,22 @@ MonoBehaviour:
   weaponPickup: {fileID: 1302076021}
   teleportTarget: {fileID: 1152130987}
   bossClearTeleportTarget: {fileID: 2081839569}
+--- !u!114 &99768992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 99768983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab339e5455dff3f47ad2caccf4f94be0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BrightDream.Combat.CheckpointRespawn
+  weaponPickup: {fileID: 1302076021}
+  stage1ClearedRespawnPoint: {fileID: 104148899}
+  stage2ClearedRespawnPoint: {fileID: 1152130987}
+  controlGuide: {fileID: 1495898720}
 --- !u!1001 &99799680
 PrefabInstance:
   m_ObjectHideFlags: 0

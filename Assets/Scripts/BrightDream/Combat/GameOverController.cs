@@ -79,6 +79,10 @@ namespace BrightDream.Combat
             if (isGameOver) return;
             isGameOver = true;
 
+            // 죽는 순간의 스테이지를 기록해 둔다 - 리트라이로 씬이 다시 로드되면
+            // CheckpointRespawn이 이 값을 보고 어디서부터 다시 시작할지 정한다.
+            CheckpointRespawn.RecordDeath();
+
             foreach (MonoBehaviour mb in disableOnGameOver)
                 if (mb != null) mb.enabled = false;
 

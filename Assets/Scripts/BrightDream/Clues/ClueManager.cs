@@ -102,6 +102,15 @@ namespace BrightDream.Clues
             if (progressText != null) progressText.gameObject.SetActive(false);
         }
 
+        /// <summary>체크포인트 리스폰 등, 단서를 실제로 조사하지 않고 4개를 전부 모은 것으로 처리할 때 쓴다.
+        /// WeaponPickup의 자동 노출 체크, StageGate의 requireAllCluesCollected 등 실제 수집 개수를
+        /// 보는 모든 곳이 올바르게 통과하도록 진짜로 채워 넣는다(조사 대사/음성은 재생하지 않는다).</summary>
+        public void DebugCollectAll()
+        {
+            foreach ((string id, _) in ClueChecklist) collectedClueIds.Add(id);
+            UpdateProgressUI();
+        }
+
         /// <summary>단서 조사 완료 처리. 이미 조사된 단서면 아무 것도 하지 않는다 (재조사 시 카운트 증가 방지).</summary>
         public void CollectClue(ClueInteractable clue)
         {

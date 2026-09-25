@@ -64,6 +64,12 @@ public class WeaponPickup : MonoBehaviour
     /// <summary>디버그 스테이지 스킵 등, 정상적인 픽업 동선을 건너뛰고 즉시 총을 지급할 때 쓴다.</summary>
     public void DebugGrant() => Grant(showMessage: false);
 
+    /// <summary>체크포인트 리스폰 등, 단서를 실제로 모으지 않고도 픽업을 드러내 다시 주울 수 있게 할 때 쓴다.</summary>
+    public void DebugReveal()
+    {
+        if (!PlayerHasWeapon) Reveal();
+    }
+
     private void Grant(bool showMessage)
     {
         if (PlayerHasWeapon) return;
