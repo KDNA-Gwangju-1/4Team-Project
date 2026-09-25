@@ -80,7 +80,7 @@ public class BossHealthBarUI2D : MonoBehaviour
         if (rect == null) return;
         rect.anchorMin = rect.anchorMax = new Vector2(.5f, 1f);
         rect.pivot = new Vector2(.5f, 1f);
-        rect.anchoredPosition = new Vector2(0f, -24f);
+        rect.anchoredPosition = new Vector2(0f, -124f);
         rect.sizeDelta = new Vector2(820f, 92f);
         ChapterHudStyle.SkinCard(GetComponent<Image>(), false);
         PlaceGauge(ghostFill);
