@@ -6,6 +6,8 @@ namespace BrightDream.Combat
     /// <summary>
     /// 테스트용 스테이지 스킵 치트키.
     ///
+    /// F8  정화총을 줍기 전, "Stage1 클리어" 상태로 만든다 - 단서 4개를 모은 것으로 처리하고
+    ///     정화총 픽업만 드러낸 채 그 앞으로 순간이동시킨다. 무기는 지급하지 않는다.
     /// F9  정화총을 즉시 지급하고 Stage1·Stage2를 강제로 완료시켜 "Stage2 클리어" 상태로 만든다
     ///     - 보스 스테이지 입구까지 걸어가는 것만 남기고 나머지 진행(단서 수집,
     ///     Stage2 몬스터 10마리 정화)을 전부 건너뛴다.
@@ -14,12 +16,16 @@ namespace BrightDream.Combat
     /// </summary>
     public class DebugStageSkip : MonoBehaviour
     {
+        [Tooltip("Stage1 클리어 상태(정화총 줍기 전)로 만든다.")]
+        [SerializeField] private KeyCode stage1ClearKey = KeyCode.F8;
         [SerializeField] private KeyCode skipKey = KeyCode.F9;
         [Tooltip("보스 스테이지를 즉시 클리어한다.")]
         [SerializeField] private KeyCode bossClearKey = KeyCode.F10;
         [Tooltip("보스 스테이지 번호. BossAI 의 Activate At Stage 와 같은 값.")]
         [SerializeField] private int bossStageIndex = 3;
         [SerializeField] private WeaponPickup weaponPickup;
+        [Tooltip("F8을 누르면 이 위치·각도로 옮긴다. 정화총 픽업 바로 앞을 보게 둔다.")]
+        [SerializeField] private Transform stage1TeleportTarget;
         [Tooltip("F9를 누르면 이 위치·각도로 플레이어를 순간이동시킨다 (매번 걸어가지 않아도 되게).")]
         [SerializeField] private Transform teleportTarget;
         [Tooltip("F10을 누르면 이 위치·각도로 옮긴다. 균열(포탈) 앞을 보게 둔다. 비우면 F9 지점을 쓴다.")]
@@ -35,9 +41,25 @@ namespace BrightDream.Combat
         private void Update()
         {
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
+            if (Input.GetKeyDown(stage1ClearKey)) SkipToStage1Cleared();
             if (Input.GetKeyDown(skipKey)) SkipToStage2Cleared();
             if (Input.GetKeyDown(bossClearKey)) ClearBossStage();
 #endif
+        }
+
+        /// <summary>단서를 실제로 조사하지 않고 4개 다 모은 것으로 처리해 "Stage1 클리어"
+        /// (정화총 줍기 전) 상태로 만든다. CheckpointRespawn의 Stage2 체크포인트와 같은 상태다.</summary>
+        private void SkipToStage1Cleared()
+        {
+            if (StageProgressManager.Instance == null) return;
+
+            StageProgressManager.Instance.TryCompleteStage(1);
+            ClueManager.Instance?.DebugCollectAll();
+            ClueManager.Instance?.DebugHideProgressUI();
+            if (weaponPickup != null) weaponPickup.DebugReveal();
+
+            if (playerController != null && stage1TeleportTarget != null)
+                playerController.Teleport(stage1TeleportTarget.position, stage1TeleportTarget.eulerAngles.y);
         }
 
         private void SkipToStage2Cleared()

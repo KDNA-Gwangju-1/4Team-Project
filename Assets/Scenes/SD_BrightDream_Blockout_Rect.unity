@@ -15871,6 +15871,7 @@ MonoBehaviour:
   pitchLimit: 85
   path: {fileID: 936982360}
   autoWalkOnStart: 0
+  knockbackDeceleration: 25
 --- !u!143 &99768986
 CharacterController:
   m_ObjectHideFlags: 0
@@ -15978,10 +15979,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3756ca887da9ffb4cb7764307a924f6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BrightDream.Combat.DebugStageSkip
+  stage1ClearKey: 289
   skipKey: 290
   bossClearKey: 291
   bossStageIndex: 3
   weaponPickup: {fileID: 1302076021}
+  stage1TeleportTarget: {fileID: 104148899}
   teleportTarget: {fileID: 1152130987}
   bossClearTeleportTarget: {fileID: 2081839569}
 --- !u!114 &99768992
@@ -220617,6 +220620,8 @@ MonoBehaviour:
   attackCooldown: 5
   contactDamage: 20
   bodyBumpDamage: 10
+  bodyBumpKnockback: 6
+  bodyBumpKnockbackUpward: 1.5
   bodyContactRadius: 3
   headbuttLungeDistance: 4
   headbuttLungeDuration: 0.35
