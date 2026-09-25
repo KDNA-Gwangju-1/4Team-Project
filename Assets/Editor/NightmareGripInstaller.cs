@@ -42,7 +42,7 @@ public static class NightmareGripInstaller
         }
         var anchor = new GameObject("GripAnchor").transform;
         anchor.SetParent(hand, false);
-        anchor.localPosition = new Vector3(0, -.65f, 1.14f);
+        anchor.localPosition = new Vector3(0, -.58f, 1.28f);
         var grip = root.AddComponent<BossHandGrip>();
         var data = new SerializedObject(grip);
         data.FindProperty("skeletonRoot").objectReferenceValue = model;

@@ -1,0 +1,8 @@
+# Garden density / anatomical grip / slower chapter 2
+
+- Added 333 decorative mesh instances grouped in flower drifts, companion shrubs and background trees. Existing materials/meshes reused, static batching enabled. No new gameplay colliders or behaviour scripts on decorations. Path, lake, greenhouse, clue and combat zones excluded by authoring checks. Separate perimeter probe found no new plants on the paved route. No profiler performance claim is made.
+- Rebuilt hand with 20 bones: palm, four metacarpals, 12 finger phalanges and thumb metacarpal/proximal/distal chain. Thumb first joint performs opposition; four finger MCP/PIP/DIP closure is staggered. Skin weights are limited to one anatomical chain and adjacent joints to eliminate cross-finger pulling and dorsal spikes.
+- Grip anchor repositioned to the new grasp cavity. Actual defeat sequence reached closure=1, hand-up.y=0.95, anchor-to-Spine error=0 at the captured contact frame. No full per-frame penetration/IK solver is claimed. Screenshot anatomical-grip.png.
+- Reference: American Society for Surgery of the Hand, https://assh.my.site.com/handcare/safety/bones and https://assh.my.site.com/handcare/blog/anatomy-101-finger-joints . Four fingers have three phalanges; thumb has two, with opposition based at the metacarpal joint. This is a stylized game rig, not a medical simulation.
+- Chapter 2 serialized rotation speeds halved: Stage1 3→1.5 and 12→6 deg/s, Stage2 12.857142→6.428571 deg/s, Stage3 14.4→7.2 deg/s. The Stage2 component was read back in Unity and its reduced rotation used in the cinematic capture.
+- Unity Console checked: zero errors. Play test overrides discarded. No standalone build or full manual chapter playthrough performed.

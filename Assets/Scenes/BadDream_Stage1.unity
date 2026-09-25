@@ -3284,7 +3284,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa5e6bf230e4408591848dfd8beb59a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlowRotate2D
-  degreesPerSecond: 3
+  degreesPerSecond: 1.5
 --- !u!1 &900000040
 GameObject:
   m_ObjectHideFlags: 0
@@ -13225,7 +13225,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa5e6bf230e4408591848dfd8beb59a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlowRotate2D
-  degreesPerSecond: 12
+  degreesPerSecond: 6
 --- !u!212 &9300000000000029
 SpriteRenderer:
   serializedVersion: 2

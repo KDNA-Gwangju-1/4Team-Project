@@ -24,9 +24,10 @@ for i,(x,total) in enumerate(zip([-.57,-.22,.18,.54],[1.27,1.57,1.68,1.48])):
     for fraction in [.43,.78,1]:
         pts.append((x*(1+.16*fraction),-.025*fraction,1.05+total*fraction))
     tube(finger_names[i]+' flesh',pts,[.175,.16,.133,.095],'NG_Velvet','Skin',20)
+    bones.append((finger_names[i]+'_Metacarpal',(x*.45,0,.16),pts[0],'Palm'))
     for j in range(3):
         bn=finger_names[i]+'_'+str(j+1)
-        bones.append((bn,pts[j],pts[j+1],'Palm' if j==0 else finger_names[i]+'_'+str(j)))
+        bones.append((bn,pts[j],pts[j+1],finger_names[i]+'_Metacarpal' if j==0 else finger_names[i]+'_'+str(j)))
         p=pts[j]
         ellipsoid('Articular cushion',p,(.18-.02*j,.16-.018*j,.20-.015*j),'NG_Velvet','Skin',20,12)
         # Three distinct dorsal creases at each joint, plus saddle-shaped knuckle stitching.
@@ -91,12 +92,19 @@ bpy.ops.object.mode_set(mode='OBJECT')
 segments=[(name,Vector(xyz(a)),Vector(xyz(b))) for name,a,b,_ in bones]
 vg={name:skin.vertex_groups.new(name=name) for name,_,_,_ in bones}
 for v in skin.data.vertices:
+    # Restrict influence to one anatomical chain: neighbouring fingers must never
+    # pull the same patch of skin into the spikes produced by global nearest-bone weights.
+    ux,uy,uz=-v.co.x,v.co.z,-v.co.y
+    finger=min(zip(finger_names,[-.57,-.22,.18,.54]),key=lambda pair:abs(ux-pair[1]))[0]
+    chain='Thumb' if ux>.72 and uz<1.56 else finger
     ds=[]
     for name,a,b in segments:
+        if name!='Palm' and not name.startswith(chain+'_'):continue
+        if uz<.82 and chain!='Thumb' and name!='Palm' and not name.endswith('Metacarpal'):continue
         t=max(0,min(1,(v.co-a).dot(b-a)/(b-a).length_squared))
         dist=(v.co-(a+(b-a)*t)).length_squared
         ds.append((dist,name))
-    ds.sort(); ds=ds[:4];weights=[math.exp(-(d-ds[0][0])/.018) for d,n in ds];total=sum(weights)
+    ds.sort(); ds=ds[:3];weights=[math.exp(-(d-ds[0][0])/.035) for d,n in ds];total=sum(weights)
     for (_,n),w in zip(ds,weights):vg[n].add([v.index],w/total,'REPLACE')
 mod=skin.modifiers.new('Anatomical skinning','ARMATURE');mod.object=rig;skin.parent=rig
 
@@ -105,13 +113,20 @@ for frame,p in [(1,0),(10,.18),(22,.82),(31,1)]:
     for name,_,_,_ in bones:
         bone=rig.pose.bones[name];bone.rotation_mode='QUATERNION'
         if name=='Palm':q=Quaternion()
+        elif name.endswith('Metacarpal'):
+            angle={'Little':8,'Ring':5,'Middle':1,'Index':0}[name.split('_')[0]]*p
+            rest=bone.bone.matrix_local.to_quaternion()
+            q=rest.inverted() @ Quaternion(Vector((1,0,0)),math.radians(angle)) @ rest
         else:
             j=int(name[-1])-1
-            angle=([52,68,38] if name.startswith('Thumb') else [62,66,32])[j]*p
+            # CMC opposition + MCP + IP for thumb; MCP/PIP/DIP for other fingers.
+            delay={'Little':0,'Ring':.025,'Middle':.06,'Index':.09,'Thumb':.16}[name.split('_')[0]]
+            close=max(0,min(1,(p-delay)/(1-delay)))
+            angle=([24,48,35] if name.startswith('Thumb') else [48,58,28])[j]*close
             # xyz includes a handedness reflection; rotation axes use its negative.
             world=Quaternion(Vector((1,0,0)),math.radians(angle))
             if name=='Thumb_1':
-                world=Quaternion(Vector((0,0,1)),math.radians(35*p)) @ Quaternion(Vector((0,-1,0)),math.radians(32*p)) @ world
+                world=Quaternion(Vector((0,0,1)),math.radians(48*close)) @ Quaternion(Vector((0,-1,0)),math.radians(40*close)) @ world
             rest=bone.bone.matrix_local.to_quaternion();q=rest.inverted() @ world @ rest
         bone.rotation_quaternion=q;bone.keyframe_insert(data_path='rotation_quaternion',frame=frame)
 rig.animation_data.action.name='OpenToGrip'

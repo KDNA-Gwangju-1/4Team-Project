@@ -10001,7 +10001,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa5e6bf230e4408591848dfd8beb59a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SlowRotate2D
-  degreesPerSecond: 14.4
+  degreesPerSecond: 7.2
 --- !u!212 &9300000000020079
 SpriteRenderer:
   serializedVersion: 2
