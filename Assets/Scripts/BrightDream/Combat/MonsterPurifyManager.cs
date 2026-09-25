@@ -96,7 +96,7 @@ namespace BrightDream.Combat
 
         private void ShowClearMessage()
         {
-            StageMessageUI.Instance?.ShowMessage("스테이지 2 클리어\n인형 정화 완료", 4f);
+            StageMessageUI.Instance?.ShowMessage("스테이지 2 클리어\n인형 정화 완료", 2f);
         }
 
         private void UpdateUI()

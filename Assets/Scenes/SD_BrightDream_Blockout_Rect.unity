@@ -5863,7 +5863,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StageEntryTrigger
   message: "\uBCF4\uC2A4 \uC2A4\uD14C\uC774\uC9C0\n\uBCF4\uC2A4\uC758 \uC57D\uC810\uC744
     \uCC3E\uC544 \uC815\uD654\uC2DC\uCF1C\uB77C"
-  displayDuration: 2.5
+  displayDuration: 2
   triggerOnce: 1
   stageIndex: 3
   requireWeapon: 0
@@ -237908,7 +237908,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StageMessageUI
   messageText: {fileID: 667405475}
-  defaultDuration: 2.5
+  defaultDuration: 2
 --- !u!114 &1495898720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -276543,7 +276543,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StageEntryTrigger
   message: "\uC2A4\uD14C\uC774\uC9C0 1\n\uB2E8\uC11C\uB97C \uCC3E\uC544\uB77C"
-  displayDuration: 2.5
+  displayDuration: 2
   triggerOnce: 1
   stageIndex: 1
   requireWeapon: 0
@@ -280025,7 +280025,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StageEntryTrigger
   message: "\uC2A4\uD14C\uC774\uC9C0 2"
-  displayDuration: 2.5
+  displayDuration: 2
   triggerOnce: 1
   stageIndex: 2
   requireWeapon: 1
