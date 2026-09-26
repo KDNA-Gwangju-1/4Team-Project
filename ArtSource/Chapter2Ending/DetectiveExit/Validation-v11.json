@@ -1,0 +1,42 @@
+{
+  "backgroundExactCopy": true,
+  "uniformCameraAll804Frames": true,
+  "walkingCelsUnwarped": true,
+  "usedCels": [
+    "a0",
+    "s0",
+    "s2",
+    "s3",
+    "s4",
+    "s6",
+    "s7",
+    "w0",
+    "w1",
+    "w10",
+    "w11",
+    "w2",
+    "w3",
+    "w4",
+    "w5",
+    "w6",
+    "w7",
+    "w8",
+    "w9"
+  ],
+  "videos": [
+    {
+      "file": "detective-exit-rigid-v11.mp4",
+      "frames": 804,
+      "fps": 60.0,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "file": "Walk-isolated-v11.mp4",
+      "frames": 300,
+      "fps": 60.0,
+      "width": 640,
+      "height": 1024
+    }
+  ]
+}
