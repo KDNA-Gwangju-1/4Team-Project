@@ -1,0 +1,28 @@
+{
+  "characterHz": 6,
+  "holdFramesPerStep": 8,
+  "shutterFramesPerStep": 2,
+  "sampledHoldImagesIdentical": true,
+  "sampledTransitionImagesDiffer": true,
+  "sampledBackgroundRegionIdentical": true,
+  "videos": [
+    {
+      "file": "detective-exit-stepped-v13.mp4",
+      "frames": 804,
+      "fps": 60.0,
+      "size": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "file": "Comparison-v12-v13.mp4",
+      "frames": 804,
+      "fps": 60.0,
+      "size": [
+        1920,
+        540
+      ]
+    }
+  ]
+}
