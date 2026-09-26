@@ -116,7 +116,7 @@ public class Stage2IntroCutscene : MonoBehaviour
         while (!rabbit.IsRevealed && waited < 1.5f) { waited += Time.deltaTime; yield return null; }
         rabbit.detectionRange = 0f;   // 놀라서 멈춘다
         yield return new WaitForSeconds(revealHold);
-        yield return ShowMarkOver(rabbit.transform, "!?", surpriseDuration);
+        yield return ShowMarkOver(rabbit.transform, surpriseDuration);
         yield return Line(lineSeeClearly);
 
         // 드러난 채로 쏜다 - 이번엔 맞는다
@@ -183,45 +183,110 @@ public class Stage2IntroCutscene : MonoBehaviour
         return d.sqrMagnitude > 0.0001f ? d.normalized : Vector2.right;
     }
 
-    // 보스 인트로의 "?"와 같은 만듦새. 대상 머리 위에 튀어나왔다가 사라진다.
-    private IEnumerator ShowMarkOver(Transform target, string text, float hold)
-    {
-        GameObject go = new GameObject("IntroMark");
-        TextMesh tm = go.AddComponent<TextMesh>();
-        tm.text = text;
-        tm.characterSize = 0.2f;
-        tm.fontSize = 80;
-        tm.anchor = TextAnchor.MiddleCenter;
-        tm.alignment = TextAlignment.Center;
-        tm.color = new Color(1f, 0.92f, 0.3f);
-        MeshRenderer mr = go.GetComponent<MeshRenderer>();
-        mr.sortingLayerName = "Default";
-        mr.sortingOrder = 100;
+    private GameObject surpriseMark;
+    private static Sprite surpriseBadgeSprite;
 
-        Vector3 baseScale = Vector3.one * 0.6f;
-        float t = 0f;
-        while (t < 0.2f)
+    private void OnDisable()
+    {
+        // The cue must not remain behind if the intro is interrupted or retried.
+        if (surpriseMark != null) Destroy(surpriseMark);
+    }
+
+    private IEnumerator ShowMarkOver(Transform target, float hold)
+    {
+        if (target == null) yield break;
+        if (surpriseMark != null) Destroy(surpriseMark);
+        GameObject go = new GameObject("RabbitSurprisePixelBadge");
+        surpriseMark = go;
+        SpriteRenderer source = target.GetComponent<SpriteRenderer>();
+        SpriteRenderer mark = go.AddComponent<SpriteRenderer>();
+        mark.sprite = GetSurpriseBadgeSprite();
+        mark.sortingLayerID = source != null ? source.sortingLayerID : 0;
+        mark.sortingOrder = source != null ? Mathf.Max(100, source.sortingOrder + 20) : 100;
+        mark.maskInteraction = SpriteMaskInteraction.None;
+        const float pop = 0.16f, settle = 0.12f, fade = 0.12f;
+        float duration = pop + settle + Mathf.Max(0f, hold) + fade;
+        float elapsed = 0f;
+        go.transform.localScale = Vector3.zero;
+        try
         {
-            t += Time.deltaTime;
-            go.transform.position = target.position + new Vector3(0f, 1.6f, 0f);
-            go.transform.localScale = Vector3.Lerp(Vector3.zero, baseScale * 1.3f, t / 0.2f);
-            yield return null;
+            while (elapsed < duration && target != null && go != null)
+            {
+                elapsed += Time.deltaTime;
+                float scale;
+                if (elapsed < pop)
+                    scale = Mathf.Lerp(0.65f, 1.12f, Mathf.SmoothStep(0f, 1f, elapsed / pop));
+                else if (elapsed < pop + settle)
+                    scale = Mathf.Lerp(1.12f, 1f, (elapsed - pop) / settle);
+                else scale = 1f;
+                float alpha = Mathf.Min(Mathf.Clamp01(elapsed / 0.06f),
+                    Mathf.Clamp01((duration - elapsed) / fade));
+                mark.color = new Color(1f, 1f, 1f, alpha);
+                go.transform.localScale = Vector3.one * scale;
+                // World bounds clear the ears even when the rabbit hops/flips/scales.
+                Vector3 anchor = source != null
+                    ? new Vector3(source.bounds.center.x, source.bounds.max.y + 0.18f, target.position.z)
+                    : target.position + Vector3.up * 1.6f;
+                go.transform.position = anchor;
+                yield return null;
+            }
         }
-        t = 0f;
-        while (t < 0.12f)
+        finally
         {
-            t += Time.deltaTime;
-            go.transform.position = target.position + new Vector3(0f, 1.6f, 0f);
-            go.transform.localScale = Vector3.Lerp(baseScale * 1.3f, baseScale, t / 0.12f);
-            yield return null;
+            if (go != null) Destroy(go);
+            if (surpriseMark == go) surpriseMark = null;
         }
-        t = 0f;
-        while (t < hold)
+    }
+
+    private static Sprite GetSurpriseBadgeSprite()
+    {
+        if (surpriseBadgeSprite != null) return surpriseBadgeSprite;
+        // Same ink/lavender/ivory palette as the boss cue; coral adds surprise.
+        const int width = 41, height = 35;
+        Color ink = new Color32(20, 16, 35, 255);
+        Color rim = new Color32(166, 137, 219, 255);
+        Color light = new Color32(220, 204, 255, 255);
+        Color fill = new Color32(40, 31, 60, 255);
+        Color ivory = new Color32(255, 231, 153, 255);
+        Color coral = new Color32(255, 145, 155, 255);
+        Color[] pixels = new Color[width * height];
+        for (int y = 7; y <= 32; y++)
+        for (int x = 2; x <= 38; x++)
         {
-            t += Time.deltaTime;
-            go.transform.position = target.position + new Vector3(0f, 1.6f, 0f);
-            yield return null;
+            if ((x < 4 || x > 36) && (y < 9 || y > 30)) continue;
+            int edge = Mathf.Min(x - 2, 38 - x, y - 7, 32 - y);
+            pixels[y * width + x] = edge == 0 ? ink : edge == 1 ? rim : fill;
         }
-        Destroy(go);
+        // Centered stepped speech tail, drawn over the lower border.
+        for (int y = 1; y <= 8; y++)
+        for (int x = 20; x <= 20 + y / 2; x++)
+            pixels[y * width + x] = x == 20 || x == 20 + y / 2 ? rim : fill;
+        for (int x = 7; x <= 33; x++) pixels[30 * width + x] = light;
+        string[] question = { "01110", "11011", "00011", "00110", "00100", "00000", "00100" };
+        string[] surprise = { "110", "110", "110", "110", "010", "000", "010" };
+        // Pixel shadows and two solid glyphs; no font or antialiased TextMesh.
+        for (int pass = 0; pass < 2; pass++)
+        for (int row = 0; row < 7; row++)
+        for (int col = 0; col < 5; col++)
+        for (int dy = 0; dy < 2; dy++)
+        for (int dx = 0; dx < 2; dx++)
+        {
+            int offset = pass == 0 ? 1 : 0;
+            int y = 26 - row * 2 + dy - offset;
+            if (question[row][col] == '1')
+                pixels[y * width + 22 + col * 2 + dx + offset] = pass == 0 ? ink : ivory;
+            if (col < 3 && surprise[row][col] == '1')
+                pixels[y * width + 10 + col * 2 + dx + offset] = pass == 0 ? ink : coral;
+        }
+        Texture2D texture = new Texture2D(width, height, TextureFormat.RGBA32, false);
+        texture.name = "RabbitSurprisePixelBadge";
+        texture.filterMode = FilterMode.Point;
+        texture.wrapMode = TextureWrapMode.Clamp;
+        texture.SetPixels(pixels);
+        texture.Apply(false, true);
+        surpriseBadgeSprite = Sprite.Create(texture, new Rect(0, 0, width, height),
+            new Vector2(0.5f, 0f), 28f);
+        surpriseBadgeSprite.name = "RabbitSurprisePixelBadge";
+        return surpriseBadgeSprite;
     }
 }
