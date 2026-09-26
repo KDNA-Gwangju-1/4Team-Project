@@ -1,0 +1,14 @@
+{
+  "width": 1920,
+  "height": 1080,
+  "fps": 60.0,
+  "frames": 804,
+  "maxIKLengthError": 6.661338147750939e-16,
+  "maxContactDrift": 0.0,
+  "checkedContactIntervals": 530,
+  "maxOutsideBackgroundPixels": 0,
+  "seconds": 13.4,
+  "nearFeatureTravelPixels": 165.8062419709921,
+  "farFeatureTravelPixels": 9.912506458721849,
+  "scope": "Analytical sagittal two-bone lengths and ankle targets during full-gain stance; not rendered foot-pixel tracking, motion capture, or a perceptual quality score."
+}
