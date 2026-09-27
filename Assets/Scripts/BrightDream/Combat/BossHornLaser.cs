@@ -30,7 +30,7 @@ namespace BrightDream.Combat
         [Tooltip("충전 시간 - 충전음(HornCharge) 길이와 같게 둔다.")]
         [SerializeField] private float chargeDuration = 1.4f;
         [Tooltip("한 바퀴 도는 데 걸리는 시간(초). 짧을수록 빨라서 보스 가까이 붙어 달려야 한다.")]
-        [SerializeField] private float rotateDuration = 15f;
+        [SerializeField] private float rotateDuration = 13f;
         [SerializeField] private float rotateDegrees = 360f;
         [Tooltip("빔이 처음에 플레이어보다 이만큼(도) 회전해 오는 쪽 뒤에서 시작한다.")]
         [SerializeField] private float startLead = 60f;

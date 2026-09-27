@@ -221854,7 +221854,7 @@ MonoBehaviour:
   beamMaterial: {fileID: 2100000, guid: 580a6fdd20610ed4f87f2c64de636d8d, type: 2}
   telegraphMaterial: {fileID: 2100000, guid: ad75226891123e648a5bcb958ca652cf, type: 2}
   chargeDuration: 1.4
-  rotateDuration: 15
+  rotateDuration: 13
   rotateDegrees: 360
   startLead: 60
   beamMaxLength: 20
