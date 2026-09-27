@@ -29,13 +29,13 @@ ACT2 = [("text", "chapter1", B2, "CHAPTER 1", "언니의 꿈")] + [
     ("clip", t, B2) for t in (90.0, 101.0, 118.0, 158.0, 205.0, 222.0, 238.0)]
 ACT3 = [("text", "chapter2", B2, "CHAPTER 2", "동생의 꿈")] + [
     ("clip", t, B2) for t in (263.0, 301.0, 333.0, 352.0, 392.0, 432.0)]
-CLIMAX = [("clip", t, BEAT) for t in (480.0, 205.5, 495.0, 238.5, 500.0, 226.0, 510.0, 518.0)]
-RESOLVE = [("clip", 544.0, 3.0), ("clip", 551.0, 3.0), ("clip", 555.0, 2.0), ("clip", 559.0, 3.0),
-           ("text", "line", 3.2, "두 개의 꿈,", "하나의 이야기")]
+CLIMAX = [("clip", t, BEAT) for t in (480.0, 205.5, 495.0, 238.5, 500.0, 226.0, 510.0, 488.0)]
+# ends on the younger sister opening her eyes - the reunion and epilogue stay unspoiled
+RESOLVE = [("clip", 540.5, 5.0)]
 END_SECS = 6.5
 
 
-def clip(i, t, secs, flash_in=False):
+def clip(i, t, secs, flash_in=False, fade_out=False):
     out = os.path.join(TR, f"c{i:02d}.mp4")
     if os.path.exists(out):
         return out
@@ -44,6 +44,8 @@ def clip(i, t, secs, flash_in=False):
           f"eq=contrast=1.08:saturation=1.12,vignette=PI/5,pad=1920:1080:0:{BAR}:black")
     if flash_in:
         vf += ",fade=in:st=0:d=0.6:color=white"
+    if fade_out:
+        vf += ",fade=out:st=%.2f:d=0.8" % (secs - .8)
     run(["-ss", str(t), "-t", str(secs), "-i", SRC, "-vf", vf, "-an", "-t", str(secs),
          "-c:v", "libx264", "-preset", "veryfast", "-crf", "18", "-pix_fmt", "yuv420p", out])
     return out
@@ -134,7 +136,8 @@ def build():
         marks[name] = sum(p[1] for p in parts)
         for k, item in enumerate(act):
             if item[0] == "clip":
-                path = clip(i, item[1], item[2], flash_in=(name == "resolve" and k == 0))
+                path = clip(i, item[1], item[2], flash_in=(name == "resolve" and k == 0),
+                            fade_out=(name == "resolve" and k == len(act) - 1))
                 parts.append((path, item[2]))
             else:
                 parts.append((text_card(i, item[1], item[2], item[3:]), item[2]))
