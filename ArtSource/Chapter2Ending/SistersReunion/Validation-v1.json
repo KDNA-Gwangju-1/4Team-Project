@@ -1,0 +1,40 @@
+{
+  "cuts": [
+    {
+      "start": 0,
+      "end": 3,
+      "shot": "recognition"
+    },
+    {
+      "start": 3,
+      "end": 3.85,
+      "shot": "reach insert"
+    },
+    {
+      "start": 3.85,
+      "end": 5.8,
+      "shot": "hand contact"
+    },
+    {
+      "start": 5.8,
+      "end": 10.5,
+      "shot": "embrace"
+    }
+  ],
+  "poseInterpolation": false,
+  "bodyWarp": false,
+  "videos": [
+    {
+      "file": "sisters-reunion-v1.mp4",
+      "frames": 630,
+      "fps": 60.0,
+      "duration": 10.5
+    },
+    {
+      "file": "Ending-sequence-preview-v1.mp4",
+      "frames": 1974,
+      "fps": 60.0,
+      "duration": 32.9
+    }
+  ]
+}
