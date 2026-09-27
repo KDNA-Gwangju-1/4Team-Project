@@ -20,6 +20,9 @@ namespace BrightDream.Combat
         /// <summary>보스가 목표 명중 횟수를 채워 처치된 순간 1회 발생. BossArenaLockdown이 구독해 아레나를 연다.</summary>
         public static event Action OnBossDefeated;
 
+        /// <summary>약점 명중으로 진행도가 오를 때마다 새 진행도와 함께 발생. BossAI가 페이즈 전환에 쓴다.</summary>
+        public static event Action<int> OnHitProgressChanged;
+
         [SerializeField] private int purifyCountToOpen = 3;
         [Tooltip("약점이 열려 있는 시간. 너무 짧으면 조준할 틈이 없다.")]
         [SerializeField] private float windowDuration = 3.5f;
@@ -185,6 +188,7 @@ namespace BrightDream.Combat
             UpdateProgressUI();
             if (weakpointGaugeText != null) weakpointGaugeText.text = "<b>정화 성공</b>   다음 노출을 준비하세요";
             if (HitProgress >= hitsToDefeat) Defeat();
+            else OnHitProgressChanged?.Invoke(HitProgress);
         }
 
         /// <summary>

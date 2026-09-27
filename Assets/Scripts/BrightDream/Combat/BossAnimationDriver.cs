@@ -6,8 +6,8 @@ namespace BrightDream.Combat
     /// <summary>
     /// BossAI/BossWeakpointController/BossRiftEntrance를 수정하지 않고 보스 상태를 읽어 Animator를 구동한다.
     /// - 추적 이동(NavMeshAgent 이동)일 때만 걷기.
-    /// - BossAI는 공격 중 agent.updatePosition을 끄고 Transform을 직접 옮기므로, 그 첫 움직임이
-    ///   수평이면 박치기, 수직이면 점프 찍기로 판단해 트리거를 1회 보낸다.
+    /// - 공격 모션은 BossAI가 PlayHeadbutt/PlayGroundSlam/PlayRoar/SetHornCharging으로 직접 지시한다.
+    ///   (예전엔 첫 이동 방향으로 추측했지만, 제자리 패턴인 별똥별·레이저와 연속 돌진을 구분할 수 없었다.)
     /// - 약점 노출 중에는 머리/목/꼬리만 덮는 비틀거림 레이어를 켠다 (공격 중에는 공격 모션 우선).
     /// - 약점 명중(HitProgress 증가) 때 상체만 덮는 피격 레이어로 움찔한다.
     /// - 균열 등장 연출 중 보스가 보이기 시작하면 등장(날아와 착지 후 포효) 모션을 재생한다.
@@ -22,6 +22,9 @@ namespace BrightDream.Combat
         [SerializeField] private string emergeTrigger = "Emerge";
         [SerializeField] private string defeatedParameter = "Defeated";
         [SerializeField] private string grabbedParameter = "Grabbed";
+        [SerializeField] private string roarTrigger = "Roar";
+        [SerializeField] private string hornChargingParameter = "HornCharging";
+        [SerializeField] private string starSummoningParameter = "StarSummoning";
         [SerializeField] private string staggerLayerName = "Stagger";
         [SerializeField] private string hitLayerName = "Hit";
         [SerializeField] private string hitStateName = "Hit";
@@ -44,18 +47,23 @@ namespace BrightDream.Combat
         private BossRiftEntrance entrance;
         private BossRiftExit exitSequence;
         private Renderer bodyRenderer;
-        private int walkingHash, headbuttHash, slamHash, emergeHash, defeatedHash, grabbedHash, hitStateHash;
+        private int walkingHash, headbuttHash, slamHash, emergeHash, defeatedHash, grabbedHash, hitStateHash, roarHash, hornHash, summonHash;
         private float grabDelay;
         private bool grabbed;
         private int staggerLayer, hitLayer;
         private bool isWalking;
-        private bool attackTriggered;
         private bool wasVisible;
         private bool isDefeated;
         private float defeatedAtRealtime;
         private float staggerWeight, hitWeight, hitTimer;
         private int lastHitProgress;
-        private Vector3 lastBossPosition;
+
+        public void PlayHeadbutt() { if (!isDefeated) animator.SetTrigger(headbuttHash); }
+        public void PlayGroundSlam() { if (!isDefeated) animator.SetTrigger(slamHash); }
+        public void PlayRoar() { if (!isDefeated) animator.SetTrigger(roarHash); }
+        public void SetHornCharging(bool charging) => animator.SetBool(hornHash, charging && !isDefeated);
+        /// <summary>별똥별 소환 중 - 하늘을 올려다보며 버티는 반복 모션.</summary>
+        public void SetStarSummoning(bool summoning) => animator.SetBool(summonHash, summoning && !isDefeated);
 
         private void Awake()
         {
@@ -71,11 +79,13 @@ namespace BrightDream.Combat
             emergeHash = Animator.StringToHash(emergeTrigger);
             defeatedHash = Animator.StringToHash(defeatedParameter);
             grabbedHash = Animator.StringToHash(grabbedParameter);
+            roarHash = Animator.StringToHash(roarTrigger);
+            hornHash = Animator.StringToHash(hornChargingParameter);
+            summonHash = Animator.StringToHash(starSummoningParameter);
             grabDelay = ReadGrabDelay();
             hitStateHash = Animator.StringToHash(hitStateName);
             staggerLayer = animator.GetLayerIndex(staggerLayerName);
             hitLayer = animator.GetLayerIndex(hitLayerName);
-            if (agent != null) lastBossPosition = agent.transform.position;
             if (weakpoint != null) lastHitProgress = weakpoint.HitProgress;
             wasVisible = bodyRenderer != null && bodyRenderer.enabled;
         }
@@ -87,6 +97,8 @@ namespace BrightDream.Combat
         {
             isDefeated = true;
             defeatedAtRealtime = Time.realtimeSinceStartup;
+            animator.SetBool(hornHash, false);
+            animator.SetBool(summonHash, false);
             animator.SetBool(defeatedHash, true);
             // BossAI는 처치 시 isStopped만 세워서, 남은 관성으로 쓰러지는 동안 2m 넘게 미끄러진다. 제자리에 쓰러지게 한다.
             if (agent != null && agent.enabled && agent.isOnNavMesh) agent.velocity = Vector3.zero;
@@ -124,7 +136,6 @@ namespace BrightDream.Combat
             else
             {
                 bool manualMove = agent != null && agent.enabled && !agent.updatePosition;
-                UpdateAttack(manualMove);
                 SetWalking(!manualMove && IsChasing());
                 bool exposed = weakpoint != null && weakpoint.IsExposed && !manualMove && agent != null && agent.enabled;
                 staggerWeight = FadeLayer(staggerLayer, staggerWeight, exposed);
@@ -139,28 +150,6 @@ namespace BrightDream.Combat
             bool visible = bodyRenderer != null && bodyRenderer.enabled;
             if (visible && !wasVisible && entrance != null && entrance.IsPlaying) animator.SetTrigger(emergeHash);
             wasVisible = visible;
-        }
-
-        private void UpdateAttack(bool manualMove)
-        {
-            if (agent == null) return;
-            Vector3 position = agent.transform.position;
-            Vector3 delta = position - lastBossPosition;
-            lastBossPosition = position;
-
-            if (!manualMove)
-            {
-                attackTriggered = false;
-                return;
-            }
-            if (attackTriggered) return;
-
-            float horizontal = new Vector2(delta.x, delta.z).magnitude;
-            float vertical = Mathf.Abs(delta.y);
-            if (horizontal < 0.001f && vertical < 0.001f) return; // 아직 이번 공격의 첫 이동이 안 나왔다.
-
-            animator.SetTrigger(vertical > horizontal ? slamHash : headbuttHash);
-            attackTriggered = true;
         }
 
         private void UpdateHit()

@@ -38,6 +38,17 @@ namespace BrightDream.Combat
 
         public void SetGroundCollider(Collider value) => groundCollider = value;
 
+        /// <summary>코드로 AddComponent한 표시(별똥별 낙하 지점 등)가 빌드에서도 셰이더를 찾도록 직접 넘겨준다.</summary>
+        public void SetShader(Shader value) => indicatorShader = value;
+
+        public void SetColors(Color fill, Color edge)
+        {
+            fillColor = fill;
+            edgeColor = edge;
+        }
+
+        public void SetResolution(int value) => gridResolution = Mathf.Clamp(value, 8, 96);
+
         private bool EnsureQuad()
         {
             if (quad != null) return true;
