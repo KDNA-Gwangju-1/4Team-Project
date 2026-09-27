@@ -39,6 +39,10 @@ public class Stage3EndingCutscene : MonoBehaviour
     public float dissolveFrameDuration = 0.16f;
     [Tooltip("Drawn width of what is left. She is a child, not a boss.")]
     public float sisterWidth = 2.4f;
+    [Tooltip("Seated child's height in world units, fixed throughout reveal and dialogue.")]
+    public float seatedSisterHeight = 1.08f;
+    private SpriteRenderer nightmareShell;
+    private Material nightmareDissolveMaterial;
     public string sortingLayer = "Default";
     public int sortingOrder = 1;
     [Tooltip("Drag an empty here to place her by hand in the Scene view. Left empty, she appears where the boss died.")]
@@ -130,6 +134,8 @@ public class Stage3EndingCutscene : MonoBehaviour
 
     void OnDestroy()
     {
+        if (nightmareShell != null) Destroy(nightmareShell.gameObject);
+        if (nightmareDissolveMaterial != null) Destroy(nightmareDissolveMaterial);
         if (boss != null) boss.OnDied -= HandleBossDied;
     }
 
@@ -434,29 +440,34 @@ public class Stage3EndingCutscene : MonoBehaviour
         if (sisterAnchor != null) where = sisterAnchor.position;
 
         GameObject go = new GameObject("Sister");
-        go.transform.position = (sisterAnchor != null)
-            ? sisterAnchor.position
-            : new Vector3(where.x, sisterGroundY, 0f);
+        go.transform.position = new Vector3(where.x, sisterGroundY, 0f);
         sister = go.transform;
 
         sisterRenderer = go.AddComponent<SpriteRenderer>();
-        sisterRenderer.sprite = dissolveFrames[0];
+        Sprite[] unified = Resources.LoadAll<Sprite>("UI/ChapterSkins/SisterUnified");
+        sisterRenderer.sprite = unified.Length > 0 ? unified[0] : dissolveFrames[dissolveFrames.Length - 1];
         sisterRenderer.sortingLayerName = sortingLayer;
         sisterRenderer.sortingOrder = sortingOrder;
 
-        if (useAnchorScale && sisterAnchor != null)
+        // One drawing, one uniform scale and one grounded pivot for the entire ending.
+        // The old anchor scale stretched the frames, then the final swap enlarged her.
+        float factor = seatedSisterHeight / Mathf.Max(.001f, sisterRenderer.sprite.bounds.size.y);
+        go.transform.localScale = new Vector3(factor, factor, 1f);
+
+        var shell = new GameObject("Dissolving Nightmare Shell");
+        nightmareShell = shell.AddComponent<SpriteRenderer>();
+        nightmareShell.sprite = dissolveFrames[0];
+        nightmareShell.sortingLayerName = sortingLayer;
+        nightmareShell.sortingOrder = sortingOrder + 1;
+        float shellScale = 3.8f / Mathf.Max(.001f, nightmareShell.sprite.bounds.size.y);
+        shell.transform.localScale = Vector3.one * shellScale;
+        // Original 512px frame has its painted ground 22px above the bottom.
+        shell.transform.position = new Vector3(where.x, sisterGroundY + 3.8f * (.5f - 22f / 512f), 0f);
+        var shader = Resources.Load<Shader>("UI/ChapterSkins/NightmareDissolve");
+        if (shader != null && shader.isSupported)
         {
-            // the marker in the scene IS the composition - don't recompute it
-            go.transform.localScale = sisterAnchor.localScale;
-        }
-        else
-        {
-            float native = sisterRenderer.sprite.bounds.size.x;
-            if (native > 0.001f)
-            {
-                float factor = sisterWidth / native;
-                go.transform.localScale = new Vector3(factor, factor, 1f);
-            }
+            nightmareDissolveMaterial = new Material(shader);
+            nightmareShell.sharedMaterial = nightmareDissolveMaterial;
         }
     }
 
@@ -464,9 +475,9 @@ public class Stage3EndingCutscene : MonoBehaviour
     // the pivot puts her head out of frame at this distance.
     private Vector3 DissolveShotCentre()
     {
-        if (sisterRenderer != null)
+        if (nightmareShell != null || sisterRenderer != null)
         {
-            Bounds b = sisterRenderer.bounds;
+            Bounds b = nightmareShell != null ? nightmareShell.bounds : sisterRenderer.bounds;
             return new Vector3(b.center.x, b.center.y, shotOffset.z);
         }
         Vector3 fallback = sister != null ? sister.position : lastBossPosition;
@@ -479,27 +490,17 @@ public class Stage3EndingCutscene : MonoBehaviour
 
         // beat on the intact form first - dissolving straight away reads as a
         // glitch rather than as something happening to her
-        sisterRenderer.sprite = dissolveFrames[0];
         yield return new WaitForSeconds(dissolveFirstFrameHold);
-
-        for (int i = 1; i < dissolveFrames.Length; i++)
+        float duration = Mathf.Max(.1f, dissolveFrameDuration * (dissolveFrames.Length - 1));
+        for (float elapsed = 0f; elapsed < duration; elapsed += Time.deltaTime)
         {
-            sisterRenderer.sprite = dissolveFrames[i];
-            yield return new WaitForSeconds(dissolveFrameDuration);
+            float progress = Mathf.SmoothStep(0f, 1f, elapsed / duration);
+            if (nightmareDissolveMaterial != null) nightmareDissolveMaterial.SetFloat("_Progress", progress);
+            else if (nightmareShell != null) nightmareShell.color = new Color(1f, 1f, 1f, 1f - progress);
+            yield return null;
         }
-        // Keep the dissolve animation intact, then resolve to clean dialogue artwork.
-        Sprite[] resolvedFrames = Resources.LoadAll<Sprite>("UI/ChapterSkins/SisterResolved");
-        Sprite resolved = resolvedFrames.Length > 0 ? resolvedFrames[0] : null;
-        if (resolved != null)
-        {
-            sisterRenderer.sprite = resolved;
-            float scale = sisterWidth / Mathf.Max(.001f, resolved.bounds.size.x);
-            sister.localScale = new Vector3(scale, scale, 1f);
-            // Bottom-centre pivot: place the clean feet on the authored ending ground.
-            Vector3 position = sister.position;
-            position.y = sisterGroundY;
-            sister.position = position;
-        }
+        if (nightmareShell != null) Destroy(nightmareShell.gameObject);
+        if (nightmareDissolveMaterial != null) Destroy(nightmareDissolveMaterial);
     }
 
     private void SnapTo(Vector3 target, float ortho)
