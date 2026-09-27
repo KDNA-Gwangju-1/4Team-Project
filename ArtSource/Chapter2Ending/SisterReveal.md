@@ -24,3 +24,17 @@ Prompt: Create one transparent production sprite of the existing seated elementa
 - Final full ending retested with production timings through the dialogue portion. This does not represent a full boss-fight playthrough or a packaged-build test.
 
 Review screenshots are in ignored `output/sister-reveal-review/`.
+
+## 2026-09-27 — smaller seated child and cleaner dissolve
+
+- User feedback: the seated child still reads too large beside the player; the disappearance looks dirty.
+- Replaced the 1.08 world-unit height with a 0.78 upper limit (27.8% smaller), also capped at 40% of the ending detective renderer bounds height. Scale remains uniform and the feet pivot remains at the authored ground. BadDream_Stage3 explicitly stores both settings.
+- Removed the shader’s two-dimensional random erosion and added gold edge. A narrow, stepped top-to-bottom boundary now removes the original shell without spawning isolated mask fragments. Original sprite artwork, including any detail painted into it, is unchanged.
+- Static validation: sampled the shader mask on a 512 x 512 grid at 101 progress values. Initial visibility is 1 everywhere, final visibility is 0 everywhere, and no pixel becomes visible again. This checks the mask math, not GPU compilation or visual quality.
+- Scene validation: only the two size settings were added; all existing references, dialogue and timings were preserved. Pre-edit copies are in output/sister-reveal-cleanup-20260927/.
+- Unity runtime and shader compilation are unverified for this revision: no connected Unity tool is available, and local process execution failed. Earlier runtime results above apply only to the previous revision.
+- Manual acceptance: in BadDream_Stage3 play the actual boss defeat (or existing PlayNow shortcut with the introduction finished). Inspect the intact shell, 25/50/75% removal, and final dialogue two-shot. Check smaller seated proportions, fixed feet, no added gold outline, no scattered mask islands, and no sprite/size jump when dialogue starts. Check the Console for C# and shader errors and complete the ending transition.
+
+## 2026-09-27 — clean authored keyframes
+
+The eight-frame SisterRevealClean sheet now takes precedence over the shader reveal above. See SisterRevealClean/README.md for prompts, sprite registration, timings and unverified Unity playback checks. The same final sprite stays through dialogue.

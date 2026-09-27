@@ -27,15 +27,14 @@ Shader "ReDream/NightmareDissolve"
             fixed4 DissolveFragment(v2f input) : SV_Target
             {
                 fixed4 c = SampleSpriteTexture(input.texcoord) * input.color;
-                float2 cell = floor(input.texcoord * 128);
-                float noise = frac(sin(dot(cell, float2(12.9898,78.233))) * 43758.5453);
-                // Fixed pixel islands erode from the head toward the feet.
-                // The child underneath never changes sprite, pivot or size.
-                float threshold = (1 - input.texcoord.y) * .72 + noise * .28;
-                float remaining = threshold - _Progress * 1.05;
-                float visible = step(0, remaining);
-                float edge = (1 - smoothstep(0, .035, remaining)) * step(.001, _Progress);
-                c.rgb = lerp(c.rgb, fixed3(.83,.70,.47), edge * .7);
+                // A single stepped front moves down the image. Each column has
+                // one boundary, so the effect cannot leave random pixel islands.
+                float column = floor(input.texcoord.x * 32);
+                float offset = sin(column * .65) * .012;
+                float threshold = 1 - input.texcoord.y + offset;
+                float front = lerp(-.03, 1.03, saturate(_Progress));
+                float visible = smoothstep(front, front + .008, threshold);
+                // Preserve the source colours; no gold rim or added debris.
                 c.a *= visible;
                 c.rgb *= c.a;
                 return c;

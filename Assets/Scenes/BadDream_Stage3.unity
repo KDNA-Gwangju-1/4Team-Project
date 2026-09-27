@@ -5529,6 +5529,8 @@ MonoBehaviour:
   dissolveFirstFrameHold: 1.4
   dissolveFrameDuration: 0.19
   sisterWidth: 2.4
+  seatedSisterHeight: 0.78
+  seatedSisterPlayerRatio: 0.4
   sortingLayer: Default
   sortingOrder: 1
   sisterAnchor: {fileID: 759426633}

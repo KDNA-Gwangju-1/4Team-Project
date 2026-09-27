@@ -40,7 +40,10 @@ public class Stage3EndingCutscene : MonoBehaviour
     [Tooltip("Drawn width of what is left. She is a child, not a boss.")]
     public float sisterWidth = 2.4f;
     [Tooltip("Seated child's height in world units, fixed throughout reveal and dialogue.")]
-    public float seatedSisterHeight = 1.08f;
+    public float seatedSisterHeight = 0.78f;
+    [Tooltip("Maximum seated height relative to the standing detective sprite.")]
+    [Range(0.1f, 0.6f)] public float seatedSisterPlayerRatio = 0.4f;
+    private Sprite[] cleanRevealFrames;
     private SpriteRenderer nightmareShell;
     private Material nightmareDissolveMaterial;
     public string sortingLayer = "Default";
@@ -444,6 +447,23 @@ public class Stage3EndingCutscene : MonoBehaviour
         sister = go.transform;
 
         sisterRenderer = go.AddComponent<SpriteRenderer>();
+        cleanRevealFrames = Resources.LoadAll<Sprite>("UI/ChapterSkins/SisterRevealClean");
+        if (cleanRevealFrames.Length == 8)
+        {
+            System.Array.Sort(cleanRevealFrames, (a, b) => string.CompareOrdinal(a.name, b.name));
+            sisterRenderer.sprite = cleanRevealFrames[0];
+            sisterRenderer.sortingLayerName = sortingLayer;
+            sisterRenderer.sortingOrder = sortingOrder;
+            float finalHeight = Mathf.Max(.01f, seatedSisterHeight);
+            if (detectiveRenderer != null && detectiveRenderer.sprite != null)
+                finalHeight = Mathf.Min(finalHeight, detectiveRenderer.bounds.size.y * seatedSisterPlayerRatio);
+            // Every imported frame uses the same pixel scale and a grounded pivot.
+            // Size is derived once from the final seated pose, never per frame.
+            float pixelScale = finalHeight / Mathf.Max(.001f, cleanRevealFrames[7].bounds.size.y);
+            go.transform.localScale = new Vector3(pixelScale, pixelScale, 1f);
+            return;
+        }
+        cleanRevealFrames = null;
         Sprite[] unified = Resources.LoadAll<Sprite>("UI/ChapterSkins/SisterUnified");
         sisterRenderer.sprite = unified.Length > 0 ? unified[0] : dissolveFrames[dissolveFrames.Length - 1];
         sisterRenderer.sortingLayerName = sortingLayer;
@@ -451,7 +471,10 @@ public class Stage3EndingCutscene : MonoBehaviour
 
         // One drawing, one uniform scale and one grounded pivot for the entire ending.
         // The old anchor scale stretched the frames, then the final swap enlarged her.
-        float factor = seatedSisterHeight / Mathf.Max(.001f, sisterRenderer.sprite.bounds.size.y);
+        float height = Mathf.Max(.01f, seatedSisterHeight);
+        if (detectiveRenderer != null && detectiveRenderer.sprite != null)
+            height = Mathf.Min(height, detectiveRenderer.bounds.size.y * seatedSisterPlayerRatio);
+        float factor = height / Mathf.Max(.001f, sisterRenderer.sprite.bounds.size.y);
         go.transform.localScale = new Vector3(factor, factor, 1f);
 
         var shell = new GameObject("Dissolving Nightmare Shell");
@@ -491,6 +514,17 @@ public class Stage3EndingCutscene : MonoBehaviour
         // beat on the intact form first - dissolving straight away reads as a
         // glitch rather than as something happening to her
         yield return new WaitForSeconds(dissolveFirstFrameHold);
+        if (cleanRevealFrames != null)
+        {
+            for (int frame = 1; frame < cleanRevealFrames.Length; frame++)
+            {
+                sisterRenderer.sprite = cleanRevealFrames[frame];
+                if (frame < cleanRevealFrames.Length - 1)
+                    yield return new WaitForSeconds(dissolveFrameDuration);
+            }
+            // Keep this exact last frame through the dialogue; no second art swap.
+            yield break;
+        }
         float duration = Mathf.Max(.1f, dissolveFrameDuration * (dissolveFrames.Length - 1));
         for (float elapsed = 0f; elapsed < duration; elapsed += Time.deltaTime)
         {

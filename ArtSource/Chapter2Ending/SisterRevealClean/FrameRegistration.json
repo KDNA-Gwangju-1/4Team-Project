@@ -1,0 +1,103 @@
+{
+  "width": 1774,
+  "height": 887,
+  "alpha": "original generated alpha preserved",
+  "frames": [
+    {
+      "index": 0,
+      "name": "SisterReveal_01",
+      "x": 20,
+      "y": 439,
+      "width": 415,
+      "height": 400,
+      "pivotX": 0.4867469879518072,
+      "pivotY": 0,
+      "opaquePixels": 76620,
+      "fileID": 21300000
+    },
+    {
+      "index": 1,
+      "name": "SisterReveal_02",
+      "x": 467,
+      "y": 439,
+      "width": 405,
+      "height": 332,
+      "pivotX": 0.4888888888888889,
+      "pivotY": 0,
+      "opaquePixels": 69553,
+      "fileID": 21300002
+    },
+    {
+      "index": 2,
+      "name": "SisterReveal_03",
+      "x": 914,
+      "y": 439,
+      "width": 392,
+      "height": 288,
+      "pivotX": 0.49489795918367346,
+      "pivotY": 0,
+      "opaquePixels": 60573,
+      "fileID": 21300004
+    },
+    {
+      "index": 3,
+      "name": "SisterReveal_04",
+      "x": 1363,
+      "y": 436,
+      "width": 380,
+      "height": 233,
+      "pivotX": 0.49736842105263157,
+      "pivotY": 0,
+      "opaquePixels": 48501,
+      "fileID": 21300006
+    },
+    {
+      "index": 4,
+      "name": "SisterReveal_05",
+      "x": 63,
+      "y": 26,
+      "width": 326,
+      "height": 184,
+      "pivotX": 0.48773006134969327,
+      "pivotY": 0,
+      "opaquePixels": 29235,
+      "fileID": 21300008
+    },
+    {
+      "index": 5,
+      "name": "SisterReveal_06",
+      "x": 539,
+      "y": 27,
+      "width": 253,
+      "height": 112,
+      "pivotX": 0.4980237154150198,
+      "pivotY": 0,
+      "opaquePixels": 15164,
+      "fileID": 21300010
+    },
+    {
+      "index": 6,
+      "name": "SisterReveal_07",
+      "x": 981,
+      "y": 26,
+      "width": 254,
+      "height": 113,
+      "pivotX": 0.5,
+      "pivotY": 0,
+      "opaquePixels": 13623,
+      "fileID": 21300012
+    },
+    {
+      "index": 7,
+      "name": "SisterReveal_08",
+      "x": 1496,
+      "y": 26,
+      "width": 155,
+      "height": 113,
+      "pivotX": 0.36129032258064514,
+      "pivotY": 0,
+      "opaquePixels": 11121,
+      "fileID": 21300014
+    }
+  ]
+}
