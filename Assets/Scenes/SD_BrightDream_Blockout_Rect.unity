@@ -7642,43 +7642,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4181962969073937259, guid: 84069737604fd9043ab7612356425136, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.563
+      value: 2.4557
       objectReference: {fileID: 0}
     - target: {fileID: 4181962969073937259, guid: 84069737604fd9043ab7612356425136, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.466
+      value: 0.5327
       objectReference: {fileID: 0}
     - target: {fileID: 4181962969073937259, guid: 84069737604fd9043ab7612356425136, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 20.399
+      value: 20.2869
       objectReference: {fileID: 0}
     - target: {fileID: 4181962969073937259, guid: 84069737604fd9043ab7612356425136, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.009005573
+      value: 0.00932329
       objectReference: {fileID: 0}
     - target: {fileID: 4181962969073937259, guid: 84069737604fd9043ab7612356425136, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.055891838
+      value: -0.055839717
       objectReference: {fileID: 0}
     - target: {fileID: 4181962969073937259, guid: 84069737604fd9043ab7612356425136, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.26329887
+      value: -0.2687716
       objectReference: {fileID: 0}
     - target: {fileID: 4181962969073937259, guid: 84069737604fd9043ab7612356425136, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.9630518
+      value: -0.9615388
       objectReference: {fileID: 0}
     - target: {fileID: 4181962969073937259, guid: 84069737604fd9043ab7612356425136, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -30.541
+      value: -31.192
       objectReference: {fileID: 0}
     - target: {fileID: 4181962969073937259, guid: 84069737604fd9043ab7612356425136, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 366.863
+      value: 366.873
       objectReference: {fileID: 0}
     - target: {fileID: 4181962969073937259, guid: 84069737604fd9043ab7612356425136, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 179.196
+      value: 179.19
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -15948,6 +15948,7 @@ MonoBehaviour:
   interactDistance: 3.5
   promptText: {fileID: 2111209983}
   crosshair: {fileID: 1537078448}
+  clueSeeThroughDepth: 0.6
 --- !u!114 &99768988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -221867,6 +221868,10 @@ MonoBehaviour:
   arrowColor: {r: 0.62, g: 0.3, b: 1, a: 1}
   beamColor: {r: 0.6, g: 0.25, b: 1, a: 0.85}
   beamCoreColor: {r: 0.6, g: 1, b: 1, a: 1}
+  humClip: {fileID: 0}
+  humVolume: 0.4
+  humFadeIn: 0.1
+  humFadeOut: 0.3
 --- !u!114 &1387729639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -255974,7 +255979,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BrightDream.Clues.ClueInteractable
   clueId: clue_03_tree_carving
-  displayName: "\uB450 \uC790\uB9E4\uC758 \uD754\uC801"
+  displayName: "\uB098\uBB34\uC5D0 \uC0C8\uACA8\uC9C4 \uC774\uB984"
   investigateText: "\uB0B4\uAC00 \uADF8\uB7AC\uB098... \uAE30\uC5B5\uC774 \uC798
     \uC548 \uB098. \uC544\uB2C8, \uC0AC\uC2E4\uC740 \uC548 \uBCF4\uB824\uACE0 \uD588\uB358
     \uAC83 \uAC19\uC544."
@@ -268941,6 +268946,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1675724709}
   - component: {fileID: 1675724710}
+  - component: {fileID: 1675724713}
+  - component: {fileID: 1675724712}
+  - component: {fileID: 1675724711}
   m_Layer: 0
   m_Name: Collider
   m_TagString: Untagged
@@ -268956,8 +268964,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1675724708}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.47636104, y: -0.5225709, z: -0.52257067, w: 0.47636104}
-  m_LocalPosition: {x: -0.000000005269196, y: 0.00000000486537, z: 0.0045000003}
+  m_LocalRotation: {x: -0.4999999, y: -0.5, z: -0.5, w: -0.5000001}
+  m_LocalPosition: {x: 0.0000000041963135, y: -0.000000004341173, z: 1.6376394e-15}
   m_LocalScale: {x: 0.009603217, y: 0.009603216, z: 0.009603217}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -268982,8 +268990,71 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.3328863, y: 0.9371857, z: 0.8122276}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.8, y: 0.46, z: 1.33}
+  m_Center: {x: 0, y: 0.23, z: 0}
+--- !u!65 &1675724711
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1675724708}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.8, y: 0.68, z: 0.1}
+  m_Center: {x: 0, y: 0.34, z: -0.61}
+--- !u!65 &1675724712
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1675724708}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.8, y: 0.68, z: 0.1}
+  m_Center: {x: 0, y: 0.34, z: 0.61}
+--- !u!65 &1675724713
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1675724708}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.13, y: 0.94, z: 1.33}
+  m_Center: {x: -0.33500004, y: 0.47, z: 0}
 --- !u!1 &1675795644
 GameObject:
   m_ObjectHideFlags: 0
@@ -292278,7 +292349,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BrightDream.Clues.ClueInteractable
   clueId: clue_02_photoalbum
-  displayName: "\uC624\uB798\uB41C \uC0AC\uC9C4 \uC568\uBC94"
+  displayName: "\uB0A1\uC740 \uC0AC\uC9C4\uCCA9"
   investigateText: "\uC774 \uB4B7\uBD80\uBD84\uC740... \uAD1C\uCC2E\uC544, \uC544\uBB34
     \uC77C\uB3C4 \uC5C6\uC5C8\uC5B4. \uADF8\uB0E5 \uB118\uAE30\uC790."
   targetRenderers:
@@ -315748,14 +315819,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BrightDream.Clues.ClueInteractable
   clueId: clue_01_ribbon
-  displayName: "\uADF8\uB124\uC5D0 \uBB36\uC778 \uB9AC\uBCF8"
+  displayName: "\uB9AC\uBCF8"
   investigateText: "\uC774 \uB9AC\uBCF8... \uC544\uC9C1\uB3C4 \uC548 \uD480\uC5C8\uB124.
     \uADF8\uB0E5 \uD55C\uBC88\uCBE4 \uC0C8\uB85C \uBB36\uC5B4\uC904\uAC78."
   targetRenderers:
   - {fileID: 1933436673}
   glowColor: {r: 1, g: 0.93, b: 0.7, a: 1}
-  idleIntensity: 0.15
-  highlightIntensity: 0.35
+  idleIntensity: 0
+  highlightIntensity: 0.12
   collectedIntensity: 0.03
   hideVisualOnInvestigate: 1
   outline: {fileID: 1933436675}
@@ -315800,13 +315871,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ClueOutlineController
   targetRenderers: []
   mode: 0
-  idleColor: {r: 0.98, g: 0.92, b: 0.72, a: 1}
-  idleWidth: 0.006
+  idleColor: {r: 0.36, g: 0.17, b: 0.07, a: 1}
+  idleWidth: 0.01
   idleEdgeTexels: 2.5
-  idlePulseAmount: 0.1
+  idlePulseAmount: 0.15
   idlePulseSpeed: 1
-  hoverColor: {r: 1, g: 0.97, b: 0.82, a: 1}
-  hoverWidth: 0.012
+  hoverColor: {r: 1, g: 0.66, b: 0.12, a: 1}
+  hoverWidth: 0.016
   hoverEdgeTexels: 4.5
   hoverPulseAmount: 0.15
   hoverPulseSpeed: 1.8
@@ -328147,7 +328218,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.4359102, y: 0.7183179, z: 1.40088}
+  m_Size: {x: 1.9384788, y: 0.96972924, z: 1.891188}
   m_Center: {x: -0.00030218065, y: -0.001135759, z: 0.0023887306}
 --- !u!114 &2015180998
 MonoBehaviour:
@@ -328162,15 +328233,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BrightDream.Clues.ClueInteractable
   clueId: clue_04_unsent_letter
-  displayName: "\uBD80\uCE58\uC9C0 \uBABB\uD55C \uD3B8\uC9C0"
+  displayName: "\uBCF4\uB0B4\uC9C0 \uBABB\uD55C \uD3B8\uC9C0"
   investigateText: "\uBBF8\uC548\uD574. \uADF8\uB54C \uB0B4\uAC00 \uADF8\uB807\uAC8C
     \uB9D0\uD558\uC9C0 \uC54A\uC558\uB354\uB77C\uBA74...\n\n\uBCF4\uB0BC \uC6A9\uAE30\uAC00
     \uC5C6\uC5C8\uC5B4. \uADFC\uB370 \uC774\uC81C\uB294... \uD574\uC57C \uD560 \uAC83
     \uAC19\uC544."
   targetRenderers: []
   glowColor: {r: 1, g: 0.93, b: 0.7, a: 1}
-  idleIntensity: 0.15
-  highlightIntensity: 0.35
+  idleIntensity: 0
+  highlightIntensity: 0.12
   collectedIntensity: 0.03
   hideVisualOnInvestigate: 1
   outline: {fileID: 2015180999}
@@ -328188,14 +328259,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ClueOutlineController
   targetRenderers: []
-  mode: 0
-  idleColor: {r: 0.98, g: 0.92, b: 0.72, a: 1}
-  idleWidth: 0.006
+  mode: 2
+  idleColor: {r: 0.36, g: 0.17, b: 0.07, a: 1}
+  idleWidth: 0.018
   idleEdgeTexels: 2.5
-  idlePulseAmount: 0.1
+  idlePulseAmount: 0.15
   idlePulseSpeed: 1
-  hoverColor: {r: 1, g: 0.97, b: 0.82, a: 1}
-  hoverWidth: 0.012
+  hoverColor: {r: 1, g: 0.66, b: 0.12, a: 1}
+  hoverWidth: 0.03
   hoverEdgeTexels: 4.5
   hoverPulseAmount: 0.15
   hoverPulseSpeed: 1.8
