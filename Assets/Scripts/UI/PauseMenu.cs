@@ -106,6 +106,7 @@ public sealed class PauseMenu : MonoBehaviour
 
     private bool CanOpen()
     {
+        if (OpeningCinematicPlayer.IsPlaying) return false;
         if (IsMenuScene()) return false;
         if (escapeConsumedFrame == Time.frameCount) return false;
         if (SceneFader.IsFading) return false;

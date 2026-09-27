@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
 
-/// <summary>Plays the approved opening and hospital sequence before normal scene loading.</summary>
+/// <summary>Full-screen cinematic playback shared by the opening and ending.</summary>
 public sealed class OpeningCinematicPlayer : MonoBehaviour
 {
     private const float SkipHoldSeconds = 2f;
@@ -21,12 +21,20 @@ public sealed class OpeningCinematicPlayer : MonoBehaviour
     private float skipHeldSeconds;
     private bool skipReady;
     private bool skipArmed;
+    private static OpeningCinematicPlayer active;
+    public static bool IsPlaying => active != null;
 
     public void Play(Action onComplete, Action onFailure, float volume)
     {
+        Play("Cinematics/OpeningAndHospital.mp4", onComplete, onFailure, volume, true);
+    }
+
+    public void Play(string relativePath, Action onComplete, Action onFailure, float volume, bool hasAudio)
+    {
+        active = this;
         completed = onComplete;
         failed = onFailure;
-        overlay = new GameObject("Opening Cinematic", typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
+        overlay = new GameObject("Cinematic Playback", typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
         var canvas = overlay.GetComponent<Canvas>();
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
         canvas.sortingOrder = 32767;
@@ -54,19 +62,22 @@ public sealed class OpeningCinematicPlayer : MonoBehaviour
         player.playOnAwake = false;
         player.isLooping = false;
         player.source = VideoSource.Url;
-        player.url = Application.streamingAssetsPath + "/Cinematics/OpeningAndHospital.mp4";
+        player.url = Application.streamingAssetsPath + "/" + relativePath;
         player.renderMode = VideoRenderMode.RenderTexture;
         player.targetTexture = texture;
         player.waitForFirstFrame = false;
         player.timeUpdateMode = VideoTimeUpdateMode.UnscaledGameTime;
-        player.audioOutputMode = VideoAudioOutputMode.AudioSource;
-        var audio = overlay.AddComponent<AudioSource>();
-        audio.playOnAwake = false;
-        audio.spatialBlend = 0;
-        audio.volume = Mathf.Clamp01(volume);
-        player.controlledAudioTrackCount = 1;
-        player.EnableAudioTrack(0, true);
-        player.SetTargetAudioSource(0, audio);
+        player.audioOutputMode = hasAudio ? VideoAudioOutputMode.AudioSource : VideoAudioOutputMode.None;
+        if (hasAudio)
+        {
+            var audio = overlay.AddComponent<AudioSource>();
+            audio.playOnAwake = false;
+            audio.spatialBlend = 0;
+            audio.volume = Mathf.Clamp01(volume);
+            player.controlledAudioTrackCount = 1;
+            player.EnableAudioTrack(0, true);
+            player.SetTargetAudioSource(0, audio);
+        }
         player.prepareCompleted += Prepared;
         player.loopPointReached += Ended;
         player.errorReceived += Error;
@@ -262,5 +273,10 @@ public sealed class OpeningCinematicPlayer : MonoBehaviour
         }
         if (texture != null) { texture.Release(); Destroy(texture); texture = null; }
     }
-    private void OnDestroy() { Cleanup(); }
+    private void OnDestroy()
+    {
+        if (active == this) active = null;
+        blackout = false;
+        Cleanup();
+    }
 }

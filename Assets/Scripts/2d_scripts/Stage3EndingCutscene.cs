@@ -282,6 +282,24 @@ public class Stage3EndingCutscene : MonoBehaviour
         float remaining = Mathf.Max(0f, whiteFadeDuration - (Time.time - fadeStarted));
         if (remaining > 0f) yield return new WaitForSeconds(remaining);
         yield return new WaitForSeconds(whiteHold);
+        PlayHospitalEpilogue();
+    }
+
+    private void PlayHospitalEpilogue()
+    {
+        var cinematic = gameObject.AddComponent<OpeningCinematicPlayer>();
+        cinematic.Play("Cinematics/EndingAndHospital.mp4", ReturnToMainMenu,
+            ReturnToMainMenu, 0f, false);
+    }
+
+    private void ReturnToMainMenu()
+    {
+        PlayerMovement2D.ResetChapterState();
+        TimeAttackTimer2D.ResetTimer();
+        BrightDream.Combat.CheckpointRespawn.ResetCheckpoint();
+        Time.timeScale = 1f;
+        AudioListener.pause = false;
+        LoadingScreen.Go("MainMenu");
     }
 
     // Everything that says "this is a fight" comes off the screen.
