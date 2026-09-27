@@ -10,7 +10,6 @@ public sealed class GameSfx : MonoBehaviour
     private readonly Dictionary<string, AudioClip> clips = new Dictionary<string, AudioClip>();
     private readonly Dictionary<string, float> lastPlayed = new Dictionary<string, float>();
     private readonly AudioSource[] voices = new AudioSource[12];
-    private AudioSource ambience;
     private int nextVoice;
     private int configuredScene = -1;
     public int PlayedCount { get; private set; }
@@ -39,10 +38,6 @@ public sealed class GameSfx : MonoBehaviour
             voices[i].minDistance = 2f;
             voices[i].maxDistance = 30f;
         }
-        ambience = gameObject.AddComponent<AudioSource>();
-        ambience.playOnAwake = false;
-        ambience.loop = true;
-        ambience.volume = .12f;
         music = gameObject.AddComponent<AudioSource>();
         music.playOnAwake = false;
         music.loop = true;
@@ -63,12 +58,6 @@ public sealed class GameSfx : MonoBehaviour
         foreach (var voice in voices)
             if (voice.clip == null || (voice.clip.name != "Portal" && voice.clip.name != "Door")) voice.Stop();
         lastPlayed.Clear();
-        ambience.Stop();
-        bool nightmare = scene.name.StartsWith("BadDream");
-        string bed = scene.name == "HospitalRoom" ? "AmbHospital" : scene.name == "SD_BrightDream_Blockout_Rect" ? "AmbGarden"
-                   : nightmare ? "AmbNightmare" : null;
-        AudioClip clip;
-        if (bed != null && clips.TryGetValue(bed, out clip)) { ambience.clip = clip; ambience.volume = nightmare ? .16f : .12f; ambience.Play(); }
 
         // 음악: 밝은 꿈은 씬에 음악이 없어서 여기서 튼다 (보스전·처치 시 전환은 BrightDreamMusic 이 맡는다).
         // 다른 씬은 각자 음악을 가지고 있으니 이쪽 음악은 끈다.
