@@ -16,6 +16,8 @@ namespace BrightDream.Combat
         [SerializeField] private MonoBehaviour[] disableOnGameOver;
 
         private bool isGameOver;
+        private UnityEngine.UI.Text titleText;
+        private UnityEngine.UI.Text reasonText;
 
         /// <summary>게임 오버 화면이 떠 있으면 true. 그동안은 일시정지 메뉴가 열리지 않는다.</summary>
         public static bool IsGameOver => Instance != null && Instance.isGameOver;
@@ -42,6 +44,7 @@ namespace BrightDream.Combat
                 if (button == null)
                 {
                     // 제목
+                    titleText = text;
                     text.font = HangulFont.GetEmphasis();
                     text.fontStyle = FontStyle.Normal;
                     text.fontSize = 68;
@@ -74,11 +77,14 @@ namespace BrightDream.Combat
             if (dim != null) dim.color = new Color(.10f, .08f, .16f, .72f);
         }
 
-        public void TriggerGameOver()
+        /// <param name="reason">제목 아래에 작게 띄울 사유 (예: "시간 초과"). 비우면 제목만 나온다.</param>
+        public void TriggerGameOver(string reason = null)
         {
             if (isGameOver) return;
             isGameOver = true;
             GameSfx.Play("Defeat", .48f, true);
+            StageMessageUI.Instance?.Hide();
+            ShowReason(reason);
 
             // 죽는 순간의 스테이지를 기록해 둔다 - 리트라이로 씬이 다시 로드되면
             // CheckpointRespawn이 이 값을 보고 어디서부터 다시 시작할지 정한다.
@@ -92,6 +98,29 @@ namespace BrightDream.Combat
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             Time.timeScale = 0f;
+        }
+
+        private void ShowReason(string reason)
+        {
+            if (string.IsNullOrEmpty(reason) || titleText == null) return;
+            if (reasonText == null)
+            {
+                var go = new GameObject("GameOverReason", typeof(RectTransform));
+                go.transform.SetParent(titleText.transform, false);
+                var rt = (RectTransform)go.transform;
+                // 제목 바로 아래에 붙인다 - 버튼은 제목 기준으로 더 아래에 있어 겹치지 않는다.
+                rt.anchorMin = rt.anchorMax = new Vector2(.5f, 0f);
+                rt.pivot = new Vector2(.5f, 1f);
+                rt.anchoredPosition = new Vector2(0f, -6f);
+                rt.sizeDelta = new Vector2(600f, 44f);
+                reasonText = go.AddComponent<UnityEngine.UI.Text>();
+                reasonText.font = HangulFont.GetEmphasis();
+                reasonText.fontSize = 30;
+                reasonText.alignment = TextAnchor.MiddleCenter;
+                reasonText.color = new Color(1f, .72f, .62f);
+                reasonText.raycastTarget = false;
+            }
+            reasonText.text = reason;
         }
 
         private void Update()

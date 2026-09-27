@@ -28,6 +28,22 @@ public class DoorTeleportInteractable : Interactable
     [Tooltip("로딩 화면이 화면에 머무는 시간 (초)")]
     [SerializeField] private float loadingSeconds = 3f;
 
+    /// <summary>이름을 비워 두면 씬의 병실 데이터에서 호실 번호를 가져와 "301호" 처럼 보여 준다.</summary>
+    public override string DisplayName
+    {
+        get
+        {
+            if (!string.IsNullOrWhiteSpace(displayName)) return displayName;
+            if (_roomLabel == null)
+            {
+                var room = FindObjectOfType<HospitalRoomController>();
+                _roomLabel = room != null && room.RoomData != null ? room.RoomData.RoomNumber + "호" : "";
+            }
+            return _roomLabel;
+        }
+    }
+    private string _roomLabel;
+
     /// <summary>컴포넌트를 처음 붙였을 때의 기본값</summary>
     private void Reset()
     {

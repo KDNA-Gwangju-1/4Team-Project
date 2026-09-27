@@ -1,0 +1,26 @@
+{
+    "name": "ReDream.AutoPlayRecorder.Editor",
+    "rootNamespace": "",
+    "references": [
+        "Unity.Recorder.Editor"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "REDREAM_RECORDER"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.unity.recorder",
+            "expression": "4.0.0",
+            "define": "REDREAM_RECORDER"
+        }
+    ],
+    "noEngineReferences": false
+}

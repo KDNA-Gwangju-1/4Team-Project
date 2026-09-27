@@ -37,6 +37,14 @@ public class StageMessageUI : MonoBehaviour
         hideRoutine = StartCoroutine(HideAfterDelay(duration));
     }
 
+    /// <summary>떠 있는 안내 문구를 즉시 감춘다 (게임 오버 화면과 겹치지 않게).</summary>
+    public void Hide()
+    {
+        if (hideRoutine != null) StopCoroutine(hideRoutine);
+        hideRoutine = null;
+        if (messageText != null) messageText.gameObject.SetActive(false);
+    }
+
     private IEnumerator HideAfterDelay(float duration)
     {
         yield return new WaitForSeconds(duration);

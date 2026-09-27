@@ -130,8 +130,8 @@ namespace BrightDream
             IsRunning = false;
             hasExpired = true;
             OnTimeUp?.Invoke();
-            StageMessageUI.Instance?.ShowMessage("시간 초과");
-            GameOverController.Instance?.TriggerGameOver();
+            // 사유는 게임 오버 화면 제목 아래에 같이 띄운다 - 가운데 알림 카드로 띄우면 제목·버튼과 겹친다.
+            GameOverController.Instance?.TriggerGameOver("시간 초과");
         }
 
         private void UpdateText()
