@@ -18,6 +18,7 @@
 - **입력**: 챕터별로 방식이 다릅니다.  3D 파트(BrightDream)는 레거시 Input 매니저, 2D 파트(BadDream)는 Unity Input System을 사용합니다.
 - **AI/내비게이션**: NavMesh (보스 추적 등)
 - **UI**: uGUI 기반, 챕터별 스킨(`ChapterDialogueSkin`, `ChapterHudStyle` 등)을 코드로 입혀 통일된 룩을 유지합니다.
+- **에셋**: VARCO 3D, VARCO SOUND
 
 ## 게임 소개
 
