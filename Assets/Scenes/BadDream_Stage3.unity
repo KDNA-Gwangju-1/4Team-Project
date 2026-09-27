@@ -3202,7 +3202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97d4244dcd79b3b4eac108d49b871c26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MonsterSounds2D
-  noticeClip: {fileID: 0}
+  noticeClip: {fileID: 8300000, guid: 39c1a0e8323765d4e9292e3c01e7a3a0, type: 3}
   noticeVolume: 0.8
   moveClip: {fileID: 8300000, guid: 1bc0ac03486fd0340ab3800cdb515933, type: 3}
   moveVolume: 0.5
@@ -4786,6 +4786,7 @@ GameObject:
   - component: {fileID: 1834502765}
   - component: {fileID: 1834502764}
   - component: {fileID: 1834502763}
+  - component: {fileID: 1834502768}
   m_Layer: 0
   m_Name: GroundRabbit_Arena
   m_TagString: Untagged
@@ -4983,6 +4984,25 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1834502768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1834502762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d4244dcd79b3b4eac108d49b871c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterSounds2D
+  noticeClip: {fileID: 8300000, guid: 0fb807917c63e4a408c5282060559dc4, type: 3}
+  noticeVolume: 0.45
+  moveClip: {fileID: 0}
+  moveVolume: 0.5
+  moveEpsilon: 0.002
+  fullVolumeDistance: 4
+  silentDistance: 26
 --- !u!1 &1842253844
 GameObject:
   m_ObjectHideFlags: 0

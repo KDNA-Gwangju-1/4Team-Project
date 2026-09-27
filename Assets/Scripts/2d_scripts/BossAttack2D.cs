@@ -348,6 +348,7 @@ public class BossAttack2D : MonoBehaviour
     private IEnumerator ClawRoutine()
     {
         yield return TelegraphRoutine(clawTelegraph);
+        GameSfx.Play("Swipe", .55f);
 
         if (animator != null && clawFrames != null && clawFrames.Length > 0)
         {
@@ -562,6 +563,7 @@ public class BossAttack2D : MonoBehaviour
 
         float dir = Mathf.Sign(player.transform.position.x - transform.position.x);
         if (Mathf.Approximately(dir, 0f)) dir = -1f;
+        GameSfx.Play("Swipe", .55f);
         float targetX = player.transform.position.x + dir * dashOvershoot;
 
         if (sr != null) sr.flipX = dir > 0f;

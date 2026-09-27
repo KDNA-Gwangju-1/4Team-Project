@@ -204,6 +204,8 @@ public class PlayerMovement2D : MonoBehaviour
         if (!isDashing && dashStamina < dashStaminaMax)
         {
             dashStamina = Mathf.Min(dashStaminaMax, dashStamina + Time.deltaTime / Mathf.Max(0.01f, dashStaminaRegenTime));
+            // all charges back: a small chime so the player knows without looking at the HUD
+            if (dashStamina >= dashStaminaMax) GameSfx.Play("DashReady", .22f);
         }
 
         RaycastHit2D groundHit = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, groundLayer);
@@ -227,6 +229,11 @@ public class PlayerMovement2D : MonoBehaviour
                 && dashStamina >= 1f)
             {
                 dashRequested = true;
+            }
+            else if ((keyboard.leftShiftKey.wasPressedThisFrame || keyboard.rightShiftKey.wasPressedThisFrame)
+                && !isDashing && dashStamina < 1f)
+            {
+                GameSfx.Play("DashEmpty", .3f);
             }
 
             if (keyboard.spaceKey.wasPressedThisFrame)
@@ -371,6 +378,7 @@ public class PlayerMovement2D : MonoBehaviour
 
     public void Respawn()
     {
+        GameSfx.Play("Respawn", .4f);
         transform.position = lastGroundedPosition;
         rb.linearVelocity = Vector2.zero;
     }
@@ -555,6 +563,7 @@ public class PlayerMovement2D : MonoBehaviour
 
         if (wallJumpRequested)
         {
+            GameSfx.Play("WallJump", .35f);
             velocity.y = wallJumpUpForce;
             velocity.x = wallJumpDirection * wallJumpPushForce;
             wallJumpRequested = false;

@@ -53,6 +53,7 @@ namespace BrightDream.Combat
 
         private Transform[] heartRoots;
         private float[] punchTimers;
+        private float nextHeartbeat;
 
         private void Awake()
         {
@@ -105,6 +106,13 @@ namespace BrightDream.Combat
             displayedHearts = Mathf.MoveTowards(displayedHearts, targetHearts, drainSpeed * dt);
             ApplyFill(displayedHearts);
             ApplyScale(dt);
+
+            // 마지막 하트가 두근거리는 동안 심장 소리도 같이 낸다 (게임 시간 기준이라 일시정지·게임오버에서는 멈춘다).
+            if (targetHearts > 0f && targetHearts <= lowHealthHearts && Time.time >= nextHeartbeat)
+            {
+                GameSfx.Play("Heartbeat", .45f);
+                nextHeartbeat = Time.time + 1f / Mathf.Max(.1f, heartbeatsPerSecond) * 1.6f;
+            }
         }
 
         private void TrySubscribe()

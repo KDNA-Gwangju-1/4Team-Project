@@ -163,6 +163,7 @@ public class DeathRetryUI2D : MonoBehaviour
         BossPhaseController2D.ResumeAtPhase2 = diedInPhase2;
         // 죽고 다시 도전하는 거니 타임어택도 5분 그대로 다시 채운다.
         TimeAttackTimer2D.ResetTimer();
+        GameSfx.Play("Retry", .4f, true);
         SceneFader.LoadScene(scene.buildIndex);
     }
 

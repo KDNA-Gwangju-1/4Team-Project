@@ -97,8 +97,17 @@ public sealed class SceneFader : MonoBehaviour
         {
             t += Time.unscaledDeltaTime;
             group.alpha = Mathf.Lerp(from, to, Mathf.SmoothStep(0f, 1f, t / duration));
+            ApplyVolume();
             yield return null;
         }
         group.alpha = to;
+        ApplyVolume();
+    }
+
+    // 화면과 함께 소리도 줄였다 키운다 - 음악이 씬 전환 순간에 뚝 끊기지 않게.
+    // 덮개가 반쯤일 때는 소리도 조금 남겨 두어 전환 효과음(문, 재시도)이 들리게 한다.
+    private void ApplyVolume()
+    {
+        AudioListener.volume = GameSettings.MasterVolume * Mathf.Lerp(1f, 0f, Mathf.Pow(group.alpha, 1.6f));
     }
 }

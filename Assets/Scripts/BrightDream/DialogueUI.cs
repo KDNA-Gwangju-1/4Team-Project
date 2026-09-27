@@ -97,6 +97,7 @@ namespace BrightDream
             // 대사 넘기기는 모든 챕터에서 스페이스바 하나로 통일했다.
             bool skipPressed = allowSkipInput && Input.GetKeyDown(KeyCode.Space);
             bool advance = skipPressed || lineTimer >= AutoAdvanceDelay;
+            if (skipPressed) GameSfx.Play("DialogueNext", .22f);
             if (!advance) return;
 
             lineIndex++;

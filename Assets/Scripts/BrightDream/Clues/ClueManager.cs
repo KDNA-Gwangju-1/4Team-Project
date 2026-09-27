@@ -45,6 +45,10 @@ namespace BrightDream.Clues
         private DialogueSkinSession skinSession;
         private AudioSource clueVoice;
         private string investigatingClueId;
+        private int voicePartOffset;
+
+        /// <summary>대사가 여러 줄 적혀 있어도 한 줄만 무작위로 골라 들려주는 단서들 (벤치 위 편지).</summary>
+        private static readonly string[] RandomLineClueIds = { "clue_04_unsent_letter" };
 
         public int CollectedCount => collectedClueIds.Count;
 
@@ -116,6 +120,8 @@ namespace BrightDream.Clues
         {
             if (clue == null || collectedClueIds.Contains(clue.ClueId)) return;
 
+            // 앞 단서의 음성이 아직 나오고 있으면 겹치지 않게 즉시 끊고 새 단서로 넘어간다.
+            if (clueVoice != null) clueVoice.Stop();
             collectedClueIds.Add(clue.ClueId);
             GameSfx.Play("Clue", .28f);
             UpdateProgressUI();
@@ -170,7 +176,16 @@ namespace BrightDream.Clues
         {
             if (investigateText == null) return;
 
-            investigateParts = text.Split(new[] { "\n\n" }, StringSplitOptions.RemoveEmptyEntries);
+            string[] parts = text.Split(new[] { "\n\n" }, StringSplitOptions.RemoveEmptyEntries);
+            voicePartOffset = 0;
+            if (parts.Length > 1 && Array.IndexOf(RandomLineClueIds, investigatingClueId) >= 0)
+            {
+                // 편지처럼 대사가 여러 개인 단서는 그중 한 줄만 무작위로 들려준다 (음성 파일 번호도 그 줄에 맞춘다).
+                int pick = UnityEngine.Random.Range(0, parts.Length);
+                investigateParts = new[] { parts[pick] };
+                voicePartOffset = pick;
+            }
+            else investigateParts = parts;
             investigatePartIndex = 0;
             skinSession?.Begin();
 
@@ -187,6 +202,7 @@ namespace BrightDream.Clues
             if (PauseMenu.IsPaused) return;
             if (investigateParts == null) return;
             if (!Input.GetKeyDown(KeyCode.Space)) return;
+            GameSfx.Play("DialogueNext", .22f);
 
             investigatePartIndex++;
             if (investigatePartIndex >= investigateParts.Length) EndInvestigateText();
@@ -208,7 +224,7 @@ namespace BrightDream.Clues
         {
             if (clueVoice != null) clueVoice.Stop();
             if (string.IsNullOrEmpty(investigatingClueId)) return;
-            var clip = Resources.Load<AudioClip>($"Audio/Chapter1Clues/{investigatingClueId}_{investigatePartIndex + 1:00}");
+            var clip = Resources.Load<AudioClip>($"Audio/Chapter1Clues/{investigatingClueId}_{investigatePartIndex + 1 + voicePartOffset:00}");
             if (clip == null) return;
             if (clueVoice == null)
             {

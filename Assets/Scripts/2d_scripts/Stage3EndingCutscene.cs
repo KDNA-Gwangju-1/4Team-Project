@@ -248,7 +248,10 @@ public class Stage3EndingCutscene : MonoBehaviour
         yield return Fade(Color.black, 1f, 0f, blackoutOutDuration);
 
         // --- she comes apart, and the child is what is left ---
+        GameSfx.Play("NightmareVanish", .6f);
         yield return DissolveFrames();
+        // the nightmare is gone: the garden melody comes back, calm, on piano
+        GameSfx.PlayMusic("BGM_Ending", 3f);
 
         Vector3 sisterPos = sister != null ? sister.position : new Vector3(lastBossPosition.x, sisterGroundY, 0f);
         Vector3 anchorX = detective != null ? detective.position : player.transform.position;

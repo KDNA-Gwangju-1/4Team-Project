@@ -104,6 +104,7 @@ namespace BrightDream.Combat
         {
             // 챕터2 재시도와 같은 짧은 페이드. timeScale 은 화면이 다 가려진 뒤 SceneFader 가 1 로 되돌린다.
             if (SceneFader.IsFading) return;
+            GameSfx.Play("Retry", .4f, true);
             SceneFader.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }

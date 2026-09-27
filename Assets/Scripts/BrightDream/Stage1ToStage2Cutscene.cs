@@ -68,14 +68,36 @@ namespace BrightDream
         [Tooltip("플레이어 시점으로 돌아온 직후 (스킵 가능, 안 기다리고 바로 조작 복구).")]
         [SerializeField] private string lineReturnToPlayer = "따라가 보자.";
 
+        [Header("시작 조건 - 단서를 다 모은 뒤 다리 앞에 서면")]
+        [Tooltip("이 웨이포인트(기본 WP_BridgeEntrance) 근처에 오면 컷신이 시작된다. " +
+                 "단서 4개를 다 모은 직후 바로 틀지 않고, 정화총을 가지러 다리로 오는 순간에 보여 준다.")]
+        [SerializeField] private int triggerWaypointIndex = 2;
+        [Tooltip("다리 입구에서 이 거리(m, 수평) 안에 들어오면 시작.")]
+        [SerializeField] private float triggerRadius = 3.5f;
+
         private ClueManager subscribedTo;
+        private bool armed;     // 단서 4개를 다 모았다
+        private bool played;
 
         private void Update()
         {
             // ClueManager 초기화 순서에 의존하지 않도록 Instance가 나타나는 프레임에 한 번만 구독한다.
-            if (subscribedTo != null || ClueManager.Instance == null) return;
-            subscribedTo = ClueManager.Instance;
-            subscribedTo.OnAllCluesCollected += HandleAllCluesCollected;
+            if (subscribedTo == null && ClueManager.Instance != null)
+            {
+                subscribedTo = ClueManager.Instance;
+                subscribedTo.OnAllCluesCollected += HandleAllCluesCollected;
+            }
+
+            if (!armed || played || playerController == null) return;
+            if (DialogueUI.IsShowing || Time.timeScale <= 0f) return;   // 조사 대사 중에는 기다린다
+            if (waypoints == null || triggerWaypointIndex < 0 || triggerWaypointIndex >= waypoints.Length || waypoints[triggerWaypointIndex] == null)
+            {
+                Play();   // 기준점이 없으면 예전처럼 바로 튼다
+                return;
+            }
+            Vector3 a = playerController.transform.position, b = waypoints[triggerWaypointIndex].position;
+            a.y = b.y = 0f;
+            if (Vector3.Distance(a, b) <= triggerRadius) Play();
         }
 
         private void OnDisable()
@@ -85,12 +107,20 @@ namespace BrightDream
 
         private void HandleAllCluesCollected()
         {
+            armed = true;
+        }
+
+        private void Play()
+        {
+            if (played) return;
+            played = true;
             StartCoroutine(PlayCutscene());
         }
 
         private IEnumerator PlayCutscene()
         {
-            yield return new WaitForSeconds(preLockDelay);
+            // 다리 앞에 선 순간 시작하므로 오래 기다리면 플레이어가 다리 위로 걸어 들어가 버린다.
+            yield return new WaitForSeconds(Mathf.Min(preLockDelay, 0.15f));
 
             Vector3 cachedCamLocalPos = Vector3.zero;
             Quaternion cachedCamLocalRot = Quaternion.identity;

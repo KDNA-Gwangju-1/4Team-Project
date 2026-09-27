@@ -738,6 +738,7 @@ public class Stage3Phase2Cutscene : MonoBehaviour
     private IEnumerator TransformToPhase2(Vector3 bossShot)
     {
         yield return PanTo(bossShot, creepOrthoSize, creepDuration);
+        GameSfx.Play("PhaseShift", .7f);
 
         Vector3 basePos = boss.position;
         Vector3 fromScale = boss.localScale;

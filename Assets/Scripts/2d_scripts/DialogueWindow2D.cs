@@ -204,7 +204,7 @@ public class DialogueWindow2D : MonoBehaviour
         advancePrompt.enabled = true;
         while (t < lineAutoAdvance)
         {
-            if (AdvancePressed()) break;
+            if (AdvancePressed()) { GameSfx.Play("DialogueNext", .22f); break; }
             Color c = advancePrompt.color;
             c.a = Mathf.PingPong(Time.time * 1.6f, 1f) * 0.55f + 0.45f;
             advancePrompt.color = c;

@@ -202,6 +202,7 @@ public class RangedMonster2D : MonoBehaviour
 
         Vector2 direction = toPlayer.normalized;
         GameObject bulletObj = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+        GameSfx.At("RangedShot", transform.position, .35f);
         BossBullet2D bullet = bulletObj.GetComponent<BossBullet2D>();
         if (bullet != null)
         {

@@ -161,6 +161,7 @@ namespace BrightDream.Combat
                 yield return null;
             }
 
+            GameSfx.At("Charge", transform.position, .6f);
             float elapsed = 0f;
             while (elapsed < headbuttLungeDuration)
             {

@@ -300,6 +300,8 @@ public sealed class PauseMenu : MonoBehaviour
         noNavigation.selectOnRight = confirmYesButton;
         noButton.navigation = noNavigation;
 
+        // 코드로 만든 버튼이라 씬 로드 때의 자동 연결이 안 붙는다 - 여기서 클릭·호버음을 붙인다.
+        GameSfx.BindButtons(root);
         root.SetActive(false);
     }
 

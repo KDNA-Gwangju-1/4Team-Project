@@ -25,6 +25,7 @@ public class PlayerHeartsUI2D : MonoBehaviour
     private int lastMax = -1;
     private float shakeTimer;
     private Vector2 basePosition;
+    private float nextHeartbeat;
 
     void Awake()
     {
@@ -65,6 +66,14 @@ public class PlayerHeartsUI2D : MonoBehaviour
         else
         {
             rect.anchoredPosition = basePosition;
+        }
+
+        // one heart or less left: a slow heartbeat (game time, so it stops on pause and death)
+        float heartsLeft = Mathf.Clamp01(health / (float)max) * heartsShown;
+        if (health > 0 && heartsLeft <= 1f && Time.time >= nextHeartbeat)
+        {
+            GameSfx.Play("Heartbeat", .45f);
+            nextHeartbeat = Time.time + 1f;
         }
     }
 

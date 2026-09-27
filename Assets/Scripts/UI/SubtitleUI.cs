@@ -287,6 +287,7 @@ public class SubtitleUI : MonoBehaviour
             yield return null;
         }
 
+        GameSfx.Play("DialogueNext", .22f);
         SetIndicatorAlpha(0f);
     }
 

@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 14151891}
   - component: {fileID: 14151890}
   - component: {fileID: 14151894}
+  - component: {fileID: 14151895}
   m_Layer: 0
   m_Name: RangedMonster (7)
   m_TagString: Untagged
@@ -313,6 +314,25 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 86a2ec98e014d524ea460856cc09be2f, type: 3}
   - {fileID: 21300000, guid: f3776e4a747922e478158c2d665d65f6, type: 3}
   dissolveFrameDuration: 0.13
+--- !u!114 &14151895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 14151889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d4244dcd79b3b4eac108d49b871c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterSounds2D
+  noticeClip: {fileID: 8300000, guid: 39c1a0e8323765d4e9292e3c01e7a3a0, type: 3}
+  noticeVolume: 0.35
+  moveClip: {fileID: 8300000, guid: 1bc0ac03486fd0340ab3800cdb515933, type: 3}
+  moveVolume: 0.5
+  moveEpsilon: 0.002
+  fullVolumeDistance: 4
+  silentDistance: 26
 --- !u!1 &23569377
 GameObject:
   m_ObjectHideFlags: 0
@@ -546,6 +566,7 @@ GameObject:
   - component: {fileID: 71258174}
   - component: {fileID: 71258173}
   - component: {fileID: 71258177}
+  - component: {fileID: 71258178}
   m_Layer: 0
   m_Name: Monster (6)
   m_TagString: Untagged
@@ -734,6 +755,25 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 3c100ae9623476144ab15a0796bfa43c, type: 3}
   - {fileID: 21300000, guid: 34e04141cfc3ee94ab4a6b3f43f734fa, type: 3}
   dissolveFrameDuration: 0.13
+--- !u!114 &71258178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 71258172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d4244dcd79b3b4eac108d49b871c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterSounds2D
+  noticeClip: {fileID: 8300000, guid: 0fb807917c63e4a408c5282060559dc4, type: 3}
+  noticeVolume: 0.45
+  moveClip: {fileID: 0}
+  moveVolume: 0.5
+  moveEpsilon: 0.002
+  fullVolumeDistance: 4
+  silentDistance: 26
 --- !u!1 &72992787
 GameObject:
   m_ObjectHideFlags: 0
@@ -838,6 +878,7 @@ GameObject:
   - component: {fileID: 85759299}
   - component: {fileID: 85759298}
   - component: {fileID: 85759302}
+  - component: {fileID: 85759303}
   m_Layer: 0
   m_Name: RangedMonster (2)
   m_TagString: Untagged
@@ -1019,6 +1060,25 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 86a2ec98e014d524ea460856cc09be2f, type: 3}
   - {fileID: 21300000, guid: f3776e4a747922e478158c2d665d65f6, type: 3}
   dissolveFrameDuration: 0.13
+--- !u!114 &85759303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 85759297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d4244dcd79b3b4eac108d49b871c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterSounds2D
+  noticeClip: {fileID: 8300000, guid: 39c1a0e8323765d4e9292e3c01e7a3a0, type: 3}
+  noticeVolume: 0.35
+  moveClip: {fileID: 8300000, guid: 1bc0ac03486fd0340ab3800cdb515933, type: 3}
+  moveVolume: 0.5
+  moveEpsilon: 0.002
+  fullVolumeDistance: 4
+  silentDistance: 26
 --- !u!1 &94618019
 GameObject:
   m_ObjectHideFlags: 0
@@ -1214,6 +1274,7 @@ GameObject:
   - component: {fileID: 100898129}
   - component: {fileID: 100898128}
   - component: {fileID: 100898132}
+  - component: {fileID: 100898133}
   m_Layer: 0
   m_Name: RangedMonster (3)
   m_TagString: Untagged
@@ -1395,6 +1456,25 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 86a2ec98e014d524ea460856cc09be2f, type: 3}
   - {fileID: 21300000, guid: f3776e4a747922e478158c2d665d65f6, type: 3}
   dissolveFrameDuration: 0.13
+--- !u!114 &100898133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100898127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d4244dcd79b3b4eac108d49b871c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterSounds2D
+  noticeClip: {fileID: 8300000, guid: 39c1a0e8323765d4e9292e3c01e7a3a0, type: 3}
+  noticeVolume: 0.35
+  moveClip: {fileID: 8300000, guid: 1bc0ac03486fd0340ab3800cdb515933, type: 3}
+  moveVolume: 0.5
+  moveEpsilon: 0.002
+  fullVolumeDistance: 4
+  silentDistance: 26
 --- !u!4 &125717466
 Transform:
   m_ObjectHideFlags: 0
@@ -1670,6 +1750,7 @@ GameObject:
   - component: {fileID: 258692237}
   - component: {fileID: 258692236}
   - component: {fileID: 258692240}
+  - component: {fileID: 258692241}
   m_Layer: 0
   m_Name: RangedMonster (6)
   m_TagString: Untagged
@@ -1851,6 +1932,25 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 86a2ec98e014d524ea460856cc09be2f, type: 3}
   - {fileID: 21300000, guid: f3776e4a747922e478158c2d665d65f6, type: 3}
   dissolveFrameDuration: 0.13
+--- !u!114 &258692241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 258692235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d4244dcd79b3b4eac108d49b871c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterSounds2D
+  noticeClip: {fileID: 8300000, guid: 39c1a0e8323765d4e9292e3c01e7a3a0, type: 3}
+  noticeVolume: 0.35
+  moveClip: {fileID: 8300000, guid: 1bc0ac03486fd0340ab3800cdb515933, type: 3}
+  moveVolume: 0.5
+  moveEpsilon: 0.002
+  fullVolumeDistance: 4
+  silentDistance: 26
 --- !u!1 &276184309
 GameObject:
   m_ObjectHideFlags: 0
@@ -1864,6 +1964,7 @@ GameObject:
   - component: {fileID: 276184311}
   - component: {fileID: 276184310}
   - component: {fileID: 276184314}
+  - component: {fileID: 276184315}
   m_Layer: 0
   m_Name: RangedMonster (10)
   m_TagString: Untagged
@@ -2045,6 +2146,25 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 86a2ec98e014d524ea460856cc09be2f, type: 3}
   - {fileID: 21300000, guid: f3776e4a747922e478158c2d665d65f6, type: 3}
   dissolveFrameDuration: 0.13
+--- !u!114 &276184315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 276184309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d4244dcd79b3b4eac108d49b871c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterSounds2D
+  noticeClip: {fileID: 8300000, guid: 39c1a0e8323765d4e9292e3c01e7a3a0, type: 3}
+  noticeVolume: 0.35
+  moveClip: {fileID: 8300000, guid: 1bc0ac03486fd0340ab3800cdb515933, type: 3}
+  moveVolume: 0.5
+  moveEpsilon: 0.002
+  fullVolumeDistance: 4
+  silentDistance: 26
 --- !u!1 &295485482
 GameObject:
   m_ObjectHideFlags: 0
@@ -2320,6 +2440,7 @@ GameObject:
   - component: {fileID: 378483972}
   - component: {fileID: 378483971}
   - component: {fileID: 378483975}
+  - component: {fileID: 378483976}
   m_Layer: 0
   m_Name: RangedMonster (9)
   m_TagString: Untagged
@@ -2501,6 +2622,25 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 86a2ec98e014d524ea460856cc09be2f, type: 3}
   - {fileID: 21300000, guid: f3776e4a747922e478158c2d665d65f6, type: 3}
   dissolveFrameDuration: 0.13
+--- !u!114 &378483976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 378483970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d4244dcd79b3b4eac108d49b871c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterSounds2D
+  noticeClip: {fileID: 8300000, guid: 39c1a0e8323765d4e9292e3c01e7a3a0, type: 3}
+  noticeVolume: 0.35
+  moveClip: {fileID: 8300000, guid: 1bc0ac03486fd0340ab3800cdb515933, type: 3}
+  moveVolume: 0.5
+  moveEpsilon: 0.002
+  fullVolumeDistance: 4
+  silentDistance: 26
 --- !u!212 &400583484
 SpriteRenderer:
   serializedVersion: 2
@@ -3289,6 +3429,7 @@ GameObject:
   - component: {fileID: 504571199}
   - component: {fileID: 504571198}
   - component: {fileID: 504571202}
+  - component: {fileID: 504571203}
   m_Layer: 0
   m_Name: Monster (2)
   m_TagString: Untagged
@@ -3477,6 +3618,25 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 3c100ae9623476144ab15a0796bfa43c, type: 3}
   - {fileID: 21300000, guid: 34e04141cfc3ee94ab4a6b3f43f734fa, type: 3}
   dissolveFrameDuration: 0.13
+--- !u!114 &504571203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 504571197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d4244dcd79b3b4eac108d49b871c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterSounds2D
+  noticeClip: {fileID: 8300000, guid: 0fb807917c63e4a408c5282060559dc4, type: 3}
+  noticeVolume: 0.45
+  moveClip: {fileID: 0}
+  moveVolume: 0.5
+  moveEpsilon: 0.002
+  fullVolumeDistance: 4
+  silentDistance: 26
 --- !u!1 &537504952
 GameObject:
   m_ObjectHideFlags: 0
@@ -4255,6 +4415,7 @@ GameObject:
   - component: {fileID: 640408617}
   - component: {fileID: 640408616}
   - component: {fileID: 640408620}
+  - component: {fileID: 640408621}
   m_Layer: 0
   m_Name: RangedMonster (1)
   m_TagString: Untagged
@@ -4436,6 +4597,25 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 86a2ec98e014d524ea460856cc09be2f, type: 3}
   - {fileID: 21300000, guid: f3776e4a747922e478158c2d665d65f6, type: 3}
   dissolveFrameDuration: 0.13
+--- !u!114 &640408621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 640408615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d4244dcd79b3b4eac108d49b871c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterSounds2D
+  noticeClip: {fileID: 8300000, guid: 39c1a0e8323765d4e9292e3c01e7a3a0, type: 3}
+  noticeVolume: 0.35
+  moveClip: {fileID: 8300000, guid: 1bc0ac03486fd0340ab3800cdb515933, type: 3}
+  moveVolume: 0.5
+  moveEpsilon: 0.002
+  fullVolumeDistance: 4
+  silentDistance: 26
 --- !u!1 &645962840
 GameObject:
   m_ObjectHideFlags: 0
@@ -4449,6 +4629,7 @@ GameObject:
   - component: {fileID: 645962842}
   - component: {fileID: 645962841}
   - component: {fileID: 645962845}
+  - component: {fileID: 645962846}
   m_Layer: 0
   m_Name: RangedMonster (5)
   m_TagString: Untagged
@@ -4630,6 +4811,25 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 86a2ec98e014d524ea460856cc09be2f, type: 3}
   - {fileID: 21300000, guid: f3776e4a747922e478158c2d665d65f6, type: 3}
   dissolveFrameDuration: 0.13
+--- !u!114 &645962846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 645962840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d4244dcd79b3b4eac108d49b871c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterSounds2D
+  noticeClip: {fileID: 8300000, guid: 39c1a0e8323765d4e9292e3c01e7a3a0, type: 3}
+  noticeVolume: 0.35
+  moveClip: {fileID: 8300000, guid: 1bc0ac03486fd0340ab3800cdb515933, type: 3}
+  moveVolume: 0.5
+  moveEpsilon: 0.002
+  fullVolumeDistance: 4
+  silentDistance: 26
 --- !u!212 &683962606
 SpriteRenderer:
   serializedVersion: 2
@@ -6554,6 +6754,7 @@ GameObject:
   - component: {fileID: 900000063}
   - component: {fileID: 900000064}
   - component: {fileID: 900000068}
+  - component: {fileID: 900000069}
   m_Layer: 0
   m_Name: RangedMonster
   m_TagString: Untagged
@@ -6826,6 +7027,25 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 86a2ec98e014d524ea460856cc09be2f, type: 3}
   - {fileID: 21300000, guid: f3776e4a747922e478158c2d665d65f6, type: 3}
   dissolveFrameDuration: 0.13
+--- !u!114 &900000069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 900000060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d4244dcd79b3b4eac108d49b871c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterSounds2D
+  noticeClip: {fileID: 8300000, guid: 39c1a0e8323765d4e9292e3c01e7a3a0, type: 3}
+  noticeVolume: 0.35
+  moveClip: {fileID: 8300000, guid: 1bc0ac03486fd0340ab3800cdb515933, type: 3}
+  moveVolume: 0.5
+  moveEpsilon: 0.002
+  fullVolumeDistance: 4
+  silentDistance: 26
 --- !u!1 &900002600
 GameObject:
   m_ObjectHideFlags: 0
@@ -6839,6 +7059,7 @@ GameObject:
   - component: {fileID: 900002603}
   - component: {fileID: 900002604}
   - component: {fileID: 900002605}
+  - component: {fileID: 900002609}
   m_Layer: 0
   m_Name: RangedMonster_Jump0to2
   m_TagString: Untagged
@@ -7111,6 +7332,25 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &900002609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 900002600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d4244dcd79b3b4eac108d49b871c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterSounds2D
+  noticeClip: {fileID: 8300000, guid: 39c1a0e8323765d4e9292e3c01e7a3a0, type: 3}
+  noticeVolume: 0.35
+  moveClip: {fileID: 8300000, guid: 1bc0ac03486fd0340ab3800cdb515933, type: 3}
+  moveVolume: 0.5
+  moveEpsilon: 0.002
+  fullVolumeDistance: 4
+  silentDistance: 26
 --- !u!1 &900002700
 GameObject:
   m_ObjectHideFlags: 0
@@ -7124,6 +7364,7 @@ GameObject:
   - component: {fileID: 900002703}
   - component: {fileID: 900002704}
   - component: {fileID: 900002705}
+  - component: {fileID: 900002709}
   m_Layer: 0
   m_Name: RangedMonster_Jump4to5
   m_TagString: Untagged
@@ -7396,6 +7637,25 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &900002709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 900002700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d4244dcd79b3b4eac108d49b871c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterSounds2D
+  noticeClip: {fileID: 8300000, guid: 39c1a0e8323765d4e9292e3c01e7a3a0, type: 3}
+  noticeVolume: 0.35
+  moveClip: {fileID: 8300000, guid: 1bc0ac03486fd0340ab3800cdb515933, type: 3}
+  moveVolume: 0.5
+  moveEpsilon: 0.002
+  fullVolumeDistance: 4
+  silentDistance: 26
 --- !u!1 &900002800
 GameObject:
   m_ObjectHideFlags: 0
@@ -7409,6 +7669,7 @@ GameObject:
   - component: {fileID: 900002803}
   - component: {fileID: 900002804}
   - component: {fileID: 900002805}
+  - component: {fileID: 900002809}
   m_Layer: 0
   m_Name: RangedMonster_Jump7to8
   m_TagString: Untagged
@@ -7681,6 +7942,25 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &900002809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 900002800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d4244dcd79b3b4eac108d49b871c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterSounds2D
+  noticeClip: {fileID: 8300000, guid: 39c1a0e8323765d4e9292e3c01e7a3a0, type: 3}
+  noticeVolume: 0.35
+  moveClip: {fileID: 8300000, guid: 1bc0ac03486fd0340ab3800cdb515933, type: 3}
+  moveVolume: 0.5
+  moveEpsilon: 0.002
+  fullVolumeDistance: 4
+  silentDistance: 26
 --- !u!1 &918479207
 GameObject:
   m_ObjectHideFlags: 0
@@ -8052,6 +8332,7 @@ GameObject:
   - component: {fileID: 1037861022}
   - component: {fileID: 1037861021}
   - component: {fileID: 1037861025}
+  - component: {fileID: 1037861026}
   m_Layer: 0
   m_Name: Monster (1)
   m_TagString: Untagged
@@ -8240,6 +8521,25 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 3c100ae9623476144ab15a0796bfa43c, type: 3}
   - {fileID: 21300000, guid: 34e04141cfc3ee94ab4a6b3f43f734fa, type: 3}
   dissolveFrameDuration: 0.13
+--- !u!114 &1037861026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1037861020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d4244dcd79b3b4eac108d49b871c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterSounds2D
+  noticeClip: {fileID: 8300000, guid: 0fb807917c63e4a408c5282060559dc4, type: 3}
+  noticeVolume: 0.45
+  moveClip: {fileID: 0}
+  moveVolume: 0.5
+  moveEpsilon: 0.002
+  fullVolumeDistance: 4
+  silentDistance: 26
 --- !u!1 &1057832879
 GameObject:
   m_ObjectHideFlags: 0
@@ -8344,6 +8644,7 @@ GameObject:
   - component: {fileID: 1073752429}
   - component: {fileID: 1073752428}
   - component: {fileID: 1073752432}
+  - component: {fileID: 1073752433}
   m_Layer: 0
   m_Name: Monster (7)
   m_TagString: Untagged
@@ -8532,6 +8833,25 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 3c100ae9623476144ab15a0796bfa43c, type: 3}
   - {fileID: 21300000, guid: 34e04141cfc3ee94ab4a6b3f43f734fa, type: 3}
   dissolveFrameDuration: 0.13
+--- !u!114 &1073752433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1073752427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d4244dcd79b3b4eac108d49b871c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterSounds2D
+  noticeClip: {fileID: 8300000, guid: 0fb807917c63e4a408c5282060559dc4, type: 3}
+  noticeVolume: 0.45
+  moveClip: {fileID: 0}
+  moveVolume: 0.5
+  moveEpsilon: 0.002
+  fullVolumeDistance: 4
+  silentDistance: 26
 --- !u!1 &1112778107
 GameObject:
   m_ObjectHideFlags: 0
@@ -9537,6 +9857,7 @@ GameObject:
   - component: {fileID: 1339426226}
   - component: {fileID: 1339426225}
   - component: {fileID: 1339426229}
+  - component: {fileID: 1339426230}
   m_Layer: 0
   m_Name: Monster (4)
   m_TagString: Untagged
@@ -9725,6 +10046,25 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 3c100ae9623476144ab15a0796bfa43c, type: 3}
   - {fileID: 21300000, guid: 34e04141cfc3ee94ab4a6b3f43f734fa, type: 3}
   dissolveFrameDuration: 0.13
+--- !u!114 &1339426230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1339426224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d4244dcd79b3b4eac108d49b871c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterSounds2D
+  noticeClip: {fileID: 8300000, guid: 0fb807917c63e4a408c5282060559dc4, type: 3}
+  noticeVolume: 0.45
+  moveClip: {fileID: 0}
+  moveVolume: 0.5
+  moveEpsilon: 0.002
+  fullVolumeDistance: 4
+  silentDistance: 26
 --- !u!1 &1340462578
 GameObject:
   m_ObjectHideFlags: 0
@@ -9738,6 +10078,7 @@ GameObject:
   - component: {fileID: 1340462580}
   - component: {fileID: 1340462579}
   - component: {fileID: 1340462583}
+  - component: {fileID: 1340462584}
   m_Layer: 0
   m_Name: RangedMonster (4)
   m_TagString: Untagged
@@ -9919,6 +10260,25 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 86a2ec98e014d524ea460856cc09be2f, type: 3}
   - {fileID: 21300000, guid: f3776e4a747922e478158c2d665d65f6, type: 3}
   dissolveFrameDuration: 0.13
+--- !u!114 &1340462584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1340462578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d4244dcd79b3b4eac108d49b871c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterSounds2D
+  noticeClip: {fileID: 8300000, guid: 39c1a0e8323765d4e9292e3c01e7a3a0, type: 3}
+  noticeVolume: 0.35
+  moveClip: {fileID: 8300000, guid: 1bc0ac03486fd0340ab3800cdb515933, type: 3}
+  moveVolume: 0.5
+  moveEpsilon: 0.002
+  fullVolumeDistance: 4
+  silentDistance: 26
 --- !u!1 &1376139995
 GameObject:
   m_ObjectHideFlags: 0
@@ -10174,6 +10534,7 @@ GameObject:
   - component: {fileID: 1395789099}
   - component: {fileID: 1395789098}
   - component: {fileID: 1395789097}
+  - component: {fileID: 1395789102}
   m_Layer: 0
   m_Name: IntroRabbit
   m_TagString: Untagged
@@ -10362,6 +10723,25 @@ Transform:
   - {fileID: 72992788}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1395789102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1395789096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d4244dcd79b3b4eac108d49b871c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterSounds2D
+  noticeClip: {fileID: 8300000, guid: 0fb807917c63e4a408c5282060559dc4, type: 3}
+  noticeVolume: 0.45
+  moveClip: {fileID: 0}
+  moveVolume: 0.5
+  moveEpsilon: 0.002
+  fullVolumeDistance: 4
+  silentDistance: 26
 --- !u!1 &1395821594
 GameObject:
   m_ObjectHideFlags: 0
@@ -11949,6 +12329,7 @@ GameObject:
   - component: {fileID: 1622609107}
   - component: {fileID: 1622609106}
   - component: {fileID: 1622609110}
+  - component: {fileID: 1622609111}
   m_Layer: 0
   m_Name: Monster
   m_TagString: Untagged
@@ -12137,6 +12518,25 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 3c100ae9623476144ab15a0796bfa43c, type: 3}
   - {fileID: 21300000, guid: 34e04141cfc3ee94ab4a6b3f43f734fa, type: 3}
   dissolveFrameDuration: 0.13
+--- !u!114 &1622609111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1622609105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d4244dcd79b3b4eac108d49b871c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterSounds2D
+  noticeClip: {fileID: 8300000, guid: 0fb807917c63e4a408c5282060559dc4, type: 3}
+  noticeVolume: 0.45
+  moveClip: {fileID: 0}
+  moveVolume: 0.5
+  moveEpsilon: 0.002
+  fullVolumeDistance: 4
+  silentDistance: 26
 --- !u!1 &1644369142
 GameObject:
   m_ObjectHideFlags: 0
@@ -12302,6 +12702,7 @@ GameObject:
   - component: {fileID: 1648970459}
   - component: {fileID: 1648970458}
   - component: {fileID: 1648970462}
+  - component: {fileID: 1648970463}
   m_Layer: 0
   m_Name: RangedMonster (8)
   m_TagString: Untagged
@@ -12483,6 +12884,25 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 86a2ec98e014d524ea460856cc09be2f, type: 3}
   - {fileID: 21300000, guid: f3776e4a747922e478158c2d665d65f6, type: 3}
   dissolveFrameDuration: 0.13
+--- !u!114 &1648970463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1648970457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d4244dcd79b3b4eac108d49b871c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterSounds2D
+  noticeClip: {fileID: 8300000, guid: 39c1a0e8323765d4e9292e3c01e7a3a0, type: 3}
+  noticeVolume: 0.35
+  moveClip: {fileID: 8300000, guid: 1bc0ac03486fd0340ab3800cdb515933, type: 3}
+  moveVolume: 0.5
+  moveEpsilon: 0.002
+  fullVolumeDistance: 4
+  silentDistance: 26
 --- !u!1 &1670953919
 GameObject:
   m_ObjectHideFlags: 0
@@ -13323,6 +13743,7 @@ GameObject:
   - component: {fileID: 1848619500}
   - component: {fileID: 1848619499}
   - component: {fileID: 1848619503}
+  - component: {fileID: 1848619504}
   m_Layer: 0
   m_Name: Monster (5)
   m_TagString: Untagged
@@ -13511,6 +13932,25 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 3c100ae9623476144ab15a0796bfa43c, type: 3}
   - {fileID: 21300000, guid: 34e04141cfc3ee94ab4a6b3f43f734fa, type: 3}
   dissolveFrameDuration: 0.12
+--- !u!114 &1848619504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1848619498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d4244dcd79b3b4eac108d49b871c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterSounds2D
+  noticeClip: {fileID: 8300000, guid: 0fb807917c63e4a408c5282060559dc4, type: 3}
+  noticeVolume: 0.45
+  moveClip: {fileID: 0}
+  moveVolume: 0.5
+  moveEpsilon: 0.002
+  fullVolumeDistance: 4
+  silentDistance: 26
 --- !u!1 &1881974585
 GameObject:
   m_ObjectHideFlags: 0
@@ -13966,6 +14406,7 @@ GameObject:
   - component: {fileID: 2046570103}
   - component: {fileID: 2046570102}
   - component: {fileID: 2046570106}
+  - component: {fileID: 2046570107}
   m_Layer: 0
   m_Name: Monster (3)
   m_TagString: Untagged
@@ -14154,6 +14595,25 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 3c100ae9623476144ab15a0796bfa43c, type: 3}
   - {fileID: 21300000, guid: 34e04141cfc3ee94ab4a6b3f43f734fa, type: 3}
   dissolveFrameDuration: 0.12
+--- !u!114 &2046570107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2046570101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d4244dcd79b3b4eac108d49b871c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterSounds2D
+  noticeClip: {fileID: 8300000, guid: 0fb807917c63e4a408c5282060559dc4, type: 3}
+  noticeVolume: 0.45
+  moveClip: {fileID: 0}
+  moveVolume: 0.5
+  moveEpsilon: 0.002
+  fullVolumeDistance: 4
+  silentDistance: 26
 --- !u!1 &2070563470
 GameObject:
   m_ObjectHideFlags: 0
