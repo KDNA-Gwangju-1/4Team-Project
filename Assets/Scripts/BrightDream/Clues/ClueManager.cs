@@ -20,9 +20,9 @@ namespace BrightDream.Clues
         private static readonly (string Id, string Label)[] ClueChecklist =
         {
             ("clue_01_ribbon", "리본"),
-            ("clue_03_tree_carving", "이름"),
-            ("clue_02_photoalbum", "사진첩"),
-            ("clue_04_unsent_letter", "편지"),
+            ("clue_04_unsent_letter", "보내지 못한 편지"),
+            ("clue_03_tree_carving", "나무에 새겨진 이름"),
+            ("clue_02_photoalbum", "낡은 사진첩"),
         };
 
         [Header("UI 참조")]

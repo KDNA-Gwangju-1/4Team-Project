@@ -86,6 +86,9 @@ namespace BrightDream.Combat
 
         public bool IsPlaying { get; private set; }
 
+        /// <summary>등장 연출이 끝나(또는 건너뛰어) 보스가 아레나에 완전히 내려와 있는지.</summary>
+        public bool IsFinished => done;
+
         private Renderer[] riftRenderers;
         private Renderer[] holeRenderers;        // 홀마스크 + 터널. _Progress 가 없어 따로 다룬다
         private Vector3[] holeBaseScales;

@@ -10,8 +10,9 @@ public class ClueOutlineController : MonoBehaviour
 {
     public enum OutlineMode
     {
-        Hull, // 닫힌 3D 메시(리본/사진첩/편지) - 뒤집힌 껍질 방식
+        Hull, // 닫힌 3D 메시(리본/사진첩) - 뒤집힌 껍질 방식
         Flat, // 얇은 평면형 decal(나무 새김 글자) - 살짝 키워서 뒤에 깔아두는 방식
+        Silhouette, // 눕거나 구겨진 얇은 종이(벤치 위 편지) - 중심에서 수평 바깥쪽으로 밀어 가장자리에 테두리 (width는 m)
     }
 
     [SerializeField] private Renderer[] targetRenderers;
@@ -42,13 +43,16 @@ public class ClueOutlineController : MonoBehaviour
     private static readonly int MainTexId = Shader.PropertyToID("_MainTex");
     private static readonly int PulseAmountId = Shader.PropertyToID("_PulseAmount");
     private static readonly int PulseSpeedId = Shader.PropertyToID("_PulseSpeed");
+    private static readonly int CenterId = Shader.PropertyToID("_Center");
 
     private void Awake()
     {
         if (targetRenderers == null || targetRenderers.Length == 0)
             targetRenderers = GetComponentsInChildren<Renderer>();
 
-        string shaderName = mode == OutlineMode.Hull ? "BrightDream/ClueOutlineHull" : "BrightDream/ClueOutlineFlat";
+        string shaderName = mode == OutlineMode.Hull ? "BrightDream/ClueOutlineHull"
+            : mode == OutlineMode.Flat ? "BrightDream/ClueOutlineFlat"
+            : "BrightDream/ClueOutlineSilhouette";
         Shader shader = Shader.Find(shaderName);
         if (shader == null)
         {
@@ -90,6 +94,12 @@ public class ClueOutlineController : MonoBehaviour
                 mat.mainTextureScale = src.sharedMaterial.mainTextureScale;
                 mat.mainTextureOffset = src.sharedMaterial.mainTextureOffset;
             }
+            // Silhouette 모드는 이 중심에서 수평 바깥쪽으로 밀어 놓인 바닥 높이에 깐다 - 단서는 제자리에 있으므로 한 번만 잡는다.
+            if (mode == OutlineMode.Silhouette)
+            {
+                Bounds b = src.bounds;
+                mat.SetVector(CenterId, new Vector4(b.center.x, b.center.y, b.center.z, FindFloorY(b) + 0.004f));
+            }
             outMr.sharedMaterial = mat;
             outMr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
             outMr.receiveShadows = false;
@@ -129,6 +139,16 @@ public class ClueOutlineController : MonoBehaviour
 
         copy.triangles = kept.ToArray();
         return copy;
+    }
+
+    /// <summary>단서 바로 밑 받침(벤치 좌석 등)의 윗면 높이. 못 찾으면 단서 맨 아래 높이.</summary>
+    private float FindFloorY(Bounds b)
+    {
+        var hits = Physics.RaycastAll(new Vector3(b.center.x, b.max.y + 0.05f, b.center.z), Vector3.down, b.size.y + 1f, ~0, QueryTriggerInteraction.Ignore);
+        float best = float.NegativeInfinity;
+        foreach (var h in hits)
+            if (!h.collider.transform.IsChildOf(transform) && h.point.y > best) best = h.point.y;
+        return float.IsNegativeInfinity(best) ? b.min.y : best;
     }
 
     public void SetHovering(bool hovering)

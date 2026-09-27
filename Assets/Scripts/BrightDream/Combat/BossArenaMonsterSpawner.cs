@@ -9,7 +9,13 @@ namespace BrightDream.Combat
     /// 동시 마릿수는 maxActiveMonsters 로 묶고, 그 안에서 어둠 몹과 일반 몹의 비율을 유지한다.
     /// 정화 필요/불필요 판정과 피격·접촉 처리는 MonsterCombat을 그대로 재사용하고,
     /// 정화 성공 시 MonsterCombat.OnPurified를 구독해 보스 약점 카운트(BossWeakpointController)에 연결한다.
-    /// "뒤쪽" 기준 방향은 보스가 전투 중 회전해도 흔들리지 않도록 스테이지 진입 시점에 한 번만 고정한다.
+    /// "뒤쪽"은 스폰할 때마다 보스의 현재 방향으로 다시 잡는다. 보스는 보통 플레이어를 보고 쫓아오므로
+    /// 몬스터가 보스 너머(플레이어 반대편)에서 나온다 - 방향을 처음 한 번만 고정하면 보스가 돌아선 뒤
+    /// 플레이어 바로 옆에서 튀어나올 수 있었다.
+    ///
+    /// 씬에 보스 등장 연출(BossRiftEntrance)이 있으면, 균열에서 나온 보스가 아레나에 완전히 착지해
+    /// 연출이 끝난 뒤(OnBossEntranceFinished)부터 spawnStartDelay 만큼 더 기다렸다가 스폰을 시작한다.
+    /// 예전에는 스테이지 진입과 동시에 스폰해서 보스가 나오기도 전에 잡몹이 먼저 깔렸다.
     /// </summary>
     public class BossArenaMonsterSpawner : MonoBehaviour
     {
@@ -42,39 +48,66 @@ namespace BrightDream.Combat
         [Tooltip("일반 몹 최대 마릿수.")]
         [SerializeField] private int maxNormalMonsters = 7;
         [SerializeField] private int stageIndex = 3;
+        [Tooltip("보스 등장 연출이 끝난 뒤(착지 후 전투 시작) 첫 몬스터를 내기까지 더 기다리는 시간 - 착지 포효가 끝날 즈음.")]
+        [SerializeField] private float spawnStartDelay = 1.5f;
 
         private readonly List<Transform> activeMonsters = new List<Transform>();
-        private Vector3 rearDirection;
         private bool spawning;
+        private bool waitingForEntrance;
 
         private void OnEnable()
         {
             StageProgressManager.OnStageChanged += HandleStageChanged;
             BossWeakpointController.OnBossDefeated += HandleBossDefeated;
+            BossRiftEntrance.OnBossEntranceFinished += HandleEntranceFinished;
         }
 
         private void OnDisable()
         {
             StageProgressManager.OnStageChanged -= HandleStageChanged;
             BossWeakpointController.OnBossDefeated -= HandleBossDefeated;
+            BossRiftEntrance.OnBossEntranceFinished -= HandleEntranceFinished;
         }
 
         private void HandleStageChanged(int currentStage)
         {
-            if (currentStage != stageIndex || spawning || bossTransform == null) return;
+            if (currentStage != stageIndex || spawning || waitingForEntrance || bossTransform == null) return;
 
+            // 보스가 아직 균열에서 나오는 중이면 연출이 끝날 때까지 기다린다.
+            var entrance = FindObjectOfType<BossRiftEntrance>();
+            if (entrance != null && !entrance.IsFinished)
+            {
+                waitingForEntrance = true;
+                return;
+            }
+            BeginSpawning();
+        }
+
+        private void HandleEntranceFinished()
+        {
+            if (!waitingForEntrance) return;
+            waitingForEntrance = false;
+            BeginSpawning();
+        }
+
+        private void BeginSpawning()
+        {
+            if (spawning) return;
             spawning = true;
-            rearDirection = -bossTransform.forward;
             StartCoroutine(SpawnLoop());
         }
 
         private void HandleBossDefeated()
         {
             spawning = false;
+            waitingForEntrance = false;
         }
 
         private IEnumerator SpawnLoop()
         {
+            if (spawnStartDelay > 0f) yield return new WaitForSeconds(spawnStartDelay);
+            if (!spawning) yield break;
+
             while (spawning && monsterTemplates.Length > 0)
             {
                 activeMonsters.RemoveAll(t => t == null);
@@ -147,11 +180,14 @@ namespace BrightDream.Combat
             position = Vector3.zero;
             if (arenaFloorCollider == null || !arenaFloorCollider.enabled || !arenaFloorCollider.gameObject.activeInHierarchy)
                 return false;
+            Vector3 rear = -bossTransform.forward;
+            rear.y = 0f;
+            rear = rear.sqrMagnitude > 0.0001f ? rear.normalized : Vector3.back;
             for (int i = 0; i < maxSpawnAttempts; i++)
             {
                 // 뒤쪽 180도(±90도) 부채꼴 안에서 랜덤 각도/반경을 고른다.
                 float angle = Random.Range(-90f, 90f);
-                Vector3 dir = Quaternion.AngleAxis(angle, Vector3.up) * rearDirection;
+                Vector3 dir = Quaternion.AngleAxis(angle, Vector3.up) * rear;
                 float radius = Random.Range(minSpawnRadius, maxSpawnRadius);
                 Vector3 candidate = bossTransform.position + dir * radius;
 

@@ -78,6 +78,11 @@ namespace BrightDream
         private ClueManager subscribedTo;
         private bool armed;     // 단서 4개를 다 모았다
         private bool played;
+        private float monsterFeetOffset; // 피벗이 발바닥보다 얼마나 위에 있는지
+
+        // 웨이포인트 사이를 직선 보간하면 아치형 다리(DeckCollider) 위에서 몬스터가 떠 보여서, 매 프레임 발밑 바닥에 붙인다.
+        private const float GroundProbeUp = 1f;
+        private const float GroundProbeDown = 3f;
 
         private void Update()
         {
@@ -164,6 +169,8 @@ namespace BrightDream
                 }
 
                 monster.SetActive(true);
+                monsterFeetOffset = MeasureFeetOffset(monster.transform);
+                SnapToGround(monster.transform);
                 if (bridgeCamera != null) bridgeCamera.LookAt = monster.transform;
 
                 // 다리 위에 이미 서 있는 몬스터를 두고 대사 두 줄이 이어서 나온다 - 끝나야 움직이기 시작한다.
@@ -270,11 +277,41 @@ namespace BrightDream
                 {
                     elapsed += Time.deltaTime;
                     mover.position = Vector3.Lerp(start, end, Mathf.Clamp01(elapsed / duration));
+                    SnapToGround(mover);
                     mover.rotation = Quaternion.Slerp(mover.rotation, targetRot, Time.deltaTime * turnSpeed);
                     yield return null;
                 }
                 mover.position = end;
+                SnapToGround(mover);
             }
+        }
+
+        private static float MeasureFeetOffset(Transform mover)
+        {
+            Renderer[] renderers = mover.GetComponentsInChildren<Renderer>();
+            if (renderers.Length == 0) return 0f;
+            Bounds b = renderers[0].bounds;
+            foreach (Renderer r in renderers) b.Encapsulate(r.bounds);
+            return mover.position.y - b.min.y;
+        }
+
+        /// <summary>발밑에서 가장 가까운 바닥(다리 판자 포함)을 찾아 발바닥이 그 위에 닿게 높이만 맞춘다.</summary>
+        private void SnapToGround(Transform mover)
+        {
+            Vector3 p = mover.position;
+            RaycastHit[] hits = Physics.RaycastAll(new Vector3(p.x, p.y + GroundProbeUp, p.z), Vector3.down,
+                GroundProbeUp + GroundProbeDown, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore);
+            float bestDistance = float.MaxValue;
+            float groundY = 0f;
+            foreach (RaycastHit hit in hits)
+            {
+                if (hit.collider.transform.IsChildOf(mover)) continue;
+                if (hit.collider.GetComponentInParent<CharacterController>() != null) continue; // 플레이어
+                if (hit.distance >= bestDistance) continue;
+                bestDistance = hit.distance;
+                groundY = hit.point.y;
+            }
+            if (bestDistance < float.MaxValue) mover.position = new Vector3(p.x, groundY + monsterFeetOffset, p.z);
         }
 
         /// <summary>
