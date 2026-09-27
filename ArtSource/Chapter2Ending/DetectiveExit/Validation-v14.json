@@ -1,0 +1,26 @@
+{
+  "inputFrames": 804,
+  "affectedFrames": 150,
+  "minExposure": 0.78,
+  "effect": "3-frame exposure pulse tied to 6 Hz position changes; walking only",
+  "videos": [
+    {
+      "file": "detective-exit-flicker-v14.mp4",
+      "frames": 804,
+      "fps": 60.0,
+      "size": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "file": "Comparison-v13-v14.mp4",
+      "frames": 804,
+      "fps": 60.0,
+      "size": [
+        1920,
+        540
+      ]
+    }
+  ]
+}

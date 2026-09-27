@@ -1,0 +1,15 @@
+{
+  "name": "boss-dissolve-20f",
+  "frames": 20,
+  "canvas": {
+    "width": 512,
+    "height": 512
+  },
+  "duration_ms": 200,
+  "loop": false,
+  "pivot": "bottom-center",
+  "variants": [
+    "transparent",
+    "opaque_navy"
+  ]
+}

@@ -1,0 +1,126 @@
+{
+  "pivot": "(8.07, 0.00, 67.61)",
+  "meshMinY": 0.0,
+  "rendererColliderSame": true,
+  "consumers": [
+    "BossArenaLockdown.arenaFloorCollider",
+    "BossArenaMonsterSpawner.arenaFloorCollider",
+    "BossSlamIndicator.groundCollider",
+    "BossAI.arenaFloorCollider",
+    "BossChargeIndicator.groundCollider"
+  ],
+  "samples": [
+    {
+      "ok": true,
+      "y": 0.16,
+      "nav": true,
+      "navDelta": 0.0558424667,
+      "route": "PathComplete"
+    },
+    {
+      "ok": true,
+      "y": 0.16,
+      "nav": true,
+      "navDelta": 0.05108493,
+      "route": "PathComplete"
+    },
+    {
+      "ok": true,
+      "y": 0.16,
+      "nav": true,
+      "navDelta": 0.0375366434,
+      "route": "PathComplete"
+    },
+    {
+      "ok": true,
+      "y": 0.16,
+      "nav": true,
+      "navDelta": 0.0172601789,
+      "route": "PathComplete"
+    },
+    {
+      "ok": true,
+      "y": 0.16,
+      "nav": true,
+      "navDelta": 0.006657526,
+      "route": "PathComplete"
+    },
+    {
+      "ok": true,
+      "y": 0.16,
+      "nav": true,
+      "navDelta": 0.00796741247,
+      "route": "PathComplete"
+    },
+    {
+      "ok": true,
+      "y": 0.16,
+      "nav": true,
+      "navDelta": 0.01543808,
+      "route": "PathComplete"
+    },
+    {
+      "ok": true,
+      "y": 0.16,
+      "nav": true,
+      "navDelta": 0.00685687363,
+      "route": "PathComplete"
+    },
+    {
+      "ok": true,
+      "y": 0.16,
+      "nav": true,
+      "navDelta": 0.00666669,
+      "route": "PathComplete"
+    },
+    {
+      "ok": true,
+      "y": 0.16,
+      "nav": true,
+      "navDelta": 0.0172414035,
+      "route": "PathComplete"
+    },
+    {
+      "ok": true,
+      "y": 0.16,
+      "nav": true,
+      "navDelta": 0.0375178754,
+      "route": "PathComplete"
+    },
+    {
+      "ok": true,
+      "y": 0.16,
+      "nav": true,
+      "navDelta": 0.0510661751,
+      "route": "PathComplete"
+    },
+    {
+      "ok": true,
+      "y": 0.16,
+      "nav": true,
+      "navDelta": 0.00666669,
+      "route": "PathComplete"
+    },
+    {
+      "ok": true,
+      "y": 0.16,
+      "nav": true,
+      "navDelta": 0.00666669,
+      "route": "PathComplete"
+    },
+    {
+      "ok": true,
+      "y": 0.16,
+      "nav": true,
+      "navDelta": 0.00666669,
+      "route": "PathComplete"
+    },
+    {
+      "ok": true,
+      "y": 0.16,
+      "nav": true,
+      "navDelta": 0.001569882,
+      "route": "PathComplete"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "name": "redream-detective-exit",
+  "private": true,
+  "version": "1.0.0",
+  "dependencies": { "@napi-rs/canvas": "0.1.100" }
+}

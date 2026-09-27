@@ -1,0 +1,29 @@
+{
+  "width": 1920,
+  "height": 1080,
+  "fps": 60,
+  "duration": 11.6,
+  "cycleFrames": 72,
+  "cycleSeconds": 1.2,
+  "method": "Single opaque source silhouette, direct mesh rasterization, no pose crossfades; procedural 2D, not new hand-drawn frames",
+  "door": "right leaf hinged inward; reaches before rotation; interior occlusion after threshold",
+  "outputs": [
+    "hospital-entry-1080p.mp4",
+    "walk-smooth-review-1080p.mp4"
+  ],
+  "validation": [
+    {
+      "name": "hospital-entry-1080p.mp4",
+      "bytes": 2709891,
+      "sha256": "62a6e85710ed1c455fc3aab71181dc677fadf968705bbfc59396727d4810ec21",
+      "fullDecode": true
+    },
+    {
+      "name": "walk-smooth-review-1080p.mp4",
+      "bytes": 576413,
+      "sha256": "490397d39e60100b06f3ba6d9183ba0a7f0bca0e50437376ae7cfe8e0cd0723a",
+      "fullDecode": true
+    }
+  ],
+  "higgsfield3DGenerated": false
+}

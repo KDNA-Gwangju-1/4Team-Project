@@ -1,0 +1,43 @@
+{
+  "rearPoses": [
+    "w0",
+    "w3",
+    "w6",
+    "w9"
+  ],
+  "walkingFramesWithBlur": 124,
+  "walkingFramesUnmodified": 481,
+  "headPixelsUnmodified": true,
+  "holdPixelsUnmodified": true,
+  "transitionWindowFrames": 4,
+  "videos": [
+    {
+      "file": "detective-exit-keyposes-v12.mp4",
+      "frames": 804,
+      "fps": 60.0,
+      "dimensions": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "file": "Walk-isolated-v12.mp4",
+      "frames": 300,
+      "fps": 60.0,
+      "dimensions": [
+        640,
+        1024
+      ]
+    },
+    {
+      "file": "Comparison-v11-v12.mp4",
+      "frames": 300,
+      "fps": 60.0,
+      "dimensions": [
+        1280,
+        1024
+      ]
+    }
+  ],
+  "scope": "File and effect-scope checks; not perceptual approval of gait."
+}

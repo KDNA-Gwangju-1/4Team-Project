@@ -1,0 +1,52 @@
+[
+  {
+    "file": "ArtSource\\Chapter1ClueVoice\\Preview\\clue_01_ribbon_01.mp3",
+    "seconds": 7.92,
+    "bytes": 47520
+  },
+  {
+    "file": "ArtSource\\Chapter1ClueVoice\\Preview\\clue_02_photoalbum_01.mp3",
+    "seconds": 8.06,
+    "bytes": 48384
+  },
+  {
+    "file": "ArtSource\\Chapter1ClueVoice\\Preview\\clue_03_tree_carving_01.mp3",
+    "seconds": 7.46,
+    "bytes": 44784
+  },
+  {
+    "file": "ArtSource\\Chapter1ClueVoice\\Preview\\clue_04_unsent_letter_01.mp3",
+    "seconds": 5.62,
+    "bytes": 33696
+  },
+  {
+    "file": "ArtSource\\Chapter1ClueVoice\\Preview\\clue_04_unsent_letter_02.mp3",
+    "seconds": 7.3,
+    "bytes": 43776
+  },
+  {
+    "file": "ArtSource\\Chapter1ClueVoice\\PreviewLocal\\clue_01_ribbon_01.wav",
+    "seconds": 7.55,
+    "bytes": 333126
+  },
+  {
+    "file": "ArtSource\\Chapter1ClueVoice\\PreviewLocal\\clue_02_photoalbum_01.wav",
+    "seconds": 7.65,
+    "bytes": 337254
+  },
+  {
+    "file": "ArtSource\\Chapter1ClueVoice\\PreviewLocal\\clue_03_tree_carving_01.wav",
+    "seconds": 7.53,
+    "bytes": 332316
+  },
+  {
+    "file": "ArtSource\\Chapter1ClueVoice\\PreviewLocal\\clue_04_unsent_letter_01.wav",
+    "seconds": 5.31,
+    "bytes": 234422
+  },
+  {
+    "file": "ArtSource\\Chapter1ClueVoice\\PreviewLocal\\clue_04_unsent_letter_02.wav",
+    "seconds": 6.85,
+    "bytes": 301960
+  }
+]

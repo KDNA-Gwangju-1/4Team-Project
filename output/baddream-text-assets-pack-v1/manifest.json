@@ -1,0 +1,68 @@
+[
+  {
+    "file": "01-text-only.png",
+    "size": [
+      1145,
+      1374
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  {
+    "file": "02-family-paper.png",
+    "size": [
+      1229,
+      1280
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  {
+    "file": "03-portrait-paper.png",
+    "size": [
+      1144,
+      1375
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  {
+    "file": "04-portrait-frame.png",
+    "size": [
+      1144,
+      1375
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  {
+    "file": "05-trophy-paper.png",
+    "size": [
+      1077,
+      1461
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  {
+    "file": "06-tilted-family-frame.png",
+    "size": [
+      1145,
+      1374
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  }
+]

@@ -1,0 +1,7 @@
+{
+  "frames": 90,
+  "fps": 30,
+  "duration": 3,
+  "maxControlAnchorSlipPixels": 0,
+  "limitations": "Control anchors only; not a claim of natural anatomical gait. Single-pose mesh cannot redraw soles or reveal hidden limb surfaces."
+}

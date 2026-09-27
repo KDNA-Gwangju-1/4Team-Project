@@ -1,0 +1,27 @@
+{
+  "output": "C:\\Ondukong\\4Team-Project\\output\\game-opening\\opening-restored-v1\\opening-restored-final-1080p.mp4",
+  "duration": 33.3,
+  "fps": 30,
+  "frames": 999,
+  "size": [
+    1920,
+    1080
+  ],
+  "bytes": 25808315,
+  "sha256": "fcd3a09340e076eafd599897c6d869bd638d3bf83b88feedfda735670309fb97",
+  "audioSource": "C:\\Ondukong\\4Team-Project\\output\\game-opening\\opening-soundmix-v1\\opening-mix-premaster.wav",
+  "audioProcessing": "Original premaster, overall +7dB and safety limiter, AAC256k; relative mix and timing preserved",
+  "restored": [
+    "lobby-to-TV continuous zoom from cached frames",
+    "single-environment camera move and sky drift",
+    "typewriter subtitle from preserved beat timings"
+  ],
+  "reused": [
+    "existing news/interview/CRT/static video",
+    "original premaster",
+    "approved environment and sky artwork",
+    "title frame"
+  ],
+  "notClaimed": "Not a byte-identical recovery of the lost final MP4; reconstructed camera paths",
+  "validation": "Full final MP4 decode passed"
+}

@@ -1,0 +1,19 @@
+{
+  "model": "seedance_2_5",
+  "mode": "omni_reference",
+  "duration": 12,
+  "aspect_ratio": "16:9",
+  "resolution": "1080p",
+  "generate_audio": false,
+  "medias": [
+    {
+      "role": "start_image",
+      "value": "5e679d87-8405-433d-9ed4-adcb7724bd22"
+    },
+    {
+      "role": "image",
+      "value": "3e3355cd-213e-4393-bb8a-ce6a764196f1"
+    }
+  ],
+  "prompt": "Create a 12-second continuous game cinematic in 16:9. First reference is the exact hospital facade and starting composition. Second reference is the detective character design viewed from behind: brown fedora with black band, belted tan trench coat, dark trousers, brown shoes. Preserve this identity, proportions, beige stone hospital, blue-gray window frames and central double glass entrance. Begin in crisp opaque pixel-art style. 0-0.7s hold the empty hospital establishing shot. 0.7-3.0s detective walks naturally away from camera from the bottom foreground toward the central doors, getting smaller with distance. Anatomically believable heel contact, toe-off, alternating knees and opposing arm swings, grounded feet. At precisely about 3 seconds, during an uninterrupted step, smoothly transform the ENTIRE pixel-art scene and detective into high-quality stylized 3D game cinematic rendering over about 1 second. Match the character silhouette, foot phase, screen location, hospital perspective and sunlight across the style transition. A dimensional materialization, not two semi-transparent people crossfading: ONE solid opaque detective at all times. 4-7.5s continue walking in the fully 3D style toward the entrance. 7.5-9s stop, plant feet, reach with right hand to the right glass door handle and push that hinged door inward, hand following handle. 9-11s walk through the open doorway into the hospital, receding behind the door frame. 11-12s door gently returns. Camera stays outside and maintains the same stable upward-looking wide facade composition, no cuts, no dramatic camera orbit, no geometry warping. Clean sharp silhouettes throughout. No motion trails, ghost images, transparent limbs, duplicates, rubber limbs, sliding feet, flicker, captions or logos. Bright clear daytime, grounded mystery-game atmosphere, not dark horror. Silent output."
+}

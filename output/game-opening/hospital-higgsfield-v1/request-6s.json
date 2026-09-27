@@ -1,0 +1,20 @@
+{
+  "job_id": "1facbaea-ba71-4b3c-9d76-2c2dd7c06d71",
+  "estimated_credits": 4,
+  "status": "submitted",
+  "params": {
+    "model": "minimax_hailuo",
+    "variant": "minimax-2.3-fast",
+    "duration": 6,
+    "resolution": "768",
+    "count": 1,
+    "use_unlim": false,
+    "medias": [
+      {
+        "role": "start_image",
+        "value": "7e651556-fdd3-493a-b6da-6b92ad13a305"
+      }
+    ],
+    "prompt": "A single continuous six-second cinematic, beginning exactly from the supplied image. Locked ground-level camera behind a detective centered in front of the hospital. Immediately he walks straight away toward the CLOSED double glass entrance, shrinking naturally with distance, revealing his full rear silhouette in a tan trench coat, dark trousers, brown leather shoes and brown fedora. During his first step, the pixel-art appearance smoothly resolves into near-photorealistic 3D video-game graphics, not live-action footage. Preserve the same architecture, daylight, outfit, body proportions and composition through the transition. At about three seconds he reaches the entrance, places his left and right hands on the corresponding handles and pushes BOTH hinged glass doors inward while stepping through. Doors rotate around fixed outer hinges, hands maintain contact during the push. By six seconds his entire body and coat have passed inside; end immediately with BOTH doors still open. No door closing action, no pause or end hold. Natural brisk walking, not running: alternating grounded foot contacts, coordinated arms and subtle cloth motion. Crisp single character silhouette. No zoom, tracking, pan, cuts, camera movement, ghost trails, frame blending, sliding feet, extra limbs, body-door clipping, automatic door opening, teleportation, deforming facade, text or logos."
+  }
+}

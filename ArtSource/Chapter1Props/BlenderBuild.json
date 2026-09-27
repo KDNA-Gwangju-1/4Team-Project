@@ -1,0 +1,18 @@
+[
+  {
+    "model": "CraftCrate",
+    "vertices": 4400
+  },
+  {
+    "model": "CraftBench",
+    "vertices": 2958
+  },
+  {
+    "model": "CraftSign",
+    "vertices": 1384
+  },
+  {
+    "model": "CraftBridge",
+    "vertices": 6780
+  }
+]

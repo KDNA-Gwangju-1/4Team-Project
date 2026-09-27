@@ -1,0 +1,15 @@
+const fs=require('fs'),path=require('path'),{spawnSync}=require('child_process');
+const {createCanvas,GlobalFonts}=require('C:/Users/Note-038/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/@napi-rs/canvas');
+const ff='C:/Ondukong/_backup_4Team_20260916/output/game-opening/render-deps/imageio_ffmpeg/binaries/ffmpeg-win-x86_64-v7.1.exe';
+const src=path.resolve('Assets/StreamingAssets/Cinematics/OpeningAndHospital.mp4');
+const out=path.join(__dirname,'OpeningAndHospital-REDream.mp4');
+GlobalFonts.registerFromPath('C:/Windows/Fonts/consolab.ttf','Title');
+const c=createCanvas(960,540),g=c.getContext('2d');
+g.font='bold 54px Title';g.textAlign='center';g.textBaseline='middle';g.fillStyle='#d2d4d1';g.fillText('RE:Dream',480,259);
+const big=createCanvas(1920,1080),b=big.getContext('2d');b.imageSmoothingEnabled=false;b.drawImage(c,0,0,1920,1080);
+fs.writeFileSync(path.join(__dirname,'title.png'),big.toBuffer('image/png'));
+if(!fs.existsSync(path.join(__dirname,'original.mp4')))fs.copyFileSync(src,path.join(__dirname,'original.mp4'));
+const filter="[0:v]split=2[base][patch];[patch]crop=280:140:450:450[p];[base][p]overlay=820:450:enable='gte(t,30.3)*lt(t,33.3)'[clean];[1:v]format=rgba,fade=t=in:st=30.3:d=0.35:alpha=1[title];[clean][title]overlay=0:0:enable='gte(t,30.3)*lt(t,33.3)':shortest=1[v]";
+const r=spawnSync(ff,['-v','error','-y','-i',src,'-loop','1','-framerate','60','-i',path.join(__dirname,'title.png'),'-filter_complex',filter,'-map','[v]','-map','0:a:0','-c:v','libx264','-profile:v','baseline','-bf','0','-preset','fast','-crf','18','-pix_fmt','yuv420p','-color_primaries','bt709','-color_trc','bt709','-colorspace','bt709','-c:a','copy','-movflags','+faststart',out],{stdio:'inherit',windowsHide:true});
+if(r.status!==0)process.exit(r.status||1);
+console.log(out);

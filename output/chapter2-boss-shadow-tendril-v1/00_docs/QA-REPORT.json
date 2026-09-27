@@ -1,0 +1,29 @@
+{
+  "status": "PASS",
+  "package": "C:\\Ondukong\\4Team-Project\\output\\branch-finalization-baddream\\output\\chapter2-boss-shadow-tendril-v1",
+  "design": "boss-summoned shadow tendril",
+  "animation_count": 2,
+  "results": [
+    {
+      "motion": "attack_8f",
+      "variant": "transparent",
+      "frames": 8
+    },
+    {
+      "motion": "attack_8f",
+      "variant": "opaque_navy",
+      "frames": 8
+    },
+    {
+      "motion": "dissolve_8f",
+      "variant": "transparent",
+      "frames": 8
+    },
+    {
+      "motion": "dissolve_8f",
+      "variant": "opaque_navy",
+      "frames": 8
+    }
+  ],
+  "errors": []
+}

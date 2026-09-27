@@ -1,0 +1,168 @@
+<div id="badmap">
+  <label class="form-label">맵 시안 <select class="form-select" id="badmap-concept"><option value="0">A · 기억의 계단</option><option value="1">B · 찢어진 회랑</option><option value="2">C · 악몽의 분지</option></select></label>
+  <label class="form-label">스테이지 <select class="form-select" id="badmap-level"><option value="0">1 · 일자형 로비</option><option value="1">2 · 몹과 시스템 체험</option><option value="2">2.5 · 보스로 가는 길</option><option value="3">3 · 보스 전장</option></select></label>
+  <div class="viz-controls" aria-label="맵 디자인 단계">
+    <button class="btn" type="button" data-stage="0" aria-pressed="true">1 · 동선 초안</button>
+    <button class="btn" type="button" data-stage="1" aria-pressed="false">2 · 에셋 배치</button>
+    <button class="btn" type="button" data-stage="2" aria-pressed="false">3 · 완성 시안</button>
+  </div>
+  <canvas width="1600" height="900" role="img" aria-label="왼쪽 입구에서 중앙 발판을 지나 오른쪽 보스로 이어지는 BadDream 맵. 상단에는 기억 수집 분기, 하단에는 복귀 발판이 있습니다." style="display:block;width:100%;height:auto"></canvas>
+  <div class="viz-row text-small" aria-live="polite" id="badmap-status">동선 초안 · 실선: 주 경로 / 점선: 선택 경로</div>
+</div>
+<script id="badmap-assets" type="application/json">ASSET_DATA</script>
+<script>
+(() => {
+const root=document.getElementById('badmap'), cv=root.querySelector('canvas'), ctx=cv.getContext('2d');
+const source=JSON.parse(document.getElementById('badmap-assets').textContent), imgs={};
+let stage=2, level=1, concept=0;
+const exploration=[
+ [0,700,295,110],[345,600,190,75],[570,510,230,90],[860,590,230,90],[1140,700,460,150],
+ [435,400,145,60],[625,295,265,95],[955,380,210,85],
+ [300,820,290,85],[675,730,155,65],[845,830,250,65]
+];
+const layouts=[[[0,700,560,150],[540,700,560,150],[1080,700,520,150]],exploration,[[0,660,400,150],[450,700,280,120],[790,730,260,110],[1110,760,490,135]],[[0,745,560,155],[530,745,560,155],[1060,745,540,155],[235,540,210,85],[1120,540,210,85]]];
+const routes=[[[95,668],[245,668],[410,566],[665,477],[770,477],[925,556],[1040,556],[1200,666],[1360,666]],[[665,475],[510,365],[700,260],[820,260],[1020,345],[1090,345],[1015,555]]];
+const status=['동선 초안 · 실선: 주 경로 / 점선: 선택 경로','에셋 배치 · 입구 → 상승 전투 → 기억 분기 → 보스 광장','완성 시안 · 기존 에셋 조합 / 실제 점프 거리와 충돌은 구현 단계에서 검증'];
+const titles=['1  조용한 로비','2  기억을 따라 오르는 길','2.5  그림자의 문턱','3  악몽의 중심'];
+const notes=['전투 없는 일자 동선 · 이동 / 손전등 확인 → 다음 스테이지','봉제 토끼 → 종이 새 → 야간등 · 손전등 / 기억 수집은 배치 제안','짧은 하강 동선 · 적 밀도를 낮추고 촉수를 예고 · 선택 연결 구간','넓은 평지와 양쪽 보조 발판 · 보스 할퀴기 / 촉수 회피 공간'];
+function sprite(key,x,bottom,h){ const im=imgs[key], w=h*im.width/im.height; ctx.drawImage(im,x-w/2,bottom-h,w,h); }
+function farBackground(){
+ // Keep the source square: a 520px tile replaces the old 1600x900 stretch.
+ ctx.save();ctx.globalAlpha=.42;
+ for(let r=0;r<2;r++)for(let c=0;c<4;c++){
+  ctx.save();ctx.translate(c*520+(c%2?520:0),r*520+(r%2?520:0));ctx.scale(c%2?-1:1,r%2?-1:1);ctx.drawImage(imgs.bg,0,0,520,520);ctx.restore();
+ }
+ if(level===3){ctx.globalAlpha=.3;ctx.drawImage(imgs.bgBoss,590,125,590,590);}
+ ctx.restore();
+}
+// Hand-placed clusters: x, y, height, rotation, opacity, frame variant.
+const compositions=[
+ [
+ [-55,385,410,-.62,.24,4],[125,345,255,.37,.42,1],[255,400,155,-.35,.55,2],
+ [285,270,95,.74,.29,3],[360,355,67,-.85,.34,0],[418,418,48,.43,.28,0],
+ [660,480,225,-.31,.49,1],[802,375,150,.58,.38,3],[846,461,87,-.7,.5,0],
+ [926,323,61,1.18,.32,0],[1012,293,115,-.37,.34,2],
+ [1235,205,290,.54,.28,4],[1335,324,190,-.43,.49,1],[1435,398,105,.92,.44,0],
+ [1545,490,335,.68,.25,2],[1100,561,67,-1.06,.29,0],[487,572,73,.6,.24,0]
+ ],
+ [
+ [-35,330,390,-.52,.25,4],[175,292,265,.49,.39,1],[300,337,132,-.62,.53,2],
+ [350,225,75,.88,.39,0],[415,191,47,-.3,.3,0],[464,249,98,-.55,.4,3],
+ [690,124,170,.64,.21,2],[890,180,95,-.93,.36,0],[1080,205,250,-.53,.34,4],
+ [1230,300,155,.7,.52,1],[1320,245,81,-.89,.36,0],[1370,416,100,1.3,.37,3],
+ [1575,487,390,.65,.25,4],[1415,592,180,-.43,.43,2],[1300,534,59,.8,.5,0],
+ [529,693,180,.65,.29,4],[405,722,87,-.4,.4,0],[198,546,105,-.81,.33,3],
+ [814,616,56,.49,.25,0],[1025,760,135,-.74,.25,2]
+ ],
+ [
+ [-70,330,430,-.67,.29,4],[132,276,300,.32,.4,1],[280,340,210,-.48,.51,2],
+ [407,433,150,.88,.47,3],[499,430,85,-1.15,.4,0],[568,377,66,.34,.45,0],
+ [628,331,115,-.62,.36,4],[702,310,70,1.23,.46,0],[775,345,45,-.9,.34,0],
+ [840,392,135,.86,.36,2],[930,451,90,-.75,.43,0],[1010,480,49,1.4,.4,0],
+ [1114,474,110,-1.02,.45,4],[1223,408,164,.72,.34,3],[1329,285,240,-.83,.41,4],
+ [1515,195,385,.59,.24,2],[1485,485,190,1.65,.29,4],[1370,593,68,-1.8,.33,0]
+ ],
+ [
+ [-35,340,440,-.8,.24,4],[197,273,245,.56,.32,3],[402,228,168,1.16,.44,2],
+ [590,170,100,-.7,.46,0],[715,153,60,.94,.42,0],[858,170,92,1.65,.35,4],
+ [1036,196,130,-.61,.45,2],[1185,272,208,.86,.4,4],[1348,382,270,1.23,.33,3],
+ [1515,590,370,-.5,.24,4],[1307,646,120,-.73,.33,0],[1147,581,73,.95,.36,0],
+ [1080,453,59,1.93,.29,0],[820,372,90,-.67,.29,3],[692,390,65,.9,.35,0],
+ [576,460,140,-.7,.34,2],[416,589,108,-1.19,.39,0],[110,627,225,.48,.25,1]
+ ]
+];
+function collagePiece([x,y,h,a,alpha,variant],i){
+ ctx.save();ctx.translate(x,y);ctx.rotate(a);ctx.globalAlpha=alpha*(stage===2?1:.65);
+ if(variant){
+  const frame=imgs['frame'+variant],w=h*frame.width/frame.height;
+  ctx.drawImage(frame,-w/2,-h/2,w,h);
+  if(variant!==4 && i%4!==0){
+   const pic=imgs['picture'+(i%3+1)];
+   ctx.drawImage(pic,-w*.26,-h*.28,w*.52,h*.56);
+  }
+ }else{
+  const pic=imgs['picture'+(i%3+1)],w=h*pic.width/pic.height;
+  ctx.drawImage(pic,-w/2,-h/2,w,h);
+ }
+ ctx.restore();
+}
+function middleGround(){
+ // A faint echo behind selected clusters gives depth without uniform wallpaper.
+ selectedPieces().forEach((p,i)=>{
+  if(i%5===1){const q=[p[0]-60,p[1]-60,p[2]*1.24,p[3]-.32,.09,4];collagePiece(q,i);}
+ });
+ selectedPieces().forEach(collagePiece);
+}
+
+function path(points,dash,color){ctx.beginPath();ctx.setLineDash(dash);ctx.strokeStyle=color;ctx.lineWidth=4;points.forEach((p,i)=>i?ctx.lineTo(...p):ctx.moveTo(...p));ctx.stroke();ctx.setLineDash([]); for(let i=1;i<points.length;i++){const a=points[i-1],b=points[i],t=Math.atan2(b[1]-a[1],b[0]-a[0]);ctx.save();ctx.translate(b[0],b[1]);ctx.rotate(t);ctx.beginPath();ctx.moveTo(-13,-7);ctx.lineTo(0,0);ctx.lineTo(-13,7);ctx.stroke();ctx.restore();}}
+function label(s,x,y){ctx.font='24px "Malgun Gothic", sans-serif';ctx.fillStyle='#fff2d4';ctx.fillText(s,x,y);}
+const schemes=[
+ {name:'A · 기억의 계단',desc:'높이를 올리며 전투하는 동선 · 액자와 그림이 오른쪽 위로 흩어지는 구도',
+ platforms:[[0,740,280,105],[320,635,220,90],[590,530,240,95],[870,425,220,85],[1130,320,230,90],[1400,230,200,90],[640,770,250,85],[990,680,230,85],[1290,580,290,95]],
+ route:[[100,705],[410,600],[690,495],[970,390],[1230,285],[1510,195]],
+ pieces:[[-50,450,470,-.7,.24,4],[165,442,270,.49,.38,1],[290,350,135,-.82,.46,0],[380,450,190,.83,.42,3],[460,300,80,-.46,.45,0],[620,245,200,-.65,.33,2],[770,335,110,1.1,.38,0],[895,225,250,.4,.3,4],[1050,145,100,-1.2,.48,0],[1210,130,160,.63,.32,3],[1460,95,380,-.8,.22,4],[1510,470,230,.9,.33,2],[1290,725,230,-.6,.25,4],[460,760,105,.8,.27,0],[890,570,120,-.9,.28,2]]},
+ {name:'B · 찢어진 회랑',desc:'상단의 위험한 지름길과 하단의 완만한 길 · 양쪽에서 안으로 기울어지는 기억의 벽',
+ platforms:[[0,640,300,105],[340,510,230,85],[610,395,240,90],[900,430,240,90],[1190,530,230,85],[1460,635,140,100],[335,770,290,95],[680,795,250,85],[985,770,220,85],[1260,740,200,85]],
+ route:[[90,605],[425,475],[710,360],[1020,395],[1310,495],[1530,600]],
+ pieces:[[-40,260,470,.7,.26,4],[185,290,285,-.47,.4,3],[340,225,140,.92,.44,0],[100,545,235,.51,.34,2],[330,710,190,-1.05,.29,4],[1540,300,440,-.66,.28,4],[1385,340,240,.48,.44,2],[1210,210,145,-1.1,.35,0],[1470,605,225,.75,.3,3],[1230,695,190,-.8,.28,4],[630,200,88,.69,.34,0],[815,140,140,-.65,.27,1],[1015,225,67,1.27,.4,0],[680,620,150,.48,.25,4],[860,665,84,-.96,.3,0],[1080,615,110,.72,.25,2]]},
+ {name:'C · 악몽의 분지',desc:'중앙으로 내려갔다가 반대편으로 탈출 · 부서진 그림이 그릇처럼 중앙을 둘러싸는 구도',
+ platforms:[[0,340,270,105],[310,450,220,90],[565,565,200,85],[805,700,290,100],[1130,575,190,80],[1350,455,250,95],[120,755,330,100],[485,815,240,75],[1000,350,160,65]],
+ route:[[90,305],[390,415],[650,530],[920,665],[1220,540],[1470,420]],
+ pieces:[[-30,210,440,-.7,.25,4],[135,240,240,.44,.4,2],[340,200,150,-.8,.39,0],[515,275,95,.65,.45,0],[580,390,160,-.54,.32,4],[720,430,90,1.2,.35,0],[885,470,195,.48,.26,3],[1065,470,105,-.83,.4,0],[1180,345,190,.7,.36,2],[1340,220,255,-.5,.35,4],[1535,140,400,.8,.24,3],[1455,695,240,-.6,.27,4],[1210,780,120,1.1,.3,0],[580,685,80,-.72,.3,0],[265,625,145,.92,.27,1],[865,190,70,-1.2,.25,0]]}
+];
+function selectedPieces(){return schemes[concept].pieces;}
+function stageTerrain(){
+ if(level===1)return schemes[concept].platforms;
+ if(level===0)return layouts[0];
+ if(level===2)return [
+ [[0,650,400,130],[455,560,270,105],[775,465,270,100],[1110,380,490,140]],
+ [[0,610,400,120],[440,645,330,110],[815,610,320,110],[1180,645,420,120]],
+ [[0,440,370,120],[420,560,290,110],[760,675,320,100],[1130,745,470,120]]
+ ][concept];
+ return [
+ [[0,745,560,155],[530,745,560,155],[1060,745,540,155],[180,550,200,75],[1200,480,210,85]],
+ [[0,745,560,155],[530,745,560,155],[1060,745,540,155],[170,540,200,85],[1210,540,200,85],[680,390,240,85]],
+ [[0,610,320,130],[320,745,490,155],[790,745,490,155],[1280,610,320,130]]
+ ][concept];
+}
+function alternativeActors(){
+ const ts=stageTerrain();
+ sprite('player',105,ts[0][1]+5,115);
+ if(level===0){sprite('memory',720,650,115);return;}
+ if(level===1){
+  const a=ts[1],b=ts[2],c=ts[4];
+  sprite('rabbit',a[0]+a[2]*.55,a[1]+2,85);
+  sprite('crow',b[0]+b[2]*.7,b[1]-60,70);
+  sprite('lamp',c[0]+c[2]*.55,c[1]+2,85);
+  const reward=ts[concept===0?5:concept===1?2:8];sprite('memory',reward[0]+reward[2]*.6,reward[1]-10,85);
+ }else if(level===2){sprite('memory',ts[1][0]+150,ts[1][1]-45,75);sprite('tendril',ts[2][0]+200,ts[2][1]+5,80);}
+ else{sprite('boss',900,746,240);sprite('tendril',560,748,110);sprite('tendril',1180,748,110);}
+}
+
+function draw(){
+ ctx.clearRect(0,0,1600,900);ctx.fillStyle='#101025';ctx.fillRect(0,0,1600,900);
+ if(stage===2)farBackground();
+ if(stage>0)middleGround();
+ if(stage===0){ctx.strokeStyle='#25263d';ctx.lineWidth=1;for(let x=0;x<1600;x+=50){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,900);ctx.stroke();}for(let y=0;y<900;y+=50){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(1600,y);ctx.stroke();}}
+ stageTerrain().forEach(([x,y,w,h])=>{if(stage===0){ctx.fillStyle='#515569';ctx.fillRect(x,y,w,h);ctx.fillStyle='#d4c5a6';ctx.fillRect(x,y,w,7);}else{ctx.drawImage(imgs.platform,x,y-8,w,h);}});
+ if(stage>0){alternativeActors();
+ }else{
+ ctx.fillStyle='#f0d7a6';ctx.fillRect(85,stageTerrain()[0][1]-60,28,60);if(level===3){ctx.fillStyle='#bc8a9e';ctx.fillRect(855,575,95,170);}
+ }
+ if(stage<2){
+ const pts=level===1?schemes[concept].route:stageTerrain().filter((p,i)=>level!==3||i<3).map(p=>[p[0]+p[2]/2,p[1]-40]);
+ path(pts,[],'#ead2a3');label('진행 방향',65,180);
+ if(level===1&&concept===1)path([[110,610],[470,730],[800,755],[1080,730],[1350,700],[1510,610]],[12,10],'#9abbcf');
+ }
+ ctx.font='22px "Malgun Gothic", sans-serif';ctx.fillStyle='#b9adc8';ctx.fillText('BAD DREAM  /  CHAPTER 02',45,50);
+ ctx.font='38px "Malgun Gothic", sans-serif';ctx.fillStyle='#f6e7c9';ctx.fillText(schemes[concept].name+'  /  '+titles[level],45,104);
+ root.querySelector('#badmap-status').textContent=schemes[concept].desc;root.querySelectorAll('[data-stage]').forEach(b=>b.setAttribute('aria-pressed',Number(b.dataset.stage)===stage));
+ cv.dataset.ready='true';
+}
+root.querySelectorAll('[data-stage]').forEach(b=>b.addEventListener('click',()=>{stage=Number(b.dataset.stage);draw();}));
+root.querySelector('#badmap-level').value=String(level);
+root.querySelector('#badmap-concept').addEventListener('change',e=>{concept=Number(e.target.value);draw();});
+root.querySelector('#badmap-level').addEventListener('change',e=>{level=Number(e.target.value);draw();});
+Promise.all(Object.entries(source).map(([k,url])=>new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>{imgs[k]=im;resolve();};im.onerror=reject;im.src=url;}))).then(draw).catch(()=>{root.querySelector('#badmap-status').textContent='에셋을 불러오지 못했습니다.';});
+})();
+</script>

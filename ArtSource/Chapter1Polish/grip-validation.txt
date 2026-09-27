@@ -1,0 +1,1 @@
+Frames=807 MaxContactError=4.915125E-07 BossHidden=True HandRemoved=True

@@ -1,0 +1,79 @@
+[
+  {
+    "name": "27_crate",
+    "model": "CraftCrate",
+    "centerError": 0.0,
+    "sizeError": 1.1920929E-07,
+    "position": "(21.58, -0.12, 41.34)"
+  },
+  {
+    "name": "27_crate",
+    "model": "CraftCrate",
+    "centerError": 0.0,
+    "sizeError": 1.1920929E-07,
+    "position": "(28.74, 0.00, 38.74)"
+  },
+  {
+    "name": "27_crate",
+    "model": "CraftCrate",
+    "centerError": 0.0,
+    "sizeError": 1.1920929E-07,
+    "position": "(17.15, 0.00, 42.00)"
+  },
+  {
+    "name": "27_crate",
+    "model": "CraftCrate",
+    "centerError": 0.0,
+    "sizeError": 1.1920929E-07,
+    "position": "(30.39, 0.00, 44.59)"
+  },
+  {
+    "name": "27_crate",
+    "model": "CraftCrate",
+    "centerError": 0.0,
+    "sizeError": 5.96046448E-08,
+    "position": "(33.73, 0.00, 44.19)"
+  },
+  {
+    "name": "27_crate",
+    "model": "CraftCrate",
+    "centerError": 0.0,
+    "sizeError": 0.0,
+    "position": "(16.27, 0.00, 36.32)"
+  },
+  {
+    "name": "27_crate",
+    "model": "CraftCrate",
+    "centerError": 0.0,
+    "sizeError": 0.0,
+    "position": "(16.94, 0.00, 35.38)"
+  },
+  {
+    "name": "26_bench",
+    "model": "CraftBench",
+    "centerError": 0.0,
+    "sizeError": 1.68587391E-07,
+    "position": "(2.23, 0.00, 20.14)"
+  },
+  {
+    "name": "32_signpost (1)",
+    "model": "CraftSign",
+    "centerError": 0.0,
+    "sizeError": 0.0,
+    "position": "(18.17, -0.11, 44.35)"
+  },
+  {
+    "name": "32_signpost",
+    "model": "CraftSign",
+    "centerError": 0.0,
+    "sizeError": 0.0,
+    "position": "(18.63, -0.11, 31.39)"
+  },
+  {
+    "name": "13_bridge",
+    "model": "CraftBridge",
+    "centerError": 0.0,
+    "sizeError": 0.0,
+    "position": "(18.85, 0.00, 24.56)"
+  }
+]

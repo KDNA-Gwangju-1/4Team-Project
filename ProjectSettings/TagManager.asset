@@ -14,9 +14,9 @@ TagManager:
   - Hidden
   - ''
   - Ground
-  - ''
+  - Wall
   - Bullet
-  - ''
+  - ViewModel
   - ''
   - ''
   - ''

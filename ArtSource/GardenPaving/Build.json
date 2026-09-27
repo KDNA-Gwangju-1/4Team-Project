@@ -1,0 +1,12 @@
+[
+  {
+    "name": "GardenPath",
+    "vertices": 19656,
+    "faces": 18810
+  },
+  {
+    "name": "ArenaTerrace",
+    "vertices": 25280,
+    "faces": 22770
+  }
+]

@@ -1,0 +1,15 @@
+{
+  "model": "minimax_hailuo",
+  "variant": "minimax-2.3-fast",
+  "duration": 10,
+  "resolution": "768",
+  "count": 1,
+  "use_unlim": false,
+  "medias": [
+    {
+      "role": "start_image",
+      "value": "7e651556-fdd3-493a-b6da-6b92ad13a305"
+    }
+  ],
+  "prompt": "One continuous 10-second game cinematic. Match the supplied first frame exactly: a fixed ground-level camera behind one detective, his brown shoes, dark trouser cuffs and tan trench-coat hem centered in the foreground, facing the beige hospital's CLOSED double glass entrance. The camera is locked throughout: no zoom, pan, tracking, orbit or cuts. As he takes his first step, the pixel-art rendering smoothly resolves into near-photorealistic 3D VIDEO GAME graphics, with realistic cloth, leather, stone and glass, natural daylight and grounded contact shadows; not live-action footage. Preserve exactly the architecture, perspective, outfit and centered composition during this style transition, without dissolve ghosting. 0-4 seconds: he walks straight away from the lens toward the entrance, becoming naturally smaller with distance; his full rear silhouette emerges, wearing the same tan trench coat and brown fedora. Anatomically coherent alternating steps, heels plant and feet remain grounded during stance; restrained coat sway. 4-7 seconds: he reaches the CLOSED doors, places each hand on the corresponding central handle, and physically pushes BOTH glass door leaves INWARD around their fixed outer hinges while walking between them. Hands stay in contact while pushing. The doors open only through his push. His entire body and coat clear the threshold before he releases both handles. 7-10 seconds: he keeps walking inside, never turns back or pulls the doors shut. Both door closers smoothly return the leaves toward the closed position with a small timing offset, slowing gently near the frame; both doors finish fully CLOSED by the end. Keep enough time to see the closing finish. One person only; consistent human proportions. Crisp single silhouettes, no motion trails, frame blending, transparent limbs, foot sliding, floating, clipping through doors, hinge drift, bending architecture, automatic opening, teleportation, text or logos."
+}

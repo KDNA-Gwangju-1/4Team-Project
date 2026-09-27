@@ -1,0 +1,34 @@
+{
+  "output": "C:\\Ondukong\\4Team-Project\\output\\game-opening\\opening-tv-cloud-fix-20260917-v1\\opening-final-1080p.mp4",
+  "size": [
+    1920,
+    1080
+  ],
+  "fps": 30,
+  "frames": 999,
+  "duration": 33.3,
+  "bytes": 23176522,
+  "sha256": "03992838aad960b9d6560ebcb1f0d9b982fe8c66140943634ba36de50195f429",
+  "audio": "Existing full AAC stream copied without remix or re-encoding",
+  "integration": "Authorized 2026-09-17: original daytime lobby, corrected leaf-window pose, news fixes; previous final untouched",
+  "changes": [
+    "CRT glass boundary corrected to x1520..1790/y598..758, fixed rounded mask and edge-scanline overscan",
+    "Single monotonic camera, same programme transform through fullscreen handoff",
+    "Sky plate translation: 286.90 output pixels over 12.4 seconds, including telephone dialogue; no wrap seams"
+  ],
+  "source": "C:\\Ondukong\\4Team-Project\\output\\game-opening\\opening-restored-v1\\opening-restored-final-1080p.mp4",
+  "hospitalIncluded": false,
+  "cameraChecks": "Monotonic screen width; exact 1920px endpoint",
+  "caption": "지금으로선 의학·과학적으로 설명할 수 있는 근거가 없어...",
+  "validation": {
+    "masterFullDecode": true,
+    "reviewFullDecode": true,
+    "audioHash": "SHA256=6a3d8c00634f3a1e4929876ac40f0c190a8b9a2324451562026e64849bc942d1",
+    "originalAudioIdentical": true
+  },
+  "review": {
+    "path": "C:\\Ondukong\\4Team-Project\\output\\game-opening\\opening-tv-cloud-fix-20260917-v1\\opening-review-under10MB.mp4",
+    "bytes": 8731400,
+    "sha256": "b75d02c22993943c3fe3e26f4cdb93e0d39ed0be846fd106e14eaaf6f3152ab9"
+  }
+}

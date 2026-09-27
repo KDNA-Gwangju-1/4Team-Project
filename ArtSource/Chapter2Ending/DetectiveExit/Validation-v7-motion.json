@@ -1,0 +1,19 @@
+{
+  "v6": {
+    "walkingHeadSecondDifferencePixels": {
+      "max": 10.023297843028836,
+      "rms": 4.935033369097412
+    },
+    "maxStatureErrorNativePixels": 7.046786671857262,
+    "frames": 108
+  },
+  "v7": {
+    "walkingHeadSecondDifferencePixels": {
+      "max": 0.4073938698830462,
+      "rms": 0.186119984096091
+    },
+    "maxStatureErrorNativePixels": 5.684341886080802e-14,
+    "frames": 108
+  },
+  "meaning": "Head-anchor acceleration measured at key-frame cadence during the main walk; lower values indicate less registration jitter, not a full perceptual or anatomical quality score."
+}

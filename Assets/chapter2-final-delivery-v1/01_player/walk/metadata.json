@@ -1,0 +1,15 @@
+{
+  "name": "player-walk-v7",
+  "frames": 8,
+  "canvas": {
+    "width": 512,
+    "height": 512
+  },
+  "duration_ms": 110,
+  "loop": true,
+  "pivot": "bottom-center",
+  "variants": [
+    "transparent",
+    "opaque_navy"
+  ]
+}

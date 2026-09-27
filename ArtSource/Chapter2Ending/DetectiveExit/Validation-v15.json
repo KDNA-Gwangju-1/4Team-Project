@@ -1,0 +1,29 @@
+{
+  "outsideFoliageChangedPixels": 0,
+  "minChangedFoliagePixels": 60476,
+  "maxChangedFoliagePixels": 82309,
+  "loopEndpointsIdentical": true,
+  "actor": false,
+  "exposureFlicker": false,
+  "cameraMovement": false,
+  "videos": [
+    {
+      "file": "hospital-corridor-wind-v15.mp4",
+      "frames": 804,
+      "fps": 60.0,
+      "size": [
+        1920,
+        1080
+      ]
+    },
+    {
+      "file": "Window-wind-detail-v15.mp4",
+      "frames": 360,
+      "fps": 60.0,
+      "size": [
+        990,
+        810
+      ]
+    }
+  ]
+}

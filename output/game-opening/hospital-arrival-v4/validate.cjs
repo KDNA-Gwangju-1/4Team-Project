@@ -1,0 +1,5 @@
+const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),{spawnSync}=require('node:child_process');
+const root=__dirname,ff=path.resolve(root,'../render-deps/imageio_ffmpeg/binaries/ffmpeg-win-x86_64-v7.1.exe');
+const files=['hospital-entry-1080p.mp4','walk-smooth-review-1080p.mp4'];
+const checks=files.map(name=>{const file=path.join(root,name),r=spawnSync(ff,['-v','error','-i',file,'-f','null','NUL'],{encoding:'utf8',windowsHide:true});if(r.status!==0)throw Error(r.stderr);return{name,bytes:fs.statSync(file).size,sha256:crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex'),fullDecode:true};});
+const m=JSON.parse(fs.readFileSync(path.join(root,'render-metadata.json'),'utf8'));m.method='Single opaque source silhouette, direct mesh rasterization, no pose crossfades; procedural 2D, not new hand-drawn frames';m.validation=checks;m.higgsfield3DGenerated=false;fs.writeFileSync(path.join(root,'render-metadata.json'),JSON.stringify(m,null,2));console.log(JSON.stringify(checks,null,2));

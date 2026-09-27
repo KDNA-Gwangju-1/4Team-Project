@@ -1,0 +1,137 @@
+[
+  {
+    "cue": "AmbGarden",
+    "seconds": 8.0,
+    "peak": 0.15997314453125
+  },
+  {
+    "cue": "AmbHospital",
+    "seconds": 8.0,
+    "peak": 0.17999267578125
+  },
+  {
+    "cue": "Brand",
+    "seconds": 1.8,
+    "peak": 0.499969482421875
+  },
+  {
+    "cue": "Clue",
+    "seconds": 1.1,
+    "peak": 0.449981689453125
+  },
+  {
+    "cue": "Defeat",
+    "seconds": 1.5,
+    "peak": 0.549957275390625
+  },
+  {
+    "cue": "Door",
+    "seconds": 0.55,
+    "peak": 0.5999755859375
+  },
+  {
+    "cue": "Hurt",
+    "seconds": 0.28,
+    "peak": 0.64996337890625
+  },
+  {
+    "cue": "Jump",
+    "seconds": 0.2,
+    "peak": 0.329986572265625
+  },
+  {
+    "cue": "Land",
+    "seconds": 0.17,
+    "peak": 0.449981689453125
+  },
+  {
+    "cue": "Paper",
+    "seconds": 0.32,
+    "peak": 0.379974365234375
+  },
+  {
+    "cue": "Pickup",
+    "seconds": 0.7,
+    "peak": 0.51995849609375
+  },
+  {
+    "cue": "Portal",
+    "seconds": 1.3,
+    "peak": 0.499969482421875
+  },
+  {
+    "cue": "Purify",
+    "seconds": 0.65,
+    "peak": 0.499969482421875
+  },
+  {
+    "cue": "RiftClose",
+    "seconds": 1.5,
+    "peak": 0.499969482421875
+  },
+  {
+    "cue": "RiftGrab",
+    "seconds": 0.6,
+    "peak": 0.699951171875
+  },
+  {
+    "cue": "RiftOpen",
+    "seconds": 2.3,
+    "peak": 0.5999755859375
+  },
+  {
+    "cue": "Shot",
+    "seconds": 0.24,
+    "peak": 0.64996337890625
+  },
+  {
+    "cue": "Slam",
+    "seconds": 0.65,
+    "peak": 0.699951171875
+  },
+  {
+    "cue": "StepGrass",
+    "seconds": 0.18,
+    "peak": 0.3599853515625
+  },
+  {
+    "cue": "StepTile",
+    "seconds": 0.14,
+    "peak": 0.439971923828125
+  },
+  {
+    "cue": "UiBack",
+    "seconds": 0.13,
+    "peak": 0.41998291015625
+  },
+  {
+    "cue": "UiClick",
+    "seconds": 0.12,
+    "peak": 0.499969482421875
+  },
+  {
+    "cue": "UiHover",
+    "seconds": 0.065,
+    "peak": 0.3499755859375
+  },
+  {
+    "cue": "Victory",
+    "seconds": 1.8,
+    "peak": 0.499969482421875
+  },
+  {
+    "cue": "Warning",
+    "seconds": 0.16,
+    "peak": 0.41998291015625
+  },
+  {
+    "cue": "Weakpoint",
+    "seconds": 0.9,
+    "peak": 0.619964599609375
+  },
+  {
+    "cue": "WrongHit",
+    "seconds": 0.32,
+    "peak": 0.549957275390625
+  }
+]

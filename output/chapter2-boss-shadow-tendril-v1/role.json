@@ -1,0 +1,7 @@
+{
+  "owner": "chapter2_boss",
+  "type": "summoned_ground_hazard",
+  "attack_direction": "right",
+  "pivot": "bottom-center",
+  "tone": "shadow magic, non-grotesque"
+}

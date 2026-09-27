@@ -1,0 +1,26 @@
+const fs=require('node:fs/promises'),path=require('node:path'),{spawn}=require('node:child_process'),{once}=require('node:events');
+const {createCanvas,loadImage}=require('C:/Users/Note-038/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/@napi-rs/canvas');
+const W=1920,H=1080,FPS=60,D=6.4,FF=path.resolve(__dirname,'../render-deps/imageio_ffmpeg/binaries/ffmpeg-win-x86_64-v7.1.exe');
+const clamp=x=>Math.max(0,Math.min(1,x)),smooth=x=>{x=clamp(x);return x*x*(3-2*x)};
+const windows=[[[91,33],[208,33],[172,149],[56,149]],[[225,33],[341,33],[306,149],[186,149]],[[712,32],[820,32],[819,150],[701,150]],[[846,32],[957,32],[969,150],[846,150]],[[1327,31],[1451,31],[1482,148],[1362,148]],[[1468,31],[1584,31],[1625,148],[1497,148]],[[25,264],[139,264],[111,387],[0,387]],[[155,264],[278,264],[245,387],[126,387]],[[702,248],[820,248],[819,355],[694,355]],[[845,248],[960,248],[972,355],[846,355]],[[1389,264],[1517,264],[1557,388],[1424,388]],[[1533,264],[1670,264],[1670,388],[1571,388]],[[0,506],[89,506],[58,640],[0,640]],[[103,506],[222,506],[191,640],[72,640]],[[680,501],[820,501],[820,671],[675,671]],[[847,501],[970,501],[980,671],[847,671]],[[1441,506],[1561,506],[1602,640],[1475,640]],[[1576,506],[1672,506],[1672,640],[1618,640]]];
+function poly(g,points){g.beginPath();points.forEach(([x,y],i)=>g[i?'lineTo':'moveTo'](x*W/1672,y*H/941));g.closePath()}
+async function audio(){const rate=48000,n=Math.round(D*rate),a=new Float32Array(n);let seed=1831,noise=0;const rand=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296*2-1};
+for(let i=0;i<n;i++){noise=.97*noise+.03*rand();a[i]=noise*.008;}
+const steps=[[.95,.075],[1.57,.095],[2.2,.13],[2.83,.18],[3.45,.26],[4.05,.32]];
+for(const [time,amp]of steps){let low=0;for(let k=0;k<rate*.31;k++){const t=k/rate,i=Math.round(time*rate)+k;if(i>=n)break;low=.68*low+.32*rand();const heel=Math.sin(2*Math.PI*(88*t-37*t*t))*Math.exp(-t*31),crunch=low*Math.exp(-t*21),sole=Math.sin(2*Math.PI*125*t)*Math.exp(-Math.abs(t-.065)*60);a[i]+=amp*(heel*.56+crunch*.55+sole*.18)*(1-Math.exp(-t*700));}}
+const b=Buffer.alloc(44+n*2);b.write('RIFF');b.writeUInt32LE(b.length-8,4);b.write('WAVEfmt ',8);b.writeUInt32LE(16,16);b.writeUInt16LE(1,20);b.writeUInt16LE(1,22);b.writeUInt32LE(rate,24);b.writeUInt32LE(rate*2,28);b.writeUInt16LE(2,32);b.writeUInt16LE(16,34);b.write('data',36);b.writeUInt32LE(n*2,40);a.forEach((v,i)=>b.writeInt16LE(Math.round(Math.max(-1,Math.min(1,v))*32767),44+i*2));await fs.writeFile(path.join(__dirname,'approach-foley.wav'),b);return steps;}
+(async()=>{
+const bg=await loadImage(path.join(__dirname,'hospital-background.png')),shoe=await loadImage(path.join(__dirname,'shoe-cuff.png')),steps=await audio(),c=createCanvas(W,H),g=c.getContext('2d'),out=path.join(__dirname,'hospital-before-3d-1080p.mp4');
+const p=spawn(FF,['-v','error','-y','-f','rawvideo','-pix_fmt','rgba','-s',`${W}x${H}`,'-r',String(FPS),'-i','pipe:0','-i',path.join(__dirname,'approach-foley.wav'),'-c:v','libx264','-crf','18','-preset','fast','-pix_fmt','yuv420p','-c:a','aac','-b:a','160k','-t',String(D),'-movflags','+faststart',out],{windowsHide:true});let err='';p.stderr.on('data',b=>err+=b);p.stdin.on('error',()=>{});const done=new Promise((r,j)=>{p.on('error',j);p.on('close',v=>v?j(Error(err)):r())});done.catch(()=>{});
+function foot(t,start,land,x,y,size,flip){if(t<start)return;const q=clamp((t-start)/(land-start)),e=smooth(q),dx=-(1-e)*520,dy=-Math.sin(Math.PI*q)*65;
+g.save();if(flip){g.translate(W,0);g.scale(-1,1);}
+g.save();g.globalAlpha=e*.22;g.fillStyle='#17202c';g.beginPath();g.ellipse(x+size*.57+dx,y+size*.954+8,size*.25*(.6+.4*e),13+14*e,0,0,Math.PI*2);g.fill();g.restore();
+g.save();g.imageSmoothingEnabled=false;g.translate(x+dx,y+dy);g.drawImage(shoe,0,0,size,size);g.restore();g.restore();}
+for(let i=0;i<D*FPS;i++){const t=i/FPS;g.setTransform(1,0,0,1,0,0);g.globalAlpha=1;g.globalCompositeOperation='source-over';g.clearRect(0,0,W,H);g.drawImage(bg,0,0,W,H);
+for(let j=0;j<windows.length;j++){g.save();poly(g,windows[j]);g.clip();const dx=3.8*Math.sin(t*1.25+j*.16),dy=1.7*Math.sin(t*.86+j*.22);g.drawImage(bg,dx,dy,W,H);g.restore();}
+const sun=g.createLinearGradient(0,0,1700,1080);sun.addColorStop(0,`rgba(255,232,177,${.022+.015*Math.sin(t*.95)})`);sun.addColorStop(.65,'rgba(255,238,198,0)');g.fillStyle=sun;g.fillRect(0,0,W,H);
+foot(t,2.83,3.45,-445,242,800,true);foot(t,3.43,4.05,-480,210,860,false);
+if([0,150,180,207,225,243,300,383].includes(i))await fs.writeFile(path.join(__dirname,`frame-${i}.png`),c.toBuffer('image/png'));
+if(!p.stdin.write(Buffer.from(g.getImageData(0,0,W,H).data)))await Promise.race([once(p.stdin,'drain'),done]);}
+p.stdin.end();await done;await fs.writeFile(path.join(__dirname,'manifest.json'),JSON.stringify({duration:D,fps:FPS,resolution:[W,H],steps,scope:'Before 3D transition ONLY. No door interaction, no integration with locked opening.',camera:'Static ground-level rear three-quarter shoe arrival, cropped at both foreground edges',motion:'Two separately timed rigid shoe/cuff sprites, opaque no frame blending; reflection movement clipped to window panes',audio:'Locally synthesized placeholder approach footsteps',higgsfieldUsed:false},null,2));console.log(out);
+})().catch(e=>{console.error(e);process.exitCode=1});

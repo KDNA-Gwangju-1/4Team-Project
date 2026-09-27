@@ -1,0 +1,47 @@
+[
+  {
+    "name": "Template_05_felt_golem(Clone)",
+    "pos": "(-3.98, 0.50, 72.11)",
+    "dark": true
+  },
+  {
+    "name": "Template_05_felt_golem(Clone)",
+    "pos": "(9.99, 0.43, 71.01)",
+    "dark": false
+  },
+  {
+    "name": "Template_01_cotton_soldier(Clone)",
+    "pos": "(-1.31, 0.43, 69.56)",
+    "dark": false
+  },
+  {
+    "name": "Template_01_cotton_soldier(Clone)",
+    "pos": "(1.09, 0.43, 67.54)",
+    "dark": false
+  },
+  {
+    "name": "Template_05_felt_golem(Clone)",
+    "pos": "(5.34, 0.42, 62.80)",
+    "dark": false
+  },
+  {
+    "name": "Template_03_button_knight(Clone)",
+    "pos": "(6.11, 0.42, 68.34)",
+    "dark": false
+  },
+  {
+    "name": "Template_03_button_knight(Clone)",
+    "pos": "(4.33, 0.08, 56.21)",
+    "dark": false
+  },
+  {
+    "name": "Template_03_button_knight(Clone)",
+    "pos": "(3.38, 0.45, 56.99)",
+    "dark": false
+  },
+  {
+    "name": "Template_05_felt_golem(Clone)",
+    "pos": "(4.00, 0.63, 54.00)",
+    "dark": true
+  }
+]

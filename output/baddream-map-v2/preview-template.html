@@ -1,0 +1,87 @@
+<div id="badmap">
+  <label class="form-label">스테이지 <select class="form-select" id="badmap-level"><option value="0">1 · 일자형 로비</option><option value="1">2 · 몹과 시스템 체험</option><option value="2">2.5 · 보스로 가는 길</option><option value="3">3 · 보스 전장</option></select></label>
+  <div class="viz-controls" aria-label="맵 디자인 단계">
+    <button class="btn" type="button" data-stage="0" aria-pressed="true">1 · 동선 초안</button>
+    <button class="btn" type="button" data-stage="1" aria-pressed="false">2 · 에셋 배치</button>
+    <button class="btn" type="button" data-stage="2" aria-pressed="false">3 · 완성 시안</button>
+  </div>
+  <canvas width="1600" height="900" role="img" aria-label="왼쪽 입구에서 중앙 발판을 지나 오른쪽 보스로 이어지는 BadDream 맵. 상단에는 기억 수집 분기, 하단에는 복귀 발판이 있습니다." style="display:block;width:100%;height:auto"></canvas>
+  <div class="viz-row text-small" aria-live="polite" id="badmap-status">동선 초안 · 실선: 주 경로 / 점선: 선택 경로</div>
+</div>
+<script id="badmap-assets" type="application/json">ASSET_DATA</script>
+<script>
+(() => {
+const root=document.getElementById('badmap'), cv=root.querySelector('canvas'), ctx=cv.getContext('2d');
+const source=JSON.parse(document.getElementById('badmap-assets').textContent), imgs={};
+let stage=2, level=0;
+const exploration=[
+ [0,700,295,110],[345,600,190,75],[570,510,230,90],[860,590,230,90],[1140,700,460,150],
+ [435,400,145,60],[625,295,265,95],[955,380,210,85],
+ [300,820,290,85],[675,730,155,65],[845,830,250,65]
+];
+const layouts=[[[0,700,560,150],[540,700,560,150],[1080,700,520,150]],exploration,[[0,660,400,150],[450,700,280,120],[790,730,260,110],[1110,760,490,135]],[[0,745,560,155],[530,745,560,155],[1060,745,540,155],[235,540,210,85],[1120,540,210,85]]];
+const routes=[[[95,668],[245,668],[410,566],[665,477],[770,477],[925,556],[1040,556],[1200,666],[1360,666]],[[665,475],[510,365],[700,260],[820,260],[1020,345],[1090,345],[1015,555]]];
+const status=['동선 초안 · 실선: 주 경로 / 점선: 선택 경로','에셋 배치 · 입구 → 상승 전투 → 기억 분기 → 보스 광장','완성 시안 · 기존 에셋 조합 / 실제 점프 거리와 충돌은 구현 단계에서 검증'];
+const titles=['1  조용한 로비','2  기억을 따라 오르는 길','2.5  그림자의 문턱','3  악몽의 중심'];
+const notes=['전투 없는 일자 동선 · 이동 / 손전등 확인 → 다음 스테이지','봉제 토끼 → 종이 새 → 야간등 · 손전등 / 기억 수집은 배치 제안','짧은 하강 동선 · 적 밀도를 낮추고 촉수를 예고 · 선택 연결 구간','넓은 평지와 양쪽 보조 발판 · 보스 할퀴기 / 촉수 회피 공간'];
+function sprite(key,x,bottom,h){ const im=imgs[key], w=h*im.width/im.height; ctx.drawImage(im,x-w/2,bottom-h,w,h); }
+function farBackground(){
+ // Keep the source square: a 520px tile replaces the old 1600x900 stretch.
+ ctx.save();ctx.globalAlpha=.42;
+ for(let r=0;r<2;r++)for(let c=0;c<4;c++){
+  ctx.save();ctx.translate(c*520+(c%2?520:0),r*520+(r%2?520:0));ctx.scale(c%2?-1:1,r%2?-1:1);ctx.drawImage(imgs.bg,0,0,520,520);ctx.restore();
+ }
+ if(level===3){ctx.globalAlpha=.3;ctx.drawImage(imgs.bgBoss,590,125,590,590);}
+ ctx.restore();
+}
+const galleries=[
+ [[160,260,125,-.08],[370,285,170,.06],[620,250,135,-.04],[860,290,180,.04],[1120,255,145,-.08],[1400,290,160,.07],[230,490,160,.05],[505,505,145,-.09],[805,470,155,.05],[1060,505,175,-.04],[1370,510,160,.06]],
+ [[155,265,150,-.08],[345,240,120,.06],[540,205,115,-.05],[1040,220,115,.05],[1290,260,155,-.06],[1480,430,140,.08],[170,470,140,.06],[355,390,105,-.05],[875,440,105,.05],[1240,490,140,-.08],[540,655,120,.04],[1080,735,105,-.06],[1460,605,95,.03]],
+ [[140,250,135,-.06],[390,280,170,.07],[650,255,145,-.08],[905,305,180,.11],[1190,260,145,-.14],[1450,340,175,.16],[250,470,150,.06],[535,480,120,-.1],[795,520,160,.15],[1110,510,150,-.12],[1410,580,130,.18]],
+ [[165,255,150,-.1],[400,265,150,.07],[640,240,130,-.13],[900,270,200,.02],[1170,250,140,.12],[1435,275,160,-.08],[130,490,125,.08],[540,450,145,-.12],[770,420,110,.09],[1060,425,115,-.07],[1445,505,130,.12]]
+];
+function middleGround(){
+ galleries[level].forEach(([x,y,h,angle],i)=>{
+  ctx.save();ctx.translate(x,y);ctx.rotate(angle);ctx.globalAlpha=stage===2?.43:.28;
+  const frame=imgs['frame'+(i%4+1)],w=h*frame.width/frame.height;
+  ctx.drawImage(frame,-w/2,-h/2,w,h);
+  if(i%4!==3){const pic=imgs['picture'+(i%3+1)];ctx.globalAlpha=stage===2?.38:.24;ctx.drawImage(pic,-w*.27,-h*.29,w*.54,h*.58);}
+  ctx.restore();
+ });
+ // Smaller loose drawings tie the larger wall arrangements together.
+ [[75,375],[465,320],[710,370],[1175,370],[1530,205],[320,590],[1250,610]].forEach(([x,y],i)=>{
+  ctx.save();ctx.translate(x,y);ctx.rotate((i%2?1:-1)*.16);ctx.globalAlpha=stage===2?.27:.18;sprite('picture'+(i%3+1),0,35,70);ctx.restore();
+ });
+}
+function path(points,dash,color){ctx.beginPath();ctx.setLineDash(dash);ctx.strokeStyle=color;ctx.lineWidth=4;points.forEach((p,i)=>i?ctx.lineTo(...p):ctx.moveTo(...p));ctx.stroke();ctx.setLineDash([]); for(let i=1;i<points.length;i++){const a=points[i-1],b=points[i],t=Math.atan2(b[1]-a[1],b[0]-a[0]);ctx.save();ctx.translate(b[0],b[1]);ctx.rotate(t);ctx.beginPath();ctx.moveTo(-13,-7);ctx.lineTo(0,0);ctx.lineTo(-13,7);ctx.stroke();ctx.restore();}}
+function label(s,x,y){ctx.font='24px "Malgun Gothic", sans-serif';ctx.fillStyle='#fff2d4';ctx.fillText(s,x,y);}
+function draw(){
+ ctx.clearRect(0,0,1600,900);ctx.fillStyle='#101025';ctx.fillRect(0,0,1600,900);
+ if(stage===2)farBackground();
+ if(stage>0)middleGround();
+ if(stage===0){ctx.strokeStyle='#25263d';ctx.lineWidth=1;for(let x=0;x<1600;x+=50){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,900);ctx.stroke();}for(let y=0;y<900;y+=50){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(1600,y);ctx.stroke();}}
+ layouts[level].forEach(([x,y,w,h])=>{if(stage===0){ctx.fillStyle='#515569';ctx.fillRect(x,y,w,h);ctx.fillStyle='#d4c5a6';ctx.fillRect(x,y,w,7);}else{ctx.drawImage(imgs.platform,x,y-8,w,h);}});
+ if(stage>0){
+ if(level===0){sprite('player',145,705,115);sprite('memory',720,650,115);}
+ if(level===1){sprite('player',105,705,115);sprite('rabbit',460,602,85);sprite('crow',710,415,70);sprite('lamp',1005,592,85);sprite('memory',775,287,90);}
+ if(level===2){sprite('player',145,665,115);sprite('memory',575,650,75);if(stage===2)sprite('tendril',1000,735,80);}
+ if(level===3){sprite('player',220,750,115);sprite('boss',900,746,240);if(stage===2){sprite('tendril',550,750,115);sprite('tendril',1290,750,115);}}
+ }else{
+ ctx.fillStyle='#f0d7a6';ctx.fillRect(85,layouts[level][0][1]-60,28,60);if(level===3){ctx.fillStyle='#bc8a9e';ctx.fillRect(855,575,95,170);}
+ }
+ if(stage<2){
+ if(level===0){path([[220,600],[640,600],[1100,600],[1490,600]],[],'#ead2a3');label('시작 / 이동',65,500);label('손전등 확인',565,500);label('2스테이지로',1300,500);}
+ if(level===1){path(routes[0],[],'#ead2a3');path(routes[1],[12,10],'#9abbcf');label('입구',35,610);label('점프 / 토끼',350,510);label('기억 수집 · 선택',635,205);label('야간등',950,505);label('2.5로 이동',1270,560);label('낙하 후 복귀',465,880);}
+ if(level===2){path([[180,580],[570,620],[880,650],[1410,680]],[],'#ead2a3');label('안전한 진입',65,490);label('마지막 기억',480,520);label('촉수 예고',840,540);label('보스 진입',1280,560);}
+ if(level===3){path([[260,685],[680,685]],[],'#ead2a3');label('진입 / 회피 공간',90,400);label('보스 중심 구역',700,450);label('보조 회피 발판',1120,450);}
+ }
+ ctx.font='22px "Malgun Gothic", sans-serif';ctx.fillStyle='#b9adc8';ctx.fillText('BAD DREAM  /  CHAPTER 02',45,50);
+ ctx.font='38px "Malgun Gothic", sans-serif';ctx.fillStyle='#f6e7c9';ctx.fillText(titles[level],45,104);
+ root.querySelector('#badmap-status').textContent=notes[level];root.querySelectorAll('[data-stage]').forEach(b=>b.setAttribute('aria-pressed',Number(b.dataset.stage)===stage));
+ cv.dataset.ready='true';
+}
+root.querySelectorAll('[data-stage]').forEach(b=>b.addEventListener('click',()=>{stage=Number(b.dataset.stage);draw();}));
+root.querySelector('#badmap-level').addEventListener('change',e=>{level=Number(e.target.value);draw();});
+Promise.all(Object.entries(source).map(([k,url])=>new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>{imgs[k]=im;resolve();};im.onerror=reject;im.src=url;}))).then(draw).catch(()=>{root.querySelector('#badmap-status').textContent='에셋을 불러오지 못했습니다.';});
+})();
+</script>

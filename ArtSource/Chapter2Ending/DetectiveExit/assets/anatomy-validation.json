@@ -1,0 +1,7 @@
+{
+  "guidePoses": 20,
+  "maxLegLengthError": 1.6653345369377348e-16,
+  "maxArmLengthError": 1.1102230246251565e-16,
+  "scope": "Validates the anatomical pose guides only. Generated cels are drawings and are not a skinned 3D mesh; these figures do not prove the final video is natural.",
+  "rendering": "Whole-body cel drawings; uniform perspective scaling; no limb texture warping."
+}

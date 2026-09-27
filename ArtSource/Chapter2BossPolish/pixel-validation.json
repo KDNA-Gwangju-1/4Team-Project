@@ -1,0 +1,11 @@
+{
+  "size": [
+    8192,
+    1024
+  ],
+  "alpha": [
+    0,
+    255
+  ],
+  "uniform_4x4_pixels": true
+}

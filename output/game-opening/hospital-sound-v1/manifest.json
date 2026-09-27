@@ -1,0 +1,39 @@
+{
+  "duration": 10.675,
+  "events": [
+    {
+      "time": 5.3,
+      "gain": 0.23
+    },
+    {
+      "time": 6.05,
+      "gain": 0.19404290781716826
+    },
+    {
+      "time": 6.8,
+      "gain": 0.16370717423540027
+    },
+    {
+      "time": 7.47,
+      "gain": 0.13811398312682116
+    },
+    {
+      "time": 8.129999999999999,
+      "gain": 0.1165219082440856
+    },
+    {
+      "time": 8.8,
+      "gain": 0.09830543434820714
+    },
+    {
+      "time": 9.469999999999999,
+      "gain": 0.082936836239808
+    },
+    {
+      "time": 10.129999999999999,
+      "gain": 0.06997089073534193
+    }
+  ],
+  "video": "Stream copied unchanged from hospital-local-polish-v3",
+  "method": "Local synthetic foley matching earlier pixel footsteps; approximate visually selected contacts, decreasing gain, quiet outdoor ambience. No generation credits, no indoor entry added."
+}

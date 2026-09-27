@@ -1,0 +1,40 @@
+Importing FBX: C:\hg11\4Team-Project\Assets\BrightDream\Models\38_grass.fbx
+=== Objects ===
+  object name='texture_mapping' type=MESH
+=== Materials ===
+  material name='material_0' use_nodes=True
+    node type=BSDF_PRINCIPLED name='Principled BSDF'
+    node type=OUTPUT_MATERIAL name='Material Output'
+    node type=NORMAL_MAP name='Normal Map'
+    node type=TEX_IMAGE name='Image Texture'
+      -> image='base_color'
+    node type=TEX_IMAGE name='Image Texture.001'
+      -> image='normal'
+    node type=TEX_IMAGE name='Image Texture.002'
+      -> image='orm'
+    node type=TEX_IMAGE name='Image Texture.003'
+      -> image='orm'
+    link: Principled BSDF.BSDF -> Material Output.Surface
+    link: Normal Map.Normal -> Principled BSDF.Normal
+    link: Image Texture.Color -> Principled BSDF.Base Color
+    link: Image Texture.001.Color -> Normal Map.Color
+    link: Image Texture.002.Color -> Principled BSDF.Roughness
+    link: Image Texture.003.Color -> Principled BSDF.Metallic
+=== Images ===
+  image name='base_color' size=2048x2048 channels=4 packed=True filepath='C:\\hg11\\4Team-Project\\Assets\\BrightDream\\Models\\base_color.png' source=FILE
+  SAVED packed bytes (5754849 bytes) -> C:\hg11\4Team-Project\Assets\BrightDream\Textures\38_grass\base_color.png
+  image name='normal' size=2048x2048 channels=4 packed=True filepath='C:\\hg11\\4Team-Project\\Assets\\BrightDream\\Models\\normal.png' source=FILE
+  SAVED packed bytes (2826975 bytes) -> C:\hg11\4Team-Project\Assets\BrightDream\Textures\38_grass\normal.png
+  image name='orm' size=2048x2048 channels=4 packed=True filepath='C:\\hg11\\4Team-Project\\Assets\\BrightDream\\Models\\orm.png' source=FILE
+  SAVED packed bytes (2539116 bytes) -> C:\hg11\4Team-Project\Assets\BrightDream\Textures\38_grass\orm.png
+=== ORM channel pixel statistics ===
+  normal size=2048x2048 sampled=20069
+    R: mean=0.4994 min=0.1451 max=0.8549
+    G: mean=0.4992 min=0.1451 max=0.8549
+    B: mean=0.9885 min=0.8510 max=1.0000
+    A: mean=1.0000 min=1.0000 max=1.0000
+  orm size=2048x2048 sampled=20069
+    R: mean=0.9995 min=0.9569 max=1.0000
+    G: mean=0.6841 min=0.5529 max=0.8314
+    B: mean=0.0757 min=0.0078 max=0.3843
+    A: mean=1.0000 min=1.0000 max=1.0000

@@ -1,0 +1,18 @@
+[
+  {
+    "name": "PathStone0",
+    "vertices": 96
+  },
+  {
+    "name": "PathStone1",
+    "vertices": 96
+  },
+  {
+    "name": "PathStone2",
+    "vertices": 96
+  },
+  {
+    "name": "HedgeFoot",
+    "vertices": 96
+  }
+]

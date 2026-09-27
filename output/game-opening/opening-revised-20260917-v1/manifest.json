@@ -1,0 +1,23 @@
+{
+  "output": "C:\\Ondukong\\4Team-Project\\output\\game-opening\\opening-revised-20260917-v1\\tv-zoom-review-6s.mp4",
+  "size": [
+    1920,
+    1080
+  ],
+  "fps": 30,
+  "frames": 180,
+  "duration": 6,
+  "bytes": 3560866,
+  "sha256": "6938c27147508e57895f62aea668e0409596f034d1e3607daf4a4613821e51c0",
+  "audio": "First 6 seconds of existing AAC copied, not remixed",
+  "integration": "PAUSED BY USER — review cuts only, prior final untouched",
+  "changes": [
+    "One monotonic lobby camera; fixed-size news layout; full-screen hold at 4.3s",
+    "Expert caption still: one line, 48px (previous about40px)",
+    "Window still: reference-guided pixel-art; wider crop; preserved gaze direction"
+  ],
+  "source": "C:\\Ondukong\\4Team-Project\\output\\game-opening\\opening-restored-v1\\opening-restored-final-1080p.mp4",
+  "hospitalIncluded": false,
+  "cameraChecks": "Monotonic screen width; exact 1920px endpoint",
+  "caption": "지금으로선 의학·과학적으로 설명할 수 있는 근거가 없어..."
+}

@@ -1,0 +1,258 @@
+[
+  {
+    "radius": 0.0,
+    "angle": 0,
+    "hit": true,
+    "y": 0.338702977,
+    "nav": true,
+    "delta": 0.07796401
+  },
+  {
+    "radius": 0.0,
+    "angle": 1,
+    "hit": true,
+    "y": 0.338702977,
+    "nav": true,
+    "delta": 0.07796401
+  },
+  {
+    "radius": 0.0,
+    "angle": 2,
+    "hit": true,
+    "y": 0.338702977,
+    "nav": true,
+    "delta": 0.07796401
+  },
+  {
+    "radius": 0.0,
+    "angle": 3,
+    "hit": true,
+    "y": 0.338702977,
+    "nav": true,
+    "delta": 0.07796401
+  },
+  {
+    "radius": 0.0,
+    "angle": 4,
+    "hit": true,
+    "y": 0.338702977,
+    "nav": true,
+    "delta": 0.07796401
+  },
+  {
+    "radius": 0.0,
+    "angle": 5,
+    "hit": true,
+    "y": 0.338702977,
+    "nav": true,
+    "delta": 0.07796401
+  },
+  {
+    "radius": 0.0,
+    "angle": 6,
+    "hit": true,
+    "y": 0.338702977,
+    "nav": true,
+    "delta": 0.07796401
+  },
+  {
+    "radius": 0.0,
+    "angle": 7,
+    "hit": true,
+    "y": 0.338702977,
+    "nav": true,
+    "delta": 0.07796401
+  },
+  {
+    "radius": 5.0,
+    "angle": 0,
+    "hit": true,
+    "y": 0.2928829,
+    "nav": true,
+    "delta": 0.130194157
+  },
+  {
+    "radius": 5.0,
+    "angle": 1,
+    "hit": true,
+    "y": 0.287894428,
+    "nav": true,
+    "delta": 0.07699913
+  },
+  {
+    "radius": 5.0,
+    "angle": 2,
+    "hit": true,
+    "y": 0.283373237,
+    "nav": true,
+    "delta": 0.133293748
+  },
+  {
+    "radius": 5.0,
+    "angle": 3,
+    "hit": true,
+    "y": 0.287894458,
+    "nav": true,
+    "delta": 0.120702565
+  },
+  {
+    "radius": 5.0,
+    "angle": 4,
+    "hit": true,
+    "y": 0.292882949,
+    "nav": true,
+    "delta": 0.059681356
+  },
+  {
+    "radius": 5.0,
+    "angle": 5,
+    "hit": true,
+    "y": 0.2878945,
+    "nav": true,
+    "delta": 0.139962614
+  },
+  {
+    "radius": 5.0,
+    "angle": 6,
+    "hit": true,
+    "y": 0.283373266,
+    "nav": true,
+    "delta": 0.133293539
+  },
+  {
+    "radius": 5.0,
+    "angle": 7,
+    "hit": true,
+    "y": 0.2878945,
+    "nav": true,
+    "delta": 0.148849189
+  },
+  {
+    "radius": 10.0,
+    "angle": 0,
+    "hit": true,
+    "y": 0.374484,
+    "nav": true,
+    "delta": -0.04115051
+  },
+  {
+    "radius": 10.0,
+    "angle": 1,
+    "hit": true,
+    "y": 0.376419663,
+    "nav": true,
+    "delta": -0.0977580845
+  },
+  {
+    "radius": 10.0,
+    "angle": 2,
+    "hit": true,
+    "y": 0.375186384,
+    "nav": false,
+    "delta": 99.0
+  },
+  {
+    "radius": 10.0,
+    "angle": 3,
+    "hit": true,
+    "y": 0.3678922,
+    "nav": true,
+    "delta": -0.126998514
+  },
+  {
+    "radius": 10.0,
+    "angle": 4,
+    "hit": true,
+    "y": 0.373860121,
+    "nav": true,
+    "delta": -0.04052663
+  },
+  {
+    "radius": 10.0,
+    "angle": 5,
+    "hit": true,
+    "y": 0.374832273,
+    "nav": true,
+    "delta": 0.00230926275
+  },
+  {
+    "radius": 10.0,
+    "angle": 6,
+    "hit": true,
+    "y": 0.376486778,
+    "nav": true,
+    "delta": 0.0401802063
+  },
+  {
+    "radius": 10.0,
+    "angle": 7,
+    "hit": true,
+    "y": 0.369078934,
+    "nav": true,
+    "delta": -0.104336679
+  },
+  {
+    "radius": 14.0,
+    "angle": 0,
+    "hit": true,
+    "y": 0.5387768,
+    "nav": true,
+    "delta": -0.19827047
+  },
+  {
+    "radius": 14.0,
+    "angle": 1,
+    "hit": true,
+    "y": 0.536040545,
+    "nav": true,
+    "delta": -0.11937356
+  },
+  {
+    "radius": 14.0,
+    "angle": 2,
+    "hit": true,
+    "y": 0.540836334,
+    "nav": false,
+    "delta": 99.0
+  },
+  {
+    "radius": 14.0,
+    "angle": 3,
+    "hit": true,
+    "y": 0.542068541,
+    "nav": true,
+    "delta": -0.208735049
+  },
+  {
+    "radius": 14.0,
+    "angle": 4,
+    "hit": true,
+    "y": 0.534742832,
+    "nav": true,
+    "delta": -0.195731312
+  },
+  {
+    "radius": 14.0,
+    "angle": 5,
+    "hit": true,
+    "y": 0.5376533,
+    "nav": true,
+    "delta": -0.13365373
+  },
+  {
+    "radius": 14.0,
+    "angle": 6,
+    "hit": true,
+    "y": 0.543489635,
+    "nav": true,
+    "delta": -0.210156143
+  },
+  {
+    "radius": 14.0,
+    "angle": 7,
+    "hit": true,
+    "y": 0.543089867,
+    "nav": true,
+    "delta": -0.2097565
+  }
+]

@@ -1,0 +1,39 @@
+{
+  "duration": 6.4,
+  "fps": 60,
+  "resolution": [
+    1920,
+    1080
+  ],
+  "steps": [
+    [
+      0.95,
+      0.075
+    ],
+    [
+      1.57,
+      0.095
+    ],
+    [
+      2.2,
+      0.13
+    ],
+    [
+      2.83,
+      0.18
+    ],
+    [
+      3.45,
+      0.26
+    ],
+    [
+      4.05,
+      0.32
+    ]
+  ],
+  "scope": "Before 3D transition ONLY. No door interaction, no integration with locked opening.",
+  "camera": "Static ground-level rear three-quarter shoe arrival, cropped at both foreground edges",
+  "motion": "Two separately timed rigid shoe/cuff sprites, opaque no frame blending; reflection movement clipped to window panes",
+  "audio": "Locally synthesized placeholder approach footsteps",
+  "higgsfieldUsed": false
+}
