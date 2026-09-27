@@ -195,7 +195,7 @@ def main():
         parts.append(play_segment(i, *row, bg))
         print("play", i, flush=True)
     parts.append(card_section("03_dev_cards", [(c("features"), 13), (c("tools"), 11), (c("roles0"), 16),
-                                                (c("roles1"), 14), (c("problems"), 17), (c("wrapup"), 15)],
+                                                (c("roles1"), 16), (c("problems"), 17), (c("wrapup"), 15)],
                               MUSIC + "BGM_Ending.wav", 0, .5))
     parts.append(logo_segment("04_outro", "감사합니다", total=6.0))
 
