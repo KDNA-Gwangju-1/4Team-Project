@@ -3,17 +3,20 @@ import math
 import os
 import subprocess
 
-import imageio_ffmpeg
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
-FF = imageio_ffmpeg.get_ffmpeg_exe()
+try:
+    import imageio_ffmpeg
+    FF = imageio_ffmpeg.get_ffmpeg_exe()
+except ImportError:  # no pip package: use the ffmpeg named by FFMPEG, else the one on PATH
+    FF = os.environ.get("FFMPEG", "ffmpeg")
 W, H, FPS = 1920, 1080, 30
 ROOT = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(ROOT, "out")
 os.makedirs(OUT, exist_ok=True)
 SRC = r"D:/Ondukong/4Team-Project/Recordings/20260928_033842_MainMenu.mp4"
-FONT_DIR = r"D:/Ondukong/4Team-Project/Assets/Resources/UI/Fonts/"
+FONT_DIR = os.path.join(ROOT, "..", "..", "Assets", "Resources", "UI", "Fonts") + os.sep
 FONT_R = FONT_DIR + "Pretendard-Regular.ttf"
 FONT_B = FONT_DIR + "Pretendard-SemiBold.ttf"
 
