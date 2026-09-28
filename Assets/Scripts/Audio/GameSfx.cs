@@ -91,6 +91,39 @@ public sealed class GameSfx : MonoBehaviour
     private Coroutine musicFade;
     private const float MusicVolume = .38f;
 
+    // 곡마다 원본 음량이 달라서 게임 안에서 들리는 크기를 맞춘다 (없으면 MusicVolume).
+    // 기준은 엔딩 곡(.38) - 정원은 비슷하게, 보스전은 원본이 2dB 커서 줄이되 정원보다 살짝 크게 들리도록.
+    private static readonly Dictionary<string, float> TrackVolume = new Dictionary<string, float>
+    {
+        { "BGM_Garden", .36f },
+        { "BGM_GardenBoss", .34f },
+    };
+
+    // 나레이션이 나오는 동안 음악을 줄인다 (fade 가 정한 크기에 곱한다).
+    private const float DuckLevel = .5f;
+    private float musicLevel;
+    private float duck = 1f;
+    private AudioSource duckSource;
+
+    /// <summary>이 소스가 재생되는 동안 음악을 줄여 둔다 - 끝나면 알아서 원래대로 돌아온다.</summary>
+    public static void DuckMusicWhile(AudioSource source)
+    {
+        if (!Application.isPlaying) return;
+        if (instance == null) Initialize();
+        instance.duckSource = source;
+    }
+
+    private void Update()
+    {
+        if (music == null) return;
+        bool ducking = duckSource != null && duckSource.isPlaying;
+        if (!ducking) duckSource = null;
+        // 줄일 땐 빠르게(0.25초), 돌아올 땐 천천히(1초) - unscaled 라 대사로 멈춘 동안에도 움직인다.
+        duck = Mathf.MoveTowards(duck, ducking ? DuckLevel : 1f,
+            Time.unscaledDeltaTime * (ducking ? 2.2f : .55f));
+        music.volume = musicLevel * duck;
+    }
+
     /// <summary>음악을 바꿔 튼다. 같은 곡이 이미 나오고 있으면 그대로 둔다.</summary>
     public static void PlayMusic(string name, float fade = 1f)
     {
@@ -119,23 +152,26 @@ public sealed class GameSfx : MonoBehaviour
     private System.Collections.IEnumerator MusicFade(AudioClip next, float fade)
     {
         // 나가는 곡을 먼저 줄이고, 다음 곡을 처음부터 키운다 (unscaled - 일시정지·사망 화면에서도 진행)
-        float from = music.volume;
+        // 실제 music.volume 은 Update 가 musicLevel × duck 으로 매 프레임 적용한다.
+        float from = musicLevel;
         for (float t = 0; t < fade * .5f && music.isPlaying; t += Time.unscaledDeltaTime)
         {
-            music.volume = Mathf.Lerp(from, 0f, t / (fade * .5f));
+            musicLevel = Mathf.Lerp(from, 0f, t / (fade * .5f));
             yield return null;
         }
         music.Stop();
-        music.volume = 0f;
+        musicLevel = 0f;
         if (next == null) { musicFade = null; yield break; }
+        float target;
+        if (!TrackVolume.TryGetValue(next.name, out target)) target = MusicVolume;
         music.clip = next;
         music.Play();
         for (float t = 0; t < fade * .5f; t += Time.unscaledDeltaTime)
         {
-            music.volume = Mathf.Lerp(0f, MusicVolume, t / (fade * .5f));
+            musicLevel = Mathf.Lerp(0f, target, t / (fade * .5f));
             yield return null;
         }
-        music.volume = MusicVolume;
+        musicLevel = target;
         musicFade = null;
     }
 

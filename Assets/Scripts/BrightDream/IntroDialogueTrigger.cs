@@ -32,7 +32,7 @@ namespace BrightDream
 
             triggered = true;
             if (playerController != null) playerController.enabled = false;
-            Time.timeScale = 0f;
+            Time.timeScale = RecordingClock.PausedTimeScale;
             dialogueUI.ShowSequence(lines, OnDialogueFinished);
         }
 

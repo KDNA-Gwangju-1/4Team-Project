@@ -292351,7 +292351,7 @@ MonoBehaviour:
   clueId: clue_02_photoalbum
   displayName: "\uB0A1\uC740 \uC0AC\uC9C4\uCCA9"
   investigateText: "\uC774 \uB4B7\uBD80\uBD84\uC740... \uAD1C\uCC2E\uC544, \uC544\uBB34
-    \uC77C\uB3C4 \uC5C6\uC5C8\uC5B4. \uADF8\uB0E5 \uB118\uAE30\uC790."
+    \uC77C\uB3C4 \uC5C6\uC5C8\uC5B4. \uADF8\uB0E5 \uB118\uAE30\uC790.\n\n\uB0B4\uAC00 \uADF8\uB7AC\uB098... \uAE30\uC5B5\uC774 \uC798 \uC548 \uB098. \uC544\uB2C8, \uC0AC\uC2E4\uC740 \uC548 \uBCF4\uB824\uACE0 \uD588\uB358 \uAC83 \uAC19\uC544."
   targetRenderers:
   - {fileID: 1807156834}
   glowColor: {r: 1, g: 0.93, b: 0.7, a: 1}

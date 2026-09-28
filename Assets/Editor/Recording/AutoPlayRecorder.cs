@@ -17,6 +17,8 @@ using UnityEngine;
 public static class AutoPlayRecorder
 {
     private const string EnabledKey = "ReDream.AutoPlayRecorder.Enabled";
+    // RecordingClock.RecordingKey 와 같은 값 (이 어셈블리는 게임 스크립트를 참조할 수 없어서 문자열로 맞춘다).
+    private const string RecordingKey = "ReDream.AutoPlayRecorder.Recording";
     private const string MenuToggle = "Tools/녹화/플레이 시 자동 녹화";
     private const int Width = 1920, Height = 1080;
     private const float FrameRate = 60f;
@@ -92,7 +94,11 @@ public static class AutoPlayRecorder
             controller = new RecorderController(settings);
             controller.PrepareRecording();
             if (controller.StartRecording())
+            {
+                // 게임 쪽 RecordingClock 이 이 값을 보고 대사 중에도 게임 시간을 멈추지 않는다.
+                SessionState.SetBool(RecordingKey, true);
                 Debug.Log("[AutoPlayRecorder] 녹화 시작 → " + currentFile + ".mp4");
+            }
             else
             {
                 Debug.LogWarning("[AutoPlayRecorder] 녹화를 시작하지 못했어요.");
@@ -108,6 +114,7 @@ public static class AutoPlayRecorder
 
     private static void StopRecording()
     {
+        SessionState.EraseBool(RecordingKey);
         if (controller == null) return;
         try
         {

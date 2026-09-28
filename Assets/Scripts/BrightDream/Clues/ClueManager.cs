@@ -47,8 +47,8 @@ namespace BrightDream.Clues
         private string investigatingClueId;
         private int voicePartOffset;
 
-        /// <summary>대사가 여러 줄 적혀 있어도 한 줄만 무작위로 골라 들려주는 단서들 (벤치 위 편지).</summary>
-        private static readonly string[] RandomLineClueIds = { "clue_04_unsent_letter" };
+        /// <summary>대사가 여러 줄 적혀 있어도 한 줄만 무작위로 골라 들려주는 단서들 (벤치 위 편지, 사진첩).</summary>
+        private static readonly string[] RandomLineClueIds = { "clue_04_unsent_letter", "clue_02_photoalbum" };
 
         public int CollectedCount => collectedClueIds.Count;
 
@@ -123,7 +123,7 @@ namespace BrightDream.Clues
             // 앞 단서의 음성이 아직 나오고 있으면 겹치지 않게 즉시 끊고 새 단서로 넘어간다.
             if (clueVoice != null) clueVoice.Stop();
             collectedClueIds.Add(clue.ClueId);
-            GameSfx.Play("Clue", .28f);
+            // 단서 효과음은 나레이션과 겹쳐 거슬려서 뺐다 - 조사하면 언니의 음성만 들린다.
             UpdateProgressUI();
             OnClueCollected?.Invoke(clue.ClueId);
             bool allCollected = collectedClueIds.Count >= TotalClueCount;
@@ -190,7 +190,7 @@ namespace BrightDream.Clues
             skinSession?.Begin();
 
             foreach (MonoBehaviour mb in disableWhileInvestigating) if (mb != null) mb.enabled = false;
-            Time.timeScale = 0f;
+            Time.timeScale = RecordingClock.PausedTimeScale;
 
             SetInvestigateTextActive(true);
             ShowCurrentInvestigatePart();
@@ -236,6 +236,8 @@ namespace BrightDream.Clues
             }
             clueVoice.clip = clip;
             clueVoice.Play();
+            // 나레이션이 음악에 묻히지 않게, 나오는 동안만 음악을 줄인다.
+            GameSfx.DuckMusicWhile(clueVoice);
         }
 
         private void EndInvestigateText()
