@@ -26,7 +26,7 @@ public class HospitalRoomController : MonoBehaviour
 
     [Header("디버그")]
     [Tooltip("켜 두면 시작할 때 병실 차트 전체를 Console 에 찍어 준다.")]
-    [SerializeField] private bool logRosterOnStart = true;
+    [SerializeField] private bool logRosterOnStart = false;
 
     /// <summary>이 병실이 쓰고 있는 데이터 에셋</summary>
     public HospitalRoomData RoomData => roomData;

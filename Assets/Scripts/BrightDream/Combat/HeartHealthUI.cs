@@ -5,8 +5,7 @@ namespace BrightDream.Combat
 {
     /// <summary>
     /// 기존 Health Bar(Slider/Fill Image + Text)를 대신해 하트로 HP를 표시한다.
-    /// 하트는 항상 heartsShown(5)개이고, 현재 HP / 최대 HP 비율만큼 채운다
-    /// - 보스 스테이지에서 최대 체력이 100 -> 200이 되어도 하트는 5개 그대로, 한 칸이 40 HP를 맡는다.
+    /// 하트는 항상 heartsShown(5)개이고, 현재 HP / 최대 HP 비율만큼 채운다.
     /// heartFills에는 10개가 연결되어 있지만 heartsShown 개만 켜고 나머지는 꺼 둔다.
     /// 각 하트는 Shadow/Empty(배경) 위에 Fill(Image, Type=Filled, Horizontal), 그 위에 Outline을 겹쳐 놓고
     /// fillAmount 로 부분 채움을 표현한다 - heartFills 배열에는 Fill Image만 연결하면 된다.
@@ -33,7 +32,7 @@ namespace BrightDream.Combat
         [SerializeField] private float heartbeatsPerSecond = 1.6f;
 
         [Tooltip("항상 보여 줄 하트 개수. 모든 챕터가 5개로 통일되어 있다 (BadDream 의 PlayerHeartsUI2D 와 같은 값). " +
-                 "최대 체력이 바뀌어도(보스 스테이지 100 -> 200) 개수는 그대로고, 하트 한 칸이 맡는 양만 달라진다.")]
+                 "최대 체력이 바뀌면 개수는 그대로고, 하트 한 칸이 맡는 양만 달라진다.")]
         [SerializeField] private int heartsShown = ChapterHudStyle.HeartCount;
 
         /// <summary>현재 표시 중인 하트 개수. PlayerHealth.MaxHealth가 바뀌면 따라 바뀐다.</summary>

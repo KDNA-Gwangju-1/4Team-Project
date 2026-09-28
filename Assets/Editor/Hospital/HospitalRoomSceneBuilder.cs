@@ -185,7 +185,7 @@ public static class HospitalRoomSceneBuilder
         {
             slotsProperty.GetArrayElementAtIndex(i).objectReferenceValue = bedSlots[i];
         }
-        controllerSerialized.FindProperty("logRosterOnStart").boolValue = true;
+        controllerSerialized.FindProperty("logRosterOnStart").boolValue = false;
         controllerSerialized.ApplyModifiedPropertiesWithoutUndo();
 
         BuildHospitalBgm();
@@ -877,7 +877,7 @@ public static class HospitalRoomSceneBuilder
         serialized.FindProperty("twitchTarget").objectReferenceValue = bed.patientRoot.transform;
         serialized.FindProperty("twitchAngle").floatValue    = 2.5f;   // 모델 전체가 도니까 아주 조금만
         serialized.FindProperty("twitchDuration").floatValue = 0.85f;
-        serialized.FindProperty("logChartOnTouch").boolValue = true;
+        serialized.FindProperty("logChartOnTouch").boolValue = false;
         serialized.FindProperty("enterDreamOnTouch").boolValue = true;
         serialized.FindProperty("dreamScene").stringValue = Dream1SceneName;
         serialized.ApplyModifiedPropertiesWithoutUndo();

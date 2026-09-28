@@ -7906,7 +7906,7 @@ MonoBehaviour:
   twitchTarget: {fileID: 447031308}
   twitchAngle: 2.5
   twitchDuration: 0.85
-  logChartOnTouch: 1
+  logChartOnTouch: 0
   enterDreamOnTouch: 1
   dreamScene: SD_BrightDream_Blockout_Rect
   dreamLoadingBackground: {fileID: 0}
@@ -21500,7 +21500,7 @@ MonoBehaviour:
   - {fileID: 499995516}
   - {fileID: 1047255920}
   - {fileID: 938993782}
-  logRosterOnStart: 1
+  logRosterOnStart: 0
 --- !u!4 &1697364094
 Transform:
   m_ObjectHideFlags: 0

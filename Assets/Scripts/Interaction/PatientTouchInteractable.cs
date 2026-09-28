@@ -28,7 +28,7 @@ public class PatientTouchInteractable : Interactable
     [SerializeField] private float twitchDuration = 0.8f;
 
     [Tooltip("켜 두면 만질 때마다 환자 차트를 Console 에 찍는다.")]
-    [SerializeField] private bool logChartOnTouch = true;
+    [SerializeField] private bool logChartOnTouch = false;
 
     [Header("만지면 꿈으로")]
     [Tooltip("대사가 다 끝난 뒤 꿈 로딩 화면으로 넘어갈지")]
